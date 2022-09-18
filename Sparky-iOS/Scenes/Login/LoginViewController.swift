@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeViewController: UIViewController {
+final class LoginViewController: UIViewController {
 
     // MARK: - Properties
     
@@ -41,6 +41,9 @@ final class HomeViewController: UIViewController {
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.orange.cgColor
         $0.layer.cornerRadius = 15
+        $0.addTarget(self,
+                     action: #selector(tappedLoginButton),
+                     for: .touchUpInside)
     }
     
     
@@ -83,6 +86,13 @@ final class HomeViewController: UIViewController {
             $0.right.equalTo(view).offset(-32)
             $0.height.equalTo(40)
         }
+    }
+    
+    @objc private func tappedLoginButton() {
+        let homeViewController = UINavigationController(rootViewController: HomeViewController())
+        homeViewController.modalTransitionStyle = .crossDissolve
+        homeViewController.modalPresentationStyle = .overFullScreen
+        self.present(homeViewController, animated: true)
     }
 }
 
