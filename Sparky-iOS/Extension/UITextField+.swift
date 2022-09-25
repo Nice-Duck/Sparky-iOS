@@ -5,7 +5,6 @@
 //  Created by SeungMin on 2022/09/14.
 //
 
-import Foundation
 import UIKit
 
 extension UITextField {
@@ -25,5 +24,11 @@ extension UITextField {
                                                height: self.frame.size.height))
         self.rightView = paddingView
         self.leftViewMode = .always
+    }
+    
+    func attributedPlaceholder(text: String, color: UIColor?, font: UIFont?) {
+        let attributes = [NSAttributedString.Key.foregroundColor: color,
+                          NSAttributedString.Key.font: font]
+        self.attributedPlaceholder = NSAttributedString(string: text, attributes: attributes as [NSAttributedString.Key : Any])
     }
 }
