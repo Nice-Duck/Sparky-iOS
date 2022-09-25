@@ -14,6 +14,9 @@
 		560BF33028D0ECF200438463 /* Sparky.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 560BF32628D0ECF200438463 /* Sparky.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5616C54728DB739500BF7126 /* CustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54228DB730200BF7126 /* CustomShareVC.swift */; };
 		5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54328DB730200BF7126 /* CustomShareNC.swift */; };
+		5637DD3728E0290E00C119F6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
+		5637DD3928E0291D00C119F6 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3828E0291D00C119F6 /* Image+.swift */; };
+		5637DD3B28E0293000C119F6 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3A28E0293000C119F6 /* Font+.swift */; };
 		5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F528CE2CDC008710FF /* AppDelegate.swift */; };
 		5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F728CE2CDC008710FF /* SceneDelegate.swift */; };
 		5693C1FA28CE2CDC008710FF /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F928CE2CDC008710FF /* LoginVC.swift */; };
@@ -74,6 +77,9 @@
 		560BF32D28D0ECF200438463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5616C54228DB730200BF7126 /* CustomShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShareVC.swift; sourceTree = "<group>"; };
 		5616C54328DB730200BF7126 /* CustomShareNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShareNC.swift; sourceTree = "<group>"; };
+		5637DD3628E0290E00C119F6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		5637DD3828E0291D00C119F6 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
+		5637DD3A28E0293000C119F6 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
 		5693C1F228CE2CDC008710FF /* Sparky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sparky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5693C1F528CE2CDC008710FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5693C1F728CE2CDC008710FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +188,9 @@
 			isa = PBXGroup;
 			children = (
 				560BF31C28D0DAB300438463 /* UITextField+.swift */,
+				5637DD3628E0290E00C119F6 /* Color+.swift */,
+				5637DD3828E0291D00C119F6 /* Image+.swift */,
+				5637DD3A28E0293000C119F6 /* Font+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -257,9 +266,9 @@
 				5616C53F28DB730200BF7126 /* Custom */,
 				560BF31B28D0DA9B00438463 /* Extension */,
 				560BF31A28D0D0F400438463 /* Scenes */,
-				560BF31928D0D06700438463 /* SupprotingFiles */,
 				5693C1F528CE2CDC008710FF /* AppDelegate.swift */,
 				5693C1F728CE2CDC008710FF /* SceneDelegate.swift */,
+				560BF31928D0D06700438463 /* SupprotingFiles */,
 			);
 			path = "Sparky-iOS";
 			sourceTree = "<group>";
@@ -564,8 +573,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */,
+				5637DD3728E0290E00C119F6 /* Color+.swift in Sources */,
 				5693C1FA28CE2CDC008710FF /* LoginVC.swift in Sources */,
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
+				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
+				5637DD3928E0291D00C119F6 /* Image+.swift in Sources */,
 				5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */,
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
 			);
