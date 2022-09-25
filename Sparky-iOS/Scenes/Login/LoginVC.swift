@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class LoginViewController: UIViewController {
+final class LoginVC: UIViewController {
 
     // MARK: - Properties
     
@@ -89,10 +89,10 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func tappedLoginButton() {
-        let homeViewController = UINavigationController(rootViewController: HomeViewController())
-        homeViewController.modalTransitionStyle = .crossDissolve
-        homeViewController.modalPresentationStyle = .overFullScreen
-        self.present(homeViewController, animated: true)
+        let homeVC = UINavigationController(rootViewController: HomeVC())
+        homeVC.modalTransitionStyle = .crossDissolve
+        homeVC.modalPresentationStyle = .overFullScreen
+        self.present(homeVC, animated: true)
     }
 }
 
