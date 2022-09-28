@@ -8,7 +8,12 @@
 import UIKit
 
 extension UIColor {
-    static let white: UIColor = UIColor(named: "white")!
-    static let black: UIColor = UIColor(named: "black")!
-    static let gray1: UIColor = UIColor(named: "gray1")!
+    static let sparkyWhite: UIColor = UIColor(named: "sparkyWhite")!
+    static let sparkyBlack: UIColor = UIColor(named: "sparkyBlack")!
+    static let sparkyOrange: UIColor = UIColor(named: "sparkyOrange")!
+    static let gray100: UIColor = UIColor(named: "gray100")!
+    static let gray200: UIColor = UIColor(named: "gray200")!
+    static let gray300: UIColor = UIColor(named: "gray300")!
+    static let gray400: UIColor = UIColor(named: "gray400")!
+    static let gray600: UIColor = UIColor(named: "gray600")!
 }

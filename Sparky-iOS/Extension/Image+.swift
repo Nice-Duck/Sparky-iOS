@@ -5,4 +5,8 @@
 //  Created by SeungMin on 2022/09/25.
 //
 
-import Foundation
+import UIKit
+
+extension UIImage {
+    static let vector: UIImage = UIImage(named: "vector")!
+}
