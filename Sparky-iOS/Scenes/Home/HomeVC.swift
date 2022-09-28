@@ -14,7 +14,6 @@ class HomeVC: UIViewController {
     
     
     // MARK: - LifeCycles
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .orange
