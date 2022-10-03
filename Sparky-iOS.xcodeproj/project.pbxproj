@@ -22,6 +22,9 @@
 		564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938F828E8B55E00861D26 /* EmailSignInRequest.swift */; };
 		564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */; };
 		564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FD28E8BAE100861D26 /* HTTPUtils.swift */; };
+		56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */; };
+		56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1928EAC527005F18B1 /* OTPTextField.swift */; };
+		56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1B28EAC595005F18B1 /* OTPStackView.swift */; };
 		5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F528CE2CDC008710FF /* AppDelegate.swift */; };
 		5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F728CE2CDC008710FF /* SceneDelegate.swift */; };
 		5693C1FA28CE2CDC008710FF /* SigninVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F928CE2CDC008710FF /* SigninVC.swift */; };
@@ -99,6 +102,9 @@
 		564938F828E8B55E00861D26 /* EmailSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInRequest.swift; sourceTree = "<group>"; };
 		564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInResponse.swift; sourceTree = "<group>"; };
 		564938FD28E8BAE100861D26 /* HTTPUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPUtils.swift; sourceTree = "<group>"; };
+		56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		56902D1928EAC527005F18B1 /* OTPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTextField.swift; sourceTree = "<group>"; };
+		56902D1B28EAC595005F18B1 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
 		5693C1F228CE2CDC008710FF /* Sparky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sparky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5693C1F528CE2CDC008710FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5693C1F728CE2CDC008710FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -254,6 +260,7 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				56902D1828EAC50F005F18B1 /* OTPField */,
 				5616C54028DB730200BF7126 /* Shareing */,
 			);
 			path = Custom;
@@ -294,6 +301,15 @@
 				564938FD28E8BAE100861D26 /* HTTPUtils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		56902D1828EAC50F005F18B1 /* OTPField */ = {
+			isa = PBXGroup;
+			children = (
+				56902D1928EAC527005F18B1 /* OTPTextField.swift */,
+				56902D1B28EAC595005F18B1 /* OTPStackView.swift */,
+			);
+			path = OTPField;
 			sourceTree = "<group>";
 		};
 		5693C1E928CE2CDC008710FF = {
@@ -360,6 +376,7 @@
 				56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */,
 				56DE426628E20E91000A6A55 /* SignUpVC3.swift */,
 				56DE426828E20E9A000A6A55 /* SignUpVC4.swift */,
+				56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -658,14 +675,17 @@
 				564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */,
 				56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */,
 				5637DD3928E0291D00C119F6 /* Image+.swift in Sources */,
+				56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */,
 				56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */,
 				56DE426528E1F9ED000A6A55 /* SignUpVC1.swift in Sources */,
 				5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */,
 				564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */,
+				56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */,
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
 				56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				564938F728E8B55200861D26 /* EmailSignIn.swift in Sources */,
+				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,
 				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
 				564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */,
 			);
