@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import RxSwift
 
 class SignUpVC4: UIViewController {
     
     // MARK: - Properties
+    let viewModel = SignUpViewModel()
+    let disposeBag = DisposeBag()
+    
     private let navigationEdgeBar = UIView().then {
         $0.backgroundColor = .gray200
     }
@@ -34,10 +38,23 @@ class SignUpVC4: UIViewController {
         $0.layer.borderColor = UIColor.gray300.cgColor
         $0.layer.cornerRadius = 8
         $0.setLeftPadding(20)
+        $0.clearButtonMode = .whileEditing
+    }
+    
+    private let textStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 12
+    }
+    
+    private let errorLabel = UILabel().then {
+        $0.text = "올바르지 않은 비밀번호 형식입니다."
+        $0.font = .bodyRegular2
+        $0.textColor = .sparkyOrange
+        $0.isHidden = true
     }
     
     private let conditionLabel = UILabel().then {
-        $0.text = "영문, 한글, 숫자 6~18자"
+        $0.text = "한글, 영어, 숫자 2~16자"
         $0.font = .bodyRegular2
         $0.textColor = .sparkyBlack
     }
@@ -48,9 +65,6 @@ class SignUpVC4: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
-        $0.addTarget(self,
-                     action: #selector(didTapNextButton),
-                     for: .touchUpInside)
     }
     
     // MARK: - LifeCycles
@@ -61,6 +75,7 @@ class SignUpVC4: UIViewController {
         
         setupNavBar()
         setupUI()
+        bindViewModel()
     }
     
     private func setupNavBar() {
@@ -106,11 +121,14 @@ class SignUpVC4: UIViewController {
             $0.height.equalTo(50)
         }
         
-        view.addSubview(conditionLabel)
-        conditionLabel.snp.makeConstraints {
+        view.addSubview(textStackView)
+        textStackView.snp.makeConstraints {
             $0.top.equalTo(nicknameTextField.snp.bottom).offset(12)
             $0.left.equalTo(view).offset(20)
         }
+        
+        textStackView.addArrangedSubview(errorLabel)
+        textStackView.addArrangedSubview(conditionLabel)
         
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
@@ -118,15 +136,43 @@ class SignUpVC4: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
-            
         }
+    }
+    
+    private func bindViewModel() {
+        nicknameTextField.rx.text
+            .orEmpty
+            .bind(to: viewModel.valueObserver)
+            .disposed(by: disposeBag)
+        
+        viewModel.isValid(regexType: .nickname)
+            .map { $0 == .none ? UIColor.gray300.cgColor : $0 == .valid ? UIColor.sparkyBlack.cgColor : UIColor.sparkyOrange.cgColor }
+            .bind(to: nicknameTextField.layer.rx.borderColor)
+            .disposed(by: disposeBag)
+        
+        viewModel.isValid(regexType: .nickname)
+            .map { $0 == .none || $0 == .valid ? true : false }
+            .bind(to: errorLabel.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.isValid(regexType: .nickname)
+            .map { $0 == .valid }
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        viewModel.isValid(regexType: .nickname)
+            .map { $0 == .valid ? .sparkyBlack : .gray300 }
+            .bind(to: nextButton.rx.backgroundColor)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .bind { _ in
+//                let signUpVC2 = SignUpVC2()
+//                self.navigationController?.pushViewController(signUpVC2, animated: true)
+            }.disposed(by: disposeBag)
     }
     
     @objc private func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func didTapNextButton() {
-        
     }
 }
