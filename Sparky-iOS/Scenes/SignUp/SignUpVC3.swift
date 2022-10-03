@@ -24,7 +24,7 @@ class SignUpVC3: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let passwardTextField = UITextField().then {
+    private let passwordTextField = UITextField().then {
         $0.font = .bodyRegular2
         $0.textColor = .sparkyBlack
         $0.attributedPlaceholder(text: "비밀번호를 입력해주세요",
@@ -98,8 +98,8 @@ class SignUpVC3: UIViewController {
             $0.left.equalTo(view).offset(20)
         }
         
-        view.addSubview(passwardTextField)
-        passwardTextField.snp.makeConstraints {
+        view.addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20)
             $0.left.equalTo(view).offset(20)
             $0.right.equalTo(view).offset(-20)
@@ -108,7 +108,7 @@ class SignUpVC3: UIViewController {
         
         view.addSubview(conditionLabel)
         conditionLabel.snp.makeConstraints {
-            $0.top.equalTo(passwardTextField.snp.bottom).offset(12)
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(12)
             $0.left.equalTo(view).offset(20)
         }
         
