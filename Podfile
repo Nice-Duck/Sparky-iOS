@@ -7,6 +7,7 @@ def shared_pods
   pod 'Then'
   pod 'RxSwift'
   pod 'RxCocoa'
+  pod 'Moya/RxSwift'
 end
 
 target 'Sparky-iOS' do
