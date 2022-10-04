@@ -21,17 +21,26 @@ final class CustomShareVC: UIViewController {
     private let scrapView = UIView()
     private let scrapImageView = UIImageView().then {
         $0.image = UIImage(systemName: "person.circle")
+        $0.contentMode = .scaleAspectFill
     }
-    private let scrapTitleLabel = UILabel().then {
+    
+    private var scrapTitleLabel = UILabel().then {
         $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
-        $0.font = .systemFont(ofSize: 20)
+        $0.font = .systemFont(ofSize: 16)
         $0.textAlignment = .center
         $0.textColor = .black
         $0.lineBreakMode = .byWordWrapping
         $0.numberOfLines = 0
     }
     
-    
+    private var scrapSubTitleLabel = UILabel().then {
+        $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
+        $0.font = .systemFont(ofSize: 14)
+        $0.textAlignment = .left
+        $0.textColor = .black
+//        $0.lineBreakMode = .byWordWrapping
+        $0.numberOfLines = 3
+    }
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
@@ -82,17 +91,17 @@ final class CustomShareVC: UIViewController {
     private func setupScrapView() {
         self.view.addSubview(scrapView)
         scrapView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(24)
-            $0.left.equalTo(view.safeAreaLayoutGuide.snp.left).offset(16)
-            $0.right.equalTo(view.safeAreaLayoutGuide.snp.right).offset(-16)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
+            $0.left.equalTo(view).offset(16)
+            $0.right.equalTo(view).offset(-16)
             $0.height.equalTo(80)
         }
         
         self.scrapView.addSubview(scrapImageView)
         scrapImageView.snp.makeConstraints {
-            $0.top.equalTo(scrapView.snp.top)
-            $0.left.equalTo(scrapView.snp.left)
-            $0.bottom.equalTo(scrapView.snp.bottom)
+            $0.top.equalTo(scrapView)
+            $0.left.equalTo(scrapView)
+            $0.bottom.equalTo(scrapView)
             $0.width.equalTo(80)
         }
         
@@ -100,8 +109,15 @@ final class CustomShareVC: UIViewController {
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView.snp.top)
             $0.left.equalTo(scrapImageView.snp.right).offset(16)
-            $0.bottom.equalTo(scrapView.snp.bottom)
-            $0.right.equalTo(scrapView.snp.right)
+            $0.right.equalTo(scrapView)
+        }
+        
+        self.scrapView.addSubview(scrapSubTitleLabel)
+        scrapSubTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(7)
+            $0.left.equalTo(scrapImageView.snp.right).offset(16)
+            $0.bottom.equalTo(scrapView)
+            $0.right.equalTo(scrapView)
         }
         
         //        if let item = extensionContext?.inputItems.first as? NSExtensionItem,
@@ -142,18 +158,20 @@ final class CustomShareVC: UIViewController {
         }
         
         if let attachments = extentionItem.attachments {
-            print("attachments is not nil")
-            
             for attachment: NSItemProvider in attachments {
-                print("attachment - \(attachment)")
                 if attachment.hasItemConformingToTypeIdentifier("public.url") {
-                    print("hasItemConformingToTypeIdentifier is true")
-                    attachment.loadItem(forTypeIdentifier: "public.url", options: nil) { (url, error) in
-                        print("loadItem")
-                        print(url, error)
-                        if let url = url as? NSURL {
+                    attachment.loadItem(forTypeIdentifier: "public.url",
+                                        options: nil) { (url, error) in
+                        
+                        print("url - \(url)")
+                        
+                        if let url = url as? URL {
                             DispatchQueue.main.async {
-//                                self.scrapTitleLabel.text = url.path
+                                CrwalManager().getTistoryScrap(url: url) { scrap in
+                                    self.scrapImageView.image = UIImage(data: try! Data(contentsOf: scrap.thumbnailURL))
+                                    self.scrapTitleLabel.text = scrap.title
+                                    self.scrapSubTitleLabel.text = scrap.subTitle
+                                }
                             }
                             
                         }

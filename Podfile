@@ -8,6 +8,8 @@ def shared_pods
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'Moya/RxSwift'
+  pod 'Alamofire'
+  pod 'SwiftSoup'
 end
 
 target 'Sparky-iOS' do
