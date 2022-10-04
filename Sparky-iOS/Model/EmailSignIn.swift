@@ -5,7 +5,7 @@
 //  Created by SeungMin on 2022/10/02.
 //
 
-//struct EmailSignIn {
-//    let email: String
-//    let password: String
-//}
+struct EmailSignIn {
+    let accessToken: String
+    let refreshToken: String
+}

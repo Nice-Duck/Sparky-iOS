@@ -8,7 +8,7 @@
 import Moya
 import RxSwift
 
-class UserServiceProvider {
+final class UserServiceProvider {
     static var shared = UserServiceProvider()
     
     let provider = MoyaProvider<UserServiceAPI>()

@@ -22,6 +22,10 @@
 		564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938F828E8B55E00861D26 /* EmailSignInRequest.swift */; };
 		564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */; };
 		564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FD28E8BAE100861D26 /* HTTPUtils.swift */; };
+		5652A44628EB303F00415738 /* CrawlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44528EB303F00415738 /* CrawlManager.swift */; };
+		5652A44828EB31D400415738 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44728EB31D400415738 /* Scrap.swift */; };
+		5652A44C28EB4FA800415738 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44A28EB3CE000415738 /* Strings.swift */; };
+		5652A44D28EB4FAA00415738 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44A28EB3CE000415738 /* Strings.swift */; };
 		56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */; };
 		56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1928EAC527005F18B1 /* OTPTextField.swift */; };
 		56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1B28EAC595005F18B1 /* OTPStackView.swift */; };
@@ -102,6 +106,9 @@
 		564938F828E8B55E00861D26 /* EmailSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInRequest.swift; sourceTree = "<group>"; };
 		564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInResponse.swift; sourceTree = "<group>"; };
 		564938FD28E8BAE100861D26 /* HTTPUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPUtils.swift; sourceTree = "<group>"; };
+		5652A44528EB303F00415738 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
+		5652A44728EB31D400415738 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
+		5652A44A28EB3CE000415738 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		56902D1928EAC527005F18B1 /* OTPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTextField.swift; sourceTree = "<group>"; };
 		56902D1B28EAC595005F18B1 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
@@ -291,6 +298,7 @@
 				564938F628E8B55200861D26 /* EmailSignIn.swift */,
 				564938F828E8B55E00861D26 /* EmailSignInRequest.swift */,
 				564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */,
+				5652A44728EB31D400415738 /* Scrap.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,6 +309,22 @@
 				564938FD28E8BAE100861D26 /* HTTPUtils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		5652A44428EB2FE100415738 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5652A44528EB303F00415738 /* CrawlManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		5652A44928EB3CD100415738 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				5652A44A28EB3CE000415738 /* Strings.swift */,
+			);
+			path = Strings;
 			sourceTree = "<group>";
 		};
 		56902D1828EAC50F005F18B1 /* OTPField */ = {
@@ -339,6 +363,8 @@
 		5693C1F428CE2CDC008710FF /* Sparky-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5652A44928EB3CD100415738 /* Strings */,
+				5652A44428EB2FE100415738 /* Manager */,
 				564938FC28E8BA2E00861D26 /* Utils */,
 				564938F428E8B3E800861D26 /* Model */,
 				564938F128E8985B00861D26 /* Service */,
@@ -655,6 +681,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				5616C54728DB739500BF7126 /* CustomShareVC.swift in Sources */,
+				5652A44828EB31D400415738 /* Scrap.swift in Sources */,
+				5652A44C28EB4FA800415738 /* Strings.swift in Sources */,
+				5652A44628EB303F00415738 /* CrawlManager.swift in Sources */,
 				5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -683,6 +712,7 @@
 				56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */,
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
 				56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */,
+				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				564938F728E8B55200861D26 /* EmailSignIn.swift in Sources */,
 				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,

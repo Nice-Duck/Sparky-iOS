@@ -6,7 +6,6 @@
 //
 
 import Moya
-import Foundation
 
 enum UserServiceAPI {
     case signIn(body: EmailSignInRequest)
