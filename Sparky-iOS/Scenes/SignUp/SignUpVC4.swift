@@ -11,6 +11,8 @@ import RxSwift
 class SignUpVC4: UIViewController {
     
     // MARK: - Properties
+    var email: String? = nil
+    var password: String? = nil
     let viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
@@ -47,7 +49,7 @@ class SignUpVC4: UIViewController {
     }
     
     private let errorLabel = UILabel().then {
-        $0.text = "올바르지 않은 비밀번호 형식입니다."
+        $0.text = "올바르지 않은 닉네임 형식입니다."
         $0.font = .bodyRegular2
         $0.textColor = .sparkyOrange
         $0.isHidden = true
@@ -151,6 +153,11 @@ class SignUpVC4: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.isValid(regexType: .nickname)
+            .map { $0 == .none || $0 == .valid ? "" : "올바르지 않은 닉네임 형식입니다." }
+            .bind(to: errorLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.isValid(regexType: .nickname)
             .map { $0 == .none || $0 == .valid ? true : false }
             .bind(to: errorLabel.rx.isHidden)
             .disposed(by: disposeBag)
@@ -165,10 +172,58 @@ class SignUpVC4: UIViewController {
             .bind(to: nextButton.rx.backgroundColor)
             .disposed(by: disposeBag)
         
-        nextButton.rx.tap
-            .bind { _ in
-//                let signUpVC2 = SignUpVC2()
-//                self.navigationController?.pushViewController(signUpVC2, animated: true)
+        nextButton.rx.tap.asDriver()
+            .throttle(.seconds(3), latest: false)
+            .drive { _ in
+                guard let email = self.email else { print("Email is Null!"); return }
+                guard let password = self.password else { print("Password is Null!"); return }
+                guard let nickname = self.nicknameTextField.text else { print("Nickname is Null!"); return }
+
+                print("email - \(email)")
+                print("password - \(password)")
+                print("nickname - \(nickname)")
+                
+                let nicknameDuplicateRequest = EmailNicknameDuplicateRequest(nickname: nickname)
+                UserServiceProvider.shared
+                    .signUpNicknameDuplicate(nicknameDuplicateRequest: nicknameDuplicateRequest)
+                    .map(EmailSignUpResponse.self)
+                    .subscribe { response in
+                        print("code - \(response.code)")
+                        print("message - \(response.message)")
+                        
+                        if response.code == "0000" {
+                            let emailSignUpRequest = EmailSignUpRequest(email: email, nickname: nickname, pwd: password)
+                            UserServiceProvider.shared
+                                .signUp(emailSignUpRequest: emailSignUpRequest)
+                                .map(EmailSignUpResponse.self)
+                                .subscribe { response in
+                                    print("code - \(response.code)")
+                                    print("message - \(response.message)")
+                                    
+                                    if response.code == "0000" {
+                                        print("token - \(response.result)")
+                                        
+                                        // TODO: 토큰 저장 코드
+                                        
+                                    } else if response.code == "0001" {
+                                        self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
+                                        self.errorLabel.text = response.message
+                                        self.errorLabel.isHidden = false
+                                    }
+                                } onFailure: { error in
+                                    print(error)
+                                }.disposed(by: self.disposeBag)
+//                            let signUpVC2 = SignUpVC2()
+//                            self.navigationController?.pushViewController(signUpVC2, animated: true)
+                        } else if response.code == "0001" {
+                            self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
+                            self.errorLabel.text = response.message
+                            self.errorLabel.isHidden = false
+                        }
+                    } onFailure: { error in
+                        print(error)
+                    }.disposed(by: self.disposeBag)
+
             }.disposed(by: disposeBag)
     }
     
