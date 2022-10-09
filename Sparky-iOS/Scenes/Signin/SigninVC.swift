@@ -132,21 +132,26 @@ final class SignInVC: UIViewController {
             if NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self.emailSignInView.emailTextField.text) && NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self.emailSignInView.passwordTextField.text) {
                 
                 let emailSignInRequest = EmailSignInRequest(email: emailSignInView.emailTextField.text ?? "",
-                                                            password: emailSignInView.passwordTextField.text ?? "")
+                                                            pwd: emailSignInView.passwordTextField.text ?? "")
                 
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
                 
-                UserServiceProvider.shared
+                UserServiceProvider()
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignInResponse.self)
                     .subscribe { response in
                         print("🔑 accessToken - \(response.result?.accessToken ?? "")")
                         print("🔑 refreshToken - \(response.result?.refreshToken ?? "")")
                         
-                        if let result = response.result {
+                        if response.code == "0000" {
+                            // TODO: 토큰 저장 코드
+                            
+                            print("로그인 성공!")
                             let homeVC = HomeVC()
                             self.navigationController?.pushViewController(homeVC, animated: true)
+                        } else {
+                            print("로그인 실패!")
                         }
                     } onFailure: { error in
                         print(error)
@@ -166,13 +171,12 @@ final class SignInVC: UIViewController {
 //                }
 //
 //            } else { print("Invalid Email or Password!") }
-        }
+        }.disposed(by: disposeBag)
         
         emailSignInView.signUpButton.rx.tap.subscribe { _ in
             let signUpVC1 = SignUpVC1()
             self.navigationController?.pushViewController(signUpVC1, animated: true)
-        }
-
+        }.disposed(by: disposeBag)
     }
 }
 

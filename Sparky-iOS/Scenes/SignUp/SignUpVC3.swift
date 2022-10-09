@@ -11,7 +11,8 @@ import RxSwift
 class SignUpVC3: UIViewController {
     
     // MARK: - Properties
-    let viewModel = SignUpViewModel()
+    var email: String? = nil
+    var viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
     private let navigationEdgeBar = UIView().then {
@@ -39,6 +40,7 @@ class SignUpVC3: UIViewController {
         $0.layer.cornerRadius = 8
         $0.setLeftPadding(20)
         $0.clearButtonMode = .whileEditing
+        $0.isSecureTextEntry = true
     }
     
     private let textStackView = UIStackView().then {
@@ -51,8 +53,6 @@ class SignUpVC3: UIViewController {
         $0.font = .bodyRegular2
         $0.textColor = .sparkyOrange
         $0.isHidden = true
-        $0.layoutIfNeeded()
-        $0.layoutIfNeeded()
     }
     
     private let conditionLabel = UILabel().then {
@@ -167,11 +167,15 @@ class SignUpVC3: UIViewController {
             .bind(to: nextButton.rx.backgroundColor)
             .disposed(by: disposeBag)
         
-        nextButton.rx.tap
-            .bind { _ in
+        nextButton.rx.tap.asDriver()
+            .throttle(.seconds(3), latest: false)
+            .drive(onNext: { _ in
+                guard let password = self.passwordTextField.text else { print("Password is Null!"); return }
                 let signUpVC4 = SignUpVC4()
+                signUpVC4.email = self.email
+                signUpVC4.password = password
                 self.navigationController?.pushViewController(signUpVC4, animated: true)
-            }.disposed(by: disposeBag)
+            }).disposed(by: disposeBag)
     }
     
     @objc private func didTapBackButton() {
