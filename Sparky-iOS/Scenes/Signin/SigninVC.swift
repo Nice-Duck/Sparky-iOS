@@ -125,53 +125,71 @@ final class SignInVC: UIViewController {
                 }
             }).disposed(by: disposeBag)
         
-        emailSignInView.signInButton.rx.tap.subscribe { [self] _ in
-            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            let passwordRegex = "^(?=.*[A-Za-z])(?=.*[0-9]).{8,20}"
-            
-            if NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self.emailSignInView.emailTextField.text) && NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self.emailSignInView.passwordTextField.text) {
-                
-                let emailSignInRequest = EmailSignInRequest(email: emailSignInView.emailTextField.text ?? "",
-                                                            pwd: emailSignInView.passwordTextField.text ?? "")
+        viewModel.isValidSignInButton()
+            .map{ $0 ? true : false }
+            .bind(to: emailSignInView.signInButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        emailSignInView.signInButton.rx.tap.asDriver()
+            .throttle(.seconds(3), latest: false)
+            .drive { _ in
+                let emailSignInRequest = EmailSignInRequest(email: self.emailSignInView.emailTextField.text ?? "",
+                                                            pwd: self.emailSignInView.passwordTextField.text ?? "")
                 
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
                 
-                UserServiceProvider()
+                UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignInResponse.self)
                     .subscribe { response in
-                        print("🔑 accessToken - \(response.result?.accessToken ?? "")")
-                        print("🔑 refreshToken - \(response.result?.refreshToken ?? "")")
-                        
                         if response.code == "0000" {
-                            // TODO: 토큰 저장 코드
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            print("🔑 accessToken - \(response.result?.accessToken ?? "")")
+                            print("🔑 refreshToken - \(response.result?.refreshToken ?? "")")
                             
-                            print("로그인 성공!")
-                            let homeVC = HomeVC()
-                            self.navigationController?.pushViewController(homeVC, animated: true)
+                            if let accessToken = response.result?.accessToken, let refreshToken = response.result?.refreshToken {
+                                
+                                // 토큰 key chain에 저장
+                                let tokenUtils = TokenUtils()
+                                tokenUtils.create("com.sparky.token", account: "accessToken", value: accessToken)
+                                tokenUtils.create("com.sparky.token", account: "refreshToken", value: refreshToken)
+                                
+                                // key chain에서 토큰 읽어오기
+                                if let accessToken = tokenUtils.read("com.sparky.token", account: "accessToken") {
+                                    print("키 체인 액세스 토큰 - \(accessToken)")
+                                } else { print("토큰이 존재하지 않습니다!") }
+                                if let refreshToken = tokenUtils.read("com.sparky.token", account: "refreshToken") {
+                                    print("키 체인 리프레시 토큰 - \(refreshToken)")
+                                } else { print("토큰이 존재하지 않습니다!") }
+                                
+                                print("로그인 성공!")
+                                let homeVC = HomeVC()
+                                self.navigationController?.pushViewController(homeVC, animated: true)
+                            }
                         } else {
-                            print("로그인 실패!")
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
                         }
                     } onFailure: { error in
                         print(error)
-                    }.disposed(by: disposeBag)
-            }
-
+                    }.disposed(by: self.disposeBag)
                 
-//                { response in
-//                    print("response - \(response)")
-////                    switch response {
-////                    case .success():
-//                        let homeVC = HomeVC()
-//                        self.navigationController?.pushViewController(homeVC, animated: true)
-////                    case .failure():
-////                        print("error - \(error)")
-////                    }
-//                }
-//
-//            } else { print("Invalid Email or Password!") }
-        }.disposed(by: disposeBag)
+                
+                //                { response in
+                //                    print("response - \(response)")
+                ////                    switch response {
+                ////                    case .success():
+                //                        let homeVC = HomeVC()
+                //                        self.navigationController?.pushViewController(homeVC, animated: true)
+                ////                    case .failure():
+                ////                        print("error - \(error)")
+                ////                    }
+                //                }
+                //
+                //            } else { print("Invalid Email or Password!") }
+            }.disposed(by: disposeBag)
         
         emailSignInView.signUpButton.rx.tap.subscribe { _ in
             let signUpVC1 = SignUpVC1()

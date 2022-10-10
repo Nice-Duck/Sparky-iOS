@@ -214,6 +214,8 @@ class SignUpVC2: UIViewController {
                     } onFailure: { error in
                         print(error)
                     }.disposed(by: self.disposeBag)
+                
+                // TODO: 404에러로 인한 임시 코드
                 let signUpVC3 = SignUpVC3()
                 signUpVC3.email = self.email
                 self.navigationController?.pushViewController(signUpVC3, animated: true)

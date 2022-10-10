@@ -197,18 +197,35 @@ class SignUpVC4: UIViewController {
                                 .signUp(emailSignUpRequest: emailSignUpRequest)
                                 .map(EmailSignUpResponse.self)
                                 .subscribe { response in
-                                    print("code - \(response.code)")
-                                    print("message - \(response.message)")
-                                    
                                     if response.code == "0000" {
-                                        print("token - \(response.result)")
+                                        print("code - \(response.code)")
+                                        print("message - \(response.message)")
+                                        print("🔑 accessToken - \(response.result?.accessToken ?? "")")
+                                        print("🔑 refreshToken - \(response.result?.refreshToken ?? "")")
                                         
-                                        // TODO: 토큰 저장 코드
-                                        
+                                        if let accessToken = response.result?.accessToken, let refreshToken = response.result?.refreshToken {
+                                            
+                                            // 토큰 key chain에 저장
+                                            let tokenUtils = TokenUtils()
+                                            tokenUtils.create("com.sparky.token", account: "accessToken", value: accessToken)
+                                            tokenUtils.create("com.sparky.token", account: "refreshToken", value: refreshToken)
+                                            
+                                            // key chain에서 토큰 읽어오기
+                                            if let accessToken = tokenUtils.read("com.sparky.token", account: "accessToken") {
+                                                print("키 체인 액세스 토큰 - \(accessToken)")
+                                            } else { print("토큰이 존재하지 않습니다!") }
+                                            if let refreshToken = tokenUtils.read("com.sparky.token", account: "refreshToken") {
+                                                print("키 체인 리프레시 토큰 - \(refreshToken)")
+                                            } else { print("토큰이 존재하지 않습니다!") }
+                                            
+                                        }
                                     } else if response.code == "0001" {
                                         self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                                         self.errorLabel.text = response.message
                                         self.errorLabel.isHidden = false
+                                    } else {
+                                        print("code - \(response.code)")
+                                        print("message - \(response.message)")
                                     }
                                 } onFailure: { error in
                                     print(error)
