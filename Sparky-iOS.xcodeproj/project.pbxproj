@@ -10,6 +10,12 @@
 		1DD8C3D19540E6F951C59DCB /* libPods-Sparky-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE459B792DE22E4D9BCEFF7 /* libPods-Sparky-iOSTests.a */; };
 		5020B7ACB6095CC52CFF466E /* Pods_Sparky_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4308F97AA07FA5FE7D0A93 /* Pods_Sparky_iOS.framework */; };
 		5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
+		5606F66F28F4352B0083AA58 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
+		5606F67028F4352E0083AA58 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
+		5606F67128F435310083AA58 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3828E0291D00C119F6 /* Image+.swift */; };
+		5606F67228F435340083AA58 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3A28E0293000C119F6 /* Font+.swift */; };
+		5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426A28E21547000A6A55 /* UINavigationBar+.swift */; };
+		5606F67428F43C880083AA58 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5693C1FE28CE2CDE008710FF /* Assets.xcassets */; };
 		560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
 		560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF32028D0E6AE00438463 /* HomeVC.swift */; };
 		560BF33028D0ECF200438463 /* Sparky.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 560BF32628D0ECF200438463 /* Sparky.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -554,6 +560,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5606F67428F43C880083AA58 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,9 +702,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5606F67028F4352E0083AA58 /* Color+.swift in Sources */,
 				5616C54728DB739500BF7126 /* CustomShareVC.swift in Sources */,
 				5652A44828EB31D400415738 /* Scrap.swift in Sources */,
+				5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */,
+				5606F67228F435340083AA58 /* Font+.swift in Sources */,
 				5652A44C28EB4FA800415738 /* Strings.swift in Sources */,
+				5606F66F28F4352B0083AA58 /* UITextField+.swift in Sources */,
+				5606F67128F435310083AA58 /* Image+.swift in Sources */,
 				5652A44628EB303F00415738 /* CrawlManager.swift in Sources */,
 				5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */,
 			);

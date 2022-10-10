@@ -18,28 +18,95 @@ final class CustomShareVC: UIViewController {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
     
-    private let scrapView = UIView()
-    private let scrapImageView = UIImageView().then {
+    private let ncTitleLabel = UILabel().then {
+        $0.text = "스크랩 저장"
+        $0.font = .subTitleBold1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyBlack
+    }
+    
+    private let scrapBackgroundView = UIView().then {
+        $0.backgroundColor = .gray100
+    }
+    
+    private let scrapView = UIView().then {
+        $0.backgroundColor = .sparkyWhite
+        $0.layer.cornerRadius = 8
+    }
+    
+    private var scrapImageView = UIImageView().then {
         $0.image = UIImage(systemName: "person.circle")
-        $0.contentMode = .scaleAspectFill
+        $0.layer.cornerRadius = 4
+        $0.contentMode = .scaleAspectFit
     }
     
     private var scrapTitleLabel = UILabel().then {
         $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
-        $0.font = .systemFont(ofSize: 16)
-        $0.textAlignment = .center
+        $0.font = .bodyBold2
+        $0.textAlignment = .left
         $0.textColor = .black
-        $0.lineBreakMode = .byWordWrapping
-        $0.numberOfLines = 0
+//        $0.lineBreakMode = .byWordWrapping
+//        $0.numberOfLines = 0
     }
     
     private var scrapSubTitleLabel = UILabel().then {
         $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .bodyRegular1
         $0.textAlignment = .left
         $0.textColor = .black
 //        $0.lineBreakMode = .byWordWrapping
-        $0.numberOfLines = 3
+        $0.numberOfLines = 2
+    }
+    
+    private let dividerView = UIView().then {
+        $0.backgroundColor = .gray200
+    }
+    
+    private let tagTitleLabel = UILabel().then {
+        $0.text = "추가할 태그"
+        $0.font = .subTitleBold1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyBlack
+    }
+    
+    private let tagCollectionView: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.minimumInteritemSpacing = 8
+        flowLayout.minimumLineSpacing = 8
+        
+        let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
+                                  collectionViewLayout: flowLayout)
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.backgroundColor = .sparkyOrange
+        return cv
+    }()
+    
+    private let memoTitleLabel = UILabel().then {
+        $0.text = "메모"
+        $0.font = .subTitleBold1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyBlack
+    }
+    
+    private let memoTextViewPlaceHolder = "메모를 입력하세요"
+    private lazy var memoTextView = UITextView().then {
+        $0.text = memoTextViewPlaceHolder
+        $0.font = .bodyRegular1
+        $0.textColor = .gray400
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.gray300.cgColor
+        $0.layer.cornerRadius = 8
+        $0.showsVerticalScrollIndicator = false
+        $0.delegate = self
+    }
+    
+    private let saveButton = UIButton().then {
+        $0.setTitle("저장하기", for: .normal)
+        $0.setTitleColor(.sparkyWhite, for: .normal)
+        $0.titleLabel?.font = .bodyBold2
+        $0.layer.cornerRadius = 8
+        $0.backgroundColor = .sparkyBlack
     }
     
     // MARK: - LifeCycles
@@ -48,7 +115,7 @@ final class CustomShareVC: UIViewController {
         
         self.view.backgroundColor = .white
         setupNavBar()
-        setupScrapView()
+        setupConstraints()
         
         if let item = extensionContext?.inputItems.first as? NSExtensionItem {
             print("item is not nil")
@@ -57,12 +124,15 @@ final class CustomShareVC: UIViewController {
     }
     
     private func setupNavBar() {
-        navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.backgroundColor = .gray100
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.titleView = ncTitleLabel
         
-        let cancelbutton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"),
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(tapCancelbutton))
+        
+//        let cancelbutton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"),
+//                                           style: .plain,
+//                                           target: self,
+//                                           action: nil)
         //        cancelbutton.rx.tap.subscribe { _ in
         //            let error = NSError(domain: "sparky.bundle.identifier",
         //                                code: 0,
@@ -72,12 +142,12 @@ final class CustomShareVC: UIViewController {
         //            print(error)
         //        }.disposed(by: disposeBag)
         
-        self.navigationItem.leftBarButtonItem = cancelbutton
-        
-        let saveButton = UIBarButtonItem(title: "저장하기",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(tapSavebutton))
+//        self.navigationItem.leftBarButtonItem = cancelbutton
+//
+//        let saveButton = UIBarButtonItem(title: "저장하기",
+//                                         style: .plain,
+//                                         target: self,
+//                                         action: nil)
         //        saveButton.rx.tap.subscribe { [unowned self] in
         //            self.extensionContext?.completeRequest(returningItems: [],
         //                                                   completionHandler: nil)
@@ -85,39 +155,89 @@ final class CustomShareVC: UIViewController {
         //            print(error)
         //        }.disposed(by: disposeBag)
         
-        self.navigationItem.rightBarButtonItem = saveButton
+//        self.navigationItem.rightBarButtonItem = saveButton
     }
     
-    private func setupScrapView() {
-        self.view.addSubview(scrapView)
+    private func setupConstraints() {
+        self.view.addSubview(scrapBackgroundView)
+        scrapBackgroundView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.height.equalTo(122)
+        }
+        
+        self.scrapBackgroundView.addSubview(scrapView)
         scrapView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(24)
-            $0.left.equalTo(view).offset(16)
-            $0.right.equalTo(view).offset(-16)
-            $0.height.equalTo(80)
+            $0.top.equalTo(scrapBackgroundView).offset(12)
+            $0.left.equalTo(scrapBackgroundView).offset(20)
+            $0.right.equalTo(scrapBackgroundView).offset(-20)
+            $0.height.equalTo(94)
         }
         
         self.scrapView.addSubview(scrapImageView)
         scrapImageView.snp.makeConstraints {
-            $0.top.equalTo(scrapView)
-            $0.left.equalTo(scrapView)
-            $0.bottom.equalTo(scrapView)
-            $0.width.equalTo(80)
+            $0.top.equalTo(scrapView).offset(12)
+            $0.left.equalTo(scrapView).offset(12)
+            $0.bottom.equalTo(scrapView).offset(-12)
+            $0.width.equalTo(100)
         }
         
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(scrapView.snp.top)
-            $0.left.equalTo(scrapImageView.snp.right).offset(16)
-            $0.right.equalTo(scrapView)
+            $0.top.equalTo(scrapView).offset(12)
+            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(7)
-            $0.left.equalTo(scrapImageView.snp.right).offset(16)
-            $0.bottom.equalTo(scrapView)
-            $0.right.equalTo(scrapView)
+            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.bottom.equalTo(scrapView).offset(-12)
+            $0.right.equalTo(scrapView).offset(-12)
+        }
+        
+        self.view.addSubview(dividerView)
+        dividerView.snp.makeConstraints {
+            $0.top.equalTo(scrapBackgroundView.snp.bottom)
+            $0.left.equalTo(view)
+            $0.right.equalTo(view)
+            $0.height.equalTo(6)
+        }
+        
+        self.view.addSubview(tagTitleLabel)
+        tagTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(dividerView.snp.bottom).offset(20)
+            $0.left.equalTo(view).offset(20)
+        }
+        
+        self.view.addSubview(tagCollectionView)
+        tagCollectionView.snp.makeConstraints {
+            $0.top.equalTo(tagTitleLabel.snp.bottom).offset(9)
+            $0.left.equalTo(view).offset(20)
+            $0.right.equalTo(view).offset(-20)
+        }
+        
+        self.view.addSubview(memoTitleLabel)
+        memoTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(tagCollectionView.snp.bottom).offset(36)
+            $0.left.equalTo(view).offset(20)
+        }
+        
+        self.view.addSubview(memoTextView)
+        memoTextView.snp.makeConstraints {
+            $0.top.equalTo(memoTitleLabel.snp.bottom).offset(8)
+            $0.left.equalTo(view).offset(20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(100)
+        }
+        
+        self.view.addSubview(saveButton)
+        saveButton.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(50)
         }
         
         //        if let item = extensionContext?.inputItems.first as? NSExtensionItem,
@@ -195,15 +315,22 @@ final class CustomShareVC: UIViewController {
             
         }
     }
-    
-    
-    @objc private func tapCancelbutton() {
-        let error = NSError(domain: "sparky.bundle.identifier", code: 0, userInfo: [NSLocalizedDescriptionKey: "An error description"])
-        extensionContext?.cancelRequest(withError: error)
+}
+
+extension CustomShareVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == memoTextViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .sparkyBlack
+            textView.layer.borderColor = UIColor.sparkyBlack.cgColor
+        }
     }
     
-    @objc private func tapSavebutton() {
-        extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if memoTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = memoTextViewPlaceHolder
+            textView.textColor = .gray400
+            textView.layer.borderColor = UIColor.gray300.cgColor
+        }
     }
-    
 }
