@@ -146,7 +146,7 @@ class SignUpVC1: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
+            .throttle(.seconds(5), latest: false)
             .drive { _ in
                 guard let email = self.emailTextField.text else { return }
                 UserServiceProvider.shared
