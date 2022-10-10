@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1DD8C3D19540E6F951C59DCB /* libPods-Sparky-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE459B792DE22E4D9BCEFF7 /* libPods-Sparky-iOSTests.a */; };
 		5020B7ACB6095CC52CFF466E /* Pods_Sparky_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E4308F97AA07FA5FE7D0A93 /* Pods_Sparky_iOS.framework */; };
+		5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
 		560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
 		560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF32028D0E6AE00438463 /* HomeVC.swift */; };
 		560BF33028D0ECF200438463 /* Sparky.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 560BF32628D0ECF200438463 /* Sparky.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -96,6 +97,7 @@
 		351D34C2E32DDD7AB60456AA /* Pods-Sparky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.release.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.release.xcconfig"; sourceTree = "<group>"; };
 		4FCBEDAB311ABD78662B0CE0 /* Pods-Sparky-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		5164E3FCF0C517A15A961ACA /* Pods_Sparky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5606F66D28F3BA300083AA58 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
 		560BF31C28D0DAB300438463 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		560BF32028D0E6AE00438463 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		560BF32628D0ECF200438463 /* Sparky.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Sparky.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -319,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				564938FD28E8BAE100861D26 /* HTTPUtils.swift */,
+				5606F66D28F3BA300083AA58 /* TokenUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				5637DD3728E0290E00C119F6 /* Color+.swift in Sources */,
 				56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */,
 				567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */,
+				5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */,
 				567DF86F28EC9645005A3E30 /* EmailConfirmRequest.swift in Sources */,
 				5693C1FA28CE2CDC008710FF /* SigninVC.swift in Sources */,
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
