@@ -165,8 +165,7 @@ final class SignInVC: UIViewController {
                                 } else { print("토큰이 존재하지 않습니다!") }
                                 
                                 print("로그인 성공!")
-                                let homeVC = HomeVC()
-                                self.navigationController?.pushViewController(homeVC, animated: true)
+                                self.moveToHomeVC()
                             }
                         } else {
                             print("code - \(response.code)")
@@ -195,6 +194,13 @@ final class SignInVC: UIViewController {
             let signUpVC1 = SignUpVC1()
             self.navigationController?.pushViewController(signUpVC1, animated: true)
         }.disposed(by: disposeBag)
+    }
+    
+    private func moveToHomeVC() {
+        guard let nc = self.navigationController else { return }
+        var vcs = nc.viewControllers
+        vcs = [HomeVC()]
+        self.navigationController?.viewControllers = vcs
     }
 }
 

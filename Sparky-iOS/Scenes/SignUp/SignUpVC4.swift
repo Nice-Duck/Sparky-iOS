@@ -173,7 +173,7 @@ class SignUpVC4: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
+            .throttle(.seconds(5), latest: false)
             .drive { _ in
                 guard let email = self.email else { print("Email is Null!"); return }
                 guard let password = self.password else { print("Password is Null!"); return }
@@ -217,8 +217,9 @@ class SignUpVC4: UIViewController {
                                             if let refreshToken = tokenUtils.read("com.sparky.token", account: "refreshToken") {
                                                 print("키 체인 리프레시 토큰 - \(refreshToken)")
                                             } else { print("토큰이 존재하지 않습니다!") }
-                                            
                                         }
+                                        self.moveToHomeVC()
+                                        
                                     } else if response.code == "0001" {
                                         self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                                         self.errorLabel.text = response.message
@@ -230,8 +231,6 @@ class SignUpVC4: UIViewController {
                                 } onFailure: { error in
                                     print(error)
                                 }.disposed(by: self.disposeBag)
-//                            let signUpVC2 = SignUpVC2()
-//                            self.navigationController?.pushViewController(signUpVC2, animated: true)
                         } else if response.code == "0001" {
                             self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             self.errorLabel.text = response.message
@@ -242,6 +241,13 @@ class SignUpVC4: UIViewController {
                     }.disposed(by: self.disposeBag)
 
             }.disposed(by: disposeBag)
+    }
+    
+    private func moveToHomeVC() {
+        guard let nc = self.navigationController else { return }
+        var vcs = nc.viewControllers
+        vcs = [HomeVC()]
+        self.navigationController?.viewControllers = vcs
     }
     
     @objc private func didTapBackButton() {

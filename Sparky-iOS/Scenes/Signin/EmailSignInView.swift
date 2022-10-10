@@ -65,9 +65,6 @@ class EmailSignInView: UIView {
         $0.setTitle("이메일 회원 가입", for: .normal)
         $0.setTitleColor(.gray600, for: .normal)
         $0.titleLabel?.font = .bodyRegular1
-//        $0.addTarget(self,
-//                     action: #selector(didTapSignUpButton),
-//                     for: .touchUpInside)
     }
     
     let barView = UIView().then {
