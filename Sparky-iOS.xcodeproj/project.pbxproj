@@ -37,6 +37,9 @@
 		567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */; };
 		567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */; };
 		5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */; };
+		5684384D28F5D7C2000E5C89 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */; };
+		5684384E28F5D83C000E5C89 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */; };
+		5684384F28F5D96E000E5C89 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21728F48062003ED188 /* Tag.swift */; };
 		56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */; };
 		56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1928EAC527005F18B1 /* OTPTextField.swift */; };
 		56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1B28EAC595005F18B1 /* OTPStackView.swift */; };
@@ -48,6 +51,15 @@
 		5693C20D28CE2CDE008710FF /* Sparky_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C20C28CE2CDE008710FF /* Sparky_iOSTests.swift */; };
 		5693C21728CE2CDE008710FF /* Sparky_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */; };
 		5693C21928CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */; };
+		569AE21828F48062003ED188 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21728F48062003ED188 /* Tag.swift */; };
+		569AE21A28F481BB003ED188 /* TagCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */; };
+		569AE21B28F48669003ED188 /* TagCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */; };
+		569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
+		569B79C528F9BE3100AD9BC3 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
+		569B79C728F9EA4500AD9BC3 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */; };
+		569B79C828F9EB0200AD9BC3 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */; };
+		569B79CA28F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */; };
+		569B79CB28F9F2A000AD9BC3 /* TagCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */; };
 		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
 		56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */; };
 		56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20428E9463600D638D2 /* UserServiceProvider.swift */; };
@@ -125,6 +137,7 @@
 		567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpResponse.swift; sourceTree = "<group>"; };
 		5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailNicknameDuplicateRequest.swift; sourceTree = "<group>"; };
+		5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		56902D1928EAC527005F18B1 /* OTPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTextField.swift; sourceTree = "<group>"; };
 		56902D1B28EAC595005F18B1 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
@@ -140,6 +153,11 @@
 		5693C21228CE2CDE008710FF /* Sparky-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sparky-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparky_iOSUITests.swift; sourceTree = "<group>"; };
 		5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparky_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		569AE21728F48062003ED188 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewModel.swift; sourceTree = "<group>"; };
+		569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
+		569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
 		56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceAPI.swift; sourceTree = "<group>"; };
 		56C7B20428E9463600D638D2 /* UserServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProvider.swift; sourceTree = "<group>"; };
@@ -250,6 +268,7 @@
 				5637DD3828E0291D00C119F6 /* Image+.swift */,
 				5637DD3A28E0293000C119F6 /* Font+.swift */,
 				56DE426A28E21547000A6A55 /* UINavigationBar+.swift */,
+				569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -294,6 +313,10 @@
 			children = (
 				5616C54228DB730200BF7126 /* CustomShareVC.swift */,
 				5616C54328DB730200BF7126 /* CustomShareNC.swift */,
+				569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */,
+				5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */,
+				569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */,
+				569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */,
 			);
 			path = Shareing;
 			sourceTree = "<group>";
@@ -311,14 +334,10 @@
 		564938F428E8B3E800861D26 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				564938F828E8B55E00861D26 /* EmailSignInRequest.swift */,
-				564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */,
+				569AE21628F47FF1003ED188 /* Response */,
+				569AE21528F47FE9003ED188 /* Request */,
 				5652A44728EB31D400415738 /* Scrap.swift */,
-				567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */,
-				567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */,
-				567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */,
-				567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */,
-				5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */,
+				569AE21728F48062003ED188 /* Tag.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -414,6 +433,27 @@
 				5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */,
 			);
 			path = "Sparky-iOSUITests";
+			sourceTree = "<group>";
+		};
+		569AE21528F47FE9003ED188 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				564938F828E8B55E00861D26 /* EmailSignInRequest.swift */,
+				567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */,
+				567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */,
+				567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */,
+				5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		569AE21628F47FF1003ED188 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */,
+				567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 		56DE426328E1F865000A6A55 /* SignUp */ = {
@@ -704,14 +744,20 @@
 			files = (
 				5606F67028F4352E0083AA58 /* Color+.swift in Sources */,
 				5616C54728DB739500BF7126 /* CustomShareVC.swift in Sources */,
+				569B79C828F9EB0200AD9BC3 /* TagCollectionView.swift in Sources */,
 				5652A44828EB31D400415738 /* Scrap.swift in Sources */,
 				5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */,
+				569AE21B28F48669003ED188 /* TagCollectionViewModel.swift in Sources */,
 				5606F67228F435340083AA58 /* Font+.swift in Sources */,
 				5652A44C28EB4FA800415738 /* Strings.swift in Sources */,
 				5606F66F28F4352B0083AA58 /* UITextField+.swift in Sources */,
 				5606F67128F435310083AA58 /* Image+.swift in Sources */,
+				569B79C528F9BE3100AD9BC3 /* UIStackView+.swift in Sources */,
+				5684384E28F5D83C000E5C89 /* TagCollectionViewCell.swift in Sources */,
 				5652A44628EB303F00415738 /* CrawlManager.swift in Sources */,
 				5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */,
+				5684384F28F5D96E000E5C89 /* Tag.swift in Sources */,
+				569B79CB28F9F2A000AD9BC3 /* TagCollectionViewFlowLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,12 +765,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				569AE21828F48062003ED188 /* Tag.swift in Sources */,
 				5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */,
 				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
 				564938F328E8AFE800861D26 /* UserService.swift in Sources */,
 				567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */,
+				569B79C728F9EA4500AD9BC3 /* TagCollectionView.swift in Sources */,
 				560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */,
 				56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */,
+				569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */,
 				5637DD3728E0290E00C119F6 /* Color+.swift in Sources */,
 				56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */,
 				567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */,
@@ -733,6 +782,7 @@
 				5693C1FA28CE2CDC008710FF /* SigninVC.swift in Sources */,
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
 				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
+				569AE21A28F481BB003ED188 /* TagCollectionViewModel.swift in Sources */,
 				564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */,
 				56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */,
 				5637DD3928E0291D00C119F6 /* Image+.swift in Sources */,
@@ -743,11 +793,13 @@
 				564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */,
 				56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */,
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
+				569B79CA28F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift in Sources */,
 				56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */,
 				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,
 				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
+				5684384D28F5D7C2000E5C89 /* TagCollectionViewCell.swift in Sources */,
 				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
 				564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */,
 			);

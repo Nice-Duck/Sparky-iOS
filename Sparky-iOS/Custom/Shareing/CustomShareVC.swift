@@ -17,6 +17,7 @@ final class CustomShareVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
+    private let viewModel = TagCollectionViewModel()
     
     private let ncTitleLabel = UILabel().then {
         $0.text = "스크랩 저장"
@@ -45,8 +46,6 @@ final class CustomShareVC: UIViewController {
         $0.font = .bodyBold2
         $0.textAlignment = .left
         $0.textColor = .black
-//        $0.lineBreakMode = .byWordWrapping
-//        $0.numberOfLines = 0
     }
     
     private var scrapSubTitleLabel = UILabel().then {
@@ -54,7 +53,6 @@ final class CustomShareVC: UIViewController {
         $0.font = .bodyRegular1
         $0.textAlignment = .left
         $0.textColor = .black
-//        $0.lineBreakMode = .byWordWrapping
         $0.numberOfLines = 2
     }
     
@@ -69,15 +67,15 @@ final class CustomShareVC: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let tagCollectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumInteritemSpacing = 8
-        flowLayout.minimumLineSpacing = 8
+    private let tagCollectionView: TagCollectionView = {
+        let flowLayout = TagCollectionViewFlowLayout()
+        flowLayout.minimumInteritemSpacing = 6
+        flowLayout.minimumLineSpacing = 6
+        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
-        let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
+        let cv = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                                   collectionViewLayout: flowLayout)
         cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.backgroundColor = .sparkyOrange
         return cv
     }()
     
@@ -116,6 +114,7 @@ final class CustomShareVC: UIViewController {
         self.view.backgroundColor = .white
         setupNavBar()
         setupConstraints()
+        bindViewModel()
         
         if let item = extensionContext?.inputItems.first as? NSExtensionItem {
             print("item is not nil")
@@ -129,25 +128,25 @@ final class CustomShareVC: UIViewController {
         self.navigationItem.titleView = ncTitleLabel
         
         
-//        let cancelbutton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"),
-//                                           style: .plain,
-//                                           target: self,
-//                                           action: nil)
-        //        cancelbutton.rx.tap.subscribe { _ in
-        //            let error = NSError(domain: "sparky.bundle.identifier",
-        //                                code: 0,
-        //                                userInfo: [NSLocalizedDescriptionKey: "An error description"])
-        //            self.extensionContext?.cancelRequest(withError: error)
-        //        } onError: { error in
-        //            print(error)
-        //        }.disposed(by: disposeBag)
+        let cancelbutton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"),
+                                           style: .plain,
+                                           target: self,
+                                           action: nil)
+        cancelbutton.rx.tap.subscribe { _ in
+            let error = NSError(domain: "sparky.bundle.identifier",
+                                code: 0,
+                                userInfo: [NSLocalizedDescriptionKey: "An error description"])
+            self.extensionContext?.cancelRequest(withError: error)
+        } onError: { error in
+            print(error)
+        }.disposed(by: disposeBag)
         
-//        self.navigationItem.leftBarButtonItem = cancelbutton
-//
-//        let saveButton = UIBarButtonItem(title: "저장하기",
-//                                         style: .plain,
-//                                         target: self,
-//                                         action: nil)
+        //        self.navigationItem.leftBarButtonItem = cancelbutton
+        //
+        //        let saveButton = UIBarButtonItem(title: "저장하기",
+        //                                         style: .plain,
+        //                                         target: self,
+        //                                         action: nil)
         //        saveButton.rx.tap.subscribe { [unowned self] in
         //            self.extensionContext?.completeRequest(returningItems: [],
         //                                                   completionHandler: nil)
@@ -155,7 +154,7 @@ final class CustomShareVC: UIViewController {
         //            print(error)
         //        }.disposed(by: disposeBag)
         
-//        self.navigationItem.rightBarButtonItem = saveButton
+        //        self.navigationItem.rightBarButtonItem = saveButton
     }
     
     private func setupConstraints() {
@@ -269,6 +268,30 @@ final class CustomShareVC: UIViewController {
         //        }
     }
     
+    private func bindViewModel() {
+        tagCollectionView.register(TagCollectionViewCell.self,
+                                   forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
+        
+        viewModel.tagList
+            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
+//                print("index, tag, cell - \(index), \(tag), \(cell)")
+                cell.setupConstraints()
+                cell.setupAddButton(tag: tag)
+//                cell.addDashedBorder(borderColor: .gray400)
+                cell.layer.cornerRadius = 8
+                
+//                if tag.buttonType == .add {
+//                    cell.backgroundColor = .clear
+//                    cell.addDashedBorder(borderColor: .gray400)
+//                } else {
+//                    cell.backgroundColor = .sparkyPink
+//                }
+            }.disposed(by: disposeBag)
+        
+        tagCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+    }
+    
     private func accessWebpageProperites(extentionItem: NSExtensionItem) {
         var propertyList: String
         if #available(iOSApplicationExtension 14.0, *) {
@@ -295,20 +318,20 @@ final class CustomShareVC: UIViewController {
                             }
                             
                         }
-//                        guard let dictionary = url as? NSDictionary,
-//                              let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
-//                              let title = results["title"] as? String,
-//                              let hostname = results["hostname"] as? String
-//                        else {
-//                            return
-//                        }
+                        //                        guard let dictionary = url as? NSDictionary,
+                        //                              let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
+                        //                              let title = results["title"] as? String,
+                        //                              let hostname = results["hostname"] as? String
+                        //                        else {
+                        //                            return
+                        //                        }
                         
-//                        let favicon = results["favicon"] as? String ?? "\(hostname)/favicon.ico"
-//                        print("dictionary - \(dictionary)")
-//                        print("results - \(results)")
-//                        print("title - \(title)")
-//                        print("hostname - \(hostname)")
-//                        print("favicon - \(favicon)")
+                        //                        let favicon = results["favicon"] as? String ?? "\(hostname)/favicon.ico"
+                        //                        print("dictionary - \(dictionary)")
+                        //                        print("results - \(results)")
+                        //                        print("title - \(title)")
+                        //                        print("hostname - \(hostname)")
+                        //                        print("favicon - \(favicon)")
                     }
                 }
             }

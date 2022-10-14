@@ -8,6 +8,7 @@
 import UIKit
 
 extension UINavigationBar {
+    
     func titleTextAttributes(color: UIColor, font: UIFont) {
         let attributes = [NSAttributedString.Key.foregroundColor: color,
                            NSAttributedString.Key.font: font]
