@@ -8,6 +8,9 @@
 import UIKit
 
 extension UIFont {
+    
+    static let badgeBold: UIFont = .systemFont(ofSize: 10, weight: UIFont.Weight(700))
+    static let badgeRegular: UIFont = .systemFont(ofSize: 10, weight: UIFont.Weight(400))
     static let bodyBold2: UIFont = .systemFont(ofSize: 14, weight: UIFont.Weight(700))
     static let bodyRegular1: UIFont = .systemFont(ofSize: 12, weight: UIFont.Weight(400))
     static let bodyRegular2: UIFont = .systemFont(ofSize: 14, weight: UIFont.Weight(400))

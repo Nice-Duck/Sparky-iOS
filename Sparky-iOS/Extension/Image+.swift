@@ -8,5 +8,6 @@
 import UIKit
 
 extension UIImage {
+    
     static let vector: UIImage = UIImage(named: "vector")!
 }
