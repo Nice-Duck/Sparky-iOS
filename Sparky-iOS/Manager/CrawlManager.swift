@@ -53,7 +53,7 @@ final class CrwalManager {
                 for i in 0..<array.count {
                     print("index - \(i)")
                     let thumbnailURLString = try array[i].select(Strings.tistoryThumbnailSector).attr("src")
-                    thumbnailURL = URL(string: thumbnailURLString)!
+                    thumbnailURL = URL(string: thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!
                     title = try array[i].select(Strings.tistoryTitleSector).text()
                     subTitle += try array[i].select(Strings.tistorySubTitleSector).text()
                 }

@@ -74,7 +74,7 @@ final class CustomShareVC: UIViewController {
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         
         let cv = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
-                                  collectionViewLayout: flowLayout)
+                                   collectionViewLayout: flowLayout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
@@ -128,7 +128,7 @@ final class CustomShareVC: UIViewController {
         self.navigationItem.titleView = ncTitleLabel
         
         
-        let cancelbutton = UIBarButtonItem(image: UIImage(systemName: "xmark.circle"),
+        let cancelbutton = UIBarButtonItem(image: UIImage(named: "clear"),
                                            style: .plain,
                                            target: self,
                                            action: nil)
@@ -140,21 +140,7 @@ final class CustomShareVC: UIViewController {
         } onError: { error in
             print(error)
         }.disposed(by: disposeBag)
-        
-        //        self.navigationItem.leftBarButtonItem = cancelbutton
-        //
-        //        let saveButton = UIBarButtonItem(title: "저장하기",
-        //                                         style: .plain,
-        //                                         target: self,
-        //                                         action: nil)
-        //        saveButton.rx.tap.subscribe { [unowned self] in
-        //            self.extensionContext?.completeRequest(returningItems: [],
-        //                                                   completionHandler: nil)
-        //        } onError: { error in
-        //            print(error)
-        //        }.disposed(by: disposeBag)
-        
-        //        self.navigationItem.rightBarButtonItem = saveButton
+        self.navigationItem.leftBarButtonItem = cancelbutton
     }
     
     private func setupConstraints() {
@@ -273,24 +259,32 @@ final class CustomShareVC: UIViewController {
                                    forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
         
         viewModel.tagList
-            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
-//                print("index, tag, cell - \(index), \(tag), \(cell)")
+            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { [weak self] index, tag, cell in
+                //                print("index, tag, cell - \(index), \(tag), \(cell)")
                 cell.setupConstraints()
                 cell.setupAddButton(tag: tag)
-//                cell.addDashedBorder(borderColor: .gray400)
-                cell.layer.cornerRadius = 8
+                cell.layoutSubviews()
+                //                cell.setNeedsLayout()
                 
-//                if tag.buttonType == .add {
-//                    cell.backgroundColor = .clear
-//                    cell.addDashedBorder(borderColor: .gray400)
-//                } else {
-//                    cell.backgroundColor = .sparkyPink
-//                }
             }.disposed(by: disposeBag)
         
-        tagCollectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
+        tagCollectionView.rx.itemSelected
+            .subscribe(onNext: { indexPath in
+                if self.viewModel.tagList.value.count > 0 {
+                    switch indexPath.row {
+                    case self.viewModel.tagList.value.count - 1:
+                        break
+                        
+                    default:
+                        self.viewModel.removeTag(index: indexPath.row)
+//                        self.tagCollectionView.reloadData()
+                        break
+                    }
+                }
+            }).disposed(by: disposeBag)
     }
+    
+    
     
     private func accessWebpageProperites(extentionItem: NSExtensionItem) {
         var propertyList: String
