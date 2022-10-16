@@ -9,8 +9,7 @@ import UIKit
 
 extension UIStackView {
     
-    func addDashedBorder(borderColor: UIColor) {
-        let frameSize = self.frame.size
+    func addDashedBorder(frameSize: CGSize, borderColor: UIColor) {
         let shapeLayer: CAShapeLayer = CAShapeLayer()
         let shapeRect = CGRect(x: 0,
                                y: 0,

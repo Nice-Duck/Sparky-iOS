@@ -260,12 +260,8 @@ final class CustomShareVC: UIViewController {
         
         viewModel.tagList
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { [weak self] index, tag, cell in
-                //                print("index, tag, cell - \(index), \(tag), \(cell)")
                 cell.setupConstraints()
                 cell.setupAddButton(tag: tag)
-                cell.layoutSubviews()
-                //                cell.setNeedsLayout()
-                
             }.disposed(by: disposeBag)
         
         tagCollectionView.rx.itemSelected
@@ -277,7 +273,6 @@ final class CustomShareVC: UIViewController {
                         
                     default:
                         self.viewModel.removeTag(index: indexPath.row)
-//                        self.tagCollectionView.reloadData()
                         break
                     }
                 }

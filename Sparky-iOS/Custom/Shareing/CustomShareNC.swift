@@ -12,6 +12,7 @@ class CustomShareNC: UINavigationController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
+        self.overrideUserInterfaceStyle = .light
         self.setViewControllers([CustomShareVC()], animated: false)
     }
     

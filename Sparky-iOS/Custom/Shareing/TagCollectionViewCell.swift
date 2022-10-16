@@ -25,15 +25,15 @@ final class TagCollectionViewCell: UICollectionViewCell {
     
     let tagButtonImageView = UIImageView()
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        print("frame.size - \(frame.size)")
-        
-        if tagTitleLabel.text == "태그추가" {
-            tagStackView.addDashedBorder(borderColor: .gray400)
-        }
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//
+//        print("frame.size - \(frame.size)")
+//
+//        if tagTitleLabel.text == "태그추가" {
+//            tagStackView.addDashedBorder(borderColor: .gray400)
+//        }
+//    }
 
     func setupConstraints() {
         contentView.addSubview(tagStackView)
@@ -53,6 +53,18 @@ final class TagCollectionViewCell: UICollectionViewCell {
         tagTitleLabel.textColor = tag.buttonType == .delete ? .gray700 : .gray400
         tagButtonImageView.image = getButtonImage(buttonType: tag.buttonType)
         tagStackView.backgroundColor = tag.buttonType == .delete ? .sparkyPink : .clear
+        
+        if tag.buttonType == .add {
+            tagStackView.addDashedBorder(frameSize: CGSize(width: 67, height: 20), borderColor: .gray400)
+        } else {
+            // 기본적으로 subLayer count가 2이고 만약 점선 layer를 추가하면 subLayer count가 3이됨.
+            if var sublayers = tagStackView.layer.sublayers {
+                if sublayers.count > 2 {
+                    sublayers.removeLast()
+                }
+                tagStackView.layer.sublayers = sublayers
+            }
+        }
     }
     
     func getButtonImage(buttonType: ButtonType) -> UIImage {
