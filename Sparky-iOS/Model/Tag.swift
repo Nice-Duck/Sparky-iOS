@@ -10,6 +10,7 @@ import UIKit
 enum ButtonType {
     case delete
     case add
+    case none
 }
 
 struct Tag {
