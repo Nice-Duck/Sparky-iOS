@@ -19,13 +19,6 @@ final class CustomShareVC: UIViewController {
     private let disposeBag = DisposeBag()
     private let viewModel = TagCollectionViewModel()
     
-    private let ncTitleLabel = UILabel().then {
-        $0.text = "스크랩 저장"
-        $0.font = .subTitleBold1
-        $0.textAlignment = .center
-        $0.textColor = .sparkyBlack
-    }
-    
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
     }
@@ -125,14 +118,19 @@ final class CustomShareVC: UIViewController {
     private func setupNavBar() {
         self.navigationController?.navigationBar.backgroundColor = .gray100
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationItem.titleView = ncTitleLabel
         
+        let ncBarTitleLabel = UILabel().then {
+            $0.text = "스크랩 저장"
+            $0.font = .subTitleBold1
+            $0.textAlignment = .center
+            $0.textColor = .sparkyBlack
+        }
         
-        let cancelbutton = UIBarButtonItem(image: UIImage(named: "clear"),
+        let ncBarCancelButton = UIBarButtonItem(image: UIImage(named: "clear"),
                                            style: .plain,
                                            target: self,
                                            action: nil)
-        cancelbutton.rx.tap.subscribe { _ in
+        ncBarCancelButton.rx.tap.subscribe { _ in
             let error = NSError(domain: "sparky.bundle.identifier",
                                 code: 0,
                                 userInfo: [NSLocalizedDescriptionKey: "An error description"])
@@ -140,7 +138,8 @@ final class CustomShareVC: UIViewController {
         } onError: { error in
             print(error)
         }.disposed(by: disposeBag)
-        self.navigationItem.leftBarButtonItem = cancelbutton
+        self.navigationItem.titleView = ncBarTitleLabel
+        self.navigationItem.leftBarButtonItem = ncBarCancelButton
     }
     
     private func setupConstraints() {
@@ -269,10 +268,11 @@ final class CustomShareVC: UIViewController {
                 if self.viewModel.tagList.value.count > 0 {
                     switch indexPath.row {
                     case self.viewModel.tagList.value.count - 1:
+                        self.viewModel.didTapAddButton(vc: self)
                         break
                         
                     default:
-                        self.viewModel.removeTag(index: indexPath.row)
+                        self.viewModel.didTapDeleteButton(index: indexPath.row)
                         break
                     }
                 }

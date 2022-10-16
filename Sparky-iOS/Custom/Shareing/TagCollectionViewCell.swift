@@ -25,16 +25,6 @@ final class TagCollectionViewCell: UICollectionViewCell {
     
     let tagButtonImageView = UIImageView()
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        print("frame.size - \(frame.size)")
-//
-//        if tagTitleLabel.text == "태그추가" {
-//            tagStackView.addDashedBorder(borderColor: .gray400)
-//        }
-//    }
-
     func setupConstraints() {
         contentView.addSubview(tagStackView)
         tagStackView.snp.makeConstraints {
@@ -73,6 +63,8 @@ final class TagCollectionViewCell: UICollectionViewCell {
             return UIImage(named: "vector971")!
         case .add:
             return UIImage(named: "plus")!
+        case .none:
+            return UIImage()
         }
     }
 }
