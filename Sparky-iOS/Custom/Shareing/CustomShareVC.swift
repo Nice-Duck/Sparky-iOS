@@ -60,17 +60,8 @@ final class CustomShareVC: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let tagCollectionView: TagCollectionView = {
-        let flowLayout = TagCollectionViewFlowLayout()
-        flowLayout.minimumInteritemSpacing = 6
-        flowLayout.minimumLineSpacing = 6
-        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        
-        let cv = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
-                                   collectionViewLayout: flowLayout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        return cv
-    }()
+    private let tagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
+                                                      collectionViewLayout: TagCollectionViewFlowLayout())
     
     private let memoTitleLabel = UILabel().then {
         $0.text = "메모"
@@ -254,13 +245,10 @@ final class CustomShareVC: UIViewController {
     }
     
     private func bindViewModel() {
-        tagCollectionView.register(TagCollectionViewCell.self,
-                                   forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
-        
         viewModel.tagList
-            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { [weak self] index, tag, cell in
+            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
                 cell.setupConstraints()
-                cell.setupAddButton(tag: tag)
+                cell.setupTagButton(tag: tag)
             }.disposed(by: disposeBag)
         
         tagCollectionView.rx.itemSelected

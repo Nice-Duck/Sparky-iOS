@@ -38,15 +38,15 @@ final class TagCollectionViewCell: UICollectionViewCell {
         tagStackView.addArrangedSubview(tagButtonImageView)
     }
     
-    func setupAddButton(tag: Tag) {
+    func setupTagButton(tag: Tag) {
         tagTitleLabel.text = tag.text
-        tagTitleLabel.textColor = tag.buttonType == .delete ? .gray700 : .gray400
+        tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .gray400
         tagButtonImageView.image = getButtonImage(buttonType: tag.buttonType)
-        tagStackView.backgroundColor = tag.buttonType == .delete ? .sparkyPink : .clear
+        tagStackView.backgroundColor = tag.buttonType != .add ? tag.backgroundColor : .clear
         
         if tag.buttonType == .add {
             tagStackView.addDashedBorder(frameSize: CGSize(width: 67, height: 20), borderColor: .gray400)
-        } else {
+        } else if tag.buttonType == .delete {
             // 기본적으로 subLayer count가 2이고 만약 점선 layer를 추가하면 subLayer count가 3이됨.
             if var sublayers = tagStackView.layer.sublayers {
                 if sublayers.count > 2 {
@@ -54,6 +54,8 @@ final class TagCollectionViewCell: UICollectionViewCell {
                 }
                 tagStackView.layer.sublayers = sublayers
             }
+        } else {
+            tagButtonImageView.isHidden = true
         }
     }
     

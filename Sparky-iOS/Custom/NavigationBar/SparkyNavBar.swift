@@ -9,14 +9,25 @@ import UIKit
 
 class SparkyNavBar: UINavigationBar {
     
+    //    let customRect = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 120)
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        for subview in self.subviews {
-            subview.frame = ({
-                frame.origin.y = (self.frame.size.height - subview.frame.size.height) / 2
-                return frame;
-            })()
+        //        self.frame = customRect
+        
+        for (index, subview) in self.subviews.enumerated() {
+            if index == 2 {
+                subview.frame = ({
+                    frame.origin.y = 11
+                    return frame;
+                })()
+            } else {
+                subview.frame = ({
+                    frame.origin.y = (frame.height - subview.frame.height) / 2
+                    return frame;
+                })()
+            }
         }
     }
 }

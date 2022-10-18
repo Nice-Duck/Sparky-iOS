@@ -19,6 +19,7 @@
 		560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
 		560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF32028D0E6AE00438463 /* HomeVC.swift */; };
 		560BF33028D0ECF200438463 /* Sparky.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 560BF32628D0ECF200438463 /* Sparky.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5613666428FDBF14003A33CE /* RecentTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */; };
 		5616C54728DB739500BF7126 /* CustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54228DB730200BF7126 /* CustomShareVC.swift */; };
 		5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54328DB730200BF7126 /* CustomShareNC.swift */; };
 		5637DD3728E0290E00C119F6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
@@ -118,6 +119,7 @@
 		560BF32028D0E6AE00438463 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		560BF32628D0ECF200438463 /* Sparky.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Sparky.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		560BF32D28D0ECF200438463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTagViewModel.swift; sourceTree = "<group>"; };
 		5616C54228DB730200BF7126 /* CustomShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShareVC.swift; sourceTree = "<group>"; };
 		5616C54328DB730200BF7126 /* CustomShareNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShareNC.swift; sourceTree = "<group>"; };
 		5637DD3628E0290E00C119F6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */,
 				569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */,
 				56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */,
+				5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */,
 			);
 			path = Shareing;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				5652A44828EB31D400415738 /* Scrap.swift in Sources */,
 				5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */,
 				569AE21B28F48669003ED188 /* TagCollectionViewModel.swift in Sources */,
+				5613666428FDBF14003A33CE /* RecentTagViewModel.swift in Sources */,
 				56A0AA7628FC3BE100726C13 /* SparkyNavBar.swift in Sources */,
 				5606F67228F435340083AA58 /* Font+.swift in Sources */,
 				5652A44C28EB4FA800415738 /* Strings.swift in Sources */,
@@ -1044,6 +1048,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Sparky;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1075,6 +1080,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Sparky;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

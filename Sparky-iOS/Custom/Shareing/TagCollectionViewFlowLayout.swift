@@ -8,7 +8,17 @@
 import UIKit
 
 class TagCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    
+    override init() {
+        super.init()
         
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let attributes = super.layoutAttributesForElements(in: rect)
         
@@ -23,5 +33,11 @@ class TagCollectionViewFlowLayout: UICollectionViewFlowLayout {
             maxY = max(layoutAttribute.frame.maxY, maxY)
         })
         return attributes
+    }
+    
+    private func setup() {
+        self.minimumInteritemSpacing = 6
+        self.minimumLineSpacing = 8
+        self.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
     }
 }
