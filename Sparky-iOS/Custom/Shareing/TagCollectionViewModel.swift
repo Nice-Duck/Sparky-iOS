@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class TagCollectionViewModel {
+    
     var tagList = BehaviorRelay<[Tag]>(value: [
         Tag(text: "디자인", backgroundColor: .sparkyOrange, buttonType: .delete),
         Tag(text: "시각디자인", backgroundColor: .sparkyPink, buttonType: .delete),
@@ -26,6 +27,7 @@ final class TagCollectionViewModel {
         Tag(text: "창스", backgroundColor: .sparkyGreen, buttonType: .delete),
         Tag(text: "태그추가", backgroundColor: .clear, buttonType: .add)
     ])
+    
     
     func didTapDeleteButton(index: Int) {
         var tagListCopy = self.tagList.value

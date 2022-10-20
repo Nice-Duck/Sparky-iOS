@@ -49,17 +49,9 @@ final class TagBottomSheetVC: UIViewController {
         $0.style = .plain
     }
     
-    private let tagSearchBar = UISearchBar().then {
+    private let tagTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         $0.placeholder = "검색할 태그를 입력해주세요(최대 7글자)"
-        $0.showsCancelButton = false
-        $0.isTranslucent = false
-        $0.searchBarStyle = .minimal
-        $0.setBackgroundImage(UIImage(), for: .bottom, barMetrics: .default)
-        
-        for view in $0.searchTextField.subviews {
-            view.backgroundColor = .sparkyWhite
-        }
-        
+        $0.setupLeftImageView(image: UIImage(named: "search")!)
     }
     
     private let recentTagTitleLabel = UILabel().then {
@@ -79,9 +71,9 @@ final class TagBottomSheetVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavBar()
-        setupConstraintes()
+        setupConstraints()
         bindViewModel()
         setupCollectionViewDelegate()
         setupDimmendTabGesture()
@@ -104,10 +96,10 @@ final class TagBottomSheetVC: UIViewController {
         customNavBar.layoutIfNeeded()
     }
     
-    private func setupConstraintes() {
+    private func setupConstraints() {
         view.addSubview(dimmedView)
         dimmedView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(view)
             $0.left.equalTo(view)
             $0.bottom.equalTo(view)
             $0.right.equalTo(view)
@@ -131,17 +123,16 @@ final class TagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagBottomSheetView)
         }
         
-        tagBottomSheetView.addSubview(tagSearchBar)
-        tagSearchBar.snp.makeConstraints {
-            $0.top.equalTo(customNavBar.snp.bottom).offset(11)
-            $0.left.equalTo(tagBottomSheetView).offset(4)
-            $0.right.equalTo(tagBottomSheetView).offset(-4)
-            $0.height.equalTo(44)
+        tagBottomSheetView.addSubview(tagTextField)
+        tagTextField.snp.makeConstraints {
+            $0.top.equalTo(customNavBar.snp.bottom).offset(12)
+            $0.left.equalTo(tagBottomSheetView).offset(20)
+            $0.right.equalTo(tagBottomSheetView).offset(-20)
         }
         
         tagBottomSheetView.addSubview(recentTagTitleLabel)
         recentTagTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(tagSearchBar.snp.bottom).offset(16)
+            $0.top.equalTo(tagTextField.snp.bottom).offset(16)
             $0.left.equalTo(tagBottomSheetView).offset(20)
         }
         
@@ -156,7 +147,7 @@ final class TagBottomSheetVC: UIViewController {
     private func bindViewModel() {
         viewModel.filterTagList = viewModel.recentTagList
         
-        tagSearchBar.searchTextField.rx.text
+        tagTextField.rx.text
             .orEmpty
             .subscribe(onNext: { text in
                 print("text - \(text.description)")
