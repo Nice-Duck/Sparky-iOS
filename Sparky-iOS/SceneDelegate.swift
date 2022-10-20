@@ -17,13 +17,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: scene)
         self.window?.overrideUserInterfaceStyle = .light
         
-        let rootViewController = UINavigationController(rootViewController: SignInVC())
+        let rootViewController: UINavigationController
+        
+        if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+            rootViewController = UINavigationController(rootViewController: HomeVC())
+        } else {
+            rootViewController = UINavigationController(rootViewController: SignInVC())
+        }
+        
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
-    }
-    
-    @objc private func didTapBackButton() {
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -60,6 +60,9 @@
 		56A0AA7628FC3BE100726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
+		56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */; };
+		56C41B8928FEC8CC00D610E5 /* SparkySearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */; };
+		56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8B28FECED600D610E5 /* MyScrapVC.swift */; };
 		56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */; };
 		56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20428E9463600D638D2 /* UserServiceProvider.swift */; };
 		56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */; };
@@ -161,6 +164,8 @@
 		56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBottomSheetVC.swift; sourceTree = "<group>"; };
 		56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNavBar.swift; sourceTree = "<group>"; };
 		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
+		56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkySearchBar.swift; sourceTree = "<group>"; };
+		56C41B8B28FECED600D610E5 /* MyScrapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapVC.swift; sourceTree = "<group>"; };
 		56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceAPI.swift; sourceTree = "<group>"; };
 		56C7B20428E9463600D638D2 /* UserServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProvider.swift; sourceTree = "<group>"; };
 		56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInViewModel.swift; sourceTree = "<group>"; };
@@ -255,6 +260,7 @@
 		560BF31A28D0D0F400438463 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				56C41B8A28FECEC200D610E5 /* MyScrap */,
 				56DE426328E1F865000A6A55 /* SignUp */,
 				560BF31F28D0E66400438463 /* Home */,
 				560BF31E28D0E65900438463 /* Signin */,
@@ -465,8 +471,17 @@
 			isa = PBXGroup;
 			children = (
 				56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */,
+				56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */,
 			);
 			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		56C41B8A28FECEC200D610E5 /* MyScrap */ = {
+			isa = PBXGroup;
+			children = (
+				56C41B8B28FECED600D610E5 /* MyScrapVC.swift */,
+			);
+			path = MyScrap;
 			sourceTree = "<group>";
 		};
 		56DE426328E1F865000A6A55 /* SignUp */ = {
@@ -772,6 +787,7 @@
 				5684384E28F5D83C000E5C89 /* TagCollectionViewCell.swift in Sources */,
 				5652A44628EB303F00415738 /* CrawlManager.swift in Sources */,
 				5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */,
+				56C41B8928FEC8CC00D610E5 /* SparkySearchBar.swift in Sources */,
 				5684384F28F5D96E000E5C89 /* Tag.swift in Sources */,
 				569B79CB28F9F2A000AD9BC3 /* TagCollectionViewFlowLayout.swift in Sources */,
 			);
@@ -808,12 +824,14 @@
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
 				56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */,
 				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
+				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */,
 				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,
 				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
 				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
 				564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */,
+				56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

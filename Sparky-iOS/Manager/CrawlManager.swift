@@ -61,7 +61,6 @@ final class CrwalManager {
                 scrap = Scrap(thumbnailURL: thumbnailURL,
                               title: title,
                               subTitle: subTitle)
-                print("scrap - \(scrap)")
                 completion(scrap)
             } catch {
                 print(NetworkError.parsingError)
