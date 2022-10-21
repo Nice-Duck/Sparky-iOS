@@ -5,19 +5,22 @@
 //  Created by SeungMin on 2022/09/14.
 //
 
+import UIKit
 import UniformTypeIdentifiers
 import MobileCoreServices
 import RxSwift
 import RxCocoa
 import SnapKit
 import Then
-import UIKit
+import SwiftLinkPreview
+import Kingfisher
 
 final class CustomShareVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private let viewModel = TagCollectionViewModel()
+    private let tagCollectionViewModel = TagCollectionViewModel()
+    private let previewViewModel = PreviewViewModel()
     
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
@@ -29,7 +32,6 @@ final class CustomShareVC: UIViewController {
     }
     
     private var scrapImageView = UIImageView().then {
-        $0.image = UIImage(systemName: "person.circle")
         $0.layer.cornerRadius = 4
         $0.contentMode = .scaleAspectFit
     }
@@ -118,9 +120,9 @@ final class CustomShareVC: UIViewController {
         }
         
         let ncBarCancelButton = UIBarButtonItem(image: UIImage(named: "clear"),
-                                           style: .plain,
-                                           target: self,
-                                           action: nil)
+                                                style: .plain,
+                                                target: self,
+                                                action: nil)
         ncBarCancelButton.rx.tap.subscribe { _ in
             let error = NSError(domain: "sparky.bundle.identifier",
                                 code: 0,
@@ -167,8 +169,8 @@ final class CustomShareVC: UIViewController {
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
             $0.left.equalTo(scrapImageView.snp.right).offset(12)
-            $0.bottom.equalTo(scrapView).offset(-12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
@@ -214,38 +216,10 @@ final class CustomShareVC: UIViewController {
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
-        
-        //        if let item = extensionContext?.inputItems.first as? NSExtensionItem,
-        //           let itemProviders = item.attachments {
-        //            for itemProvider: NSItemProvider in itemProviders {
-        //                print("Custom ShareVC itemProvider - \(itemProvider)")
-        //
-        //                if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
-        //                    print("itemProvider.hasItemConformingToTypeIdentifier is true")
-        //
-        //                    itemProvider.loadPreviewImage { image, error in
-        //                        print("Custom ShareVC image - \(image)")
-        //                        if let thumbnail = image as? UIImage {
-        //                            self.scrapImageView.image = thumbnail
-        //                        }
-        //                    }
-        //                    itemProvider.loadItem(forTypeIdentifier: "public.url", options: nil) { (url, error) in
-        //                        print("Custom ShareVC url - \(url)")
-        //                        if let scrapImageUrl = url as? NSURL {
-        //                            print("Custom ShareVC scrapImageUrl - \(scrapImageUrl)")
-        //                            self.scrapImageView.image = UIImage(data: try! Data(contentsOf: scrapImageUrl as URL))
-        //                        }
-        //                        //                      self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
-        //                        //                    }
-        //                    }
-        //                }
-        //            }
-        //
-        //        }
     }
     
     private func bindViewModel() {
-        viewModel.tagList
+        tagCollectionViewModel.tagList
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
                 cell.setupConstraints()
                 cell.setupTagButton(tag: tag)
@@ -253,14 +227,14 @@ final class CustomShareVC: UIViewController {
         
         tagCollectionView.rx.itemSelected
             .subscribe(onNext: { indexPath in
-                if self.viewModel.tagList.value.count > 0 {
+                if self.tagCollectionViewModel.tagList.value.count > 0 {
                     switch indexPath.row {
-                    case self.viewModel.tagList.value.count - 1:
-                        self.viewModel.didTapAddButton(vc: self)
+                    case self.tagCollectionViewModel.tagList.value.count - 1:
+                        self.tagCollectionViewModel.didTapAddButton(vc: self)
                         break
                         
                     default:
-                        self.viewModel.didTapDeleteButton(index: indexPath.row)
+                        self.tagCollectionViewModel.didTapDeleteButton(index: indexPath.row)
                         break
                     }
                 }
@@ -283,37 +257,60 @@ final class CustomShareVC: UIViewController {
                     attachment.loadItem(forTypeIdentifier: "public.url",
                                         options: nil) { (url, error) in
                         
-                        print("url - \(url)")
+                        print("Web Page URL - \(url)")
                         
                         if let url = url as? URL {
+                            let urlString = url.absoluteString
+                            
                             DispatchQueue.main.async {
-                                CrwalManager().getTistoryScrap(url: url) { scrap in
-                                    self.scrapImageView.image = UIImage(data: try! Data(contentsOf: scrap.thumbnailURL))
-                                    self.scrapTitleLabel.text = scrap.title
-                                    self.scrapSubTitleLabel.text = scrap.subTitle
+                                self.previewViewModel.fetchPreview(urlString: urlString) { response in
+                                    do {
+                                        print("CustomShareVC response - \(response)")
+                                        self.setupImageView(imageView: self.scrapImageView, url: URL(string: response.image?.convertSpecialCharacters() ?? ""))
+                                        self.scrapTitleLabel.text = response.title ?? ""
+                                        self.scrapSubTitleLabel.text = response.description ?? ""
+                                        self.view.layoutIfNeeded()
+                                    } catch {
+                                        
+                                    }
                                 }
                             }
-                            
                         }
-                        //                        guard let dictionary = url as? NSDictionary,
-                        //                              let results = dictionary[NSExtensionJavaScriptPreprocessingResultsKey] as? NSDictionary,
-                        //                              let title = results["title"] as? String,
-                        //                              let hostname = results["hostname"] as? String
-                        //                        else {
-                        //                            return
-                        //                        }
                         
-                        //                        let favicon = results["favicon"] as? String ?? "\(hostname)/favicon.ico"
-                        //                        print("dictionary - \(dictionary)")
-                        //                        print("results - \(results)")
-                        //                        print("title - \(title)")
-                        //                        print("hostname - \(hostname)")
-                        //                        print("favicon - \(favicon)")
+                        // 크롤링 코드
+                        //                        if let url = url as? URL {
+                        //                            DispatchQueue.main.async {
+                        //                                CrwalManager().getTistoryScrap(url: url) { scrap in
+                        //                                    self.scrapImageView.image = UIImage(data: try! Data(contentsOf: scrap.thumbnailURL))
+                        //                                    self.scrapTitleLabel.text = scrap.title
+                        //                                    self.scrapSubTitleLabel.text = scrap.subTitle
+                        //                                }
+                        //                            }
+                        //                        }
                     }
                 }
             }
-            
         }
+    }
+    
+    private func setupImageView(imageView: UIImageView, url: URL?) {
+        print("imageView.frame.size - \(imageView.frame.size)")
+        let processor = DownsamplingImageProcessor(size: imageView.frame.size)
+        imageView.kf.setImage(with: url,
+                              placeholder: UIImage(systemName: "person.circle"),
+                              options: [
+                                .processor(processor),
+                                .loadDiskFileSynchronously,
+                                .cacheOriginalImage,
+                                .transition(.fade(0.25)),
+                              ]) { result in
+                                  switch result {
+                                  case .success(let value):
+                                      print("Task done for: \(value.source.url?.absoluteString ?? "")")
+                                  case .failure(let error):
+                                      print("error: \(error)")
+                                  }
+                              }
     }
 }
 
