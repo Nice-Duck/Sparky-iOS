@@ -1,5 +1,6 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '10.0'
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '12.0'
 
 def shared_pods
   use_frameworks!
@@ -10,6 +11,8 @@ def shared_pods
   pod 'Moya/RxSwift'
   pod 'Alamofire'
   pod 'SwiftSoup'
+  pod 'SwiftLinkPreview', '~> 3.4.0'
+  pod 'Kingfisher', '~> 7.0'
 end
 
 target 'Sparky-iOS' do
