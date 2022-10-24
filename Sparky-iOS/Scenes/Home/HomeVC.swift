@@ -28,7 +28,6 @@ final class HomeVC: UIViewController {
         $0.textColor = .sparkyBlack
     })
     
-    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,13 +42,11 @@ final class HomeVC: UIViewController {
                                                 style: .done,
                                                 target: self,
                                                 action: nil)
-        logoButtonItem.tintColor = .sparkyBlack
         
         let profileButtonItem = UIBarButtonItem(image: UIImage(named: "profile"),
                                                  style: .plain,
                                                  target: self,
                                                  action: nil)
-        profileButtonItem.tintColor = .none
         profileButtonItem.rx.tap
             .subscribe { _ in
                 self.navigationController?.pushViewController(MyScrapVC(), animated: true)

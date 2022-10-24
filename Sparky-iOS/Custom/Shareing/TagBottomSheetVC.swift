@@ -8,12 +8,18 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxGesture
+
+protocol NewTagCVDelegate: AnyObject {
+    func sendNewTagList(tagList: BehaviorRelay<[Tag]>)
+}
 
 final class TagBottomSheetVC: UIViewController {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
-    let viewModel = RecentTagViewModel()
+    var viewModel = TagCollectionViewModel()
+    weak var newTagCVDelegate: NewTagCVDelegate?
     
     private let dimmedView =  UIView().then {
         $0.backgroundColor = .gray700
@@ -51,13 +57,14 @@ final class TagBottomSheetVC: UIViewController {
     
     private let tagTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         $0.placeholder = "검색할 태그를 입력해주세요(최대 7글자)"
-        $0.setupLeftImageView(image: UIImage(named: "search")!)
+        $0.setupLeftImageView(image: UIImage(named: "searchDisable")!)
     }
+    
+    private let tagContainerView = UIView()
     
     private let recentTagTitleLabel = UILabel().then {
         $0.text = "최근 사용한 태그"
         $0.font = .subTitleBold1
-        $0.textAlignment = .center
         $0.textColor = .sparkyBlack
     }
     
@@ -67,6 +74,48 @@ final class TagBottomSheetVC: UIViewController {
                                                                           height: 100),
                                                             collectionViewLayout: TagCollectionViewFlowLayout())
     
+    private let noDataContainerView = UIView()
+    
+    private let noDataLabel = UILabel().then {
+        $0.text = "검색결과가 없어요"
+        $0.font = .bodyRegular1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyBlack
+    }
+    
+    private let newTagStackView = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 8
+        $0.backgroundColor = .sparkyBlack
+        $0.layer.cornerRadius = 8
+        $0.layoutMargins = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+        $0.isLayoutMarginsRelativeArrangement = true
+    }
+    
+    private let newTagLabel = CustomPaddingLabel().then {
+        $0.font = .badgeBold
+        $0.textAlignment = .center
+        $0.textColor = .gray700
+        $0.backgroundColor = .sparkyGreen
+        $0.layer.cornerRadius = 8
+        $0.layer.masksToBounds = true
+    }
+    
+    private let newTagButtonLabel = UILabel().then {
+        $0.text = "새 태그 생성하기"
+        $0.font = .bodyRegular1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyWhite
+    }
+    
+    private let colorDescriptionLabel = UILabel().then {
+        $0.text = "태그 컬러는 마이페이지>태그 목록에서 변경할 수 있어요"
+        $0.font = .bodyRegular1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyBlack
+        $0.backgroundColor = .sparkyWhite
+    }
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +124,9 @@ final class TagBottomSheetVC: UIViewController {
         setupNavBar()
         setupConstraints()
         bindViewModel()
-        setupCollectionViewDelegate()
+//        setupDelegate()
         setupDimmendTabGesture()
+        setupNewTagTapGuesture()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -93,7 +143,7 @@ final class TagBottomSheetVC: UIViewController {
         customNavItem.titleView = navTitleLabel
         customNavItem.leftBarButtonItem = navCancelButtonItem
         customNavBar.setItems([customNavItem], animated: false)
-        customNavBar.layoutIfNeeded()
+//        customNavBar.layoutIfNeeded()
     }
     
     private func setupConstraints() {
@@ -130,37 +180,90 @@ final class TagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagBottomSheetView).offset(-20)
         }
         
-        tagBottomSheetView.addSubview(recentTagTitleLabel)
-        recentTagTitleLabel.snp.makeConstraints {
+        view.addSubview(tagContainerView)
+        tagContainerView.snp.makeConstraints {
             $0.top.equalTo(tagTextField.snp.bottom).offset(16)
             $0.left.equalTo(tagBottomSheetView).offset(20)
+            $0.right.equalTo(tagBottomSheetView).offset(-20)
+            $0.height.equalTo(tagBottomSheetView)
         }
         
-        tagBottomSheetView.addSubview(recentTagCollectionView)
+        tagContainerView.addSubview(recentTagTitleLabel)
+        recentTagTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(tagContainerView)
+            $0.left.equalTo(tagContainerView)
+            $0.right.equalTo(tagContainerView)
+        }
+        
+        tagContainerView.addSubview(recentTagCollectionView)
         recentTagCollectionView.snp.makeConstraints {
             $0.top.equalTo(recentTagTitleLabel.snp.bottom).offset(8)
+            $0.left.equalTo(tagContainerView)
+            $0.right.equalTo(tagContainerView)
+        }
+        
+        view.addSubview(noDataContainerView)
+        noDataContainerView.snp.makeConstraints {
+            $0.top.equalTo(tagTextField.snp.bottom)
             $0.left.equalTo(tagBottomSheetView).offset(20)
             $0.right.equalTo(tagBottomSheetView).offset(-20)
+            $0.height.equalTo(tagBottomSheetView)
+        }
+
+        noDataContainerView.addSubview(noDataLabel)
+        noDataLabel.snp.makeConstraints {
+            $0.left.equalTo(noDataContainerView)
+            $0.right.equalTo(noDataContainerView)
+            $0.height.equalTo(100)
+        }
+        
+        noDataContainerView.addSubview(newTagStackView)
+        newTagStackView.snp.makeConstraints {
+            $0.top.equalTo(noDataLabel.snp.bottom)
+            $0.centerX.equalTo(noDataContainerView)
+        }
+        
+        newTagStackView.addArrangedSubview(newTagLabel)
+        newTagStackView.addArrangedSubview(newTagButtonLabel)
+        
+        noDataContainerView.addSubview(colorDescriptionLabel)
+        colorDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(newTagStackView.snp.bottom).offset(16)
+            $0.centerX.equalTo(noDataContainerView)
         }
     }
     
     private func bindViewModel() {
-        viewModel.filterTagList = viewModel.recentTagList
+        viewModel.filterTagList.values = viewModel.recentTagList.value
+        viewModel.filterTagList
+            .bind(to: recentTagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
+                if tag.buttonType == .add {
+                    return
+                }
+                
+                cell.setupConstraints()
+                cell.setupTagButton(tag: tag)
+            }.disposed(by: disposeBag)
         
         tagTextField.rx.text
             .orEmpty
             .subscribe(onNext: { text in
-                print("text - \(text.description)")
-                self.viewModel.filterTagList = self.viewModel.recentTagList.filter {  $0.text.hasPrefix(text)
+                let filteredTagList = self.viewModel.recentTagList.values.filter({
+                    $0.text.hasPrefix(text)
+                })
+                self.viewModel.filterTagList.accept(filteredTagList)
+                
+                if self.viewModel.filterTagList.value.isEmpty {
+                    self.tagContainerView.isHidden = true
+                    self.noDataContainerView.isHidden = false
+                    self.newTagLabel.text = text
+                } else {
+                    self.tagContainerView.isHidden = false
+                    self.noDataContainerView.isHidden = true
                 }
                 self.recentTagCollectionView.reloadData()
             }).disposed(by: disposeBag)
 
-    }
-    
-    private func setupCollectionViewDelegate() {
-        recentTagCollectionView.dataSource = self
-        recentTagCollectionView.delegate = self
     }
     
     private func showTagBottomSheet() {
@@ -198,19 +301,38 @@ final class TagBottomSheetVC: UIViewController {
             }
         }
     }
-}
-
-extension TagBottomSheetVC: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.filterTagList.count
+    
+    private func setupNewTagTapGuesture() {
+        newTagStackView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                if let text = self.newTagLabel.text, text != "" {
+                    let newTag = Tag(text: text,
+                                     backgroundColor: .sparkyOrange,
+                                     buttonType: .none)
+                    self.viewModel.recentTagList.append(newTag)
+                    
+                    let newTagList = self.convertToDeleteType(tagList: self.viewModel.recentTagList.values)
+                    let tagObservable = BehaviorRelay<[Tag]>(value: newTagList)
+                    tagObservable.accept(newTagList)
+                    self.newTagCVDelegate?.sendNewTagList(tagList: tagObservable)
+                }
+            }).disposed(by: disposeBag)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: TagCollectionViewCell.identifier,
-            for: indexPath) as! TagCollectionViewCell
-        cell.setupConstraints()
-        cell.setupTagButton(tag: viewModel.filterTagList[indexPath.row])
-        return cell
+    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
+        var newTagList = tagList
+        for i in 0..<newTagList.count {
+            newTagList[i] = Tag(text: newTagList[i].text,
+                             backgroundColor: newTagList[i].backgroundColor,
+                             buttonType: .delete)
+        }
+        
+        let addButtonTag = Tag(text: "태그추가",
+                               backgroundColor: .clear,
+                               buttonType: .add)
+        newTagList.append(addButtonTag)
+        return newTagList
     }
 }

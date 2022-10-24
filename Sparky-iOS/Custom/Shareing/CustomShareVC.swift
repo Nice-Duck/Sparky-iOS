@@ -19,7 +19,7 @@ final class CustomShareVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private let tagCollectionViewModel = TagCollectionViewModel()
+    private let viewModel = TagCollectionViewModel()
     private let previewViewModel = PreviewViewModel()
     
     private let scrapBackgroundView = UIView().then {
@@ -101,7 +101,7 @@ final class CustomShareVC: UIViewController {
         setupNavBar()
         setupConstraints()
         bindViewModel()
-        
+                
         if let item = extensionContext?.inputItems.first as? NSExtensionItem {
             print("item is not nil")
             accessWebpageProperites(extentionItem: item)
@@ -219,7 +219,7 @@ final class CustomShareVC: UIViewController {
     }
     
     private func bindViewModel() {
-        tagCollectionViewModel.tagList
+        viewModel.recentTagList
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
                 cell.setupConstraints()
                 cell.setupTagButton(tag: tag)
@@ -227,21 +227,53 @@ final class CustomShareVC: UIViewController {
         
         tagCollectionView.rx.itemSelected
             .subscribe(onNext: { indexPath in
-                if self.tagCollectionViewModel.tagList.value.count > 0 {
+                if self.viewModel.recentTagList.value.count > 0 {
                     switch indexPath.row {
-                    case self.tagCollectionViewModel.tagList.value.count - 1:
-                        self.tagCollectionViewModel.didTapAddButton(vc: self)
+                    case self.viewModel.recentTagList.value.count - 1:
+                        self.presentTagBottomSheetVC()
                         break
                         
                     default:
-                        self.tagCollectionViewModel.didTapDeleteButton(index: indexPath.row)
+                        self.viewModel.recentTagList.remove(at: indexPath.row)
                         break
                     }
                 }
             }).disposed(by: disposeBag)
     }
     
+    private func presentTagBottomSheetVC() {
+        let tagBottomSheetVC = TagBottomSheetVC()
+        tagBottomSheetVC.newTagCVDelegate = self
+        tagBottomSheetVC.modalPresentationStyle = .overFullScreen
+        
+        var recentTagList = convertToNoneType(tagList: self.viewModel.recentTagList.values)
+        
+        
+        
+//        for i in 0..<recentTagList.count {
+//            let newTag = Tag(text: viewModel.recentTagList.value[i].text,
+//                             backgroundColor: viewModel.recentTagList.value[i].backgroundColor,
+//                             buttonType: .none)
+//            recentTagList[i] = newTag
+//        }
+//        recentTagList.removeLast()
+//
+        tagBottomSheetVC.viewModel.recentTagList.values = recentTagList
+        self.present(tagBottomSheetVC, animated: false)
+    }
     
+    func convertToNoneType(tagList: [Tag]) -> [Tag] {
+        var newTagList = tagList
+        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
+        
+        for i in 0..<newTagList.count {
+            newTagList[i] = Tag(text: newTagList[i].text,
+                             backgroundColor: newTagList[i].backgroundColor,
+                             buttonType: .none)
+        }
+        return newTagList
+    }
+
     
     private func accessWebpageProperites(extentionItem: NSExtensionItem) {
         var propertyList: String
@@ -329,5 +361,12 @@ extension CustomShareVC: UITextViewDelegate {
             textView.textColor = .gray400
             textView.layer.borderColor = UIColor.gray300.cgColor
         }
+    }
+}
+
+extension CustomShareVC: NewTagCVDelegate {
+    func sendNewTagList(tagList: BehaviorRelay<[Tag]>) {
+        viewModel.recentTagList.accept(tagList.value)
+        tagCollectionView.reloadData()
     }
 }
