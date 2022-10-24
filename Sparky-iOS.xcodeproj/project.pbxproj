@@ -68,6 +68,11 @@
 		56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20428E9463600D638D2 /* UserServiceProvider.swift */; };
 		56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */; };
 		56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20828E9710400D638D2 /* EmailSignInView.swift */; };
+		56DD96682905435B002DED3E /* CustomPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD96672905435B002DED3E /* CustomPaddingLabel.swift */; };
+		56DD96692905445C002DED3E /* CustomPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD96672905435B002DED3E /* CustomPaddingLabel.swift */; };
+		56DD966B29059162002DED3E /* BehaviorRelay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD966A29059162002DED3E /* BehaviorRelay+.swift */; };
+		56DD966C29059379002DED3E /* BehaviorRelay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD966A29059162002DED3E /* BehaviorRelay+.swift */; };
+		56DD966D2905C5FF002DED3E /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21728F48062003ED188 /* Tag.swift */; };
 		56DE426528E1F9ED000A6A55 /* SignUpVC1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */; };
 		56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426628E20E91000A6A55 /* SignUpVC3.swift */; };
 		56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426828E20E9A000A6A55 /* SignUpVC4.swift */; };
@@ -177,6 +182,8 @@
 		56C7B20428E9463600D638D2 /* UserServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProvider.swift; sourceTree = "<group>"; };
 		56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInViewModel.swift; sourceTree = "<group>"; };
 		56C7B20828E9710400D638D2 /* EmailSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInView.swift; sourceTree = "<group>"; };
+		56DD96672905435B002DED3E /* CustomPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaddingLabel.swift; sourceTree = "<group>"; };
+		56DD966A29059162002DED3E /* BehaviorRelay+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay+.swift"; sourceTree = "<group>"; };
 		56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC1.swift; sourceTree = "<group>"; };
 		56DE426628E20E91000A6A55 /* SignUpVC3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC3.swift; sourceTree = "<group>"; };
 		56DE426828E20E9A000A6A55 /* SignUpVC4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC4.swift; sourceTree = "<group>"; };
@@ -282,6 +289,7 @@
 				56DE426A28E21547000A6A55 /* UINavigationBar+.swift */,
 				569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */,
 				568AD0722902ED2600F2CFD7 /* String+.swift */,
+				56DD966A29059162002DED3E /* BehaviorRelay+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -315,7 +323,8 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
-				56A0AA7328FC3AA200726C13 /* NavigationBar */,
+				56DD96662905400B002DED3E /* Label */,
+				56A0AA7328FC3AA200726C13 /* SparkyNavigationBar */,
 				56902D1828EAC50F005F18B1 /* OTPField */,
 				5616C54028DB730200BF7126 /* Shareing */,
 			);
@@ -473,13 +482,13 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
-		56A0AA7328FC3AA200726C13 /* NavigationBar */ = {
+		56A0AA7328FC3AA200726C13 /* SparkyNavigationBar */ = {
 			isa = PBXGroup;
 			children = (
 				56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */,
 				56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */,
 			);
-			path = NavigationBar;
+			path = SparkyNavigationBar;
 			sourceTree = "<group>";
 		};
 		56C41B8A28FECEC200D610E5 /* MyScrap */ = {
@@ -488,6 +497,14 @@
 				56C41B8B28FECED600D610E5 /* MyScrapVC.swift */,
 			);
 			path = MyScrap;
+			sourceTree = "<group>";
+		};
+		56DD96662905400B002DED3E /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				56DD96672905435B002DED3E /* CustomPaddingLabel.swift */,
+			);
+			path = Label;
 			sourceTree = "<group>";
 		};
 		56DE426328E1F865000A6A55 /* SignUp */ = {
@@ -790,6 +807,7 @@
 				5652A44C28EB4FA800415738 /* Strings.swift in Sources */,
 				5606F66F28F4352B0083AA58 /* UITextField+.swift in Sources */,
 				5606F67128F435310083AA58 /* Image+.swift in Sources */,
+				56DD96692905445C002DED3E /* CustomPaddingLabel.swift in Sources */,
 				569B79C528F9BE3100AD9BC3 /* UIStackView+.swift in Sources */,
 				5684384E28F5D83C000E5C89 /* TagCollectionViewCell.swift in Sources */,
 				5652A44628EB303F00415738 /* CrawlManager.swift in Sources */,
@@ -798,6 +816,7 @@
 				568AD0742902EFDE00F2CFD7 /* String+.swift in Sources */,
 				5684384F28F5D96E000E5C89 /* Tag.swift in Sources */,
 				569B79CB28F9F2A000AD9BC3 /* TagCollectionViewFlowLayout.swift in Sources */,
+				56DD966C29059379002DED3E /* BehaviorRelay+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +840,7 @@
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
 				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
 				564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */,
+				56DD96682905435B002DED3E /* CustomPaddingLabel.swift in Sources */,
 				56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */,
 				5637DD3928E0291D00C119F6 /* Image+.swift in Sources */,
 				56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */,
@@ -834,11 +854,13 @@
 				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
+				56DD966D2905C5FF002DED3E /* Tag.swift in Sources */,
 				56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */,
 				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,
 				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
 				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
 				564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */,
+				56DD966B29059162002DED3E /* BehaviorRelay+.swift in Sources */,
 				56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

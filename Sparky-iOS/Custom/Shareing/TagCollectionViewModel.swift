@@ -11,7 +11,7 @@ import RxCocoa
 
 final class TagCollectionViewModel {
     
-    var tagList = BehaviorRelay<[Tag]>(value: [
+    var recentTagList = BehaviorRelay<[Tag]>(value: [
         Tag(text: "디자인", backgroundColor: .sparkyOrange, buttonType: .delete),
         Tag(text: "시각디자인", backgroundColor: .sparkyPink, buttonType: .delete),
         Tag(text: "자료", backgroundColor: .sparkyBlue, buttonType: .delete),
@@ -28,16 +28,32 @@ final class TagCollectionViewModel {
         Tag(text: "태그추가", backgroundColor: .clear, buttonType: .add)
     ])
     
+    var filterTagList = BehaviorRelay<[Tag]>(value: [])
     
-    func didTapDeleteButton(index: Int) {
-        var tagListCopy = self.tagList.value
-        tagListCopy.remove(at: index)
-        self.tagList.accept(tagListCopy)
-    }
-    
-    func didTapAddButton(vc: UIViewController) {
-        let tagBottomSheetVC = TagBottomSheetVC()
-        tagBottomSheetVC.modalPresentationStyle = .overFullScreen
-        vc.present(tagBottomSheetVC, animated: false)
-    }
+//    func convertNoneType(tagList: [Tag]) -> [Tag] {
+//        var newTagList = recentTagList.values
+//        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
+//        
+//        for i in 0..<newTagList.count {
+//            newTagList[i] = Tag(text: newTagList[i].text,
+//                             backgroundColor: newTagList[i].backgroundColor,
+//                             buttonType: .none)
+//        }
+//        return newTagList
+//    }
+//
+//    func convertDeleteType(tagList: [Tag]) -> [Tag] {
+//        var newTagList = recentTagList.values
+//        for i in 0..<newTagList.count {
+//            newTagList[i] = Tag(text: newTagList[i].text,
+//                             backgroundColor: newTagList[i].backgroundColor,
+//                             buttonType: .none)
+//        }
+//        
+//        let addButtonTag = Tag(text: "태그추가",
+//                               backgroundColor: .clear,
+//                               buttonType: .add)
+//        newTagList.append(addButtonTag)
+//        return newTagList
+//    }
 }

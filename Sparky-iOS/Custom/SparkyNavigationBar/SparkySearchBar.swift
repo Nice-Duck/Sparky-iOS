@@ -12,25 +12,12 @@ class SparkyTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-//        setupUI()
         setupUnderLine()
     }
-    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//
-//        setupUnderLine()
-//    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    private func setupUI() {
-//        $0.
-//
-//        setupUnderLine()
-//    }
     
     private func setupUnderLine() {
         let bottomLayer = CALayer()
