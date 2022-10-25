@@ -57,7 +57,8 @@ final class TagBottomSheetVC: UIViewController {
     
     private let tagTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         $0.placeholder = "검색할 태그를 입력해주세요(최대 7글자)"
-        $0.setupLeftImageView(image: UIImage(named: "searchDisable")!)
+        $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.tintColor = .gray400
     }
     
     private let tagContainerView = UIView()

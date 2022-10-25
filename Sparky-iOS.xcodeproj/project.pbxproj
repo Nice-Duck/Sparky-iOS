@@ -24,6 +24,7 @@
 		5637DD3728E0290E00C119F6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
 		5637DD3928E0291D00C119F6 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3828E0291D00C119F6 /* Image+.swift */; };
 		5637DD3B28E0293000C119F6 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3A28E0293000C119F6 /* Font+.swift */; };
+		56447A612906EBB30052DBA9 /* SparkyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */; };
 		564938F328E8AFE800861D26 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938F228E8AFE800861D26 /* UserService.swift */; };
 		564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938F828E8B55E00861D26 /* EmailSignInRequest.swift */; };
 		564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */; };
@@ -138,6 +139,7 @@
 		5637DD3628E0290E00C119F6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		5637DD3828E0291D00C119F6 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
 		5637DD3A28E0293000C119F6 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
+		56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyTabBarController.swift; sourceTree = "<group>"; };
 		564938F228E8AFE800861D26 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		564938F828E8B55E00861D26 /* EmailSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInRequest.swift; sourceTree = "<group>"; };
 		564938FA28E8B56B00861D26 /* EmailSignInResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInResponse.swift; sourceTree = "<group>"; };
@@ -323,8 +325,9 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				56447A5F2906EB700052DBA9 /* TabBar */,
 				56DD96662905400B002DED3E /* Label */,
-				56A0AA7328FC3AA200726C13 /* SparkyNavigationBar */,
+				56A0AA7328FC3AA200726C13 /* NavigationBar */,
 				56902D1828EAC50F005F18B1 /* OTPField */,
 				5616C54028DB730200BF7126 /* Shareing */,
 			);
@@ -345,6 +348,14 @@
 				568183452901A641006F616C /* PreviewViewModel.swift */,
 			);
 			path = Shareing;
+			sourceTree = "<group>";
+		};
+		56447A5F2906EB700052DBA9 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		564938F128E8985B00861D26 /* Service */ = {
@@ -482,13 +493,13 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
-		56A0AA7328FC3AA200726C13 /* SparkyNavigationBar */ = {
+		56A0AA7328FC3AA200726C13 /* NavigationBar */ = {
 			isa = PBXGroup;
 			children = (
 				56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */,
 				56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */,
 			);
-			path = SparkyNavigationBar;
+			path = NavigationBar;
 			sourceTree = "<group>";
 		};
 		56C41B8A28FECEC200D610E5 /* MyScrap */ = {
@@ -850,6 +861,7 @@
 				564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */,
 				56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */,
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
+				56447A612906EBB30052DBA9 /* SparkyTabBarController.swift in Sources */,
 				56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */,
 				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,

@@ -16,9 +16,8 @@ final class HomeVC: UIViewController {
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
 
-        $0.placeholder = "검색어를 입력해주세요"
-        $0.setupLeftImageView(image: UIImage(named: "search")!)
-        $0.leftView?.tintColor = .gray400
+        $0.placeholder = "찾고싶은 스크랩의 키워드를 입력해주세요"
+        $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
     }
     
     private let myScrapTitleLabel = UILabel().then({
@@ -38,12 +37,12 @@ final class HomeVC: UIViewController {
     }
     
     private func setupNavBar() {
-        let logoButtonItem = UIBarButtonItem(image: UIImage(named: "logo"),
+        let logoButtonItem = UIBarButtonItem(image: UIImage(named: "logo")!.withRenderingMode(.alwaysOriginal),
                                                 style: .done,
                                                 target: self,
                                                 action: nil)
         
-        let profileButtonItem = UIBarButtonItem(image: UIImage(named: "profile"),
+        let profileButtonItem = UIBarButtonItem(image: UIImage(named: "profile")!.withRenderingMode(.alwaysOriginal),
                                                  style: .plain,
                                                  target: self,
                                                  action: nil)
