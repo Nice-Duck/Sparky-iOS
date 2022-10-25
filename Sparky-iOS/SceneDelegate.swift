@@ -16,16 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: scene)
         self.window?.overrideUserInterfaceStyle = .light
-        
-        let rootViewController: UINavigationController
-        
+                
         if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
-            rootViewController = UINavigationController(rootViewController: HomeVC())
+            window?.rootViewController = SparkyTabBarController()
         } else {
-            rootViewController = UINavigationController(rootViewController: SignInVC())
+            window?.rootViewController = UINavigationController(rootViewController: SignInVC())
         }
-        
-        window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }
 
