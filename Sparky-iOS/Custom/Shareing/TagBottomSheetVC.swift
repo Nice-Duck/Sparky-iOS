@@ -11,14 +11,14 @@ import RxCocoa
 import RxGesture
 
 protocol NewTagCVDelegate: AnyObject {
-    func sendNewTagList(tagList: BehaviorRelay<[Tag]>)
+    func sendNewTagList(tag: Tag)
 }
 
 final class TagBottomSheetVC: UIViewController {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
-    var viewModel = TagCollectionViewModel()
+    var viewModel = RecentTagViewModel()
     weak var newTagCVDelegate: NewTagCVDelegate?
     
     private let dimmedView =  UIView().then {
@@ -125,7 +125,7 @@ final class TagBottomSheetVC: UIViewController {
         setupNavBar()
         setupConstraints()
         bindViewModel()
-//        setupDelegate()
+        //        setupDelegate()
         setupDimmendTabGesture()
         setupNewTagTapGuesture()
     }
@@ -144,7 +144,7 @@ final class TagBottomSheetVC: UIViewController {
         customNavItem.titleView = navTitleLabel
         customNavItem.leftBarButtonItem = navCancelButtonItem
         customNavBar.setItems([customNavItem], animated: false)
-//        customNavBar.layoutIfNeeded()
+        //        customNavBar.layoutIfNeeded()
     }
     
     private func setupConstraints() {
@@ -210,7 +210,7 @@ final class TagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagBottomSheetView).offset(-20)
             $0.height.equalTo(tagBottomSheetView)
         }
-
+        
         noDataContainerView.addSubview(noDataLabel)
         noDataLabel.snp.makeConstraints {
             $0.left.equalTo(noDataContainerView)
@@ -246,6 +246,13 @@ final class TagBottomSheetVC: UIViewController {
                 cell.setupTagButton(tag: tag)
             }.disposed(by: disposeBag)
         
+        recentTagCollectionView.rx
+            .itemSelected
+            .subscribe(onNext: { indexPath in
+                self.newTagCVDelegate?.sendNewTagList(tag: self.viewModel.filterTagList.value[indexPath.row])
+                self.dismissTagBottomSheetVC()
+            }).disposed(by: disposeBag)
+        
         tagTextField.rx.text
             .orEmpty
             .subscribe(onNext: { text in
@@ -262,9 +269,7 @@ final class TagBottomSheetVC: UIViewController {
                     self.tagContainerView.isHidden = false
                     self.noDataContainerView.isHidden = true
                 }
-                self.recentTagCollectionView.reloadData()
             }).disposed(by: disposeBag)
-
     }
     
     private func showTagBottomSheet() {
@@ -312,12 +317,14 @@ final class TagBottomSheetVC: UIViewController {
                     let newTag = Tag(text: text,
                                      backgroundColor: .sparkyOrange,
                                      buttonType: .none)
-                    self.viewModel.recentTagList.append(newTag)
-                    
-                    let newTagList = self.convertToDeleteType(tagList: self.viewModel.recentTagList.values)
-                    let tagObservable = BehaviorRelay<[Tag]>(value: newTagList)
-                    tagObservable.accept(newTagList)
-                    self.newTagCVDelegate?.sendNewTagList(tagList: tagObservable)
+                    self.viewModel.recentTagList.insert(newTag, at: 0)
+
+                    self.tagTextField.text = ""
+                    self.tagTextField.resignFirstResponder()
+                    self.tagTextField.becomeFirstResponder()
+                    self.tagContainerView.isHidden = false
+                    self.noDataContainerView.isHidden = true
+                    self.newTagCVDelegate?.sendNewTagList(tag: newTag)
                 }
             }).disposed(by: disposeBag)
     }
@@ -326,8 +333,8 @@ final class TagBottomSheetVC: UIViewController {
         var newTagList = tagList
         for i in 0..<newTagList.count {
             newTagList[i] = Tag(text: newTagList[i].text,
-                             backgroundColor: newTagList[i].backgroundColor,
-                             buttonType: .delete)
+                                backgroundColor: newTagList[i].backgroundColor,
+                                buttonType: .delete)
         }
         
         let addButtonTag = Tag(text: "태그추가",

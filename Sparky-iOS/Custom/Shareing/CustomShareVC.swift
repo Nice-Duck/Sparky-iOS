@@ -19,7 +19,7 @@ final class CustomShareVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    private let viewModel = TagCollectionViewModel()
+    private let viewModel = AddTagViewModel()
     private let previewViewModel = PreviewViewModel()
     
     private let scrapBackgroundView = UIView().then {
@@ -62,7 +62,7 @@ final class CustomShareVC: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let tagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
+    private let addTagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
                                                       collectionViewLayout: TagCollectionViewFlowLayout())
     
     private let memoTitleLabel = UILabel().then {
@@ -188,8 +188,8 @@ final class CustomShareVC: UIViewController {
             $0.left.equalTo(view).offset(20)
         }
         
-        self.view.addSubview(tagCollectionView)
-        tagCollectionView.snp.makeConstraints {
+        self.view.addSubview(addTagCollectionView)
+        addTagCollectionView.snp.makeConstraints {
             $0.top.equalTo(tagTitleLabel.snp.bottom).offset(9)
             $0.left.equalTo(view).offset(20)
             $0.right.equalTo(view).offset(-20)
@@ -197,7 +197,7 @@ final class CustomShareVC: UIViewController {
         
         self.view.addSubview(memoTitleLabel)
         memoTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(tagCollectionView.snp.bottom).offset(36)
+            $0.top.equalTo(addTagCollectionView.snp.bottom).offset(36)
             $0.left.equalTo(view).offset(20)
         }
         
@@ -219,22 +219,23 @@ final class CustomShareVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.recentTagList
-            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
+        viewModel.addTagList
+            .bind(to: addTagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
                 cell.setupConstraints()
                 cell.setupTagButton(tag: tag)
             }.disposed(by: disposeBag)
         
-        tagCollectionView.rx.itemSelected
+        addTagCollectionView.rx
+            .itemSelected
             .subscribe(onNext: { indexPath in
-                if self.viewModel.recentTagList.value.count > 0 {
+                if self.viewModel.addTagList.value.count > 0 {
                     switch indexPath.row {
-                    case self.viewModel.recentTagList.value.count - 1:
+                    case self.viewModel.addTagList.value.count - 1:
                         self.presentTagBottomSheetVC()
                         break
                         
                     default:
-                        self.viewModel.recentTagList.remove(at: indexPath.row)
+                        self.viewModel.addTagList.remove(at: indexPath.row)
                         break
                     }
                 }
@@ -245,20 +246,6 @@ final class CustomShareVC: UIViewController {
         let tagBottomSheetVC = TagBottomSheetVC()
         tagBottomSheetVC.newTagCVDelegate = self
         tagBottomSheetVC.modalPresentationStyle = .overFullScreen
-        
-        var recentTagList = convertToNoneType(tagList: self.viewModel.recentTagList.values)
-        
-        
-        
-//        for i in 0..<recentTagList.count {
-//            let newTag = Tag(text: viewModel.recentTagList.value[i].text,
-//                             backgroundColor: viewModel.recentTagList.value[i].backgroundColor,
-//                             buttonType: .none)
-//            recentTagList[i] = newTag
-//        }
-//        recentTagList.removeLast()
-//
-        tagBottomSheetVC.viewModel.recentTagList.values = recentTagList
         self.present(tagBottomSheetVC, animated: false)
     }
     
@@ -365,8 +352,10 @@ extension CustomShareVC: UITextViewDelegate {
 }
 
 extension CustomShareVC: NewTagCVDelegate {
-    func sendNewTagList(tagList: BehaviorRelay<[Tag]>) {
-        viewModel.recentTagList.accept(tagList.value)
-        tagCollectionView.reloadData()
+    func sendNewTagList(tag: Tag) {
+        let newTag = Tag(text: tag.text,
+                         backgroundColor: tag.backgroundColor,
+                         buttonType: .delete)
+        viewModel.addTagList.insert(newTag, at: 0)
     }
 }
