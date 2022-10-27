@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum ItemLocation {
+    case left, middle, right
+}
+
 
 class SparkyTabBarController: UITabBarController {
     override func viewDidLoad() {
@@ -24,8 +28,9 @@ class SparkyTabBarController: UITabBarController {
         delegate = self
         
         self.viewControllers = [
-            createTabBarItem(image: "home", viewController: HomeVC()),
-            createTabBarItem(image: "folder", viewController: MyScrapVC()),
+            createTabBarItem(image: "home", viewController: HomeVC(), location: .left),
+            createTabBarItem(image: "addURL", viewController: HomeVC(), location: .middle),
+            createTabBarItem(image: "folder", viewController: MyScrapVC(), location: .right),
         ]
     }
     
@@ -43,14 +48,40 @@ class SparkyTabBarController: UITabBarController {
     
     func createTabBarItem(
         image: String,
-        viewController: UIViewController
+        viewController: UIViewController,
+        location: ItemLocation
     ) -> UINavigationController {
         let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.tabBarItem.image = UIImage(named: image)!
         
-        navigationController.view.backgroundColor = .background
+        if location == .middle {
+ 
+            navigationController.tabBarItem.image = UIImage(named: image)!.withRenderingMode(.alwaysOriginal)
+            navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: -16,
+                                                                       left: 0,
+                                                                       bottom: 16,
+                                                                       right: 0)
+        } else {
+            let newImage = UIImage(named: image)!
+            navigationController.tabBarItem.image = newImage
+            
+//            let middleItemHalfWidth: CGFloat = 59 / 2
+            
+            if location == .left {
+                navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 16,
+                                                                           left: 0,
+                                                                           bottom: -16,
+                                                                           right: 0)
+            } else {
+                navigationController.tabBarItem.imageInsets = UIEdgeInsets(top: 16,
+                                                                           left: 0,
+                                                                           bottom: -16,
+                                                                           right: 0)
+            }
+            
+        }
+        
+        
 //        navigationController.navigationBar.shadowImage?.withTintColor(.sparkyOrange)
-//        navigationController.navigationBar.backgoun
 //        navigationController.navigationBar.backgroundColor = .white
 //        navigationController.navigationBar.tintColor = .lightGray
 //        navigationController.navigationBar.barTintColor = .white
