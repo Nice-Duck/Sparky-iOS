@@ -53,7 +53,7 @@
 		5693C20D28CE2CDE008710FF /* Sparky_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C20C28CE2CDE008710FF /* Sparky_iOSTests.swift */; };
 		5693C21728CE2CDE008710FF /* Sparky_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */; };
 		5693C21928CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */; };
-		569AE21B28F48669003ED188 /* TagCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */; };
+		569AE21B28F48669003ED188 /* AddTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* AddTagViewModel.swift */; };
 		569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
 		569B79C528F9BE3100AD9BC3 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
 		569B79C828F9EB0200AD9BC3 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */; };
@@ -171,7 +171,7 @@
 		5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparky_iOSUITests.swift; sourceTree = "<group>"; };
 		5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparky_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		569AE21728F48062003ED188 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
-		569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewModel.swift; sourceTree = "<group>"; };
+		569AE21928F481BB003ED188 /* AddTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewModel.swift; sourceTree = "<group>"; };
 		569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
 		569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
@@ -339,7 +339,7 @@
 			children = (
 				5616C54228DB730200BF7126 /* CustomShareVC.swift */,
 				5616C54328DB730200BF7126 /* CustomShareNC.swift */,
-				569AE21928F481BB003ED188 /* TagCollectionViewModel.swift */,
+				569AE21928F481BB003ED188 /* AddTagViewModel.swift */,
 				5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */,
 				569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */,
 				569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */,
@@ -811,7 +811,7 @@
 				569B79C828F9EB0200AD9BC3 /* TagCollectionView.swift in Sources */,
 				5652A44828EB31D400415738 /* Scrap.swift in Sources */,
 				5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */,
-				569AE21B28F48669003ED188 /* TagCollectionViewModel.swift in Sources */,
+				569AE21B28F48669003ED188 /* AddTagViewModel.swift in Sources */,
 				5613666428FDBF14003A33CE /* RecentTagViewModel.swift in Sources */,
 				56A0AA7628FC3BE100726C13 /* SparkyNavBar.swift in Sources */,
 				5606F67228F435340083AA58 /* Font+.swift in Sources */,

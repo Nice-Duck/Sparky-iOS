@@ -45,6 +45,12 @@ final class TagCollectionViewCell: UICollectionViewCell {
         tagStackView.backgroundColor = tag.buttonType != .add ? tag.backgroundColor : .clear
         
         if tag.buttonType == .add {
+            if var sublayers = tagStackView.layer.sublayers {
+                if sublayers.count > 2 {
+                    sublayers.removeLast()
+                }
+                tagStackView.layer.sublayers = sublayers
+            }
             tagStackView.addDashedBorder(frameSize: CGSize(width: 67, height: 20), borderColor: .gray400)
         } else if tag.buttonType == .delete {
             // 기본적으로 subLayer count가 2이고 만약 점선 layer를 추가하면 subLayer count가 3이됨.

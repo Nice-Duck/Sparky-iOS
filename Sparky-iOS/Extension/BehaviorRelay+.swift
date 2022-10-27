@@ -25,6 +25,12 @@ extension BehaviorRelay where Element: RangeReplaceableCollection {
         newValue.append(subElement)
         accept(newValue)
     }
+    
+    public func insert(_ subElement: Element.Element, at index: Element.Index) {
+        var newValue = value
+        newValue.insert(subElement, at: index)
+        accept(newValue)
+    }
 
     public func remove(at index: Element.Index) {
         var newValue = value
