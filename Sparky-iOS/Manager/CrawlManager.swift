@@ -7,6 +7,7 @@
 
 import Alamofire
 import SwiftSoup
+import RxRelay
 
 enum NetworkError: Error {
     case invalidURL
@@ -21,9 +22,13 @@ enum NetworkError: Error {
 final class CrwalManager {
     func getTistoryScrap(url: URL?,
                          completion: @escaping (Scrap) -> Void) {
-        var scrap = Scrap(thumbnailURL: URL(string: Strings.sparkyImageString)!,
-                          title: "",
-                          subTitle: "")
+        var scrap = Scrap(title: "",
+                          subTitle: "",
+                          memo: "",
+                          thumbnailURLString: Strings.sparkyImageString,
+                          scrapURLString: "",
+                          tagList: BehaviorRelay(value: [])
+        )
         
         guard let url = url else {
             print(NetworkError.invalidURL)
@@ -46,21 +51,24 @@ final class CrwalManager {
                 let elements: Elements = try document.select(Strings.tistoryBaseSector)
                 let array = elements.array()
                 
-                var thumbnailURL = URL(string: Strings.sparkyImageString)!
+                var thumbnailURLString = ""
                 var title = ""
                 var subTitle = ""
                 
                 for i in 0..<array.count {
                     print("index - \(i)")
-                    let thumbnailURLString = try array[i].select(Strings.tistoryThumbnailSector).attr("src")
-                    thumbnailURL = URL(string: thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!
+                    thumbnailURLString = try array[i].select(Strings.tistoryThumbnailSector).attr("src")
+//                    thumbnailURL = URL(string: thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!
                     title = try array[i].select(Strings.tistoryTitleSector).text()
                     subTitle += try array[i].select(Strings.tistorySubTitleSector).text()
                 }
                 
-                scrap = Scrap(thumbnailURL: thumbnailURL,
-                              title: title,
-                              subTitle: subTitle)
+                scrap = Scrap(title: title,
+                              subTitle: subTitle,
+                              memo: "",
+                              thumbnailURLString: thumbnailURLString,
+                              scrapURLString: "",
+                              tagList: BehaviorRelay(value: []))
                 completion(scrap)
             } catch {
                 print(NetworkError.parsingError)

@@ -285,7 +285,7 @@ final class CustomShareVC: UIViewController {
                                 self.previewViewModel.fetchPreview(urlString: urlString) { response in
                                     do {
                                         print("CustomShareVC response - \(response)")
-                                        self.setupImageView(imageView: self.scrapImageView, url: URL(string: response.image?.convertSpecialCharacters() ?? ""))
+                                        self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: response.image?.convertSpecialCharacters() ?? ""))
                                         self.scrapTitleLabel.text = response.title ?? ""
                                         self.scrapSubTitleLabel.text = response.description ?? ""
                                         self.view.layoutIfNeeded()
@@ -312,25 +312,25 @@ final class CustomShareVC: UIViewController {
         }
     }
     
-    private func setupImageView(imageView: UIImageView, url: URL?) {
-        print("imageView.frame.size - \(imageView.frame.size)")
-        let processor = DownsamplingImageProcessor(size: imageView.frame.size)
-        imageView.kf.setImage(with: url,
-                              placeholder: UIImage(systemName: "person.circle"),
-                              options: [
-                                .processor(processor),
-                                .loadDiskFileSynchronously,
-                                .cacheOriginalImage,
-                                .transition(.fade(0.25)),
-                              ]) { result in
-                                  switch result {
-                                  case .success(let value):
-                                      print("Task done for: \(value.source.url?.absoluteString ?? "")")
-                                  case .failure(let error):
-                                      print("error: \(error)")
-                                  }
-                              }
-    }
+//    private func setupImageView(imageView: UIImageView, url: URL?) {
+//        print("imageView.frame.size - \(imageView.frame.size)")
+//        let processor = DownsamplingImageProcessor(size: imageView.frame.size)
+//        imageView.kf.setImage(with: url,
+//                              placeholder: UIImage(systemName: "person.circle"),
+//                              options: [
+//                                .processor(processor),
+//                                .loadDiskFileSynchronously,
+//                                .cacheOriginalImage,
+//                                .transition(.fade(0.25)),
+//                              ]) { result in
+//                                  switch result {
+//                                  case .success(let value):
+//                                      print("Task done for: \(value.source.url?.absoluteString ?? "")")
+//                                  case .failure(let error):
+//                                      print("error: \(error)")
+//                                  }
+//                              }
+//    }
 }
 
 extension CustomShareVC: UITextViewDelegate {
