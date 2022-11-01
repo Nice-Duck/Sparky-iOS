@@ -8,7 +8,6 @@ def shared_pods
   pod 'Then'
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'RxDataSources', '~> 5.0'
   pod "RxGesture"
   pod 'Moya/RxSwift'
   pod 'Alamofire'
