@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+    
     func convertSpecialCharacters() -> String {
         var newString = self
         let characterDictionary = [

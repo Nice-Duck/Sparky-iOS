@@ -16,6 +16,6 @@ final class MyScrapVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .sparkyGreen
+        view.backgroundColor = .colorchip9
     }
 }

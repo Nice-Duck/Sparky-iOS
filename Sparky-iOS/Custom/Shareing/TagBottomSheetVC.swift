@@ -97,7 +97,7 @@ final class TagBottomSheetVC: UIViewController {
         $0.font = .badgeBold
         $0.textAlignment = .center
         $0.textColor = .gray700
-        $0.backgroundColor = .sparkyGreen
+        $0.backgroundColor = .colorchip3
         $0.layer.cornerRadius = 8
         $0.layer.masksToBounds = true
     }
@@ -315,7 +315,7 @@ final class TagBottomSheetVC: UIViewController {
             .subscribe(onNext: { _ in
                 if let text = self.newTagLabel.text, text != "" {
                     let newTag = Tag(text: text,
-                                     backgroundColor: .sparkyOrange,
+                                     backgroundColor: .colorchip7,
                                      buttonType: .none)
                     self.viewModel.recentTagList.insert(newTag, at: 0)
 

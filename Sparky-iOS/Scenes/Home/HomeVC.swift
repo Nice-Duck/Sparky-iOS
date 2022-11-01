@@ -9,14 +9,17 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum OtherScrapSectionType: Int {
-    case first, second, third
+enum HomeSectionType: Int {
+    case myScrap, otherScrap
 }
 
-final class HomeVC: UIViewController {
+enum ScrapLayoutStyle: Int {
+    case halfOne, halfTwo, horizontalOne, horizontalTwo, largeImage
+}
+
+final class HomeVC: UIViewController, UIScrollViewDelegate {
     
     // MARK: - Properties
-    private let viewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
@@ -25,8 +28,20 @@ final class HomeVC: UIViewController {
         $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
     }
     
-    private let homeScrollView = UIScrollView().then {
-        $0.showsHorizontalScrollIndicator = false
+    private let homeTableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
+                                            style: .grouped).then {
+        $0.separatorInset = .zero
+        $0.separatorStyle = .none
+        $0.showsVerticalScrollIndicator = false
+        $0.backgroundColor = .background
+        $0.register(MyScrapCollectionViewCell.self,
+                    forCellReuseIdentifier: MyScrapCollectionViewCell.identifier)
+        $0.register(OtherScrapCollectionViewCell.self,
+                    forCellReuseIdentifier: OtherScrapCollectionViewCell.identifier)
+        $0.sectionFooterHeight = 0
+        if #available(iOS 15.0, *) {
+            $0.sectionHeaderTopPadding = 0
+        } else { }
     }
     
     private let myScrapTitleLabel = UILabel().then({
@@ -35,25 +50,7 @@ final class HomeVC: UIViewController {
         $0.textAlignment = .center
         $0.textColor = .sparkyBlack
     })
-    
-    private let myScrapCollectionView: UICollectionView = {
-        let flowlayout = UICollectionViewFlowLayout()
-        flowlayout.itemSize = CGSize(width: 244, height: 228)
-        flowlayout.minimumInteritemSpacing = 12
-        flowlayout.scrollDirection = .horizontal
         
-        let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
-                                  collectionViewLayout: flowlayout)
-        cv.backgroundColor = .background
-        cv.layer.cornerRadius = 8
-        cv.showsHorizontalScrollIndicator = false
-        cv.register(ScrapCollectionViewCell.self,
-                    forCellWithReuseIdentifier: ScrapCollectionViewCell.identifier)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        return cv
-    }()
-    
     private let otherScrapTitleLabel = UILabel().then({
         $0.text = "다른 사람 스크랩"
         $0.font = .subTitleBold1
@@ -68,24 +65,6 @@ final class HomeVC: UIViewController {
         $0.textColor = .gray600
     })
     
-    private let otherScrapCollectionView: UICollectionView = {
-        let flowlayout = UICollectionViewFlowLayout()
-        //        flowlayout.itemSize = CGSize(width: 244, height: 228)
-        flowlayout.minimumInteritemSpacing = 13
-        flowlayout.minimumLineSpacing = 12
-        
-        let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
-                                  collectionViewLayout: flowlayout)
-        cv.backgroundColor = .background
-        cv.layer.cornerRadius = 8
-        cv.showsHorizontalScrollIndicator = false
-        cv.register(ScrapCollectionViewCell.self,
-                    forCellWithReuseIdentifier: ScrapCollectionViewCell.identifier)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        return cv
-    }()
-    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,85 +72,8 @@ final class HomeVC: UIViewController {
         view.backgroundColor = .background
         setupNavBar()
         setupConstraints()
-        bindViewModel()
+        setupDelegate()
     }
-    
-    //    override func prepare() {
-    //        super.prepare()
-    //
-    //        guard let collectionView = collectionView else { return }
-    //
-    //        // Reset cached information.
-    //        cachedAttributes.removeAll()
-    //        contentBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
-    //
-    //        // For every item in the collection view:
-    //        //  - Prepare the attributes.
-    //        //  - Store attributes in the cachedAttributes array.
-    //        //  - Combine contentBounds with attributes.frame.
-    //        let count = collectionView.numberOfItems(inSection: 0)
-    //
-    //        var currentIndex = 0
-    //        var segment: MosaicSegmentStyle = .fullWidth
-    //        var lastFrame: CGRect = .zero
-    //
-    //        let cvWidth = collectionView.bounds.size.width
-    //
-    //        while currentIndex < count {
-    //            let segmentFrame = CGRect(x: 0, y: lastFrame.maxY + 1.0, width: cvWidth, height: 200.0)
-    //
-    //            var segmentRects = [CGRect]()
-    //            switch segment {
-    //            case .fullWidth:
-    //                segmentRects = [segmentFrame]
-    //
-    //            case .fiftyFifty:
-    //                let horizontalSlices = segmentFrame.dividedIntegral(fraction: 0.5, from: .minXEdge)
-    //                segmentRects = [horizontalSlices.first, horizontalSlices.second]
-    //
-    //            case .twoThirdsOneThird:
-    //                let horizontalSlices = segmentFrame.dividedIntegral(fraction: (2.0 / 3.0), from: .minXEdge)
-    //                let verticalSlices = horizontalSlices.second.dividedIntegral(fraction: 0.5, from: .minYEdge)
-    //                segmentRects = [horizontalSlices.first, verticalSlices.first, verticalSlices.second]
-    //
-    //            case .oneThirdTwoThirds:
-    //                let horizontalSlices = segmentFrame.dividedIntegral(fraction: (1.0 / 3.0), from: .minXEdge)
-    //                let verticalSlices = horizontalSlices.first.dividedIntegral(fraction: 0.5, from: .minYEdge)
-    //                segmentRects = [verticalSlices.first, verticalSlices.second, horizontalSlices.second]
-    //            }
-    //
-    //            // Create and cache layout attributes for calculated frames.
-    //            for rect in segmentRects {
-    //                let attributes = UICollectionViewLayoutAttributes(forCellWith: IndexPath(item: currentIndex, section: 0))
-    //                attributes.frame = rect
-    //
-    //                cachedAttributes.append(attributes)
-    //                contentBounds = contentBounds.union(lastFrame)
-    //
-    //                currentIndex += 1
-    //                lastFrame = rect
-    //            }
-    //
-    //            // Determine the next segment style.
-    //            switch count - currentIndex {
-    //            case 1:
-    //                segment = .fullWidth
-    //            case 2:
-    //                segment = .fiftyFifty
-    //            default:
-    //                switch segment {
-    //                case .fullWidth:
-    //                    segment = .fiftyFifty
-    //                case .fiftyFifty:
-    //                    segment = .twoThirdsOneThird
-    //                case .twoThirdsOneThird:
-    //                    segment = .oneThirdTwoThirds
-    //                case .oneThirdTwoThirds:
-    //                    segment = .fiftyFifty
-    //                }
-    //            }
-    //        }
-    //    }
     
     private func setupNavBar() {
         let logoButtonItem = UIBarButtonItem(image: UIImage(named: "logo")!.withRenderingMode(.alwaysOriginal),
@@ -200,71 +102,80 @@ final class HomeVC: UIViewController {
             $0.right.equalTo(view).offset(-20)
         }
         
-        view.addSubview(homeScrollView)
-        homeScrollView.snp.makeConstraints {
-            $0.top.equalTo(scrapTextField.snp.bottom)
+        view.addSubview(homeTableView)
+        homeTableView.snp.makeConstraints {
+            $0.top.equalTo(scrapTextField.snp.bottom).offset(18)
             $0.left.equalTo(view)
             $0.bottom.equalTo(view)
             $0.right.equalTo(view)
         }
-        
-        homeScrollView.addSubview(myScrapTitleLabel)
-        myScrapTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(scrapTextField.snp.bottom).offset(18)
-            $0.left.equalTo(view).offset(20)
-        }
-        
-        homeScrollView.addSubview(myScrapCollectionView)
-        myScrapCollectionView.snp.makeConstraints {
-            $0.top.equalTo(myScrapTitleLabel.snp.bottom).offset(12)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
-            $0.height.equalTo(228)
-        }
     }
     
-    private func bindViewModel() {
-        viewModel.scraps.value.myScraps.bind(to: myScrapCollectionView.rx.items(
-            cellIdentifier: ScrapCollectionViewCell.identifier,
-            cellType: ScrapCollectionViewCell.self)) { index, scrap, cell in
-                cell.backgroundColor = .white
-                cell.setupConstraints()
-                cell.setupValue(scrap: scrap)
-                cell.tagCollectionView.delegate = nil
-                cell.tagCollectionView.dataSource = nil
-                scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
-                    cellIdentifier: TagCollectionViewCell.identifier,
-                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
-                    }.disposed(by: self.disposeBag)
-            }.disposed(by: disposeBag)
+    private func setupDelegate() {
+        homeTableView.dataSource = self
+        homeTableView.delegate = self
     }
 }
 
-extension HomeVC: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        <#code#>
-//    }
+extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        let share = viewModel.scraps.value.myScraps.values.count / 5
-        let remainder = viewModel.scraps.value.myScraps.values.count % 5
-        var numOfSection = 0
-        
-        if remainder == 1 || remainder == 2 {
-            numOfSection = 3 * share + 1
-        } else if remainder == 3 || remainder == 4 {
-            numOfSection = 3 * share + 2
-        } else {
-            numOfSection = 3 * share
-        }
-        return numOfSection
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        <#code#>
-//    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let homeSectionType = HomeSectionType(rawValue: indexPath.section) ?? HomeSectionType.myScrap
+        
+        switch homeSectionType {
+        case .myScrap:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: MyScrapCollectionViewCell.identifier,
+                for: indexPath)
+            return cell
+        case .otherScrap:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: OtherScrapCollectionViewCell.identifier,
+                for: indexPath)
+            return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let homeSectionType = HomeSectionType(rawValue: section) ?? HomeSectionType.myScrap
+
+        switch homeSectionType {
+        case .myScrap:
+            return 34
+        case .otherScrap:
+            return 73
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let homeSectionType = HomeSectionType(rawValue: section) ?? HomeSectionType.myScrap
+        
+        switch homeSectionType {
+        case .myScrap:
+            return ScrapSectionView()
+        case .otherScrap:
+            return OtherScrapSectionView()
+        }
+    }
     
     
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let homeSectionType = HomeSectionType(rawValue: indexPath.section) ?? HomeSectionType.myScrap
+        
+        switch homeSectionType {
+        case .myScrap:
+            return 228
+        case .otherScrap:
+            return 900
+        }
+    }
 }

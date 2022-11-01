@@ -9,8 +9,8 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
+    
     func setupImageView(frameSize: CGSize, url: URL?) {
-        print("imageView.frame.size - \(self.frame.size)")
         let processor = DownsamplingImageProcessor(size: frameSize)
         self.kf.setImage(with: url,
                               placeholder: UIImage(named: "vector"),
