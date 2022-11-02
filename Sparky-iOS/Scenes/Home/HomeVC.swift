@@ -17,7 +17,7 @@ enum ScrapLayoutStyle: Int {
     case halfOne, halfTwo, horizontalOne, horizontalTwo, largeImage
 }
 
-final class HomeVC: UIViewController, UIScrollViewDelegate {
+final class HomeVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -34,8 +34,8 @@ final class HomeVC: UIViewController, UIScrollViewDelegate {
         $0.separatorStyle = .none
         $0.showsVerticalScrollIndicator = false
         $0.backgroundColor = .background
-        $0.register(MyScrapCollectionViewCell.self,
-                    forCellReuseIdentifier: MyScrapCollectionViewCell.identifier)
+        $0.register(MyScrapPreViewCollectionViewCell.self,
+                    forCellReuseIdentifier: MyScrapPreViewCollectionViewCell.identifier)
         $0.register(OtherScrapCollectionViewCell.self,
                     forCellReuseIdentifier: OtherScrapCollectionViewCell.identifier)
         $0.sectionFooterHeight = 0
@@ -50,7 +50,7 @@ final class HomeVC: UIViewController, UIScrollViewDelegate {
         $0.textAlignment = .center
         $0.textColor = .sparkyBlack
     })
-        
+    
     private let otherScrapTitleLabel = UILabel().then({
         $0.text = "다른 사람 스크랩"
         $0.font = .subTitleBold1
@@ -129,11 +129,10 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let homeSectionType = HomeSectionType(rawValue: indexPath.section) ?? HomeSectionType.myScrap
-        
         switch homeSectionType {
         case .myScrap:
             let cell = tableView.dequeueReusableCell(
-                withIdentifier: MyScrapCollectionViewCell.identifier,
+                withIdentifier: MyScrapPreViewCollectionViewCell.identifier,
                 for: indexPath)
             return cell
         case .otherScrap:
@@ -146,7 +145,6 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let homeSectionType = HomeSectionType(rawValue: section) ?? HomeSectionType.myScrap
-
         switch homeSectionType {
         case .myScrap:
             return 34
@@ -157,7 +155,6 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let homeSectionType = HomeSectionType(rawValue: section) ?? HomeSectionType.myScrap
-        
         switch homeSectionType {
         case .myScrap:
             return ScrapSectionView()
@@ -166,11 +163,8 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let homeSectionType = HomeSectionType(rawValue: indexPath.section) ?? HomeSectionType.myScrap
-        
         switch homeSectionType {
         case .myScrap:
             return 228

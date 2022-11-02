@@ -37,7 +37,7 @@
 		5652A44828EB31D400415738 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44728EB31D400415738 /* Scrap.swift */; };
 		5652A44C28EB4FA800415738 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44A28EB3CE000415738 /* Strings.swift */; };
 		5652A44D28EB4FAA00415738 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44A28EB3CE000415738 /* Strings.swift */; };
-		565AFDD1291097990080EA6D /* MyScrapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD0291097990080EA6D /* MyScrapCollectionViewCell.swift */; };
+		565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */; };
 		565AFDD3291097C70080EA6D /* OtherScrapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */; };
 		5664268B290E618100154505 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44728EB31D400415738 /* Scrap.swift */; };
 		5664268D290ECFCC00154505 /* ImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* ImageView+.swift */; };
@@ -46,6 +46,7 @@
 		567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26072910ACE6000296F0 /* ScarpSectionView.swift */; };
 		567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */; };
 		567D26122910FFD5000296F0 /* CustomVAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */; };
+		567D261629113AE8000296F0 /* MyScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D261529113AE8000296F0 /* MyScrapSectionView.swift */; };
 		567DF86F28EC9645005A3E30 /* EmailConfirmRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */; };
 		567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */; };
 		567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */; };
@@ -162,13 +163,14 @@
 		5652A44528EB303F00415738 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
 		5652A44728EB31D400415738 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
 		5652A44A28EB3CE000415738 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		565AFDD0291097990080EA6D /* MyScrapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapCollectionViewCell.swift; sourceTree = "<group>"; };
+		565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapPreViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapCollectionViewCell.swift; sourceTree = "<group>"; };
 		5664268C290ECFCC00154505 /* ImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+.swift"; sourceTree = "<group>"; };
 		5664268F290EDAC500154505 /* OtherScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapViewModel.swift; sourceTree = "<group>"; };
 		567D26072910ACE6000296F0 /* ScarpSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScarpSectionView.swift; sourceTree = "<group>"; };
 		567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapSectionView.swift; sourceTree = "<group>"; };
 		567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVAlignLabel.swift; sourceTree = "<group>"; };
+		567D261529113AE8000296F0 /* MyScrapSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapSectionView.swift; sourceTree = "<group>"; };
 		567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailConfirmRequest.swift; sourceTree = "<group>"; };
 		567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpRequest.swift; sourceTree = "<group>"; };
 		567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
@@ -336,7 +338,7 @@
 				560BF32028D0E6AE00438463 /* HomeVC.swift */,
 				564900A3290BCB5E005A6768 /* ScrapViewModel.swift */,
 				5664268F290EDAC500154505 /* OtherScrapViewModel.swift */,
-				565AFDD0291097990080EA6D /* MyScrapCollectionViewCell.swift */,
+				565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */,
 				565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */,
 				564900A5290BCC6E005A6768 /* ScrapCollectionViewCell.swift */,
 				567D26072910ACE6000296F0 /* ScarpSectionView.swift */,
@@ -537,6 +539,7 @@
 			isa = PBXGroup;
 			children = (
 				56C41B8B28FECED600D610E5 /* MyScrapVC.swift */,
+				567D261529113AE8000296F0 /* MyScrapSectionView.swift */,
 			);
 			path = MyScrap;
 			sourceTree = "<group>";
@@ -877,6 +880,7 @@
 				560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */,
 				56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */,
 				569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */,
+				567D261629113AE8000296F0 /* MyScrapSectionView.swift in Sources */,
 				567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */,
 				5637DD3728E0290E00C119F6 /* Color+.swift in Sources */,
 				56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */,
@@ -912,7 +916,7 @@
 				56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */,
 				564900A6290BCC6E005A6768 /* ScrapCollectionViewCell.swift in Sources */,
 				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,
-				565AFDD1291097990080EA6D /* MyScrapCollectionViewCell.swift in Sources */,
+				565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */,
 				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
 				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
 				564900A8290BCD8D005A6768 /* TagCollectionViewCell.swift in Sources */,
