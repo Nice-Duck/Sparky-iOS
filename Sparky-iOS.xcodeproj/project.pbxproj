@@ -76,6 +76,14 @@
 		56A0AA7628FC3BE100726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
+		56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */; };
+		56C3C2102912B5CE009765DE /* CustomShareNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54328DB730200BF7126 /* CustomShareNC.swift */; };
+		56C3C2112912B5D1009765DE /* AddTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* AddTagViewModel.swift */; };
+		56C3C2122912B5DF009765DE /* TagBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */; };
+		56C3C2132912B5E2009765DE /* RecentTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */; };
+		56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568183452901A641006F616C /* PreviewViewModel.swift */; };
+		56C3C2152912B61F009765DE /* CustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54228DB730200BF7126 /* CustomShareVC.swift */; };
+		56C3C2162912B66A009765DE /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
 		56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */; };
 		56C41B8928FEC8CC00D610E5 /* SparkySearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */; };
 		56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8B28FECED600D610E5 /* MyScrapVC.swift */; };
@@ -202,6 +210,7 @@
 		56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBottomSheetVC.swift; sourceTree = "<group>"; };
 		56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNavBar.swift; sourceTree = "<group>"; };
 		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
+		56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusScrapBottomSheetVC.swift; sourceTree = "<group>"; };
 		56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkySearchBar.swift; sourceTree = "<group>"; };
 		56C41B8B28FECED600D610E5 /* MyScrapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapVC.swift; sourceTree = "<group>"; };
 		56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceAPI.swift; sourceTree = "<group>"; };
@@ -298,6 +307,7 @@
 		560BF31A28D0D0F400438463 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				56C3C20C2912A950009765DE /* PlusScrap */,
 				56C41B8A28FECEC200D610E5 /* MyScrap */,
 				56DE426328E1F865000A6A55 /* SignUp */,
 				560BF31F28D0E66400438463 /* Home */,
@@ -533,6 +543,14 @@
 				56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */,
 			);
 			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		56C3C20C2912A950009765DE /* PlusScrap */ = {
+			isa = PBXGroup;
+			children = (
+				56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */,
+			);
+			path = PlusScrap;
 			sourceTree = "<group>";
 		};
 		56C41B8A28FECEC200D610E5 /* MyScrap */ = {
@@ -871,10 +889,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				56C3C2122912B5DF009765DE /* TagBottomSheetVC.swift in Sources */,
+				56C3C2152912B61F009765DE /* CustomShareVC.swift in Sources */,
 				5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */,
 				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
+				56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */,
 				5664268D290ECFCC00154505 /* ImageView+.swift in Sources */,
 				564938F328E8AFE800861D26 /* UserService.swift in Sources */,
+				56C3C2132912B5E2009765DE /* RecentTagViewModel.swift in Sources */,
 				567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */,
 				5664268B290E618100154505 /* Scrap.swift in Sources */,
 				560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */,
@@ -892,6 +914,7 @@
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
 				564900A9290BCD90005A6768 /* TagCollectionViewFlowLayout.swift in Sources */,
 				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
+				56C3C2102912B5CE009765DE /* CustomShareNC.swift in Sources */,
 				56642690290EDAC500154505 /* OtherScrapViewModel.swift in Sources */,
 				567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */,
 				564938FB28E8B56B00861D26 /* EmailSignInResponse.swift in Sources */,
@@ -912,6 +935,7 @@
 				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
+				56C3C2162912B66A009765DE /* String+.swift in Sources */,
 				56DD966D2905C5FF002DED3E /* Tag.swift in Sources */,
 				56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */,
 				564900A6290BCC6E005A6768 /* ScrapCollectionViewCell.swift in Sources */,
@@ -919,8 +943,10 @@
 				565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */,
 				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
 				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
+				56C3C2112912B5D1009765DE /* AddTagViewModel.swift in Sources */,
 				564900A8290BCD8D005A6768 /* TagCollectionViewCell.swift in Sources */,
 				564900A4290BCB5E005A6768 /* ScrapViewModel.swift in Sources */,
+				56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */,
 				564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */,
 				56DD966B29059162002DED3E /* BehaviorRelay+.swift in Sources */,
 				56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */,
