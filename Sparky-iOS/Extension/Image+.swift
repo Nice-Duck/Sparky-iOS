@@ -10,4 +10,6 @@ import UIKit
 extension UIImage {
     
     static let vector: UIImage = UIImage(named: "vector")!
+    static let viewAgenda: UIImage = UIImage(named: "viewAgenda")!
+    static let formatListBulleted: UIImage = UIImage(named: "formatListBulleted")!
 }

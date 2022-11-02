@@ -23,7 +23,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
         $0.setImage(UIImage(named: "edit"), for: .normal)
     }
     
-    let bottomContainerView = UIView()
+    var bottomContainerView = UIView()
     let thumbnailImageView = UIImageView().then {
         $0.image = UIImage(named: "vector")
         $0.contentMode = .scaleToFill
@@ -50,9 +50,14 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
 //        setupConstraints()
     }
     
+    override func prepareForReuse() {
+//        bottomContainerView.subviews 
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     func setupMyScrapLayoutConstraints() {
         contentView.addSubview(topContainerView)
@@ -92,7 +97,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(thumbnailImageView.snp.bottom).offset(12)
             $0.left.equalTo(contentView).offset(12)
             $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(40)
         }
         
         contentView.addSubview(subTitleLabel)
@@ -100,7 +104,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.equalTo(contentView).offset(12)
             $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(34)
         }
     }
     
@@ -142,7 +145,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(thumbnailImageView.snp.bottom).offset(12)
             $0.left.equalTo(contentView).offset(12)
             $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(40)
         }
         
         contentView.addSubview(subTitleLabel)
@@ -150,7 +152,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.equalTo(contentView).offset(12)
             $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(34)
         }
     }
     
@@ -200,7 +201,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(bottomContainerView)
             $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(bottomContainerView)
-            $0.height.equalTo(40)
         }
         
         bottomContainerView.addSubview(subTitleLabel)
@@ -208,7 +208,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(bottomContainerView)
-            $0.height.equalTo(34)
         }
     }
     
@@ -250,7 +249,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(thumbnailImageView.snp.bottom).offset(12)
             $0.left.equalTo(contentView).offset(12)
             $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(40)
         }
         
         contentView.addSubview(subTitleLabel)
@@ -258,7 +256,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(8)
             $0.left.equalTo(contentView).offset(12)
             $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(34)
         }
     }
     

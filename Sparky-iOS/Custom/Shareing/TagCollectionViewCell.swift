@@ -9,7 +9,7 @@ import UIKit
 
 final class TagCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "tagCollectionViewCell"
+    static let identifier = "TagCollectionViewCell"
     
     var tagStackView = UIStackView().then {
         $0.axis = .horizontal

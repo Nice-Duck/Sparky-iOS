@@ -1,5 +1,5 @@
 //
-//  MyScrapCollectionViewCell.swift
+//  MyScrapPreViewCollectionViewCell.swift
 //  Sparky-iOS
 //
 //  Created by SeungMin on 2022/11/01.
@@ -8,9 +8,9 @@
 import UIKit
 import RxSwift
 
-final class MyScrapCollectionViewCell: UITableViewCell {
+final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     
-    static let identifier = "MyScrapCollectionViewCell"
+    static let identifier = "MyScrapPreViewCollectionViewCell"
     
     private let viewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
