@@ -22,6 +22,8 @@ final class CustomShareVC: UIViewController {
     private let viewModel = AddTagViewModel()
     private let previewViewModel = PreviewViewModel()
     
+    var urlString: String? = nil
+    
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
     }
@@ -63,7 +65,7 @@ final class CustomShareVC: UIViewController {
     }
     
     private let addTagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
-                                                      collectionViewLayout: TagCollectionViewFlowLayout())
+                                                         collectionViewLayout: TagCollectionViewFlowLayout())
     
     private let memoTitleLabel = UILabel().then {
         $0.text = "메모"
@@ -101,11 +103,7 @@ final class CustomShareVC: UIViewController {
         setupNavBar()
         setupConstraints()
         bindViewModel()
-                
-        if let item = extensionContext?.inputItems.first as? NSExtensionItem {
-            print("item is not nil")
-            accessWebpageProperites(extentionItem: item)
-        }
+        setupScrap()
     }
     
     private func setupNavBar() {
@@ -255,16 +253,42 @@ final class CustomShareVC: UIViewController {
         
         for i in 0..<newTagList.count {
             newTagList[i] = Tag(text: newTagList[i].text,
-                             backgroundColor: newTagList[i].backgroundColor,
-                             buttonType: .none)
+                                backgroundColor: newTagList[i].backgroundColor,
+                                buttonType: .none)
         }
         return newTagList
     }
-
+    
+    
+    private func setupScrap() {
+        if let urlString = urlString {
+            setupScrap(urlString: urlString)
+        } else {
+            if let item = extensionContext?.inputItems.first as? NSExtensionItem {
+                print("item is not nil")
+                accessWebpageProperites(extentionItem: item)
+            }
+        }
+    }
+    
+    private func setupScrap(urlString: String) {
+        self.previewViewModel.fetchPreview(urlString: urlString) { response in
+            do {
+                print("CustomShareVC response - \(response)")
+                self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: response.image?.convertSpecialCharacters() ?? ""))
+                self.scrapTitleLabel.text = response.title ?? ""
+                self.scrapSubTitleLabel.text = response.description ?? ""
+                self.view.layoutIfNeeded()
+            } catch {
+                
+            }
+        }
+    }
+    
     
     private func accessWebpageProperites(extentionItem: NSExtensionItem) {
         var propertyList: String
-        if #available(iOSApplicationExtension 14.0, *) {
+        if #available(iOS 14.0, *) {
             propertyList = String(UTType.propertyList.identifier)
         } else {
             propertyList = String(kUTTypePropertyList)
@@ -280,20 +304,7 @@ final class CustomShareVC: UIViewController {
                         
                         if let url = url as? URL {
                             let urlString = url.absoluteString
-                            
-                            DispatchQueue.main.async {
-                                self.previewViewModel.fetchPreview(urlString: urlString) { response in
-                                    do {
-                                        print("CustomShareVC response - \(response)")
-                                        self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: response.image?.convertSpecialCharacters() ?? ""))
-                                        self.scrapTitleLabel.text = response.title ?? ""
-                                        self.scrapSubTitleLabel.text = response.description ?? ""
-                                        self.view.layoutIfNeeded()
-                                    } catch {
-                                        
-                                    }
-                                }
-                            }
+                            self.setupScrap(urlString: urlString)
                         }
                         
                         // 크롤링 코드
@@ -312,25 +323,25 @@ final class CustomShareVC: UIViewController {
         }
     }
     
-//    private func setupImageView(imageView: UIImageView, url: URL?) {
-//        print("imageView.frame.size - \(imageView.frame.size)")
-//        let processor = DownsamplingImageProcessor(size: imageView.frame.size)
-//        imageView.kf.setImage(with: url,
-//                              placeholder: UIImage(systemName: "person.circle"),
-//                              options: [
-//                                .processor(processor),
-//                                .loadDiskFileSynchronously,
-//                                .cacheOriginalImage,
-//                                .transition(.fade(0.25)),
-//                              ]) { result in
-//                                  switch result {
-//                                  case .success(let value):
-//                                      print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//                                  case .failure(let error):
-//                                      print("error: \(error)")
-//                                  }
-//                              }
-//    }
+    //    private func setupImageView(imageView: UIImageView, url: URL?) {
+    //        print("imageView.frame.size - \(imageView.frame.size)")
+    //        let processor = DownsamplingImageProcessor(size: imageView.frame.size)
+    //        imageView.kf.setImage(with: url,
+    //                              placeholder: UIImage(systemName: "person.circle"),
+    //                              options: [
+    //                                .processor(processor),
+    //                                .loadDiskFileSynchronously,
+    //                                .cacheOriginalImage,
+    //                                .transition(.fade(0.25)),
+    //                              ]) { result in
+    //                                  switch result {
+    //                                  case .success(let value):
+    //                                      print("Task done for: \(value.source.url?.absoluteString ?? "")")
+    //                                  case .failure(let error):
+    //                                      print("error: \(error)")
+    //                                  }
+    //                              }
+    //    }
 }
 
 extension CustomShareVC: UITextViewDelegate {

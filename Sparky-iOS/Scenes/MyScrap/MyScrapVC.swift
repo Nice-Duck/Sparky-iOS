@@ -101,7 +101,7 @@ final class MyScrapVC: UIViewController {
                 cell.backgroundColor = .white
                 cell.setupValue(scrap: scrap)
                 
-                print("rx 호출!!")
+                print("selectedButtonType - \(self.selectedButtonType)")
                 
 //                self.myScrapCollectionView.dataSource = nil
 //                self.myScrapCollectionView.delegate = nil
@@ -114,8 +114,8 @@ final class MyScrapVC: UIViewController {
                 case .largeImage:
                     cell.setupLargeImageConstraints()
                 }
-                cell.setNeedsLayout()
-                cell.layoutIfNeeded()
+//                cell.setNeedsLayout()
+//                cell.layoutIfNeeded()
                 
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
@@ -125,8 +125,8 @@ final class MyScrapVC: UIViewController {
                         cell.setupConstraints()
                         cell.setupTagButton(tag: tag)
                     }.disposed(by: self.disposeBag)
-                cell.setNeedsLayout()
-                cell.layoutIfNeeded()
+//                cell.setNeedsLayout()
+//                cell.layoutIfNeeded()
             }.disposed(by: disposeBag)
         
 //        myScrapSectionView.setHorizontalViewButton.rx.tap
@@ -137,22 +137,33 @@ final class MyScrapVC: UIViewController {
         
         myScrapSectionView.setHorizontalViewButton.rx.tap
             .subscribe { _ in
-                self.myScrapSectionView.setHorizontalViewButton.tintColor = self.myScrapSectionView.setHorizontalViewButton.isSelected ? .gray400 : .sparkyBlack
-                self.myScrapSectionView.setLargeImageViewButton.tintColor = self.myScrapSectionView.setHorizontalViewButton.isSelected ? .sparkyBlack : .gray400
+//                print("hori 버튼 클릭!")
                 self.selectedButtonType = setViewButtonType.horizontal
+                self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
+                self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
 //                self.myScrapCollectionView.updateConstraints()
 //                self.myScrapCollectionView.delegate = self
-                self.myScrapCollectionView.reloadData()
+                self.myScrapCollectionView.performBatchUpdates {
+//                    self.selectedButtonType = setViewButtonType.horizontal
+//                    print("111 selectedButtonType - \(self.selectedButtonType)")
+                    self.myScrapCollectionView.reloadData()
+                }
             }.disposed(by: disposeBag)
 //
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
-                self.myScrapSectionView.setLargeImageViewButton.tintColor = self.myScrapSectionView.setLargeImageViewButton.isSelected ? .gray400 : .sparkyBlack
-                self.myScrapSectionView.setHorizontalViewButton.tintColor = self.myScrapSectionView.setLargeImageViewButton.isSelected ? .sparkyBlack : .gray400
+//                print("large 버튼 클릭!")
                 self.selectedButtonType = setViewButtonType.largeImage
+                self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
+                self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
 //                self.myScrapCollectionView.updateConstraints()
 //                self.myScrapCollectionView.delegate = self
-                self.myScrapCollectionView.reloadData()
+                self.myScrapCollectionView.performBatchUpdates {
+//                    self.selectedButtonType = setViewButtonType.largeImage
+//                    print("222 selectedButtonType - \(self.selectedButtonType)")
+
+                    self.myScrapCollectionView.reloadData()
+                }
             }.disposed(by: disposeBag)
     }
     
