@@ -12,6 +12,7 @@ extension UIColor {
     static let sparkyWhite: UIColor = UIColor(named: "sparkyWhite")!
     static let sparkyBlack: UIColor = UIColor(named: "sparkyBlack")!
     static let sparkyOrange: UIColor = UIColor(named: "sparkyOrange")!
+    static let sparkyBlue: UIColor = UIColor(named: "sparkyBlue")!
     static let colorchip1: UIColor = UIColor(named: "colorchip1")!
     static let colorchip2: UIColor = UIColor(named: "colorchip2")!
     static let colorchip3: UIColor = UIColor(named: "colorchip3")!

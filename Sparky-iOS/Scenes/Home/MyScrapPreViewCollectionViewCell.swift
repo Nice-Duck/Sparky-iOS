@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import SwiftSoup
 
 final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     
@@ -37,6 +38,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupConstraints()
+        createObserver()
         bindViewModel()
     }
     
@@ -54,13 +56,40 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         }
     }
     
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showScrapDetail),
+                                               name: SparkyNotification.sendScrapDetailIndex,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showScrapWebView),
+                                               name: SparkyNotification.sendScrapWebViewIndex,
+                                               object: nil)
+    }
+    
+    @objc private func showScrapDetail(notification: NSNotification) {
+        if let index = notification.object {
+            let scrap = viewModel.scraps.value.myScraps.value[index as! Int]
+            NotificationCenter.default.post(name: SparkyNotification.showScrapDetail, object: scrap)
+        }
+    }
+    
+    @objc private func showScrapWebView(notification: NSNotification) {
+        if let index = notification.object {
+            let scrap = viewModel.scraps.value.myScraps.value[index as! Int]
+            NotificationCenter.default.post(name: SparkyNotification.showScrapWebView, object: scrap)
+        }
+    }
+    
     private func bindViewModel() {
         viewModel.scraps.value.myScraps.bind(to: myScrapCollectionView.rx.items(
             cellIdentifier: ScrapCollectionViewCell.identifier,
             cellType: ScrapCollectionViewCell.self)) { index, scrap, cell in
-                cell.backgroundColor = .white
+                cell.backgroundColor = .sparkyWhite
                 cell.setupMyScrapLayoutConstraints()
                 cell.setupValue(scrap: scrap)
+                cell.scrapDetailButton.tag = index
+                cell.thumbnailImageView.tag = index
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
                 scrap.tagList.bind(to: cell.tagCollectionView.rx.items(

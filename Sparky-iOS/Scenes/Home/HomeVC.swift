@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxRelay
 
 enum HomeSectionType: Int {
     case myScrap, otherScrap
@@ -73,6 +74,7 @@ final class HomeVC: UIViewController {
         setupNavBar()
         setupConstraints()
         setupDelegate()
+        createObserver()
     }
     
     private func setupNavBar() {
@@ -114,6 +116,37 @@ final class HomeVC: UIViewController {
     private func setupDelegate() {
         homeTableView.dataSource = self
         homeTableView.delegate = self
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showVC),
+                                               name: SparkyNotification.showScrapDetail,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showVC),
+                                               name: SparkyNotification.showScrapWebView,
+                                               object: nil)
+    }
+    
+    @objc private func showVC(notification: NSNotification) {
+        if let scrap = notification.object {
+            switch notification.name {
+            case SparkyNotification.showScrapDetail:
+                let scrapDetailVC = ScrapDetailVC()
+                scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
+                self.navigationController?.pushViewController(scrapDetailVC, animated: true)
+                break
+            case SparkyNotification.showScrapWebView:
+                let scrapWebViewVC = ScrapWebViewVC()
+//                print(scrap - \(scrap))
+                scrapWebViewVC.urlString = (scrap as! Scrap).scrapURLString
+                self.navigationController?.pushViewController(scrapWebViewVC, animated: true)
+                break
+            default:
+                break
+            }
+        }
     }
 }
 

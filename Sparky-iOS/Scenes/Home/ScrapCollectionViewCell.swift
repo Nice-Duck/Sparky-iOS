@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxSwift
 
 
 final class ScrapCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ScrapCollectionViewCell"
+    
+    let disposeBag = DisposeBag()
     
     let topContainerView = UIView()
     let tagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
@@ -19,8 +22,11 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
         $0.showsHorizontalScrollIndicator = false
     }
     
-    let editButton = UIButton().then {
+    let scrapDetailButton = UIButton().then {
         $0.setImage(UIImage(named: "edit"), for: .normal)
+//        $0.addTarget(self,
+//                     action: #selector(didTapScrapDetailButton(_:)),
+//                     for: .touchUpInside)
     }
     
     var bottomContainerView = UIView()
@@ -47,17 +53,13 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        setupConstraints()
+        setDidTapScrapDetailButton()
+        setDidTapScrapthumbnailImageView()
     }
-    
-    override func prepareForReuse() {
-//        bottomContainerView.subviews 
-    }
-    
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     func setupMyScrapLayoutConstraints() {
         contentView.addSubview(topContainerView)
@@ -68,8 +70,8 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(24)
         }
         
-        topContainerView.addSubview(editButton)
-        editButton.snp.makeConstraints {
+        topContainerView.addSubview(scrapDetailButton)
+        scrapDetailButton.snp.makeConstraints {
             $0.top.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
             $0.right.equalTo(topContainerView)
@@ -81,7 +83,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(topContainerView)
             $0.left.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(editButton.snp.left).offset(-16)
+            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
         }
         
         contentView.addSubview(thumbnailImageView)
@@ -116,8 +118,8 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(24)
         }
         
-        topContainerView.addSubview(editButton)
-        editButton.snp.makeConstraints {
+        topContainerView.addSubview(scrapDetailButton)
+        scrapDetailButton.snp.makeConstraints {
             $0.top.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
             $0.right.equalTo(topContainerView)
@@ -129,7 +131,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(topContainerView)
             $0.left.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(editButton.snp.left).offset(-16)
+            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
         }
         
         contentView.addSubview(thumbnailImageView)
@@ -164,8 +166,8 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(24)
         }
         
-        topContainerView.addSubview(editButton)
-        editButton.snp.makeConstraints {
+        topContainerView.addSubview(scrapDetailButton)
+        scrapDetailButton.snp.makeConstraints {
             $0.top.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
             $0.right.equalTo(topContainerView)
@@ -177,7 +179,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(topContainerView)
             $0.left.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(editButton.snp.left).offset(-16)
+            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
         }
         
         contentView.addSubview(bottomContainerView)
@@ -220,8 +222,8 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.height.equalTo(24)
         }
         
-        topContainerView.addSubview(editButton)
-        editButton.snp.makeConstraints {
+        topContainerView.addSubview(scrapDetailButton)
+        scrapDetailButton.snp.makeConstraints {
             $0.top.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
             $0.right.equalTo(topContainerView)
@@ -233,7 +235,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             $0.top.equalTo(topContainerView)
             $0.left.equalTo(topContainerView)
             $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(editButton.snp.left).offset(-16)
+            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
         }
         
         contentView.addSubview(thumbnailImageView)
@@ -263,5 +265,23 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
         titleLabel.text = scrap.title
         subTitleLabel.text = scrap.subTitle
         thumbnailImageView.setupImageView(frameSize: CGSize(width: contentView.frame.size.width - 24, height: 78), url: URL(string: scrap.thumbnailURLString))
+    }
+    
+    func setDidTapScrapDetailButton() {
+        scrapDetailButton.rx.tap
+            .throttle(.milliseconds(3), scheduler: MainScheduler.instance)
+            .subscribe { _ in
+                NotificationCenter.default.post(name: SparkyNotification.sendScrapDetailIndex, object: self.scrapDetailButton.tag)
+            }.disposed(by: disposeBag)
+    }
+    
+    func setDidTapScrapthumbnailImageView() {
+        thumbnailImageView.rx
+            .tapGesture()
+            .when(.recognized)
+            .subscribe { _ in
+                let selectedIndex = self.thumbnailImageView.tag
+                NotificationCenter.default.post(name: SparkyNotification.sendScrapWebViewIndex, object: selectedIndex)
+            }.disposed(by: disposeBag)
     }
 }

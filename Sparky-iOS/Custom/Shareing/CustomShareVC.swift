@@ -65,7 +65,9 @@ final class CustomShareVC: UIViewController {
     }
     
     private let addTagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
-                                                         collectionViewLayout: TagCollectionViewFlowLayout())
+                                                         collectionViewLayout: TagCollectionViewFlowLayout()).then({
+        $0.backgroundColor = .background
+    })
     
     private let memoTitleLabel = UILabel().then {
         $0.text = "메모"
@@ -99,7 +101,7 @@ final class CustomShareVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .background
         setupNavBar()
         setupConstraints()
         bindViewModel()
@@ -247,17 +249,17 @@ final class CustomShareVC: UIViewController {
         self.present(tagBottomSheetVC, animated: false)
     }
     
-    func convertToNoneType(tagList: [Tag]) -> [Tag] {
-        var newTagList = tagList
-        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
-        
-        for i in 0..<newTagList.count {
-            newTagList[i] = Tag(text: newTagList[i].text,
-                                backgroundColor: newTagList[i].backgroundColor,
-                                buttonType: .none)
-        }
-        return newTagList
-    }
+//    func convertToNoneType(tagList: [Tag]) -> [Tag] {
+//        var newTagList = tagList
+//        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
+//        
+//        for i in 0..<newTagList.count {
+//            newTagList[i] = Tag(text: newTagList[i].text,
+//                                backgroundColor: newTagList[i].backgroundColor,
+//                                buttonType: .none)
+//        }
+//        return newTagList
+//    }
     
     
     private func setupScrap() {

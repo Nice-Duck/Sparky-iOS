@@ -7,8 +7,9 @@
 
 import UIKit
 import RxSwift
+import RxRelay
 
-enum setViewButtonType {
+enum SetViewButtonType {
     case horizontal, largeImage
 }
 
@@ -17,7 +18,7 @@ final class MyScrapVC: UIViewController {
     // MARK: - Properties
     private let viewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
-    private var selectedButtonType = setViewButtonType.horizontal
+    private var selectedButtonType = BehaviorRelay<SetViewButtonType>(value: SetViewButtonType.horizontal)
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         
@@ -100,23 +101,26 @@ final class MyScrapVC: UIViewController {
             cellType: ScrapCollectionViewCell.self)) { index, scrap, cell in
                 cell.backgroundColor = .white
                 cell.setupValue(scrap: scrap)
-                
-                print("selectedButtonType - \(self.selectedButtonType)")
-                
+
+//                print("selectedButtonType - \(self.selectedButtonType)")
+
 //                self.myScrapCollectionView.dataSource = nil
 //                self.myScrapCollectionView.delegate = nil
 //                cell.thumbnailImageView.layoutIfNeeded()
-                
-                switch self.selectedButtonType {
+
+                switch self.selectedButtonType.value {
                 case .horizontal:
+                    print("horizontal!")
                     cell.setupHorizontalLayoutConstraints()
-                    
+//                    cell.setupLargeImageConstraints()
+
                 case .largeImage:
+                    print("largeImage!")
                     cell.setupLargeImageConstraints()
                 }
 //                cell.setNeedsLayout()
 //                cell.layoutIfNeeded()
-                
+
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
                 scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
@@ -128,41 +132,39 @@ final class MyScrapVC: UIViewController {
 //                cell.setNeedsLayout()
 //                cell.layoutIfNeeded()
             }.disposed(by: disposeBag)
-        
+
 //        myScrapSectionView.setHorizontalViewButton.rx.tap
 //            .map({
 //            })
 //            .bind(to: myScrapSectionView.setHorizontalViewButton.tintColor)
 //            }.disposed(by: disposeBag)
-        
+
         myScrapSectionView.setHorizontalViewButton.rx.tap
             .subscribe { _ in
 //                print("hori 버튼 클릭!")
-                self.selectedButtonType = setViewButtonType.horizontal
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
 //                self.myScrapCollectionView.updateConstraints()
 //                self.myScrapCollectionView.delegate = self
                 self.myScrapCollectionView.performBatchUpdates {
-//                    self.selectedButtonType = setViewButtonType.horizontal
 //                    print("111 selectedButtonType - \(self.selectedButtonType)")
                     self.myScrapCollectionView.reloadData()
+                    self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
                 }
             }.disposed(by: disposeBag)
 //
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
 //                print("large 버튼 클릭!")
-                self.selectedButtonType = setViewButtonType.largeImage
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
 //                self.myScrapCollectionView.updateConstraints()
 //                self.myScrapCollectionView.delegate = self
                 self.myScrapCollectionView.performBatchUpdates {
-//                    self.selectedButtonType = setViewButtonType.largeImage
 //                    print("222 selectedButtonType - \(self.selectedButtonType)")
 
                     self.myScrapCollectionView.reloadData()
+                    self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
                 }
             }.disposed(by: disposeBag)
     }
@@ -170,8 +172,6 @@ final class MyScrapVC: UIViewController {
     private func setupData() {
         myScrapSectionView.totalCountLabel.text = "총 \(viewModel.scraps.value.myScraps.values.count)개"
     }
-    
-//    @objc private didTap
 }
 
 extension MyScrapVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -179,7 +179,7 @@ extension MyScrapVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         print("delegate 호출!!")
-        switch selectedButtonType {
+        switch selectedButtonType.value {
         case .horizontal:
             return CGSize(width: view.frame.size.width - 40, height: 138)
         case .largeImage:
