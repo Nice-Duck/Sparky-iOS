@@ -23,7 +23,10 @@ class SparkyTabBarController: UITabBarController {
         tabBar.tintColor = .sparkyBlack
         tabBar.unselectedItemTintColor = .gray400
         tabBar.isTranslucent = false
-        
+//        tabBar.shadowImage = UIImage(
+        let navbarAppearance = UINavigationBarAppearance()
+        navbarAppearance.shadowColor = .sparkyBlack
+//        tabBar.scrollEdgeAppearance = navbarAppearance
         view.backgroundColor = .white
 //        delegate = self
         
