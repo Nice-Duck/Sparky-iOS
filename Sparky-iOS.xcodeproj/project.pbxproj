@@ -45,7 +45,6 @@
 		5641FE4F29196ECA004F5A07 /* EmailSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */; };
 		5641FE5029196ECC004F5A07 /* EmailNicknameDuplicateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */; };
 		5641FE5129196ECF004F5A07 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */; };
-		5641FE5229196ED5004F5A07 /* EmailConfirmNumberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFFA291617720026B18C /* EmailConfirmNumberRequest.swift */; };
 		5641FE5329196EFA004F5A07 /* SignUpVC1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */; };
 		5641FE5429196EFC004F5A07 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
 		5641FE5529196F00004F5A07 /* SignUpVC3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426628E20E91000A6A55 /* SignUpVC3.swift */; };
@@ -160,7 +159,6 @@
 		56D6AFF6291602680026B18C /* RecentTagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF42916016A0026B18C /* RecentTagResponse.swift */; };
 		56D6AFF829160C370026B18C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF729160C370026B18C /* Preview.swift */; };
 		56D6AFF929160CD40026B18C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF729160C370026B18C /* Preview.swift */; };
-		56D6AFFB291617720026B18C /* EmailConfirmNumberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFFA291617720026B18C /* EmailConfirmNumberRequest.swift */; };
 		56D6AFFE291651510026B18C /* MyInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFFD291651510026B18C /* MyInfoVC.swift */; };
 		56DD96682905435B002DED3E /* CustomPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD96672905435B002DED3E /* CustomPaddingLabel.swift */; };
 		56DD96692905445C002DED3E /* CustomPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD96672905435B002DED3E /* CustomPaddingLabel.swift */; };
@@ -307,7 +305,6 @@
 		56D6AFF02915FF850026B18C /* PostResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultResponse.swift; sourceTree = "<group>"; };
 		56D6AFF42916016A0026B18C /* RecentTagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTagResponse.swift; sourceTree = "<group>"; };
 		56D6AFF729160C370026B18C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
-		56D6AFFA291617720026B18C /* EmailConfirmNumberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailConfirmNumberRequest.swift; sourceTree = "<group>"; };
 		56D6AFFD291651510026B18C /* MyInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoVC.swift; sourceTree = "<group>"; };
 		56DD96672905435B002DED3E /* CustomPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaddingLabel.swift; sourceTree = "<group>"; };
 		56DD966A29059162002DED3E /* BehaviorRelay+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay+.swift"; sourceTree = "<group>"; };
@@ -647,7 +644,6 @@
 				5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */,
 				56D6AFE82915E6BD0026B18C /* TagRequst.swift */,
 				56D6AFEA2915E87C0026B18C /* ScrapRequest.swift */,
-				56D6AFFA291617720026B18C /* EmailConfirmNumberRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1019,7 +1015,6 @@
 				5641FE4229196E31004F5A07 /* HomeServiceAPI.swift in Sources */,
 				5641FE5429196EFC004F5A07 /* SignUpVC2.swift in Sources */,
 				5652A44828EB31D400415738 /* Scrap.swift in Sources */,
-				5641FE5229196ED5004F5A07 /* EmailConfirmNumberRequest.swift in Sources */,
 				5641FE6D29196FAE004F5A07 /* CustomVAlignLabel.swift in Sources */,
 				5641FE6329196F7E004F5A07 /* LargeImageLayoutCell.swift in Sources */,
 				5641FE4C29196EB5004F5A07 /* ScrapResponse.swift in Sources */,
@@ -1118,7 +1113,6 @@
 				56DD96682905435B002DED3E /* CustomPaddingLabel.swift in Sources */,
 				56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */,
 				5637DD3928E0291D00C119F6 /* Image+.swift in Sources */,
-				56D6AFFB291617720026B18C /* EmailConfirmNumberRequest.swift in Sources */,
 				56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */,
 				56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */,
 				565AFDD3291097C70080EA6D /* OtherScrapCollectionViewCell.swift in Sources */,
