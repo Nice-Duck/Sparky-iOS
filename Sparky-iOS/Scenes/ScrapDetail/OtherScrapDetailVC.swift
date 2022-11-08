@@ -1,15 +1,15 @@
 //
-//  ScrapDetailVC.swift
+//  OtherScrapDetailVC.swift
 //  Sparky-iOS
 //
-//  Created by SeungMin on 2022/11/03.
+//  Created by SeungMin on 2022/11/09.
 //
 
 import UIKit
 import RxSwift
 import RxRelay
 
-final class ScrapDetailVC: UIViewController {
+final class OtherScrapDetailVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -94,7 +94,6 @@ final class ScrapDetailVC: UIViewController {
         $0.layer.cornerRadius = 8
         $0.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         $0.isScrollEnabled = false
-        $0.allowsSelection = false
         $0.sectionHeaderHeight = 0
         $0.sectionFooterHeight = 0
         if #available(iOS 15.0, *) {
@@ -148,21 +147,6 @@ final class ScrapDetailVC: UIViewController {
             $0.textColor = .sparkyBlack
         }
         self.navigationItem.titleView = navBarTitleLabel
-        
-        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        editButton.setTitle("수정하기", for: .normal)
-        editButton.tintColor = .sparkyBlue
-        editButton.addTarget(self,
-                             action: #selector(didTapEditButton),
-                             for: .touchUpInside)
-        
-        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
-        let navBarEditButton = UIBarButtonItem(title: "수정하기",
-                                               style: .plain,
-                                               target: self,
-                                               action: #selector(didTapEditButton))
-        navBarEditButton.tintColor = .sparkyBlue
-        self.navigationItem.rightBarButtonItem = navBarEditButton
     }
     
     private func setupConstraints() {
@@ -354,9 +338,85 @@ final class ScrapDetailVC: UIViewController {
         saveButton.isHidden = false
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
+    
+    private func moveToSignInVC() {
+        guard let nc = self.navigationController else { return }
+        var vcs = nc.viewControllers
+        vcs = [SignInVC()]
+        self.navigationController?.viewControllers = vcs
+    }
+    
+    func claimUser() {
+        print("asdfasdfasdf")
+        HomeServiceProvider.shared
+            .declaration(scrapId: scrap.value.scrapId)
+            .map(PostResultResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    print("신고 성공!!")
+                } else if response.code == "U000" {
+                    print("error response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    HomeServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.claimUser()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    self.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                self.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("신고 실패!! - \(error)")
+            }.disposed(by: disposeBag)
+    }
 }
 
-extension ScrapDetailVC: UITextViewDelegate {
+extension OtherScrapDetailVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == memoTextViewPlaceHolder {
             textView.text = nil
@@ -374,7 +434,7 @@ extension ScrapDetailVC: UITextViewDelegate {
     }
 }
 
-extension ScrapDetailVC: NewTagCVDelegate {
+extension OtherScrapDetailVC: NewTagCVDelegate {
     func sendNewTagList(tag: Tag) {
         var newTag = tag
         newTag.buttonType = .delete
@@ -382,33 +442,60 @@ extension ScrapDetailVC: NewTagCVDelegate {
     }
 }
 
-extension ScrapDetailVC: UITableViewDataSource, UITableViewDelegate {
+extension OtherScrapDetailVC: CustomPopUpDelegate {
+    func action() {
+        claimUser()
+    }
+    
+    func exit() { }
+}
+
+extension OtherScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 2
+            return 3
         } else {
             return 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SubActionTableViewCell.identifier,
-                                                 for: indexPath) as! SubActionTableViewCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: SubActionTableViewCell.identifier,
+            for: indexPath) as! SubActionTableViewCell
+        cell.selectionStyle = .none
         if indexPath.section == 0 {
             if indexPath.row == 0 {
+                cell.actionLabel.text = "내 스크랩에 추가하기"
+            } else if indexPath.row == 1 {
                 cell.actionLabel.text = "공유하기"
             } else {
                 cell.actionLabel.text = "URL 복사하기"
             }
         } else {
-            cell.actionLabel.text = "삭제하기"
+            cell.actionLabel.text = "신고하기"
             cell.actionLabel.textColor = .sparkyOrange
         }
         return cell
+    }
+}
+
+extension OtherScrapDetailVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let customPopUpVC = CustomPopUpVC()
+            customPopUpVC.setupValue(title: "신고 하시겠습니까?",
+                                     cancelText: "취소하기",
+                                     confirmText: "신고하기")
+            customPopUpVC.modalPresentationStyle = .overFullScreen
+            customPopUpVC.customPopUpDelegate = self
+            present(customPopUpVC, animated: false)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

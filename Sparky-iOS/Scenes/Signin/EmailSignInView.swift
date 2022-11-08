@@ -9,7 +9,7 @@ import UIKit
 
 class EmailSignInView: UIView {
     let logoImageView = UIImageView().then {
-        $0.image = UIImage(named: "vector")
+        $0.image = UIImage(named: "logo")
     }
     
     let emailTitleLabel = UILabel().then {

@@ -10,6 +10,8 @@ import Moya
 enum HomeServiceAPI {
     case scraps(params: Int)
     case reissueAccessToken
+    case signOut
+    case declaration(params: Int)
 }
 
 extension HomeServiceAPI: TargetType {
@@ -21,6 +23,10 @@ extension HomeServiceAPI: TargetType {
             return "/scraps"
         case .reissueAccessToken:
             return "/token"
+        case .signOut:
+            return "/accounts"
+        case .declaration:
+            return "/scraps/declaration"
         }
     }
     
@@ -30,6 +36,10 @@ extension HomeServiceAPI: TargetType {
             return .get
         case .reissueAccessToken:
             return .post
+        case .signOut:
+            return .delete
+        case .declaration:
+            return .get
         }
     }
     
@@ -39,6 +49,10 @@ extension HomeServiceAPI: TargetType {
             return .requestParameters(parameters: ["type": params], encoding: URLEncoding.queryString)
         case .reissueAccessToken:
             return .requestPlain
+        case .signOut:
+            return .requestPlain
+        case .declaration(let params):
+            return .requestParameters(parameters: ["scrapId": params], encoding: URLEncoding.queryString)
         }
     }
     

@@ -55,5 +55,32 @@ struct HomeServiceProvider {
                 print("요청 실패! - error: \(error)")
             }
     }
+    
+    func signOut() -> Single<Response> {
+        return provider.rx.request(.signOut)
+            .do { response in
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response.statusCode)")
+                }
+            } onError: { error in
+                print("요청 실패! - error: \(error)")
+            }
+    }
+    
+    func declaration(scrapId: Int) -> Single<Response> {
+        return provider.rx.request(.declaration(params: scrapId))
+            .do { response in
+                print(response)
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response)")
+                }
+            } onError: { error in
+                print("onError - \(error)")
+            }
+    }
 }
 
