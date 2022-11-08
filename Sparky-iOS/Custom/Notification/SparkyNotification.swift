@@ -8,9 +8,23 @@
 import Foundation
 
 struct SparkyNotification {
-    static let sendScrapDetailIndex = Notification.Name(rawValue: "SendScrapDetailIndex")
-    static let sendScrapWebViewIndex = Notification.Name(rawValue: "SendScrapWebViewIndex")
-    static let showScrapDetail = Notification.Name(rawValue: "DidShowScrapDetail")
-    static let showScrapWebView = Notification.Name(rawValue: "DidShowScrapWebView")
+    
+    // MyScrap Preview
+    static let sendPreviewDetailIndex = Notification.Name(rawValue: "SendPreviewDetailIndex")
+    static let sendPreviewWebViewIndex = Notification.Name(rawValue: "SendPreviewWebViewIndex")
+    static let showPreviewDetail = Notification.Name(rawValue: "DidshowPreviewDetail")
+    static let showPreviewWebView = Notification.Name(rawValue: "DidshowPreviewWebView")
+    
+    // OtherScrap
+    static let sendOtherScrapDetailIndex = Notification.Name(rawValue: "SendOtherScrapDetailIndex")
+    static let sendOtherWebViewIndex = Notification.Name(rawValue: "SendOtherWebViewIndex")
+    static let showOtherDetail = Notification.Name(rawValue: "DidshowOtherDetail")
+    static let showOtherWebView = Notification.Name(rawValue: "DidshowOtherWebView")
+    
+    // MyScrap
+    static let sendMyScrapDetailIndex = Notification.Name(rawValue: "SendMyScrapDetailIndex")
+    static let sendMyScrapWebViewIndex = Notification.Name(rawValue: "SendMyScrapWebViewIndex")
+    static let showMyScrapDetail = Notification.Name(rawValue: "DidshowMyScrapDetail")
+    static let showMyScrapWebView = Notification.Name(rawValue: "DidshowMyScrapWebView")
 }
 

@@ -124,8 +124,8 @@ final class TagBottomSheetVC: UIViewController {
         view.backgroundColor = .background
         setupNavBar()
         setupConstraints()
-//        bindViewModel()
-//        setupDelegate()
+        //        bindViewModel()
+        //        setupDelegate()
         setupDimmendTabGesture()
         setupNewTagTapGuesture()
     }
@@ -134,7 +134,7 @@ final class TagBottomSheetVC: UIViewController {
         super.viewWillAppear(animated)
         
         fetchRecentTagList()
-//        bindViewModel()
+        //        bindViewModel()
     }
     
     private func fetchRecentTagList() {
@@ -153,14 +153,15 @@ final class TagBottomSheetVC: UIViewController {
                     
                     // TODO: 버튼 칼라 수정 해야됨
                     response.result?.tagResponses.forEach { tagResponse in
-                        let newTag = Tag(name: tagResponse.name,
+                        let newTag = Tag(tagId: tagResponse.tagId,
+                                         name: tagResponse.name,
                                          color: .colorchip8,
                                          buttonType: .none)
                         newTagList.append(newTag)
                     }
                     self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
                     print("tagList - \(self.viewModel.recentTagList.value)")
-//                    self.setupDelegate()
+                    //                    self.setupDelegate()
                     self.bindViewModel()
                 } else if response.code == "U000" {
                     print("response - \(response)")
@@ -420,8 +421,8 @@ final class TagBottomSheetVC: UIViewController {
                         .saveTag(tagRequst: tagRequest)
                         .map(PostResultResponse.self)
                         .subscribe { response in
-                                print("code - \(response.code)")
-                                print("message - \(response.message)")
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
                             if response.code == "0000" {
                                 print("---요청 성공!!!---")
                                 self.fetchRecentTagList()
@@ -431,9 +432,9 @@ final class TagBottomSheetVC: UIViewController {
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
-
                     
-
+                    
+                    
                     self.tagTextField.text = ""
                     self.tagTextField.resignFirstResponder()
                     self.tagTextField.becomeFirstResponder()
@@ -451,23 +452,23 @@ final class TagBottomSheetVC: UIViewController {
     }
     
     
-//    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
-//        var newTagList = tagList
-//        for i in 0..<newTagList.count {
-//            newTagList[i] = Tag(tagId: tagList,
-//                                name: <#T##String#>,
-//                                color: <#T##UIColor#>,
-//                                buttonType: <#T##ButtonType#>)
-//            Tag(
-//                text: newTagList[i].text,
-//                                backgroundColor: newTagList[i].backgroundColor,
-//                                buttonType: .delete)
-//        }
-//
-//        let addButtonTag = Tag(text: "태그추가",
-//                               backgroundColor: .clear,
-//                               buttonType: .add)
-//        newTagList.append(addButtonTag)
-//        return newTagList
-//    }
+    //    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
+    //        var newTagList = tagList
+    //        for i in 0..<newTagList.count {
+    //            newTagList[i] = Tag(tagId: tagList,
+    //                                name: <#T##String#>,
+    //                                color: <#T##UIColor#>,
+    //                                buttonType: <#T##ButtonType#>)
+    //            Tag(
+    //                text: newTagList[i].text,
+    //                                backgroundColor: newTagList[i].backgroundColor,
+    //                                buttonType: .delete)
+    //        }
+    //
+    //        let addButtonTag = Tag(text: "태그추가",
+    //                               backgroundColor: .clear,
+    //                               buttonType: .add)
+    //        newTagList.append(addButtonTag)
+    //        return newTagList
+    //    }
 }

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */; };
+		560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
+		560306A4291A7FC2008CB6EB /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
+		560306A5291A7FC4008CB6EB /* MyHorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */; };
 		5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
 		5606F66F28F4352B0083AA58 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
 		5606F67028F4352E0083AA58 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
@@ -219,6 +223,8 @@
 		352786B92D19DC4D437E96DF /* libPods-Sparky-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B00360D60BDF48026E69676 /* Pods-Sparky-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		52C021F9EF5BA9335CA0F4B3 /* Pods-Sparky-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHorizontalLayoutCell.swift; sourceTree = "<group>"; };
+		560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLargeImageLayoutCell.swift; sourceTree = "<group>"; };
 		5606F66D28F3BA300083AA58 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
 		560BF31C28D0DAB300438463 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		560BF32028D0E6AE00438463 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -683,6 +689,8 @@
 			children = (
 				56C41B8B28FECED600D610E5 /* MyScrapVC.swift */,
 				567D261529113AE8000296F0 /* MyScrapSectionView.swift */,
+				560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */,
+				560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */,
 			);
 			path = MyScrap;
 			sourceTree = "<group>";
@@ -1021,6 +1029,7 @@
 				5641FE6B29196F9C004F5A07 /* MyInfoVC.swift in Sources */,
 				5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */,
 				5641FE4529196E3C004F5A07 /* UserServiceProvider.swift in Sources */,
+				560306A5291A7FC4008CB6EB /* MyHorizontalLayoutCell.swift in Sources */,
 				5664268E290ED03D00154505 /* ImageView+.swift in Sources */,
 				5641FE4F29196ECA004F5A07 /* EmailSignUpRequest.swift in Sources */,
 				5641FE5529196F00004F5A07 /* SignUpVC3.swift in Sources */,
@@ -1055,6 +1064,7 @@
 				5641FE5629196F02004F5A07 /* SignUpVC4.swift in Sources */,
 				5641FE6029196F4B004F5A07 /* ScrapViewModel.swift in Sources */,
 				5641FE5929196F16004F5A07 /* MyScrapSectionView.swift in Sources */,
+				560306A4291A7FC2008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,
 				56D6AFF3291601340026B18C /* TagResponse.swift in Sources */,
 				5641FE4629196E50004F5A07 /* ReIssueTokenResponse.swift in Sources */,
 				56D6AFE02915C02A0026B18C /* TokenUtils.swift in Sources */,
@@ -1078,6 +1088,7 @@
 				56C3C2152912B61F009765DE /* CustomShareVC.swift in Sources */,
 				5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */,
 				5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */,
+				560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */,
 				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
 				56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */,
 				5664268D290ECFCC00154505 /* ImageView+.swift in Sources */,
@@ -1132,6 +1143,7 @@
 				56D6AFDB2915BB120026B18C /* ScrapResponse.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
+				560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,
 				56C3C2162912B66A009765DE /* String+.swift in Sources */,
 				56D6AFF52916016A0026B18C /* RecentTagResponse.swift in Sources */,
 				56DD966D2905C5FF002DED3E /* Tag.swift in Sources */,

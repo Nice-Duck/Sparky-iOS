@@ -1,17 +1,17 @@
 //
-//  HorizontalLayoutCell.swift
+//  MyLargeImageLayoutCell.swift
 //  Sparky-iOS
 //
-//  Created by SeungMin on 2022/11/07.
+//  Created by SeungMin on 2022/11/08.
 //
 
 import UIKit
 import RxSwift
 
 
-final class HorizontalLayoutCell: UICollectionViewCell {
+final class MyLargeImageLayoutCell: UICollectionViewCell {
     
-    static let identifier = "HorizontalLayoutCell"
+    static let identifier = "MyLargeImageLayoutCell"
     
     let disposeBag = DisposeBag()
     
@@ -86,62 +86,6 @@ final class HorizontalLayoutCell: UICollectionViewCell {
             $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
         }
         
-        contentView.addSubview(bottomContainerView)
-        bottomContainerView.snp.makeConstraints {
-            $0.top.equalTo(tagCollectionView.snp.bottom).offset(8)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(82)
-        }
-        
-        bottomContainerView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints {
-            $0.top.equalTo(bottomContainerView)
-            $0.left.equalTo(bottomContainerView)
-            $0.width.equalTo(100)
-            $0.height.equalTo(70)
-        }
-        
-        bottomContainerView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(bottomContainerView)
-            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
-            $0.right.equalTo(bottomContainerView)
-        }
-        
-        bottomContainerView.addSubview(subTitleLabel)
-        subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
-            $0.right.equalTo(bottomContainerView)
-        }
-    }
-    
-    func setupLargeImageConstraints() {
-        contentView.addSubview(topContainerView)
-        topContainerView.snp.makeConstraints {
-            $0.top.equalTo(contentView).offset(12)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(24)
-        }
-        
-        topContainerView.addSubview(scrapDetailButton)
-        scrapDetailButton.snp.makeConstraints {
-            $0.top.equalTo(topContainerView)
-            $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(topContainerView)
-            $0.width.equalTo(24)
-        }
-        
-        topContainerView.addSubview(tagCollectionView)
-        tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(topContainerView)
-            $0.left.equalTo(topContainerView)
-            $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
-        }
-        
         contentView.addSubview(thumbnailImageView)
         thumbnailImageView.snp.makeConstraints {
             $0.top.equalTo(topContainerView.snp.bottom).offset(8)
@@ -175,7 +119,7 @@ final class HorizontalLayoutCell: UICollectionViewCell {
         scrapDetailButton.rx.tap
             .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
             .subscribe { _ in
-                NotificationCenter.default.post(name: SparkyNotification.sendOtherScrapDetailIndex, object: self.scrapDetailButton.tag)
+                NotificationCenter.default.post(name: SparkyNotification.sendMyScrapDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)
     }
     
@@ -185,8 +129,7 @@ final class HorizontalLayoutCell: UICollectionViewCell {
             .when(.recognized)
             .subscribe { _ in
                 let selectedIndex = self.thumbnailImageView.tag
-                NotificationCenter.default.post(name: SparkyNotification.sendOtherWebViewIndex, object: selectedIndex)
+                NotificationCenter.default.post(name: SparkyNotification.sendMyScrapWebViewIndex, object: selectedIndex)
             }.disposed(by: disposeBag)
     }
 }
-

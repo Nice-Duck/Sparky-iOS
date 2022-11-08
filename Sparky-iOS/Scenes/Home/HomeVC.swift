@@ -108,7 +108,8 @@ final class HomeVC: UIViewController {
                                 
                                 scrap.tagsResponse?.forEach { tag in
                                     print("tag.color - \(tag.color)")
-                                    let newTag = Tag(name: tag.name,
+                                    let newTag = Tag(tagId: tag.tagId,
+                                                     name: tag.name,
                                                      color: .colorchip12,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
@@ -133,7 +134,8 @@ final class HomeVC: UIViewController {
                                 
                                 scrap.tagsResponse?.forEach { tag in
                                     print("tag.color - \(tag.color)")
-                                    let newTag = Tag(name: tag.name,
+                                    let newTag = Tag(tagId: tag.tagId,
+                                                     name: tag.name,
                                                      color: .colorchip12,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
@@ -267,11 +269,19 @@ final class HomeVC: UIViewController {
     private func createObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(showVC),
-                                               name: SparkyNotification.showScrapDetail,
+                                               name: SparkyNotification.showPreviewDetail,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(showVC),
-                                               name: SparkyNotification.showScrapWebView,
+                                               name: SparkyNotification.showPreviewWebView,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showVC),
+                                               name: SparkyNotification.showOtherDetail,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showVC),
+                                               name: SparkyNotification.showOtherWebView,
                                                object: nil)
     }
     
@@ -285,19 +295,17 @@ final class HomeVC: UIViewController {
     @objc private func showVC(notification: NSNotification) {
         if let scrap = notification.object {
             switch notification.name {
-            case SparkyNotification.showScrapDetail:
+            case SparkyNotification.showPreviewDetail, SparkyNotification.showOtherDetail:
                 let scrapDetailVC = ScrapDetailVC()
                 scrapDetailVC.modalPresentationStyle = .overFullScreen
                 scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
-                //                self.navigationController?.pushViewController(scrapDetailVC, animated: true)
-                present(scrapDetailVC, animated: false)
+                navigationController?.pushViewController(scrapDetailVC, animated: false)
                 break
-            case SparkyNotification.showScrapWebView:
+            case SparkyNotification.showPreviewWebView, SparkyNotification.showOtherWebView:
                 let scrapWebViewVC = ScrapWebViewVC()
                 scrapWebViewVC.modalPresentationStyle = .overFullScreen
                 scrapWebViewVC.urlString = (scrap as! Scrap).scrapURLString
-                //                self.navigationController?.pushViewController(scrapWebViewVC, animated: true)
-                present(scrapWebViewVC, animated: false)
+                navigationController?.pushViewController(scrapWebViewVC, animated: false)
                 break
             default:
                 break

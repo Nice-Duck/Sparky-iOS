@@ -14,6 +14,7 @@ enum ButtonType {
 }
 
 struct Tag: Equatable {
+    let tagId: Int
     let name: String
     let color: UIColor
     var buttonType: ButtonType

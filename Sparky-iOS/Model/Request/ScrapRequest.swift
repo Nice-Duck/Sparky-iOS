@@ -11,5 +11,5 @@ struct ScrapRequest: Encodable {
     let memo: String
     let imgUrl: String
     let scpUrl: String
-    let tagsResponse: [String]
+    let tags: [Int]
 }

@@ -246,9 +246,10 @@ final class CustomShareVC: UIViewController {
             .subscribe { _ in
                 let preview = self.previewViewModel.preview
                 let memo = self.memoTextView.text
-                var tagStringList = [String]()
-                self.viewModel.addTagList.value.forEach { tag in
-                    tagStringList.append(tag.name)
+                var tagIdList = [Int]()
+                
+                for i in 0 ..< self.viewModel.addTagList.value.count - 1 {
+                    tagIdList.append(self.viewModel.addTagList.value[i].tagId)
                 }
                 
                 let newScrapRequest = ScrapRequest(title: preview?.title ?? "",
@@ -256,13 +257,15 @@ final class CustomShareVC: UIViewController {
                                                    memo: memo ?? "",
                                                    imgUrl: preview?.thumbnailURLString ?? "",
                                                    scpUrl: preview?.scrapURLString ?? "",
-                                                   tagsResponse: tagStringList)
-                print("newScrapRequest - \(newScrapRequest)")
+                                                   tags: tagIdList)
                 self.saveMyScrap(scrapRequest: newScrapRequest)
             }.disposed(by: disposeBag)
     }
     
     private func saveMyScrap(scrapRequest: ScrapRequest) {
+        self.navigationController?.popViewController(animated: false)
+        self.dismiss(animated: false)
+        
         ShareServiceProvider.shared
             .saveScrap(scrapRequest: scrapRequest)
             .map(PostResultResponse.self)
@@ -272,7 +275,8 @@ final class CustomShareVC: UIViewController {
                 
                 if response.code == "0000" {
                     print("---요청 성공!!!---")
-                    self.navigationController?.popViewController(animated: false)
+//                    self.navigationController?.popViewController(animated: false)
+//                    self.dismiss(animated: false)
                 } else {
                     print("---응답 실패!!!---")
                 }
@@ -281,7 +285,7 @@ final class CustomShareVC: UIViewController {
                 print("---요청 실패---")
                 print(error)
             }.disposed(by: disposeBag)
-
+        
     }
     
     private func presentTagBottomSheetVC() {
@@ -291,17 +295,17 @@ final class CustomShareVC: UIViewController {
         self.present(tagBottomSheetVC, animated: false)
     }
     
-//    func convertToNoneType(tagList: [Tag]) -> [Tag] {
-//        var newTagList = tagList
-//        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
-//        
-//        for i in 0..<newTagList.count {
-//            newTagList[i] = Tag(text: newTagList[i].text,
-//                                backgroundColor: newTagList[i].backgroundColor,
-//                                buttonType: .none)
-//        }
-//        return newTagList
-//    }
+    //    func convertToNoneType(tagList: [Tag]) -> [Tag] {
+    //        var newTagList = tagList
+    //        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
+    //
+    //        for i in 0..<newTagList.count {
+    //            newTagList[i] = Tag(text: newTagList[i].text,
+    //                                backgroundColor: newTagList[i].backgroundColor,
+    //                                buttonType: .none)
+    //        }
+    //        return newTagList
+    //    }
     
     
     private func setupScrap() {
@@ -401,7 +405,8 @@ extension CustomShareVC: UITextViewDelegate {
 
 extension CustomShareVC: NewTagCVDelegate {
     func sendNewTagList(tag: Tag) {
-        let newTag = Tag(name: tag.name,
+        let newTag = Tag(tagId: tag.tagId,
+                         name: tag.name,
                          color: tag.color,
                          buttonType: .delete)
         

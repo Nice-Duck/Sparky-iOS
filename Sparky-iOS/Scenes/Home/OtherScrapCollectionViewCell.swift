@@ -43,6 +43,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         
         setupConstraints()
         setupDelegate()
+        createObserver()
 //        bindViewModel()
     }
     
@@ -62,6 +63,36 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
     
     private func setupDelegate() {
         otherScrapCollectionView.delegate = self
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showScrap),
+                                               name: SparkyNotification.sendOtherScrapDetailIndex,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showScrap),
+                                               name: SparkyNotification.sendOtherWebViewIndex,
+                                               object: nil)
+    }
+    
+    @objc private func showScrap(notification: NSNotification) {
+        switch notification.name {
+        case SparkyNotification.sendOtherScrapDetailIndex:
+            if let index = notification.object {
+                let scrap = viewModel.scraps.value[index as! Int]
+                NotificationCenter.default.post(name: SparkyNotification.showOtherDetail, object: scrap)
+            }
+            break
+        case SparkyNotification.sendOtherWebViewIndex:
+            if let index = notification.object {
+                let scrap = viewModel.scraps.value[index as! Int]
+                NotificationCenter.default.post(name: SparkyNotification.showOtherWebView, object: scrap)
+            }
+            break
+        default:
+            break
+        }
     }
     
     func bindViewModel() {

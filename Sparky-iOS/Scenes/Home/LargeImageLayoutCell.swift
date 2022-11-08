@@ -119,7 +119,7 @@ final class LargeImageLayoutCell: UICollectionViewCell {
         scrapDetailButton.rx.tap
             .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
             .subscribe { _ in
-                NotificationCenter.default.post(name: SparkyNotification.sendScrapDetailIndex, object: self.scrapDetailButton.tag)
+                NotificationCenter.default.post(name: SparkyNotification.sendOtherScrapDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)
     }
     
@@ -129,8 +129,7 @@ final class LargeImageLayoutCell: UICollectionViewCell {
             .when(.recognized)
             .subscribe { _ in
                 let selectedIndex = self.thumbnailImageView.tag
-                NotificationCenter.default.post(name: SparkyNotification.sendScrapWebViewIndex, object: selectedIndex)
+                NotificationCenter.default.post(name: SparkyNotification.sendOtherWebViewIndex, object: selectedIndex)
             }.disposed(by: disposeBag)
     }
 }
-

@@ -35,19 +35,20 @@ final class ScrapDetailVC: UIViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    private var scrapTitleLabel = UILabel().then {
-        $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
+    private var scrapTitleLabel = CustomVAlignLabel().then {
         $0.font = .bodyBold2
         $0.textAlignment = .left
         $0.textColor = .black
+        $0.numberOfLines = 2
+        $0.verticalAlignment = .top
     }
     
-    private var scrapSubTitleLabel = UILabel().then {
-        $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
+    private var scrapSubTitleLabel = CustomVAlignLabel().then {
         $0.font = .bodyRegular1
         $0.textAlignment = .left
         $0.textColor = .black
         $0.numberOfLines = 2
+        $0.verticalAlignment = .top
     }
     
     private let dividerView = UIView().then {
@@ -316,7 +317,8 @@ final class ScrapDetailVC: UIViewController {
             newTagList[i].buttonType = .delete
         }
         
-        let addButtonTag = Tag(name: "태그추가",
+        let addButtonTag = Tag(tagId: -1,
+                               name: "태그추가",
                                color: .clear,
                                buttonType: .add)
         newTagList.append(addButtonTag)

@@ -39,7 +39,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         
         setupConstraints()
         createObserver()
-//        bindViewModel()
+        //        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -58,31 +58,43 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     
     private func createObserver() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(showScrapDetail),
-                                               name: SparkyNotification.sendScrapDetailIndex,
+                                               selector: #selector(showScrap),
+                                               name: SparkyNotification.sendPreviewDetailIndex,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(showScrapWebView),
-                                               name: SparkyNotification.sendScrapWebViewIndex,
+                                               selector: #selector(showScrap),
+                                               name: SparkyNotification.sendPreviewWebViewIndex,
                                                object: nil)
     }
     
-    @objc private func showScrapDetail(notification: NSNotification) {
-        if let index = notification.object {
-            let scrap = viewModel.scraps.value[index as! Int]
-            NotificationCenter.default.post(name: SparkyNotification.showScrapDetail, object: scrap)
+    @objc private func showScrap(notification: NSNotification) {
+        switch notification.name {
+        case SparkyNotification.sendPreviewDetailIndex:
+            if let index = notification.object {
+                let scrap = viewModel.scraps.value[index as! Int]
+                NotificationCenter.default.post(name: SparkyNotification.showPreviewDetail, object: scrap)
+            }
+            break
+        case SparkyNotification.sendPreviewWebViewIndex:
+            if let index = notification.object {
+                let scrap = viewModel.scraps.value[index as! Int]
+                NotificationCenter.default.post(name: SparkyNotification.showPreviewWebView, object: scrap)
+            }
+            break
+        default:
+            break
         }
     }
     
-    @objc private func showScrapWebView(notification: NSNotification) {
-        if let index = notification.object {
-            let scrap = viewModel.scraps.value[index as! Int]
-            NotificationCenter.default.post(name: SparkyNotification.showScrapWebView, object: scrap)
-        }
-    }
+    //    @objc private func showScrapWebView(notification: NSNotification) {
+    //        if let index = notification.object {
+    //            let scrap = viewModel.scraps.value[index as! Int]
+    //            NotificationCenter.default.post(name: SparkyNotification.showPreviewWebView, object: scrap)
+    //        }
+    //    }
     
     func bindViewModel() {
-//        myScrapCollectionView.dataSource = nil
+        //        myScrapCollectionView.dataSource = nil
         
         viewModel.scraps.bind(to: myScrapCollectionView.rx.items(
             cellIdentifier: PreviewLayoutViewCell.identifier,

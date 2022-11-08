@@ -119,7 +119,7 @@ final class PreviewLayoutViewCell: UICollectionViewCell {
         scrapDetailButton.rx.tap
             .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
             .subscribe { _ in
-                NotificationCenter.default.post(name: SparkyNotification.sendScrapDetailIndex, object: self.scrapDetailButton.tag)
+                NotificationCenter.default.post(name: SparkyNotification.sendPreviewDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)
     }
     
@@ -130,7 +130,7 @@ final class PreviewLayoutViewCell: UICollectionViewCell {
             .when(.recognized)
             .subscribe { _ in
                 let selectedIndex = self.thumbnailImageView.tag
-                NotificationCenter.default.post(name: SparkyNotification.sendScrapWebViewIndex, object: selectedIndex)
+                NotificationCenter.default.post(name: SparkyNotification.sendPreviewWebViewIndex, object: selectedIndex)
             }.disposed(by: disposeBag)
     }
 }

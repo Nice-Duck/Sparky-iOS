@@ -40,10 +40,10 @@ final class MyScrapVC: UIViewController {
         cv.backgroundColor = .background
         cv.layer.cornerRadius = 8
         cv.showsVerticalScrollIndicator = false
-        cv.register(HorizontalLayoutCell.self,
-                    forCellWithReuseIdentifier: HorizontalLayoutCell.identifier)
-        cv.register(LargeImageLayoutCell.self,
-                    forCellWithReuseIdentifier: LargeImageLayoutCell.identifier)
+        cv.register(MyHorizontalLayoutCell.self,
+                    forCellWithReuseIdentifier: MyHorizontalLayoutCell.identifier)
+        cv.register(MyLargeImageLayoutCell.self,
+                    forCellWithReuseIdentifier: MyLargeImageLayoutCell.identifier)
         cv.register(MyScrapSectionView.self,
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: MyScrapSectionView.identifier)
@@ -61,7 +61,7 @@ final class MyScrapVC: UIViewController {
         setupConstraints()
         setupDelegate()
         bindViewModel()
-        setupData()
+        createObserver()
         
         fetchScraps()
     }
@@ -85,7 +85,8 @@ final class MyScrapVC: UIViewController {
                                 
                                 scrap.tagsResponse?.forEach { tag in
                                     print("tag.color - \(tag.color)")
-                                    let newTag = Tag(name: tag.name,
+                                    let newTag = Tag(tagId: tag.tagId,
+                                                     name: tag.name,
                                                      color: .colorchip12,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
@@ -105,6 +106,7 @@ final class MyScrapVC: UIViewController {
                         print("myScrapViewModel - \(self.viewModel.scraps.value)")
                         print("otherScrapViewModel - \(self.viewModel.scraps.value)")
                         print("reload!!!")
+                        self.setupData()
                         self.setupDelegate()
                         self.myScrapCollectionView.reloadData()
                     }
@@ -214,8 +216,8 @@ final class MyScrapVC: UIViewController {
             switch self.selectedButtonType.value {
             case .horizontal:
                 let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HorizontalLayoutCell.identifier,
-                    for: indexPath) as! HorizontalLayoutCell
+                    withReuseIdentifier: MyHorizontalLayoutCell.identifier,
+                    for: indexPath) as! MyHorizontalLayoutCell
                 cell.backgroundColor = .white
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 
@@ -231,8 +233,8 @@ final class MyScrapVC: UIViewController {
                 
             case .largeImage:
                 let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: LargeImageLayoutCell.identifier,
-                    for: indexPath) as! LargeImageLayoutCell
+                    withReuseIdentifier: MyLargeImageLayoutCell.identifier,
+                    for: indexPath) as! MyLargeImageLayoutCell
                 cell.backgroundColor = .white
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 
@@ -252,25 +254,58 @@ final class MyScrapVC: UIViewController {
             .subscribe { _ in
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
-//                self.myScrapCollectionView.performBatchUpdates {
-                    self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
-                    self.bindViewModel()
-//                }
+                //                self.myScrapCollectionView.performBatchUpdates {
+                self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
+                self.bindViewModel()
+                //                }
             }.disposed(by: disposeBag)
         //
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
-//                self.myScrapCollectionView.performBatchUpdates {
-                    self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
-                    self.bindViewModel()
-//                }
+                //                self.myScrapCollectionView.performBatchUpdates {
+                self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
+                self.bindViewModel()
+                //                }
             }.disposed(by: disposeBag)
     }
     
     private func setupData() {
         myScrapSectionView.totalCountLabel.text = "총 \(viewModel.scraps.value.count)개"
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showScrap),
+                                               name: SparkyNotification.sendMyScrapDetailIndex,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showScrap),
+                                               name: SparkyNotification.sendMyScrapWebViewIndex,
+                                               object: nil)
+    }
+    
+    @objc private func showScrap(notification: NSNotification) {
+        switch notification.name {
+        case SparkyNotification.sendMyScrapDetailIndex:
+            if let index = notification.object {
+                let scrapDetailVC = ScrapDetailVC()
+                scrapDetailVC.scrap = BehaviorRelay(value: viewModel.scraps.value[index as! Int])
+                navigationController?.pushViewController(scrapDetailVC, animated: false)
+            }
+            break
+        case SparkyNotification.sendMyScrapWebViewIndex:
+            if let index = notification.object {
+                let scrapWebViewVC = ScrapWebViewVC()
+                scrapWebViewVC.modalPresentationStyle = .overFullScreen
+                scrapWebViewVC.urlString = viewModel.scraps.value[index as! Int].scrapURLString
+                navigationController?.pushViewController(scrapWebViewVC, animated: false)
+            }
+            break
+        default:
+            break
+        }
     }
     
     private func moveToSignInVC() {
