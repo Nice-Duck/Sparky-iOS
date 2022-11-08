@@ -134,7 +134,7 @@ final class TagBottomSheetVC: UIViewController {
         super.viewWillAppear(animated)
         
         fetchRecentTagList()
-        //        bindViewModel()
+        bindViewModel()
     }
     
     private func fetchRecentTagList() {
@@ -162,7 +162,7 @@ final class TagBottomSheetVC: UIViewController {
                     self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
                     print("tagList - \(self.viewModel.recentTagList.value)")
                     //                    self.setupDelegate()
-                    self.bindViewModel()
+//                    self.bindViewModel()
                 } else if response.code == "U000" {
                     print("response - \(response)")
                     
@@ -327,9 +327,8 @@ final class TagBottomSheetVC: UIViewController {
     }
     
     private func bindViewModel() {
-        recentTagCollectionView.dataSource = nil
-        recentTagCollectionView.delegate = nil
-        
+//        recentTagCollectionView.dataSource = nil
+//        recentTagCollectionView.delegate = nil
         
         viewModel.filterTagList.values = viewModel.recentTagList.value
         print("recentTagList - \(viewModel.filterTagList.values)")

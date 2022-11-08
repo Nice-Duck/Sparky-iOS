@@ -68,7 +68,7 @@ final class MyScrapVC: UIViewController {
     
     private func fetchScraps() {
         HomeServiceProvider.shared
-            .getAllScraps()
+            .getMyScraps()
             .map(ScrapResponse.self)
             .subscribe { response in
                 print("code - \(response.code)")

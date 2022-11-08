@@ -18,7 +18,7 @@ enum UserServiceAPI {
 
 extension UserServiceAPI: TargetType {
     var baseURL: URL { URL(string: "https://sparkyapi.tk/api/v1")! }
-
+    
     var path: String {
         switch self {
         case .signIn:
@@ -70,20 +70,20 @@ extension UserServiceAPI: TargetType {
         }
     }
     
-//    var sampleData: Data {
-//        switch self {
-//        case .signIn(let emailsignInRequestModel):
-//            return "{\"id\": \(emailsignInRequestModel.email), \"password\":\(emailsignInRequestModel.password)}".utf8Encoded
-//        case .signUpEmailDuplicate(let params):
-//            <#code#>
-//        case .signUpEmailAuth(let body):
-//            <#code#>
-//        case .signUpNicknameDuplicate(let params):
-//            <#code#>
-//        case .signUp(let body):
-//            <#code#>
-//        }
-//    }
+    //    var sampleData: Data {
+    //        switch self {
+    //        case .signIn(let emailsignInRequestModel):
+    //            return "{\"id\": \(emailsignInRequestModel.email), \"password\":\(emailsignInRequestModel.password)}".utf8Encoded
+    //        case .signUpEmailDuplicate(let params):
+    //            <#code#>
+    //        case .signUpEmailAuth(let body):
+    //            <#code#>
+    //        case .signUpNicknameDuplicate(let params):
+    //            <#code#>
+    //        case .signUp(let body):
+    //            <#code#>
+    //        }
+    //    }
     
     var headers: [String : String]? {
         return ["Content-type": "application/json"]

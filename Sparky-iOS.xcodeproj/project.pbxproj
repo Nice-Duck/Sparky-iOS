@@ -11,6 +11,12 @@
 		560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
 		560306A4291A7FC2008CB6EB /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
 		560306A5291A7FC4008CB6EB /* MyHorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */; };
+		560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */; };
+		560306A8291AAABE008CB6EB /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */; };
+		560306AD291AD0AB008CB6EB /* CustomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */; };
+		560306AE291ADA8F008CB6EB /* CustomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */; };
+		560306B0291AE1A9008CB6EB /* OtherScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */; };
+		560306B1291AE1C2008CB6EB /* OtherScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */; };
 		5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
 		5606F66F28F4352B0083AA58 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
 		5606F67028F4352E0083AA58 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
@@ -225,6 +231,9 @@
 		52C021F9EF5BA9335CA0F4B3 /* Pods-Sparky-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHorizontalLayoutCell.swift; sourceTree = "<group>"; };
 		560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLargeImageLayoutCell.swift; sourceTree = "<group>"; };
+		560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoTableViewCell.swift; sourceTree = "<group>"; };
+		560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpVC.swift; sourceTree = "<group>"; };
+		560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapDetailVC.swift; sourceTree = "<group>"; };
 		5606F66D28F3BA300083AA58 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
 		560BF31C28D0DAB300438463 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		560BF32028D0E6AE00438463 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -389,6 +398,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		560306AB291AD09F008CB6EB /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */,
+			);
+			path = PopUp;
+			sourceTree = "<group>";
+		};
 		560BF31928D0D06700438463 /* SupprotingFiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -480,6 +497,7 @@
 				5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */,
 				5614BBB8291438B900E1DF16 /* SubActionTableViewCell.swift */,
 				5614BBBA291449AA00E1DF16 /* ScrapWebViewVC.swift */,
+				560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */,
 			);
 			path = ScrapDetail;
 			sourceTree = "<group>";
@@ -487,6 +505,7 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				560306AB291AD09F008CB6EB /* PopUp */,
 				5614BBB22913DE6100E1DF16 /* Notification */,
 				56447A5F2906EB700052DBA9 /* TabBar */,
 				56DD96662905400B002DED3E /* Label */,
@@ -699,6 +718,7 @@
 			isa = PBXGroup;
 			children = (
 				56D6AFFD291651510026B18C /* MyInfoVC.swift */,
+				560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */,
 			);
 			path = MyInfo;
 			sourceTree = "<group>";
@@ -1030,6 +1050,7 @@
 				5606F67328F435370083AA58 /* UINavigationBar+.swift in Sources */,
 				5641FE4529196E3C004F5A07 /* UserServiceProvider.swift in Sources */,
 				560306A5291A7FC4008CB6EB /* MyHorizontalLayoutCell.swift in Sources */,
+				560306B1291AE1C2008CB6EB /* OtherScrapDetailVC.swift in Sources */,
 				5664268E290ED03D00154505 /* ImageView+.swift in Sources */,
 				5641FE4F29196ECA004F5A07 /* EmailSignUpRequest.swift in Sources */,
 				5641FE5529196F00004F5A07 /* SignUpVC3.swift in Sources */,
@@ -1049,6 +1070,7 @@
 				5641FE4929196E9A004F5A07 /* EmailSignInViewModel.swift in Sources */,
 				5641FE5829196F14004F5A07 /* MyScrapVC.swift in Sources */,
 				56D6AFEF2915FDCA0026B18C /* ScrapRequest.swift in Sources */,
+				560306A8291AAABE008CB6EB /* MyInfoTableViewCell.swift in Sources */,
 				5606F67128F435310083AA58 /* Image+.swift in Sources */,
 				56DD96692905445C002DED3E /* CustomPaddingLabel.swift in Sources */,
 				5641FE6829196F89004F5A07 /* MyScrapPreViewCollectionViewCell.swift in Sources */,
@@ -1067,6 +1089,7 @@
 				560306A4291A7FC2008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,
 				56D6AFF3291601340026B18C /* TagResponse.swift in Sources */,
 				5641FE4629196E50004F5A07 /* ReIssueTokenResponse.swift in Sources */,
+				560306AE291ADA8F008CB6EB /* CustomPopUpVC.swift in Sources */,
 				56D6AFE02915C02A0026B18C /* TokenUtils.swift in Sources */,
 				5616C54828DB739800BF7126 /* CustomShareNC.swift in Sources */,
 				56C41B8928FEC8CC00D610E5 /* SparkySearchBar.swift in Sources */,
@@ -1116,6 +1139,7 @@
 				5693C1FA28CE2CDC008710FF /* SigninVC.swift in Sources */,
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
 				564900A9290BCD90005A6768 /* TagCollectionViewFlowLayout.swift in Sources */,
+				560306AD291AD0AB008CB6EB /* CustomPopUpVC.swift in Sources */,
 				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
 				56D6AFDD2915BC650026B18C /* TagResponse.swift in Sources */,
 				56C3C2102912B5CE009765DE /* CustomShareNC.swift in Sources */,
@@ -1132,6 +1156,7 @@
 				5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */,
 				567D26122910FFD5000296F0 /* CustomVAlignLabel.swift in Sources */,
 				564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */,
+				560306B0291AE1A9008CB6EB /* OtherScrapDetailVC.swift in Sources */,
 				56D6AFF829160C370026B18C /* Preview.swift in Sources */,
 				56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */,
 				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
@@ -1142,6 +1167,7 @@
 				56D6AFE92915E6BD0026B18C /* TagRequst.swift in Sources */,
 				56D6AFDB2915BB120026B18C /* ScrapResponse.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
+				560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,
 				56C3C2162912B66A009765DE /* String+.swift in Sources */,
@@ -1235,7 +1261,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "seungmin.Sparky-iOS.Sparky";
+				PRODUCT_BUNDLE_IDENTIFIER = com.niceduck.sparky;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1413,7 +1439,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "seungmin.Sparky-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.niceduck.sparky-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;

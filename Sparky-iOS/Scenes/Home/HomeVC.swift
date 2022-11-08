@@ -153,9 +153,7 @@ final class HomeVC: UIViewController {
                             }
                         }
                         print("myScrapViewModel - \(self.myScrapViewModel.scraps.value)")
-                        print("myScrap tagList - \(self.myScrapViewModel.scraps.value[0].tagList.value)")
                         print("otherScrapViewModel - \(self.otherScrapViewModel.scraps.value)")
-                        print("otherScrap tagList - \(self.otherScrapViewModel.scraps.value[0].tagList.value)")
                         print("reload!!!")
                         self.setupDelegate()
                         self.homeTableView.reloadData()
@@ -295,8 +293,14 @@ final class HomeVC: UIViewController {
     @objc private func showVC(notification: NSNotification) {
         if let scrap = notification.object {
             switch notification.name {
-            case SparkyNotification.showPreviewDetail, SparkyNotification.showOtherDetail:
+            case SparkyNotification.showPreviewDetail:
                 let scrapDetailVC = ScrapDetailVC()
+                scrapDetailVC.modalPresentationStyle = .overFullScreen
+                scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
+                navigationController?.pushViewController(scrapDetailVC, animated: false)
+                break
+            case SparkyNotification.showOtherDetail:
+                let scrapDetailVC = OtherScrapDetailVC()
                 scrapDetailVC.modalPresentationStyle = .overFullScreen
                 scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
                 navigationController?.pushViewController(scrapDetailVC, animated: false)
@@ -314,7 +318,7 @@ final class HomeVC: UIViewController {
     }
 }
 
-extension HomeVC: UITableViewDataSource, UITableViewDelegate {
+extension HomeVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -346,6 +350,9 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate {
             return cell
         }
     }
+}
+
+extension HomeVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let homeSectionType = HomeSectionType(rawValue: section) ?? HomeSectionType.myScrap
