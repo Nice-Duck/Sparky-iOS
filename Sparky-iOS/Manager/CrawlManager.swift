@@ -22,7 +22,8 @@ enum NetworkError: Error {
 final class CrwalManager {
     func getTistoryScrap(url: URL?,
                          completion: @escaping (Scrap) -> Void) {
-        var scrap = Scrap(title: "",
+        var scrap = Scrap(scrapId: 0,
+                        title: "",
                           subTitle: "",
                           memo: "",
                           thumbnailURLString: Strings.sparkyImageString,
@@ -63,7 +64,8 @@ final class CrwalManager {
                     subTitle += try array[i].select(Strings.tistorySubTitleSector).text()
                 }
                 
-                scrap = Scrap(title: title,
+                scrap = Scrap(scrapId: 0,
+                    title: title,
                               subTitle: subTitle,
                               memo: "",
                               thumbnailURLString: thumbnailURLString,

@@ -12,10 +12,10 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
     
     static let identifier = "OtherScrapCollectionViewCell"
     
-    private let viewModel = OtherScrapViewModel()
+    var viewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
     
-    private let otherScrapCollectionView: UICollectionView = {
+    let otherScrapCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.itemSize = CGSize(width: 244, height: 228)
         flowlayout.minimumInteritemSpacing = 13
@@ -27,8 +27,12 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         cv.backgroundColor = .background
         cv.layer.cornerRadius = 8
         cv.showsVerticalScrollIndicator = false
-        cv.register(ScrapCollectionViewCell.self,
-                    forCellWithReuseIdentifier: ScrapCollectionViewCell.identifier)
+        cv.register(HalfLayoutCell.self,
+                    forCellWithReuseIdentifier: HalfLayoutCell.identifier)
+        cv.register(HorizontalLayoutCell.self,
+                    forCellWithReuseIdentifier: HorizontalLayoutCell.identifier)
+        cv.register(LargeImageLayoutCell.self,
+                    forCellWithReuseIdentifier: LargeImageLayoutCell.identifier)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         return cv
@@ -39,7 +43,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         
         setupConstraints()
         setupDelegate()
-        bindViewModel()
+//        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -60,31 +64,102 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         otherScrapCollectionView.delegate = self
     }
     
-    private func bindViewModel() {
-        viewModel.otherScrapList.bind(to: otherScrapCollectionView.rx.items(
-            cellIdentifier: ScrapCollectionViewCell.identifier,
-            cellType: ScrapCollectionViewCell.self)) { index, scrap, cell in
-                let scrapLayoutStyle = ScrapLayoutStyle(rawValue: index) ?? ScrapLayoutStyle.horizontalOne
-                switch scrapLayoutStyle {
-                case .halfOne, .halfTwo:
-                    cell.setupHalfLayoutConstraints()
-                case .horizontalOne, .horizontalTwo:
-                    cell.setupHorizontalLayoutConstraints()
-                case .largeImage:
-                    cell.setupLargeImageConstraints()
-                }
+    func bindViewModel() {
+//        otherScrapCollectionView.dataSource = nil
+        
+        viewModel.scraps.bind(to: otherScrapCollectionView.rx.items) { collectionView, row, element in
+            let indexPath = IndexPath(row: row, section: 0)
+            
+            let scrapLayoutStyle = ScrapLayoutStyle(rawValue:
+                                                        row + 1 % 5) ?? ScrapLayoutStyle.horizontalOne
+            
+            switch scrapLayoutStyle {
+            case .halfOne:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HalfLayoutCell.identifier,
+                    for: indexPath) as! HalfLayoutCell
                 
                 cell.backgroundColor = .white
-                cell.setupValue(scrap: scrap)
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
-                scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
                         cell.setupTagButton(tag: tag)
                     }.disposed(by: self.disposeBag)
-            }.disposed(by: disposeBag)
+                return cell
+                
+            case .halfTwo:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HalfLayoutCell.identifier,
+                    for: indexPath) as! HalfLayoutCell
+                
+                cell.backgroundColor = .white
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                cell.tagCollectionView.delegate = nil
+                cell.tagCollectionView.dataSource = nil
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                    cellIdentifier: TagCollectionViewCell.identifier,
+                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
+                        cell.setupConstraints()
+                        cell.setupTagButton(tag: tag)
+                    }.disposed(by: self.disposeBag)
+                return cell
+                
+            case .horizontalOne:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HorizontalLayoutCell.identifier,
+                    for: indexPath) as! HorizontalLayoutCell
+                
+                cell.backgroundColor = .white
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                cell.tagCollectionView.delegate = nil
+                cell.tagCollectionView.dataSource = nil
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                    cellIdentifier: TagCollectionViewCell.identifier,
+                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
+                        cell.setupConstraints()
+                        cell.setupTagButton(tag: tag)
+                    }.disposed(by: self.disposeBag)
+                return cell
+                
+            case .horizontalTwo:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HorizontalLayoutCell.identifier,
+                    for: indexPath) as! HorizontalLayoutCell
+                
+                cell.backgroundColor = .white
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                cell.tagCollectionView.delegate = nil
+                cell.tagCollectionView.dataSource = nil
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                    cellIdentifier: TagCollectionViewCell.identifier,
+                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
+                        cell.setupConstraints()
+                        cell.setupTagButton(tag: tag)
+                    }.disposed(by: self.disposeBag)
+                return cell
+                
+            case .largeImage:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: LargeImageLayoutCell.identifier,
+                    for: indexPath) as! LargeImageLayoutCell
+                
+                cell.backgroundColor = .white
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                cell.tagCollectionView.delegate = nil
+                cell.tagCollectionView.dataSource = nil
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                    cellIdentifier: TagCollectionViewCell.identifier,
+                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
+                        cell.setupConstraints()
+                        cell.setupTagButton(tag: tag)
+                    }.disposed(by: self.disposeBag)
+                return cell
+            }
+        }.disposed(by: disposeBag)
     }
 }
 
@@ -92,7 +167,7 @@ extension OtherScrapCollectionViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let scrapLayoutStyle = ScrapLayoutStyle(rawValue: indexPath.row % 5) ?? ScrapLayoutStyle.horizontalOne
+        let scrapLayoutStyle = ScrapLayoutStyle(rawValue: indexPath.row + 1 % 5) ?? ScrapLayoutStyle.horizontalOne
         switch scrapLayoutStyle {
         case .halfOne, .halfTwo:
             return CGSize(width: (contentView.frame.size.width - 13 - 40) / 2, height: 241)

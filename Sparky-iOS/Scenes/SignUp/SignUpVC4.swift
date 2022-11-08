@@ -183,16 +183,16 @@ class SignUpVC4: UIViewController {
                 print("password - \(password)")
                 print("nickname - \(nickname)")
                 
-                let nicknameDuplicateRequest = EmailNicknameDuplicateRequest(nickname: nickname)
+                let nicknameDuplicateRequest = EmailNicknameDuplicateRequest(name: nickname)
                 UserServiceProvider.shared
                     .signUpNicknameDuplicate(nicknameDuplicateRequest: nicknameDuplicateRequest)
-                    .map(EmailSignUpResponse.self)
+                    .map(PostResultResponse.self)
                     .subscribe { response in
                         print("code - \(response.code)")
                         print("message - \(response.message)")
                         
                         if response.code == "0000" {
-                            let emailSignUpRequest = EmailSignUpRequest(email: email, nickname: nickname, pwd: password)
+                            let emailSignUpRequest = EmailSignUpRequest(email: email, pwd: password, nickname: nickname)
                             UserServiceProvider.shared
                                 .signUp(emailSignUpRequest: emailSignUpRequest)
                                 .map(EmailSignUpResponse.self)

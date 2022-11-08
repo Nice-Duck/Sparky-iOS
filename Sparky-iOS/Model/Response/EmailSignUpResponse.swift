@@ -8,10 +8,10 @@
 struct EmailSignUpResponse: Decodable {
     let code: String
     let message: String
-    let result: token?
+    let result: tokens?
 }
 
-struct result: Decodable {
-    let refreshToken: String
+struct tokens: Decodable {
     let accessToken: String
+    let refreshToken: String
 }

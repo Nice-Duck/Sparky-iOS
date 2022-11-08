@@ -13,10 +13,10 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     
     static let identifier = "MyScrapPreViewCollectionViewCell"
     
-    private let viewModel = ScrapViewModel()
+    var viewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
     
-    private let myScrapCollectionView: UICollectionView = {
+    let myScrapCollectionView: UICollectionView = {
         let flowlayout = UICollectionViewFlowLayout()
         flowlayout.itemSize = CGSize(width: 244, height: 228)
         flowlayout.minimumInteritemSpacing = 12
@@ -27,8 +27,8 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         cv.backgroundColor = .background
         cv.layer.cornerRadius = 8
         cv.showsHorizontalScrollIndicator = false
-        cv.register(ScrapCollectionViewCell.self,
-                    forCellWithReuseIdentifier: ScrapCollectionViewCell.identifier)
+        cv.register(PreviewLayoutViewCell.self,
+                    forCellWithReuseIdentifier: PreviewLayoutViewCell.identifier)
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         return cv
@@ -39,7 +39,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         
         setupConstraints()
         createObserver()
-        bindViewModel()
+//        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -69,29 +69,31 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     
     @objc private func showScrapDetail(notification: NSNotification) {
         if let index = notification.object {
-            let scrap = viewModel.scraps.value.myScraps.value[index as! Int]
+            let scrap = viewModel.scraps.value[index as! Int]
             NotificationCenter.default.post(name: SparkyNotification.showScrapDetail, object: scrap)
         }
     }
     
     @objc private func showScrapWebView(notification: NSNotification) {
         if let index = notification.object {
-            let scrap = viewModel.scraps.value.myScraps.value[index as! Int]
+            let scrap = viewModel.scraps.value[index as! Int]
             NotificationCenter.default.post(name: SparkyNotification.showScrapWebView, object: scrap)
         }
     }
     
-    private func bindViewModel() {
-        viewModel.scraps.value.myScraps.bind(to: myScrapCollectionView.rx.items(
-            cellIdentifier: ScrapCollectionViewCell.identifier,
-            cellType: ScrapCollectionViewCell.self)) { index, scrap, cell in
+    func bindViewModel() {
+//        myScrapCollectionView.dataSource = nil
+        
+        viewModel.scraps.bind(to: myScrapCollectionView.rx.items(
+            cellIdentifier: PreviewLayoutViewCell.identifier,
+            cellType: PreviewLayoutViewCell.self)) { index, scrap, cell in
                 cell.backgroundColor = .sparkyWhite
-                cell.setupMyScrapLayoutConstraints()
                 cell.setupValue(scrap: scrap)
                 cell.scrapDetailButton.tag = index
                 cell.thumbnailImageView.tag = index
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
+                print("taglist - \(scrap.tagList.value)")
                 scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in

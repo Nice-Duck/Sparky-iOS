@@ -40,8 +40,10 @@ final class MyScrapVC: UIViewController {
         cv.backgroundColor = .background
         cv.layer.cornerRadius = 8
         cv.showsVerticalScrollIndicator = false
-        cv.register(ScrapCollectionViewCell.self,
-                    forCellWithReuseIdentifier: ScrapCollectionViewCell.identifier)
+        cv.register(HorizontalLayoutCell.self,
+                    forCellWithReuseIdentifier: HorizontalLayoutCell.identifier)
+        cv.register(LargeImageLayoutCell.self,
+                    forCellWithReuseIdentifier: LargeImageLayoutCell.identifier)
         cv.register(MyScrapSectionView.self,
                     forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                     withReuseIdentifier: MyScrapSectionView.identifier)
@@ -60,6 +62,115 @@ final class MyScrapVC: UIViewController {
         setupDelegate()
         bindViewModel()
         setupData()
+        
+        fetchScraps()
+    }
+    
+    private func fetchScraps() {
+        HomeServiceProvider.shared
+            .getAllScraps()
+            .map(ScrapResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    print("---홈 스크랩 요청 성공!!!---")
+                    print("result - \(response.result)")
+                    
+                    if let result = response.result {
+                        if let myScraps = result.myScraps {
+                            myScraps.forEach { scrap in
+                                var newTagList = [Tag]()
+                                
+                                scrap.tagsResponse?.forEach { tag in
+                                    print("tag.color - \(tag.color)")
+                                    let newTag = Tag(name: tag.name,
+                                                     color: .colorchip12,
+                                                     buttonType: .none)
+                                    newTagList.append(newTag)
+                                }
+                                
+                                let newScrap = Scrap(scrapId: scrap.scrapId,
+                                                     title: scrap.title ?? "",
+                                                     subTitle: scrap.subTitle ?? "",
+                                                     memo: scrap.memo ?? "",
+                                                     thumbnailURLString: scrap.imgUrl ?? "",
+                                                     scrapURLString: scrap.scpUrl ?? "",
+                                                     tagList: BehaviorRelay<[Tag]>(value: newTagList))
+                                
+                                self.viewModel.scraps.values.append(newScrap)
+                            }
+                        }
+                        print("myScrapViewModel - \(self.viewModel.scraps.value)")
+                        print("otherScrapViewModel - \(self.viewModel.scraps.value)")
+                        print("reload!!!")
+                        self.setupDelegate()
+                        self.myScrapCollectionView.reloadData()
+                    }
+                } else if response.code == "U000" {
+                    print("response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    HomeServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.fetchScraps()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    self.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                self.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("---홈 스크랩 요청 에러---")
+                print("\(error)")
+            }.disposed(by: disposeBag)
+        
+        //        print(myScrapViewModel.scraps.value)
+        //        print(otherScrapViewModel.scraps.value)
+        //        setupDelegate()
+        //        homeTableView.reloadData()
+        
     }
     
     private func setupNavBar() {
@@ -96,81 +207,77 @@ final class MyScrapVC: UIViewController {
     }
     
     private func bindViewModel() {
-        viewModel.scraps.value.myScraps.bind(to: myScrapCollectionView.rx.items(
-            cellIdentifier: ScrapCollectionViewCell.identifier,
-            cellType: ScrapCollectionViewCell.self)) { index, scrap, cell in
+        myScrapCollectionView.dataSource = nil
+        
+        viewModel.scraps.bind(to: myScrapCollectionView.rx.items) { collectionView, row, element in
+            let indexPath = IndexPath(row: row, section: 0)
+            switch self.selectedButtonType.value {
+            case .horizontal:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: HorizontalLayoutCell.identifier,
+                    for: indexPath) as! HorizontalLayoutCell
                 cell.backgroundColor = .white
-                cell.setupValue(scrap: scrap)
-
-//                print("selectedButtonType - \(self.selectedButtonType)")
-
-//                self.myScrapCollectionView.dataSource = nil
-//                self.myScrapCollectionView.delegate = nil
-//                cell.thumbnailImageView.layoutIfNeeded()
-
-                switch self.selectedButtonType.value {
-                case .horizontal:
-                    print("horizontal!")
-                    cell.setupHorizontalLayoutConstraints()
-//                    cell.setupLargeImageConstraints()
-
-                case .largeImage:
-                    print("largeImage!")
-                    cell.setupLargeImageConstraints()
-                }
-//                cell.setNeedsLayout()
-//                cell.layoutIfNeeded()
-
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
-                scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
                         cell.setupTagButton(tag: tag)
                     }.disposed(by: self.disposeBag)
-//                cell.setNeedsLayout()
-//                cell.layoutIfNeeded()
-            }.disposed(by: disposeBag)
-
-//        myScrapSectionView.setHorizontalViewButton.rx.tap
-//            .map({
-//            })
-//            .bind(to: myScrapSectionView.setHorizontalViewButton.tintColor)
-//            }.disposed(by: disposeBag)
-
+                return cell
+                
+            case .largeImage:
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: LargeImageLayoutCell.identifier,
+                    for: indexPath) as! LargeImageLayoutCell
+                cell.backgroundColor = .white
+                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                
+                cell.tagCollectionView.delegate = nil
+                cell.tagCollectionView.dataSource = nil
+                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                    cellIdentifier: TagCollectionViewCell.identifier,
+                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
+                        cell.setupConstraints()
+                        cell.setupTagButton(tag: tag)
+                    }.disposed(by: self.disposeBag)
+                return cell
+            }
+        }.disposed(by: disposeBag)
+        
         myScrapSectionView.setHorizontalViewButton.rx.tap
             .subscribe { _ in
-//                print("hori 버튼 클릭!")
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
-//                self.myScrapCollectionView.updateConstraints()
-//                self.myScrapCollectionView.delegate = self
-                self.myScrapCollectionView.performBatchUpdates {
-//                    print("111 selectedButtonType - \(self.selectedButtonType)")
-                    self.myScrapCollectionView.reloadData()
+//                self.myScrapCollectionView.performBatchUpdates {
                     self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
-                }
+                    self.bindViewModel()
+//                }
             }.disposed(by: disposeBag)
-//
+        //
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
-//                print("large 버튼 클릭!")
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
-//                self.myScrapCollectionView.updateConstraints()
-//                self.myScrapCollectionView.delegate = self
-                self.myScrapCollectionView.performBatchUpdates {
-//                    print("222 selectedButtonType - \(self.selectedButtonType)")
-
-                    self.myScrapCollectionView.reloadData()
+//                self.myScrapCollectionView.performBatchUpdates {
                     self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
-                }
+                    self.bindViewModel()
+//                }
             }.disposed(by: disposeBag)
     }
     
     private func setupData() {
-        myScrapSectionView.totalCountLabel.text = "총 \(viewModel.scraps.value.myScraps.values.count)개"
+        myScrapSectionView.totalCountLabel.text = "총 \(viewModel.scraps.value.count)개"
+    }
+    
+    private func moveToSignInVC() {
+        guard let nc = self.navigationController else { return }
+        var vcs = nc.viewControllers
+        vcs = [SignInVC()]
+        self.navigationController?.viewControllers = vcs
     }
 }
 
@@ -178,7 +285,6 @@ extension MyScrapVC: UICollectionViewDelegate, UICollectionViewDelegateFlowLayou
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print("delegate 호출!!")
         switch selectedButtonType.value {
         case .horizontal:
             return CGSize(width: view.frame.size.width - 40, height: 138)

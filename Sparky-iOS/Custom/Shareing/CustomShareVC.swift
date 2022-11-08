@@ -38,19 +38,20 @@ final class CustomShareVC: UIViewController {
         $0.contentMode = .scaleAspectFit
     }
     
-    private var scrapTitleLabel = UILabel().then {
-        $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
+    private var scrapTitleLabel = CustomVAlignLabel().then {
         $0.font = .bodyBold2
         $0.textAlignment = .left
         $0.textColor = .black
+        $0.numberOfLines = 2
+        $0.verticalAlignment = .top
     }
     
-    private var scrapSubTitleLabel = UILabel().then {
-        $0.text = "스으으으으으크크크크크크크크으으으으으으으으래래래래래애애애애애앱~~~~~"
+    private var scrapSubTitleLabel = CustomVAlignLabel().then {
         $0.font = .bodyRegular1
         $0.textAlignment = .left
         $0.textColor = .black
         $0.numberOfLines = 2
+        $0.verticalAlignment = .top
     }
     
     private let dividerView = UIView().then {
@@ -240,6 +241,47 @@ final class CustomShareVC: UIViewController {
                     }
                 }
             }).disposed(by: disposeBag)
+        
+        saveButton.rx.tap
+            .subscribe { _ in
+                let preview = self.previewViewModel.preview
+                let memo = self.memoTextView.text
+                var tagStringList = [String]()
+                self.viewModel.addTagList.value.forEach { tag in
+                    tagStringList.append(tag.name)
+                }
+                
+                let newScrapRequest = ScrapRequest(title: preview?.title ?? "",
+                                                   subTitle: preview?.subtitle ?? "",
+                                                   memo: memo ?? "",
+                                                   imgUrl: preview?.thumbnailURLString ?? "",
+                                                   scpUrl: preview?.scrapURLString ?? "",
+                                                   tagsResponse: tagStringList)
+                print("newScrapRequest - \(newScrapRequest)")
+                self.saveMyScrap(scrapRequest: newScrapRequest)
+            }.disposed(by: disposeBag)
+    }
+    
+    private func saveMyScrap(scrapRequest: ScrapRequest) {
+        ShareServiceProvider.shared
+            .saveScrap(scrapRequest: scrapRequest)
+            .map(PostResultResponse.self)
+            .subscribe { response in
+                print("code: \(response.code)")
+                print("message: \(response.message)")
+                
+                if response.code == "0000" {
+                    print("---요청 성공!!!---")
+                    self.navigationController?.popViewController(animated: false)
+                } else {
+                    print("---응답 실패!!!---")
+                }
+                
+            } onFailure: { error in
+                print("---요청 실패---")
+                print(error)
+            }.disposed(by: disposeBag)
+
     }
     
     private func presentTagBottomSheetVC() {
@@ -274,12 +316,12 @@ final class CustomShareVC: UIViewController {
     }
     
     private func setupScrap(urlString: String) {
-        self.previewViewModel.fetchPreview(urlString: urlString) { response in
+        self.previewViewModel.fetchPreview(urlString: urlString) { preview in
             do {
-                print("CustomShareVC response - \(response)")
-                self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: response.image?.convertSpecialCharacters() ?? ""))
-                self.scrapTitleLabel.text = response.title ?? ""
-                self.scrapSubTitleLabel.text = response.description ?? ""
+                print("CustomShareVC response - \(preview)")
+                self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: preview?.thumbnailURLString ?? ""))
+                self.scrapTitleLabel.text = preview?.title ?? ""
+                self.scrapSubTitleLabel.text = preview?.subtitle ?? ""
                 self.view.layoutIfNeeded()
             } catch {
                 
@@ -289,13 +331,6 @@ final class CustomShareVC: UIViewController {
     
     
     private func accessWebpageProperites(extentionItem: NSExtensionItem) {
-        var propertyList: String
-        if #available(iOS 14.0, *) {
-            propertyList = String(UTType.propertyList.identifier)
-        } else {
-            propertyList = String(kUTTypePropertyList)
-        }
-        
         if let attachments = extentionItem.attachments {
             for attachment: NSItemProvider in attachments {
                 if attachment.hasItemConformingToTypeIdentifier("public.url") {
@@ -366,9 +401,17 @@ extension CustomShareVC: UITextViewDelegate {
 
 extension CustomShareVC: NewTagCVDelegate {
     func sendNewTagList(tag: Tag) {
-        let newTag = Tag(text: tag.text,
-                         backgroundColor: tag.backgroundColor,
+        let newTag = Tag(name: tag.name,
+                         color: tag.color,
                          buttonType: .delete)
-        viewModel.addTagList.insert(newTag, at: 0)
+        
+        if !viewModel.addTagList.value.contains(where: { tag in
+            if tag == newTag {
+                return true
+            }
+            return false
+        }) {
+            viewModel.addTagList.insert(newTag, at: 0)
+        }
     }
 }

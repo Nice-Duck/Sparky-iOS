@@ -1,17 +1,17 @@
 //
-//  ScrapCollectionViewCell.swift
+//  HorizontalLayoutCell.swift
 //  Sparky-iOS
 //
-//  Created by SeungMin on 2022/10/28.
+//  Created by SeungMin on 2022/11/07.
 //
 
 import UIKit
 import RxSwift
 
 
-final class ScrapCollectionViewCell: UICollectionViewCell {
+final class HorizontalLayoutCell: UICollectionViewCell {
     
-    static let identifier = "ScrapCollectionViewCell"
+    static let identifier = "HorizontalLayoutCell"
     
     let disposeBag = DisposeBag()
     
@@ -24,9 +24,6 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
     
     let scrapDetailButton = UIButton().then {
         $0.setImage(UIImage(named: "edit"), for: .normal)
-//        $0.addTarget(self,
-//                     action: #selector(didTapScrapDetailButton(_:)),
-//                     for: .touchUpInside)
     }
     
     var bottomContainerView = UIView()
@@ -40,6 +37,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
         $0.font = .bodyBold2
         $0.textAlignment = .left
         $0.textColor = .sparkyBlack
+        $0.numberOfLines = 2
         $0.verticalAlignment = .top
     }
     
@@ -47,117 +45,23 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
         $0.font = .bodyRegular1
         $0.textAlignment = .left
         $0.textColor = .gray600
+        $0.numberOfLines = 2
         $0.verticalAlignment = .top
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        setupConstraints()
         setDidTapScrapDetailButton()
         setDidTapScrapthumbnailImageView()
     }
-        
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupMyScrapLayoutConstraints() {
-        contentView.addSubview(topContainerView)
-        topContainerView.snp.makeConstraints {
-            $0.top.equalTo(contentView).offset(12)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(24)
-        }
-        
-        topContainerView.addSubview(scrapDetailButton)
-        scrapDetailButton.snp.makeConstraints {
-            $0.top.equalTo(topContainerView)
-            $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(topContainerView)
-            $0.width.equalTo(24)
-        }
-        
-        topContainerView.addSubview(tagCollectionView)
-        tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(topContainerView)
-            $0.left.equalTo(topContainerView)
-            $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
-        }
-        
-        contentView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints {
-            $0.top.equalTo(topContainerView.snp.bottom).offset(8)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(78)
-        }
-        
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(thumbnailImageView.snp.bottom).offset(12)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-        }
-        
-        contentView.addSubview(subTitleLabel)
-        subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-        }
-    }
-    
-    func setupHalfLayoutConstraints() {
-        contentView.addSubview(topContainerView)
-        topContainerView.snp.makeConstraints {
-            $0.top.equalTo(contentView).offset(12)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(24)
-        }
-        
-        topContainerView.addSubview(scrapDetailButton)
-        scrapDetailButton.snp.makeConstraints {
-            $0.top.equalTo(topContainerView)
-            $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(topContainerView)
-            $0.width.equalTo(24)
-        }
-        
-        topContainerView.addSubview(tagCollectionView)
-        tagCollectionView.snp.makeConstraints {
-            $0.top.equalTo(topContainerView)
-            $0.left.equalTo(topContainerView)
-            $0.bottom.equalTo(topContainerView)
-            $0.right.equalTo(scrapDetailButton.snp.left).offset(-16)
-        }
-        
-        contentView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints {
-            $0.top.equalTo(topContainerView.snp.bottom).offset(8)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-            $0.height.equalTo(91)
-        }
-        
-        contentView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(thumbnailImageView.snp.bottom).offset(12)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-        }
-        
-        contentView.addSubview(subTitleLabel)
-        subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(contentView).offset(12)
-            $0.right.equalTo(contentView).offset(-12)
-        }
-    }
-    
-    func setupHorizontalLayoutConstraints() {
+    func setupConstraints() {
         contentView.addSubview(topContainerView)
         topContainerView.snp.makeConstraints {
             $0.top.equalTo(contentView).offset(12)
@@ -269,7 +173,7 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
     
     func setDidTapScrapDetailButton() {
         scrapDetailButton.rx.tap
-            .throttle(.milliseconds(3), scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
             .subscribe { _ in
                 NotificationCenter.default.post(name: SparkyNotification.sendScrapDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)
@@ -285,3 +189,4 @@ final class ScrapCollectionViewCell: UICollectionViewCell {
             }.disposed(by: disposeBag)
     }
 }
+

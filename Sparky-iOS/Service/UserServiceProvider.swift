@@ -37,13 +37,14 @@ struct UserServiceProvider {
                     print("요청 실패! - HTTP Status Code: \(response.statusCode)")
                 }
             } onError: { error in
-                print("요청 실패! - error: \(error)")
+                print("요청 실패! - endPoint: \(error)")
             }
     }
     
     func signUpEmailSend(emailSendRequest: EmailSendRequest) -> Single<Response> {
         return provider.rx.request(.signUpEmailSend(body: emailSendRequest))
             .do { response in
+                print("response - \(response)")
                 if (200...299).contains(response.statusCode) {
                     print("요청 성공! - HTTP Status Code: \(response.statusCode)")
                 } else {
@@ -67,7 +68,6 @@ struct UserServiceProvider {
                 print("요청 실패! - error: \(error)")
             }
     }
-
     
     func signUpNicknameDuplicate(nicknameDuplicateRequest: EmailNicknameDuplicateRequest) -> Single<Response> {
         return provider.rx.request(.signUpNicknameDuplicate(params: nicknameDuplicateRequest))

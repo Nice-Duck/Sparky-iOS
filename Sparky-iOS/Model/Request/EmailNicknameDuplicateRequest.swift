@@ -6,5 +6,5 @@
 //
 
 struct EmailNicknameDuplicateRequest: Encodable {
-    let nickname: String
+    let name: String
 }

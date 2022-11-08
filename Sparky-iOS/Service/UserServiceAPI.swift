@@ -17,22 +17,22 @@ enum UserServiceAPI {
 }
 
 extension UserServiceAPI: TargetType {
-    var baseURL: URL { URL(string: "https://sparky-demo.herokuapp.com")! }
+    var baseURL: URL { URL(string: "https://sparkyapi.tk/api/v1")! }
 
     var path: String {
         switch self {
         case .signIn:
-            return "/api/v1/accounts"
+            return "/accounts"
         case .signUpEmailDuplicate:
-            return "/api/v1/accounts/register"
+            return "/accounts/register"
         case .signUpEmailSend:
-            return "/api/v1/accounts/mails/send"
+            return "/accounts/mails/send"
         case .signUpEmailConfirm:
-            return "​/api/v1/accounts/mails/confirm"
+            return "/accounts/mails/confirm"
         case .signUpNicknameDuplicate:
-            return "/api/v1/users"
+            return "/users/duplication"
         case .signUp:
-            return "/api/v1/accounts/register"
+            return "/accounts/register"
         }
     }
     

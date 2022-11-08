@@ -39,10 +39,10 @@ final class TagCollectionViewCell: UICollectionViewCell {
     }
     
     func setupTagButton(tag: Tag) {
-        tagTitleLabel.text = tag.text
+        tagTitleLabel.text = tag.name
         tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .gray400
         tagButtonImageView.image = getButtonImage(buttonType: tag.buttonType)
-        tagStackView.backgroundColor = tag.buttonType != .add ? tag.backgroundColor : .clear
+        tagStackView.backgroundColor = tag.buttonType != .add ? tag.color : .clear
         
         if tag.buttonType == .add {
             if var sublayers = tagStackView.layer.sublayers {

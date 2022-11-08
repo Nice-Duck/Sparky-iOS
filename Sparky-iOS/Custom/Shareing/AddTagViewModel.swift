@@ -12,6 +12,6 @@ import RxCocoa
 final class AddTagViewModel {
     
     var addTagList = BehaviorRelay<[Tag]>(value: [
-        Tag(text: "태그추가", backgroundColor: .clear, buttonType: .add)
+        Tag(name: "태그추가", color: .clear, buttonType: .add)
     ])
 }
