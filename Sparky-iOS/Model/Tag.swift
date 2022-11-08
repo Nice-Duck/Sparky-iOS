@@ -13,8 +13,8 @@ enum ButtonType {
     case none
 }
 
-struct Tag {
-    let text: String
-    let backgroundColor: UIColor
-    let buttonType: ButtonType
+struct Tag: Equatable {
+    let name: String
+    let color: UIColor
+    var buttonType: ButtonType
 }

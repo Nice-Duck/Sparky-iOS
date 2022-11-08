@@ -160,7 +160,7 @@ class SignUpVC1: UIViewController {
                             let emailSendRequest = EmailSendRequest(email: email)
                             UserServiceProvider.shared
                                 .signUpEmailSend(emailSendRequest: emailSendRequest)
-                                .map(EmailSignUpResponse.self)
+                                .map(PostResultResponse.self)
                                 .subscribe { response in
                                     print("code - \(response.code)")
                                     print("message - \(response.message)")

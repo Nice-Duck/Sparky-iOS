@@ -141,7 +141,7 @@ final class SignInVC: UIViewController {
                 
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
-                    .map(EmailSignInResponse.self)
+                    .map(EmailSignUpResponse.self)
                     .subscribe { response in
                         if response.code == "0000" {
                             print("code - \(response.code)")

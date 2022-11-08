@@ -7,6 +7,6 @@
 
 struct EmailSignUpRequest: Encodable {
     let email: String
-    let nickname: String
     let pwd: String
+    let nickname: String
 }

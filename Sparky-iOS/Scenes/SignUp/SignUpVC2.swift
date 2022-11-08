@@ -191,10 +191,12 @@ class SignUpVC2: UIViewController {
                 print("입력 이메일 - \(email)")
                 print("입력 인증 번호 - \(self.viewModel.inputNumberObserver.value)")
                 
-                let emailConfirmRequest = EmailConfirmRequest(email: email, number: self.viewModel.inputNumberObserver.value)
+                let emailConfirmRequest = EmailConfirmRequest(
+                    email: email,
+                    number: self.viewModel.inputNumberObserver.value)
                 UserServiceProvider.shared
                     .signUpEmailConfirm(emailConfirmRequest: emailConfirmRequest)
-                    .map(EmailSignUpResponse.self)
+                    .map(PostResultResponse.self)
                     .subscribe { response in
                         print("response \(response)")
                         print("code - \(response.code)")
@@ -212,13 +214,8 @@ class SignUpVC2: UIViewController {
                             self.errorLabel.isHidden = false
                         }
                     } onFailure: { error in
-                        print(error)
+                        print("onFailure - \(error)")
                     }.disposed(by: self.disposeBag)
-                
-                // TODO: 404에러로 인한 임시 코드
-                let signUpVC3 = SignUpVC3()
-                signUpVC3.email = self.email
-                self.navigationController?.pushViewController(signUpVC3, animated: true)
             }).disposed(by: disposeBag)
     }
     

@@ -18,7 +18,7 @@ final class TagBottomSheetVC: UIViewController {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
-    var viewModel = RecentTagViewModel()
+    let viewModel = RecentTagViewModel()
     weak var newTagCVDelegate: NewTagCVDelegate?
     
     private let dimmedView =  UIView().then {
@@ -124,10 +124,101 @@ final class TagBottomSheetVC: UIViewController {
         view.backgroundColor = .background
         setupNavBar()
         setupConstraints()
-        bindViewModel()
-        //        setupDelegate()
+//        bindViewModel()
+//        setupDelegate()
         setupDimmendTabGesture()
         setupNewTagTapGuesture()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchRecentTagList()
+//        bindViewModel()
+    }
+    
+    private func fetchRecentTagList() {
+        ShareServiceProvider.shared
+            .fetchTag()
+            .map(RecentTagResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    print("---요청 성공!!!---")
+                    print("tagList - \(response.result)")
+                    
+                    var newTagList = [Tag]()
+                    
+                    // TODO: 버튼 칼라 수정 해야됨
+                    response.result?.tagResponses.forEach { tagResponse in
+                        let newTag = Tag(name: tagResponse.name,
+                                         color: .colorchip8,
+                                         buttonType: .none)
+                        newTagList.append(newTag)
+                    }
+                    self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
+                    print("tagList - \(self.viewModel.recentTagList.value)")
+//                    self.setupDelegate()
+                    self.bindViewModel()
+                } else if response.code == "U000" {
+                    print("response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    HomeServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.fetchRecentTagList()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    self.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                self.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("error response - \(response)")
+                }
+            } onFailure: { error in
+                print("---요청 실패!!!---")
+                print(error)
+            }.disposed(by: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -235,7 +326,14 @@ final class TagBottomSheetVC: UIViewController {
     }
     
     private func bindViewModel() {
+        recentTagCollectionView.dataSource = nil
+        recentTagCollectionView.delegate = nil
+        
+        
         viewModel.filterTagList.values = viewModel.recentTagList.value
+        print("recentTagList - \(viewModel.filterTagList.values)")
+        print("filterList - \(viewModel.filterTagList.values)")
+        
         viewModel.filterTagList
             .bind(to: recentTagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
                 if tag.buttonType == .add {
@@ -257,7 +355,7 @@ final class TagBottomSheetVC: UIViewController {
             .orEmpty
             .subscribe(onNext: { text in
                 let filteredTagList = self.viewModel.recentTagList.values.filter({
-                    $0.text.hasPrefix(text)
+                    $0.name.hasPrefix(text)
                 })
                 self.viewModel.filterTagList.accept(filteredTagList)
                 
@@ -311,36 +409,65 @@ final class TagBottomSheetVC: UIViewController {
     private func setupNewTagTapGuesture() {
         newTagStackView.rx
             .tapGesture()
+            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
             .when(.recognized)
             .subscribe(onNext: { _ in
                 if let text = self.newTagLabel.text, text != "" {
-                    let newTag = Tag(text: text,
-                                     backgroundColor: .colorchip7,
-                                     buttonType: .none)
-                    self.viewModel.recentTagList.insert(newTag, at: 0)
+                    let tagRequest = TagRequst(tag: text,
+                                               color: "blue")
+                    
+                    ShareServiceProvider.shared
+                        .saveTag(tagRequst: tagRequest)
+                        .map(PostResultResponse.self)
+                        .subscribe { response in
+                                print("code - \(response.code)")
+                                print("message - \(response.message)")
+                            if response.code == "0000" {
+                                print("---요청 성공!!!---")
+                                self.fetchRecentTagList()
+                            } else {
+                                print("---요청 실패!!!---")
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+
+                    
 
                     self.tagTextField.text = ""
                     self.tagTextField.resignFirstResponder()
                     self.tagTextField.becomeFirstResponder()
                     self.tagContainerView.isHidden = false
                     self.noDataContainerView.isHidden = true
-                    self.newTagCVDelegate?.sendNewTagList(tag: newTag)
                 }
             }).disposed(by: disposeBag)
     }
     
-    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
-        var newTagList = tagList
-        for i in 0..<newTagList.count {
-            newTagList[i] = Tag(text: newTagList[i].text,
-                                backgroundColor: newTagList[i].backgroundColor,
-                                buttonType: .delete)
-        }
-        
-        let addButtonTag = Tag(text: "태그추가",
-                               backgroundColor: .clear,
-                               buttonType: .add)
-        newTagList.append(addButtonTag)
-        return newTagList
+    private func moveToSignInVC() {
+        guard let nc = self.navigationController else { return }
+        var vcs = nc.viewControllers
+        vcs = [SignInVC()]
+        self.navigationController?.viewControllers = vcs
     }
+    
+    
+//    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
+//        var newTagList = tagList
+//        for i in 0..<newTagList.count {
+//            newTagList[i] = Tag(tagId: tagList,
+//                                name: <#T##String#>,
+//                                color: <#T##UIColor#>,
+//                                buttonType: <#T##ButtonType#>)
+//            Tag(
+//                text: newTagList[i].text,
+//                                backgroundColor: newTagList[i].backgroundColor,
+//                                buttonType: .delete)
+//        }
+//
+//        let addButtonTag = Tag(text: "태그추가",
+//                               backgroundColor: .clear,
+//                               buttonType: .add)
+//        newTagList.append(addButtonTag)
+//        return newTagList
+//    }
 }

@@ -14,6 +14,7 @@ struct Scraps {
 }
 
 struct Scrap {
+    let scrapId: Int
     let title: String
     let subTitle: String
     let memo: String

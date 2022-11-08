@@ -13,7 +13,8 @@ final class ScrapDetailVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    var scrap = BehaviorRelay<Scrap>(value: Scrap(title: "",
+    var scrap = BehaviorRelay<Scrap>(value: Scrap(scrapId: 0,
+                                                  title: "",
                                                   subTitle: "",
                                                   memo: "",
                                                   thumbnailURLString: "",
@@ -91,7 +92,7 @@ final class ScrapDetailVC: UIViewController {
         $0.backgroundColor = .background
         $0.layer.cornerRadius = 8
         $0.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
-//        $0.separatorColor = $0.backgroundColor
+        //        $0.separatorColor = $0.backgroundColor
         $0.isScrollEnabled = false
         $0.allowsSelection = false
         $0.sectionHeaderHeight = 0
@@ -283,21 +284,21 @@ final class ScrapDetailVC: UIViewController {
         self.present(tagBottomSheetVC, animated: false)
     }
     
-    func convertToNoneType(tagList: [Tag]) -> [Tag] {
-        if tagList.isEmpty {
-            return []
-        }
-        
-        var newTagList = tagList
-        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
-        
-        for i in 0..<newTagList.count {
-            newTagList[i] = Tag(text: newTagList[i].text,
-                                backgroundColor: newTagList[i].backgroundColor,
-                                buttonType: .none)
-        }
-        return newTagList
-    }
+    //    func convertToNoneType(tagList: [Tag]) -> [Tag] {
+    //        if tagList.isEmpty {
+    //            return []
+    //        }
+    //
+    //        var newTagList = tagList
+    //        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
+    //
+    //        for i in 0..<newTagList.count {
+    //            newTagList[i] = Tag(text: newTagList[i].text,
+    //                                backgroundColor: newTagList[i].backgroundColor,
+    //                                buttonType: .none)
+    //        }
+    //        return newTagList
+    //    }
     
     
     private func setupData() {
@@ -312,13 +313,11 @@ final class ScrapDetailVC: UIViewController {
         var newTagList = tagList
         
         for i in 0..<newTagList.count {
-            newTagList[i] = Tag(text: newTagList[i].text,
-                                backgroundColor: newTagList[i].backgroundColor,
-                                buttonType: .delete)
+            newTagList[i].buttonType = .delete
         }
         
-        let addButtonTag = Tag(text: "태그추가",
-                               backgroundColor: .clear,
+        let addButtonTag = Tag(name: "태그추가",
+                               color: .clear,
                                buttonType: .add)
         newTagList.append(addButtonTag)
         return newTagList
@@ -376,9 +375,8 @@ extension ScrapDetailVC: UITextViewDelegate {
 
 extension ScrapDetailVC: NewTagCVDelegate {
     func sendNewTagList(tag: Tag) {
-        let newTag = Tag(text: tag.text,
-                         backgroundColor: tag.backgroundColor,
-                         buttonType: .delete)
+        var newTag = tag
+        newTag.buttonType = .delete
         scrap.value.tagList.insert(newTag, at: 0)
     }
 }
@@ -399,7 +397,6 @@ extension ScrapDetailVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubActionTableViewCell.identifier,
                                                  for: indexPath) as! SubActionTableViewCell
-//        cell.separatorInset = .
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 cell.actionLabel.text = "공유하기"

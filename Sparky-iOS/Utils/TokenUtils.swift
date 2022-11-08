@@ -53,7 +53,7 @@ class TokenUtils {
             let value = String(data: retrievedData, encoding: String.Encoding.utf8)
             return value
         } else {
-            print("failed to loading, status code = \(status)")
+            print("failed to loading, 토큰이 존재하지 않습니다. status code = \(status)")
             return nil
         }
     }
@@ -67,16 +67,45 @@ class TokenUtils {
         ]
         
         let status = SecItemDelete(keyChainQuery)
-        assert(status == noErr, "failed to delete the value, status code = \(status)")
+        assert(status == noErr, "토큰이 존재하지 않습니다. status code = \(status)")
     }
     
     // HTTPHeaders 구성
-    func getAuthorizationHeader() -> HTTPHeaders? {
+    func getAuthorizationHeaderString() -> String {
         let serviceID = "com.sparky.token"
         if let accessToken = self.read(serviceID, account: "accessToken") {
-            return ["Authorization" : "bearer \(accessToken)"] as HTTPHeaders
+//            return ["Authorization" : "bearer \(accessToken)"] as HTTPHeaders
+            print("accessToken - \(accessToken)")
+            return accessToken
         } else {
-            return nil
+            if let refreshToken = self.read(serviceID, account: "refreshToken") {
+                print("refreshToken - \(refreshToken)")
+                return refreshToken
+            } else {
+                return ""
+            }
         }
     }
+    
+//    func getAccessToken() -> String? {
+//        let serviceID = "com.sparky.token"
+//        if let accessToken = self.read(serviceID, account: "accessToken") {
+////            return ["Authorization" : "bearer \(accessToken)"] as HTTPHeaders
+//            print("accessToken - \(accessToken)")
+//            return accessToken
+//        } else {
+//            return nil
+//        }
+//    }
+//
+//    func getRefreshToken() -> String? {
+//        let serviceID = "com.sparky.token"
+//        if let refreshToken = self.read(serviceID, account: "refreshToken") {
+////            return ["Authorization" : "bearer \(accessToken)"] as HTTPHeaders
+//            print("refreshToken - \(refreshToken)")
+//            return refreshToken
+//        } else {
+//            return nil
+//        }
+//    }
 }
