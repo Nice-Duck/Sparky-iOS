@@ -7,18 +7,202 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */; };
+		560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
+		560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */; };
+		560306AD291AD0AB008CB6EB /* CustomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */; };
+		560306B0291AE1A9008CB6EB /* OtherScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */; };
+		5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
+		560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
+		560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF32028D0E6AE00438463 /* HomeVC.swift */; };
+		5614BBB42913DE8D00E1DF16 /* SparkyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB32913DE8D00E1DF16 /* SparkyNotification.swift */; };
+		5614BBB72913F36100E1DF16 /* ScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */; };
+		5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB8291438B900E1DF16 /* SubActionTableViewCell.swift */; };
+		5614BBBB291449AA00E1DF16 /* ScrapWebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBBA291449AA00E1DF16 /* ScrapWebViewVC.swift */; };
+		56185AAF291D45CD0052ADE0 /* Sparky.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 56185AA5291D45CC0052ADE0 /* Sparky.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		56185AB3291D4FD60052ADE0 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44A28EB3CE000415738 /* Strings.swift */; };
+		56185AB4291D4FD90052ADE0 /* CrawlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44528EB303F00415738 /* CrawlManager.swift */; };
+		56185AB5291D4FDB0052ADE0 /* HTTPUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FD28E8BAE100861D26 /* HTTPUtils.swift */; };
+		56185AB6291D4FDD0052ADE0 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
+		56185AB8291D4FE20052ADE0 /* UserServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */; };
+		56185AB9291D4FE60052ADE0 /* UserServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20428E9463600D638D2 /* UserServiceProvider.swift */; };
+		56185ABA291D4FE80052ADE0 /* HomeServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFDE2915BDA10026B18C /* HomeServiceAPI.swift */; };
+		56185ABB291D4FEA0052ADE0 /* HomeServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE12915C46E0026B18C /* HomeServiceProvider.swift */; };
+		56185ABC291D4FEC0052ADE0 /* ShareServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE42915E3190026B18C /* ShareServiceAPI.swift */; };
+		56185ABD291D4FEE0052ADE0 /* ShareServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE62915E3270026B18C /* ShareServiceProvider.swift */; };
+		56185ABE291D4FF30052ADE0 /* EmailSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */; };
+		56185ABF291D4FF50052ADE0 /* ScrapResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFDA2915BB120026B18C /* ScrapResponse.swift */; };
+		56185AC0291D4FF70052ADE0 /* TagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFDC2915BC650026B18C /* TagResponse.swift */; };
+		56185AC1291D4FF90052ADE0 /* RecentTagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF42916016A0026B18C /* RecentTagResponse.swift */; };
+		56185AC2291D4FFB0052ADE0 /* PostResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF02915FF850026B18C /* PostResultResponse.swift */; };
+		56185AC3291D4FFD0052ADE0 /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */; };
+		56185AC4291D4FFF0052ADE0 /* EmailSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938F828E8B55E00861D26 /* EmailSignInRequest.swift */; };
+		56185AC5291D50010052ADE0 /* EmailConfirmRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */; };
+		56185AC6291D50030052ADE0 /* EmailSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */; };
+		56185AC7291D50050052ADE0 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */; };
+		56185AC8291D50070052ADE0 /* EmailNicknameDuplicateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */; };
+		56185AC9291D50090052ADE0 /* TagRequst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE82915E6BD0026B18C /* TagRequst.swift */; };
+		56185ACA291D500C0052ADE0 /* ScrapRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFEA2915E87C0026B18C /* ScrapRequest.swift */; };
+		56185ACB291D50100052ADE0 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44728EB31D400415738 /* Scrap.swift */; };
+		56185ACC291D50130052ADE0 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21728F48062003ED188 /* Tag.swift */; };
+		56185ACD291D50150052ADE0 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF729160C370026B18C /* Preview.swift */; };
+		56185ACE291D501C0052ADE0 /* CustomPopUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */; };
+		56185ACF291D501F0052ADE0 /* SparkyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB32913DE8D00E1DF16 /* SparkyNotification.swift */; };
+		56185AD0291D50220052ADE0 /* SparkyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */; };
+		56185AD1291D50250052ADE0 /* CustomPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD96672905435B002DED3E /* CustomPaddingLabel.swift */; };
+		56185AD2291D50270052ADE0 /* CustomVAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */; };
+		56185AD3291D50290052ADE0 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
+		56185AD4291D502B0052ADE0 /* SparkySearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */; };
+		56185AD5291D502E0052ADE0 /* OTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1928EAC527005F18B1 /* OTPTextField.swift */; };
+		56185AD6291D50300052ADE0 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1B28EAC595005F18B1 /* OTPStackView.swift */; };
+		56185AD7291D50320052ADE0 /* CustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54228DB730200BF7126 /* CustomShareVC.swift */; };
+		56185AD8291D50350052ADE0 /* CustomShareNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54328DB730200BF7126 /* CustomShareNC.swift */; };
+		56185AD9291D50370052ADE0 /* AddTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* AddTagViewModel.swift */; };
+		56185ADA291D503A0052ADE0 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */; };
+		56185ADB291D503D0052ADE0 /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */; };
+		56185ADC291D50400052ADE0 /* TagCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */; };
+		56185ADD291D50430052ADE0 /* RecentTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */; };
+		56185ADE291D50460052ADE0 /* TagBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */; };
+		56185ADF291D50490052ADE0 /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568183452901A641006F616C /* PreviewViewModel.swift */; };
+		56185AE0291D504F0052ADE0 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
+		56185AE1291D505B0052ADE0 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
+		56185AE2291D505D0052ADE0 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3828E0291D00C119F6 /* Image+.swift */; };
+		56185AE3291D505F0052ADE0 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426A28E21547000A6A55 /* UINavigationBar+.swift */; };
+		56185AE4291D50610052ADE0 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3A28E0293000C119F6 /* Font+.swift */; };
+		56185AE5291D50640052ADE0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
+		56185AE6291D50660052ADE0 /* BehaviorRelay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD966A29059162002DED3E /* BehaviorRelay+.swift */; };
+		56185AE7291D50680052ADE0 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
+		56185AE8291D506B0052ADE0 /* ImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* ImageView+.swift */; };
+		56185AE9291D506C0052ADE0 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA3D1291C262600F90EEE /* UIButton+.swift */; };
+		56185AEA291D506E0052ADE0 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA410291C38B200F90EEE /* UIViewController+.swift */; };
+		56185AEB291D50700052ADE0 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA413291C3A5E00F90EEE /* UIView+.swift */; };
+		56185AEC291D50720052ADE0 /* MyInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFFD291651510026B18C /* MyInfoVC.swift */; };
+		56185AED291D50740052ADE0 /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */; };
+		56185AEE291D50750052ADE0 /* ScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */; };
+		56185AEF291D50770052ADE0 /* SubActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB8291438B900E1DF16 /* SubActionTableViewCell.swift */; };
+		56185AF0291D50780052ADE0 /* ScrapWebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBBA291449AA00E1DF16 /* ScrapWebViewVC.swift */; };
+		56185AF1291D507A0052ADE0 /* OtherScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */; };
+		56185AF2291D507C0052ADE0 /* PlusScrapBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */; };
+		56185AF3291D507F0052ADE0 /* MyScrapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8B28FECED600D610E5 /* MyScrapVC.swift */; };
+		56185AF4291D50800052ADE0 /* MyScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D261529113AE8000296F0 /* MyScrapSectionView.swift */; };
+		56185AF5291D50820052ADE0 /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
+		56185AF6291D50860052ADE0 /* SignUpVC1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */; };
+		56185AF7291D50870052ADE0 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
+		56185AF8291D50890052ADE0 /* SignUpVC3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426628E20E91000A6A55 /* SignUpVC3.swift */; };
+		56185AF9291D508A0052ADE0 /* SignUpVC4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426828E20E9A000A6A55 /* SignUpVC4.swift */; };
+		56185AFA291D508D0052ADE0 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */; };
+		56185AFC291D508F0052ADE0 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF32028D0E6AE00438463 /* HomeVC.swift */; };
+		56185AFD291D50910052ADE0 /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564900A3290BCB5E005A6768 /* ScrapViewModel.swift */; };
+		56185AFE291D50930052ADE0 /* OtherScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268F290EDAC500154505 /* OtherScrapViewModel.swift */; };
+		56185AFF291D50950052ADE0 /* MyScrapPreViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */; };
+		56185B00291D50960052ADE0 /* OtherScrapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */; };
+		56185B01291D50980052ADE0 /* PreviewLayoutViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564900A5290BCC6E005A6768 /* PreviewLayoutViewCell.swift */; };
+		56185B02291D509A0052ADE0 /* HalfLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE3C291927F4004F5A07 /* HalfLayoutCell.swift */; };
+		56185B03291D509B0052ADE0 /* HorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE3E29192807004F5A07 /* HorizontalLayoutCell.swift */; };
+		56185B04291D509D0052ADE0 /* LargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE402919281D004F5A07 /* LargeImageLayoutCell.swift */; };
+		56185B05291D509F0052ADE0 /* ScarpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26072910ACE6000296F0 /* ScarpSectionView.swift */; };
+		56185B06291D50A10052ADE0 /* OtherScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */; };
+		56185B07291D50A30052ADE0 /* SigninVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F928CE2CDC008710FF /* SigninVC.swift */; };
+		56185B08291D50A50052ADE0 /* EmailSignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */; };
+		56185B09291D50A70052ADE0 /* EmailSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20828E9710400D638D2 /* EmailSignInView.swift */; };
+		56185B0A291D51460052ADE0 /* MyHorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */; };
+		56185B0B291D51890052ADE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5693C1FE28CE2CDE008710FF /* Assets.xcassets */; };
+		5637DD3728E0290E00C119F6 /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3628E0290E00C119F6 /* Color+.swift */; };
+		5637DD3928E0291D00C119F6 /* Image+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3828E0291D00C119F6 /* Image+.swift */; };
+		5637DD3B28E0293000C119F6 /* Font+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DD3A28E0293000C119F6 /* Font+.swift */; };
+		5641FE3D291927F4004F5A07 /* HalfLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE3C291927F4004F5A07 /* HalfLayoutCell.swift */; };
+		5641FE3F29192807004F5A07 /* HorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE3E29192807004F5A07 /* HorizontalLayoutCell.swift */; };
+		5641FE412919281D004F5A07 /* LargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE402919281D004F5A07 /* LargeImageLayoutCell.swift */; };
+		56447A612906EBB30052DBA9 /* SparkyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */; };
+		564900A4290BCB5E005A6768 /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564900A3290BCB5E005A6768 /* ScrapViewModel.swift */; };
+		564900A6290BCC6E005A6768 /* PreviewLayoutViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564900A5290BCC6E005A6768 /* PreviewLayoutViewCell.swift */; };
+		564900A9290BCD90005A6768 /* TagCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */; };
+		564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938F828E8B55E00861D26 /* EmailSignInRequest.swift */; };
+		564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564938FD28E8BAE100861D26 /* HTTPUtils.swift */; };
+		5652A44D28EB4FAA00415738 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44A28EB3CE000415738 /* Strings.swift */; };
+		565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */; };
+		565AFDD3291097C70080EA6D /* OtherScrapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */; };
+		5664268B290E618100154505 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44728EB31D400415738 /* Scrap.swift */; };
+		5664268D290ECFCC00154505 /* ImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* ImageView+.swift */; };
+		56642690290EDAC500154505 /* OtherScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268F290EDAC500154505 /* OtherScrapViewModel.swift */; };
+		56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */; };
+		567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26072910ACE6000296F0 /* ScarpSectionView.swift */; };
+		567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */; };
+		567D26122910FFD5000296F0 /* CustomVAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */; };
+		567D261629113AE8000296F0 /* MyScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D261529113AE8000296F0 /* MyScrapSectionView.swift */; };
+		567DF86F28EC9645005A3E30 /* EmailConfirmRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */; };
+		567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */; };
+		567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */; };
+		567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */; };
+		5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */; };
+		56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */; };
+		56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1928EAC527005F18B1 /* OTPTextField.swift */; };
+		56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1B28EAC595005F18B1 /* OTPStackView.swift */; };
 		5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F528CE2CDC008710FF /* AppDelegate.swift */; };
 		5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F728CE2CDC008710FF /* SceneDelegate.swift */; };
-		5693C1FA28CE2CDC008710FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F928CE2CDC008710FF /* ViewController.swift */; };
-		5693C1FD28CE2CDC008710FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5693C1FB28CE2CDC008710FF /* Main.storyboard */; };
+		5693C1FA28CE2CDC008710FF /* SigninVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C1F928CE2CDC008710FF /* SigninVC.swift */; };
 		5693C1FF28CE2CDE008710FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5693C1FE28CE2CDE008710FF /* Assets.xcassets */; };
 		5693C20228CE2CDE008710FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5693C20028CE2CDE008710FF /* LaunchScreen.storyboard */; };
 		5693C20D28CE2CDE008710FF /* Sparky_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C20C28CE2CDE008710FF /* Sparky_iOSTests.swift */; };
 		5693C21728CE2CDE008710FF /* Sparky_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */; };
 		5693C21928CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */; };
+		569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
+		569EA3D2291C262600F90EEE /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA3D1291C262600F90EEE /* UIButton+.swift */; };
+		569EA3D5291C2DBE00F90EEE /* UIKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA3D4291C2DBE00F90EEE /* UIKitUtils.swift */; };
+		569EA3D7291C30EF00F90EEE /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */; };
+		569EA3D8291C30F200F90EEE /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */; };
+		569EA3DA291C310100F90EEE /* RecentTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */; };
+		569EA3DB291C312D00F90EEE /* ShareServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE42915E3190026B18C /* ShareServiceAPI.swift */; };
+		569EA404291C348400F90EEE /* RecentTagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF42916016A0026B18C /* RecentTagResponse.swift */; };
+		569EA406291C349500F90EEE /* CrawlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44528EB303F00415738 /* CrawlManager.swift */; };
+		569EA40C291C352C00F90EEE /* CustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54228DB730200BF7126 /* CustomShareVC.swift */; };
+		569EA40D291C353000F90EEE /* CustomShareNC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5616C54328DB730200BF7126 /* CustomShareNC.swift */; };
+		569EA40E291C354300F90EEE /* AddTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* AddTagViewModel.swift */; };
+		569EA411291C38B200F90EEE /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA410291C38B200F90EEE /* UIViewController+.swift */; };
+		569EA414291C3A5E00F90EEE /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA413291C3A5E00F90EEE /* UIView+.swift */; };
+		56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
+		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
+		56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */; };
+		56C3C2122912B5DF009765DE /* TagBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */; };
+		56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568183452901A641006F616C /* PreviewViewModel.swift */; };
+		56C3C2162912B66A009765DE /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
+		56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */; };
+		56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C41B8B28FECED600D610E5 /* MyScrapVC.swift */; };
+		56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */; };
+		56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20428E9463600D638D2 /* UserServiceProvider.swift */; };
+		56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */; };
+		56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C7B20828E9710400D638D2 /* EmailSignInView.swift */; };
+		56D6AFDB2915BB120026B18C /* ScrapResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFDA2915BB120026B18C /* ScrapResponse.swift */; };
+		56D6AFDD2915BC650026B18C /* TagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFDC2915BC650026B18C /* TagResponse.swift */; };
+		56D6AFDF2915BDA10026B18C /* HomeServiceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFDE2915BDA10026B18C /* HomeServiceAPI.swift */; };
+		56D6AFE22915C46E0026B18C /* HomeServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE12915C46E0026B18C /* HomeServiceProvider.swift */; };
+		56D6AFE72915E3270026B18C /* ShareServiceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE62915E3270026B18C /* ShareServiceProvider.swift */; };
+		56D6AFE92915E6BD0026B18C /* TagRequst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFE82915E6BD0026B18C /* TagRequst.swift */; };
+		56D6AFEB2915E87C0026B18C /* ScrapRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFEA2915E87C0026B18C /* ScrapRequest.swift */; };
+		56D6AFF12915FF850026B18C /* PostResultResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF02915FF850026B18C /* PostResultResponse.swift */; };
+		56D6AFF829160C370026B18C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFF729160C370026B18C /* Preview.swift */; };
+		56D6AFFE291651510026B18C /* MyInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D6AFFD291651510026B18C /* MyInfoVC.swift */; };
+		56DD96682905435B002DED3E /* CustomPaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD96672905435B002DED3E /* CustomPaddingLabel.swift */; };
+		56DD966B29059162002DED3E /* BehaviorRelay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD966A29059162002DED3E /* BehaviorRelay+.swift */; };
+		56DD966D2905C5FF002DED3E /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21728F48062003ED188 /* Tag.swift */; };
+		56DE426528E1F9ED000A6A55 /* SignUpVC1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */; };
+		56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426628E20E91000A6A55 /* SignUpVC3.swift */; };
+		56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426828E20E9A000A6A55 /* SignUpVC4.swift */; };
+		56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426A28E21547000A6A55 /* UINavigationBar+.swift */; };
+		60AA5F2225D14A1D416D0835 /* libPods-Sparky-iOSUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E8DEC407FFD745E0A428EEB /* libPods-Sparky-iOSUITests.a */; };
+		658DDE72DEE2529FFDBCCEEA /* Pods_Sparky_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1227D7D9B585CE84C9372CA5 /* Pods_Sparky_iOS.framework */; };
+		9C71C0BE2EF419FAD79D2981 /* Pods_Sparky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EF153B0A389CAD47E7716D /* Pods_Sparky.framework */; };
+		FF239B357F26C81A04C25DDC /* libPods-Sparky-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 891840A905FAC5D43597597C /* libPods-Sparky-iOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		56185AAD291D45CD0052ADE0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5693C1EA28CE2CDC008710FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 56185AA4291D45CC0052ADE0;
+			remoteInfo = Sparky;
+		};
 		5693C20928CE2CDE008710FF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5693C1EA28CE2CDC008710FF /* Project object */;
@@ -35,12 +219,85 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		560BF33128D0ECF200438463 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				56185AAF291D45CD0052ADE0 /* Sparky.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		1227D7D9B585CE84C9372CA5 /* Pods_Sparky_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		21EF153B0A389CAD47E7716D /* Pods_Sparky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25CD38D82D57FDFC7BB01D67 /* Pods-Sparky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.debug.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.debug.xcconfig"; sourceTree = "<group>"; };
+		31A6155D8C9495B2A0831CBF /* Pods-Sparky-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSTests/Pods-Sparky-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		3330CDBBC003A180A6A8A2DA /* Pods-Sparky-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSTests/Pods-Sparky-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		4EFE3AAED453DEF71CF24F54 /* Pods-Sparky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.release.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.release.xcconfig"; sourceTree = "<group>"; };
+		560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHorizontalLayoutCell.swift; sourceTree = "<group>"; };
+		560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLargeImageLayoutCell.swift; sourceTree = "<group>"; };
+		560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoTableViewCell.swift; sourceTree = "<group>"; };
+		560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPopUpVC.swift; sourceTree = "<group>"; };
+		560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapDetailVC.swift; sourceTree = "<group>"; };
+		5606F66D28F3BA300083AA58 /* TokenUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenUtils.swift; sourceTree = "<group>"; };
+		560BF31C28D0DAB300438463 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		560BF32028D0E6AE00438463 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		560BF32D28D0ECF200438463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTagViewModel.swift; sourceTree = "<group>"; };
+		5614BBB32913DE8D00E1DF16 /* SparkyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNotification.swift; sourceTree = "<group>"; };
+		5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapDetailVC.swift; sourceTree = "<group>"; };
+		5614BBB8291438B900E1DF16 /* SubActionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubActionTableViewCell.swift; sourceTree = "<group>"; };
+		5614BBBA291449AA00E1DF16 /* ScrapWebViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapWebViewVC.swift; sourceTree = "<group>"; };
+		5616C54228DB730200BF7126 /* CustomShareVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShareVC.swift; sourceTree = "<group>"; };
+		5616C54328DB730200BF7126 /* CustomShareNC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomShareNC.swift; sourceTree = "<group>"; };
+		56185AA5291D45CC0052ADE0 /* Sparky.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Sparky.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		56185B0C291D523B0052ADE0 /* SparkyRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SparkyRelease.entitlements; sourceTree = "<group>"; };
+		5637DD3628E0290E00C119F6 /* Color+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		5637DD3828E0291D00C119F6 /* Image+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+.swift"; sourceTree = "<group>"; };
+		5637DD3A28E0293000C119F6 /* Font+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+.swift"; sourceTree = "<group>"; };
+		5641FE3C291927F4004F5A07 /* HalfLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfLayoutCell.swift; sourceTree = "<group>"; };
+		5641FE3E29192807004F5A07 /* HorizontalLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalLayoutCell.swift; sourceTree = "<group>"; };
+		5641FE402919281D004F5A07 /* LargeImageLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeImageLayoutCell.swift; sourceTree = "<group>"; };
+		5641FE6E291977C7004F5A07 /* Sparky-iOSDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Sparky-iOSDebug.entitlements"; sourceTree = "<group>"; };
+		5641FE6F291977F8004F5A07 /* SparkyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SparkyDebug.entitlements; sourceTree = "<group>"; };
+		56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyTabBarController.swift; sourceTree = "<group>"; };
+		564900A3290BCB5E005A6768 /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
+		564900A5290BCC6E005A6768 /* PreviewLayoutViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLayoutViewCell.swift; sourceTree = "<group>"; };
+		564938F828E8B55E00861D26 /* EmailSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInRequest.swift; sourceTree = "<group>"; };
+		564938FD28E8BAE100861D26 /* HTTPUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPUtils.swift; sourceTree = "<group>"; };
+		5652A44528EB303F00415738 /* CrawlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrawlManager.swift; sourceTree = "<group>"; };
+		5652A44728EB31D400415738 /* Scrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scrap.swift; sourceTree = "<group>"; };
+		5652A44A28EB3CE000415738 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapPreViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapCollectionViewCell.swift; sourceTree = "<group>"; };
+		5664268C290ECFCC00154505 /* ImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+.swift"; sourceTree = "<group>"; };
+		5664268F290EDAC500154505 /* OtherScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapViewModel.swift; sourceTree = "<group>"; };
+		56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReIssueTokenResponse.swift; sourceTree = "<group>"; };
+		567D26072910ACE6000296F0 /* ScarpSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScarpSectionView.swift; sourceTree = "<group>"; };
+		567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapSectionView.swift; sourceTree = "<group>"; };
+		567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVAlignLabel.swift; sourceTree = "<group>"; };
+		567D261529113AE8000296F0 /* MyScrapSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapSectionView.swift; sourceTree = "<group>"; };
+		567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailConfirmRequest.swift; sourceTree = "<group>"; };
+		567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpRequest.swift; sourceTree = "<group>"; };
+		567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
+		567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpResponse.swift; sourceTree = "<group>"; };
+		5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailNicknameDuplicateRequest.swift; sourceTree = "<group>"; };
+		568183452901A641006F616C /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
+		5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		568AD0722902ED2600F2CFD7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		56902D1928EAC527005F18B1 /* OTPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTextField.swift; sourceTree = "<group>"; };
+		56902D1B28EAC595005F18B1 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
 		5693C1F228CE2CDC008710FF /* Sparky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sparky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5693C1F528CE2CDC008710FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5693C1F728CE2CDC008710FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5693C1F928CE2CDC008710FF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5693C1FC28CE2CDC008710FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5693C1F928CE2CDC008710FF /* SigninVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninVC.swift; sourceTree = "<group>"; };
 		5693C1FE28CE2CDE008710FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5693C20128CE2CDE008710FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5693C20328CE2CDE008710FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,13 +306,65 @@
 		5693C21228CE2CDE008710FF /* Sparky-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sparky-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparky_iOSUITests.swift; sourceTree = "<group>"; };
 		5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sparky_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		569AE21728F48062003ED188 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
+		569AE21928F481BB003ED188 /* AddTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagViewModel.swift; sourceTree = "<group>"; };
+		569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
+		569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		569EA3D1291C262600F90EEE /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
+		569EA3D4291C2DBE00F90EEE /* UIKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitUtils.swift; sourceTree = "<group>"; };
+		569EA410291C38B200F90EEE /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		569EA413291C3A5E00F90EEE /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagBottomSheetVC.swift; sourceTree = "<group>"; };
+		56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNavBar.swift; sourceTree = "<group>"; };
+		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
+		56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusScrapBottomSheetVC.swift; sourceTree = "<group>"; };
+		56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkySearchBar.swift; sourceTree = "<group>"; };
+		56C41B8B28FECED600D610E5 /* MyScrapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapVC.swift; sourceTree = "<group>"; };
+		56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceAPI.swift; sourceTree = "<group>"; };
+		56C7B20428E9463600D638D2 /* UserServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceProvider.swift; sourceTree = "<group>"; };
+		56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInViewModel.swift; sourceTree = "<group>"; };
+		56C7B20828E9710400D638D2 /* EmailSignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInView.swift; sourceTree = "<group>"; };
+		56D6AFDA2915BB120026B18C /* ScrapResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapResponse.swift; sourceTree = "<group>"; };
+		56D6AFDC2915BC650026B18C /* TagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagResponse.swift; sourceTree = "<group>"; };
+		56D6AFDE2915BDA10026B18C /* HomeServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeServiceAPI.swift; sourceTree = "<group>"; };
+		56D6AFE12915C46E0026B18C /* HomeServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeServiceProvider.swift; sourceTree = "<group>"; };
+		56D6AFE42915E3190026B18C /* ShareServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareServiceAPI.swift; sourceTree = "<group>"; };
+		56D6AFE62915E3270026B18C /* ShareServiceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareServiceProvider.swift; sourceTree = "<group>"; };
+		56D6AFE82915E6BD0026B18C /* TagRequst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRequst.swift; sourceTree = "<group>"; };
+		56D6AFEA2915E87C0026B18C /* ScrapRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapRequest.swift; sourceTree = "<group>"; };
+		56D6AFF02915FF850026B18C /* PostResultResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultResponse.swift; sourceTree = "<group>"; };
+		56D6AFF42916016A0026B18C /* RecentTagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTagResponse.swift; sourceTree = "<group>"; };
+		56D6AFF729160C370026B18C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		56D6AFFD291651510026B18C /* MyInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoVC.swift; sourceTree = "<group>"; };
+		56DD96672905435B002DED3E /* CustomPaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaddingLabel.swift; sourceTree = "<group>"; };
+		56DD966A29059162002DED3E /* BehaviorRelay+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay+.swift"; sourceTree = "<group>"; };
+		56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC1.swift; sourceTree = "<group>"; };
+		56DE426628E20E91000A6A55 /* SignUpVC3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC3.swift; sourceTree = "<group>"; };
+		56DE426828E20E9A000A6A55 /* SignUpVC4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC4.swift; sourceTree = "<group>"; };
+		56DE426A28E21547000A6A55 /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
+		5E8DEC407FFD745E0A428EEB /* libPods-Sparky-iOSUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8591FF89E2DC369E84141B29 /* Pods-Sparky-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		891840A905FAC5D43597597C /* libPods-Sparky-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1F3B2EBAEFA7C58FD796EAF /* Pods-Sparky-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		E2B7B534D55BF76086AAC120 /* Pods-Sparky-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		E6377FA6F8E3FE98E1596878 /* Pods-Sparky-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		56185AA2291D45CC0052ADE0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C71C0BE2EF419FAD79D2981 /* Pods_Sparky.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5693C1EF28CE2CDC008710FF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				658DDE72DEE2529FFDBCCEEA /* Pods_Sparky_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +372,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF239B357F26C81A04C25DDC /* libPods-Sparky-iOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,19 +380,255 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60AA5F2225D14A1D416D0835 /* libPods-Sparky-iOSUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		066F2B155FEC59800C670AFE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				25CD38D82D57FDFC7BB01D67 /* Pods-Sparky.debug.xcconfig */,
+				4EFE3AAED453DEF71CF24F54 /* Pods-Sparky.release.xcconfig */,
+				E2B7B534D55BF76086AAC120 /* Pods-Sparky-iOS.debug.xcconfig */,
+				D1F3B2EBAEFA7C58FD796EAF /* Pods-Sparky-iOS.release.xcconfig */,
+				3330CDBBC003A180A6A8A2DA /* Pods-Sparky-iOSTests.debug.xcconfig */,
+				31A6155D8C9495B2A0831CBF /* Pods-Sparky-iOSTests.release.xcconfig */,
+				E6377FA6F8E3FE98E1596878 /* Pods-Sparky-iOSUITests.debug.xcconfig */,
+				8591FF89E2DC369E84141B29 /* Pods-Sparky-iOSUITests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		47E9B5215A972AFFFE493C64 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21EF153B0A389CAD47E7716D /* Pods_Sparky.framework */,
+				1227D7D9B585CE84C9372CA5 /* Pods_Sparky_iOS.framework */,
+				891840A905FAC5D43597597C /* libPods-Sparky-iOSTests.a */,
+				5E8DEC407FFD745E0A428EEB /* libPods-Sparky-iOSUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		560306AB291AD09F008CB6EB /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				560306AC291AD0AB008CB6EB /* CustomPopUpVC.swift */,
+			);
+			path = PopUp;
+			sourceTree = "<group>";
+		};
+		560BF31928D0D06700438463 /* SupprotingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				5693C1FE28CE2CDE008710FF /* Assets.xcassets */,
+				5693C20028CE2CDE008710FF /* LaunchScreen.storyboard */,
+				5693C20328CE2CDE008710FF /* Info.plist */,
+			);
+			path = SupprotingFiles;
+			sourceTree = "<group>";
+		};
+		560BF31A28D0D0F400438463 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				56D6AFFC2916513C0026B18C /* MyInfo */,
+				5614BBB52913F34500E1DF16 /* ScrapDetail */,
+				56C3C20C2912A950009765DE /* PlusScrap */,
+				56C41B8A28FECEC200D610E5 /* MyScrap */,
+				56DE426328E1F865000A6A55 /* SignUp */,
+				560BF31F28D0E66400438463 /* Home */,
+				560BF31E28D0E65900438463 /* Signin */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		560BF31B28D0DA9B00438463 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				560BF31C28D0DAB300438463 /* UITextField+.swift */,
+				5637DD3628E0290E00C119F6 /* Color+.swift */,
+				5637DD3828E0291D00C119F6 /* Image+.swift */,
+				5637DD3A28E0293000C119F6 /* Font+.swift */,
+				56DE426A28E21547000A6A55 /* UINavigationBar+.swift */,
+				569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */,
+				568AD0722902ED2600F2CFD7 /* String+.swift */,
+				56DD966A29059162002DED3E /* BehaviorRelay+.swift */,
+				5664268C290ECFCC00154505 /* ImageView+.swift */,
+				569EA3D1291C262600F90EEE /* UIButton+.swift */,
+				569EA410291C38B200F90EEE /* UIViewController+.swift */,
+				569EA413291C3A5E00F90EEE /* UIView+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		560BF31E28D0E65900438463 /* Signin */ = {
+			isa = PBXGroup;
+			children = (
+				5693C1F928CE2CDC008710FF /* SigninVC.swift */,
+				56C7B20628E9687600D638D2 /* EmailSignInViewModel.swift */,
+				56C7B20828E9710400D638D2 /* EmailSignInView.swift */,
+			);
+			path = Signin;
+			sourceTree = "<group>";
+		};
+		560BF31F28D0E66400438463 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				560BF32028D0E6AE00438463 /* HomeVC.swift */,
+				564900A3290BCB5E005A6768 /* ScrapViewModel.swift */,
+				5664268F290EDAC500154505 /* OtherScrapViewModel.swift */,
+				565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */,
+				565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */,
+				564900A5290BCC6E005A6768 /* PreviewLayoutViewCell.swift */,
+				5641FE3C291927F4004F5A07 /* HalfLayoutCell.swift */,
+				5641FE3E29192807004F5A07 /* HorizontalLayoutCell.swift */,
+				5641FE402919281D004F5A07 /* LargeImageLayoutCell.swift */,
+				567D26072910ACE6000296F0 /* ScarpSectionView.swift */,
+				567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		560BF32728D0ECF200438463 /* Sparky */ = {
+			isa = PBXGroup;
+			children = (
+				56185B0C291D523B0052ADE0 /* SparkyRelease.entitlements */,
+				5641FE6F291977F8004F5A07 /* SparkyDebug.entitlements */,
+				560BF32D28D0ECF200438463 /* Info.plist */,
+			);
+			path = Sparky;
+			sourceTree = "<group>";
+		};
+		5614BBB22913DE6100E1DF16 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				5614BBB32913DE8D00E1DF16 /* SparkyNotification.swift */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		5614BBB52913F34500E1DF16 /* ScrapDetail */ = {
+			isa = PBXGroup;
+			children = (
+				5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */,
+				5614BBB8291438B900E1DF16 /* SubActionTableViewCell.swift */,
+				5614BBBA291449AA00E1DF16 /* ScrapWebViewVC.swift */,
+				560306AF291AE1A9008CB6EB /* OtherScrapDetailVC.swift */,
+			);
+			path = ScrapDetail;
+			sourceTree = "<group>";
+		};
+		5616C53F28DB730200BF7126 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				560306AB291AD09F008CB6EB /* PopUp */,
+				5614BBB22913DE6100E1DF16 /* Notification */,
+				56447A5F2906EB700052DBA9 /* TabBar */,
+				56DD96662905400B002DED3E /* Label */,
+				56A0AA7328FC3AA200726C13 /* NavigationBar */,
+				56902D1828EAC50F005F18B1 /* OTPField */,
+				5616C54028DB730200BF7126 /* Shareing */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		5616C54028DB730200BF7126 /* Shareing */ = {
+			isa = PBXGroup;
+			children = (
+				5616C54228DB730200BF7126 /* CustomShareVC.swift */,
+				5616C54328DB730200BF7126 /* CustomShareNC.swift */,
+				569AE21928F481BB003ED188 /* AddTagViewModel.swift */,
+				5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */,
+				569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */,
+				569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */,
+				56A0AA6E28FBD50F00726C13 /* TagBottomSheetVC.swift */,
+				5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */,
+				568183452901A641006F616C /* PreviewViewModel.swift */,
+			);
+			path = Shareing;
+			sourceTree = "<group>";
+		};
+		56447A5F2906EB700052DBA9 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		564938F128E8985B00861D26 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				56C7B20228E93D9800D638D2 /* UserServiceAPI.swift */,
+				56C7B20428E9463600D638D2 /* UserServiceProvider.swift */,
+				56D6AFDE2915BDA10026B18C /* HomeServiceAPI.swift */,
+				56D6AFE12915C46E0026B18C /* HomeServiceProvider.swift */,
+				56D6AFE42915E3190026B18C /* ShareServiceAPI.swift */,
+				56D6AFE62915E3270026B18C /* ShareServiceProvider.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		564938F428E8B3E800861D26 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				569AE21628F47FF1003ED188 /* Response */,
+				569AE21528F47FE9003ED188 /* Request */,
+				5652A44728EB31D400415738 /* Scrap.swift */,
+				569AE21728F48062003ED188 /* Tag.swift */,
+				56D6AFF729160C370026B18C /* Preview.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		564938FC28E8BA2E00861D26 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				564938FD28E8BAE100861D26 /* HTTPUtils.swift */,
+				5606F66D28F3BA300083AA58 /* TokenUtils.swift */,
+				569EA3D4291C2DBE00F90EEE /* UIKitUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		5652A44428EB2FE100415738 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				5652A44528EB303F00415738 /* CrawlManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		5652A44928EB3CD100415738 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				5652A44A28EB3CE000415738 /* Strings.swift */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
+		56902D1828EAC50F005F18B1 /* OTPField */ = {
+			isa = PBXGroup;
+			children = (
+				56902D1928EAC527005F18B1 /* OTPTextField.swift */,
+				56902D1B28EAC595005F18B1 /* OTPStackView.swift */,
+			);
+			path = OTPField;
+			sourceTree = "<group>";
+		};
 		5693C1E928CE2CDC008710FF = {
 			isa = PBXGroup;
 			children = (
 				5693C1F428CE2CDC008710FF /* Sparky-iOS */,
 				5693C20B28CE2CDE008710FF /* Sparky-iOSTests */,
 				5693C21528CE2CDE008710FF /* Sparky-iOSUITests */,
+				560BF32728D0ECF200438463 /* Sparky */,
 				5693C1F328CE2CDC008710FF /* Products */,
+				066F2B155FEC59800C670AFE /* Pods */,
+				47E9B5215A972AFFFE493C64 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +638,7 @@
 				5693C1F228CE2CDC008710FF /* Sparky-iOS.app */,
 				5693C20828CE2CDE008710FF /* Sparky-iOSTests.xctest */,
 				5693C21228CE2CDE008710FF /* Sparky-iOSUITests.xctest */,
+				56185AA5291D45CC0052ADE0 /* Sparky.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,13 +646,18 @@
 		5693C1F428CE2CDC008710FF /* Sparky-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5641FE6E291977C7004F5A07 /* Sparky-iOSDebug.entitlements */,
+				5652A44928EB3CD100415738 /* Strings */,
+				5652A44428EB2FE100415738 /* Manager */,
+				564938FC28E8BA2E00861D26 /* Utils */,
+				564938F428E8B3E800861D26 /* Model */,
+				564938F128E8985B00861D26 /* Service */,
+				5616C53F28DB730200BF7126 /* Custom */,
+				560BF31B28D0DA9B00438463 /* Extension */,
+				560BF31A28D0D0F400438463 /* Scenes */,
 				5693C1F528CE2CDC008710FF /* AppDelegate.swift */,
 				5693C1F728CE2CDC008710FF /* SceneDelegate.swift */,
-				5693C1F928CE2CDC008710FF /* ViewController.swift */,
-				5693C1FB28CE2CDC008710FF /* Main.storyboard */,
-				5693C1FE28CE2CDE008710FF /* Assets.xcassets */,
-				5693C20028CE2CDE008710FF /* LaunchScreen.storyboard */,
-				5693C20328CE2CDE008710FF /* Info.plist */,
+				560BF31928D0D06700438463 /* SupprotingFiles */,
 			);
 			path = "Sparky-iOS";
 			sourceTree = "<group>";
@@ -127,20 +679,127 @@
 			path = "Sparky-iOSUITests";
 			sourceTree = "<group>";
 		};
+		569AE21528F47FE9003ED188 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				564938F828E8B55E00861D26 /* EmailSignInRequest.swift */,
+				567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */,
+				567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */,
+				567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */,
+				5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */,
+				56D6AFE82915E6BD0026B18C /* TagRequst.swift */,
+				56D6AFEA2915E87C0026B18C /* ScrapRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		569AE21628F47FF1003ED188 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */,
+				56D6AFDA2915BB120026B18C /* ScrapResponse.swift */,
+				56D6AFDC2915BC650026B18C /* TagResponse.swift */,
+				56D6AFF02915FF850026B18C /* PostResultResponse.swift */,
+				56D6AFF42916016A0026B18C /* RecentTagResponse.swift */,
+				56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		56A0AA7328FC3AA200726C13 /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */,
+				56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */,
+			);
+			path = NavigationBar;
+			sourceTree = "<group>";
+		};
+		56C3C20C2912A950009765DE /* PlusScrap */ = {
+			isa = PBXGroup;
+			children = (
+				56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */,
+			);
+			path = PlusScrap;
+			sourceTree = "<group>";
+		};
+		56C41B8A28FECEC200D610E5 /* MyScrap */ = {
+			isa = PBXGroup;
+			children = (
+				56C41B8B28FECED600D610E5 /* MyScrapVC.swift */,
+				567D261529113AE8000296F0 /* MyScrapSectionView.swift */,
+				560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */,
+				560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */,
+			);
+			path = MyScrap;
+			sourceTree = "<group>";
+		};
+		56D6AFFC2916513C0026B18C /* MyInfo */ = {
+			isa = PBXGroup;
+			children = (
+				56D6AFFD291651510026B18C /* MyInfoVC.swift */,
+				560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */,
+			);
+			path = MyInfo;
+			sourceTree = "<group>";
+		};
+		56DD96662905400B002DED3E /* Label */ = {
+			isa = PBXGroup;
+			children = (
+				56DD96672905435B002DED3E /* CustomPaddingLabel.swift */,
+				567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */,
+			);
+			path = Label;
+			sourceTree = "<group>";
+		};
+		56DE426328E1F865000A6A55 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				56DE426428E1F9ED000A6A55 /* SignUpVC1.swift */,
+				56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */,
+				56DE426628E20E91000A6A55 /* SignUpVC3.swift */,
+				56DE426828E20E9A000A6A55 /* SignUpVC4.swift */,
+				56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5693C1F128CE2CDC008710FF /* Sparky-iOS */ = {
+		56185AA4291D45CC0052ADE0 /* Sparky */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5693C21C28CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOS" */;
+			buildConfigurationList = 56185AB0291D45CD0052ADE0 /* Build configuration list for PBXNativeTarget "Sparky" */;
 			buildPhases = (
-				5693C1EE28CE2CDC008710FF /* Sources */,
-				5693C1EF28CE2CDC008710FF /* Frameworks */,
-				5693C1F028CE2CDC008710FF /* Resources */,
+				70FBE83F355834B39368D4F7 /* [CP] Check Pods Manifest.lock */,
+				56185AA1291D45CC0052ADE0 /* Sources */,
+				56185AA2291D45CC0052ADE0 /* Frameworks */,
+				56185AA3291D45CC0052ADE0 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = Sparky;
+			productName = Sparky;
+			productReference = 56185AA5291D45CC0052ADE0 /* Sparky.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		5693C1F128CE2CDC008710FF /* Sparky-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5693C21C28CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOS" */;
+			buildPhases = (
+				9AD06BEE0A16D5D70B723028 /* [CP] Check Pods Manifest.lock */,
+				5693C1EE28CE2CDC008710FF /* Sources */,
+				5693C1EF28CE2CDC008710FF /* Frameworks */,
+				5693C1F028CE2CDC008710FF /* Resources */,
+				560BF33128D0ECF200438463 /* Embed App Extensions */,
+				38F477987231035B8809A852 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				56185AAE291D45CD0052ADE0 /* PBXTargetDependency */,
 			);
 			name = "Sparky-iOS";
 			productName = "Sparky-iOS";
@@ -151,6 +810,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5693C21F28CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOSTests" */;
 			buildPhases = (
+				D69A9D90E973A550F3C24C98 /* [CP] Check Pods Manifest.lock */,
 				5693C20428CE2CDE008710FF /* Sources */,
 				5693C20528CE2CDE008710FF /* Frameworks */,
 				5693C20628CE2CDE008710FF /* Resources */,
@@ -169,6 +829,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5693C22228CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOSUITests" */;
 			buildPhases = (
+				F1847B8D9C96E33C6E4AB8B8 /* [CP] Check Pods Manifest.lock */,
 				5693C20E28CE2CDE008710FF /* Sources */,
 				5693C20F28CE2CDE008710FF /* Frameworks */,
 				5693C21028CE2CDE008710FF /* Resources */,
@@ -193,6 +854,9 @@
 				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
+					56185AA4291D45CC0052ADE0 = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
 					5693C1F128CE2CDC008710FF = {
 						CreatedOnToolsVersion = 13.3.1;
 					};
@@ -222,18 +886,26 @@
 				5693C1F128CE2CDC008710FF /* Sparky-iOS */,
 				5693C20728CE2CDE008710FF /* Sparky-iOSTests */,
 				5693C21128CE2CDE008710FF /* Sparky-iOSUITests */,
+				56185AA4291D45CC0052ADE0 /* Sparky */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		56185AA3291D45CC0052ADE0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56185B0B291D51890052ADE0 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5693C1F028CE2CDC008710FF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5693C20228CE2CDE008710FF /* LaunchScreen.storyboard in Resources */,
 				5693C1FF28CE2CDE008710FF /* Assets.xcassets in Resources */,
-				5693C1FD28CE2CDC008710FF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,14 +925,301 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		38F477987231035B8809A852 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70FBE83F355834B39368D4F7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sparky-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9AD06BEE0A16D5D70B723028 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sparky-iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D69A9D90E973A550F3C24C98 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sparky-iOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1847B8D9C96E33C6E4AB8B8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sparky-iOSUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		56185AA1291D45CC0052ADE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56185AD1291D50250052ADE0 /* CustomPaddingLabel.swift in Sources */,
+				56185AF6291D50860052ADE0 /* SignUpVC1.swift in Sources */,
+				56185ABF291D4FF50052ADE0 /* ScrapResponse.swift in Sources */,
+				56185AD8291D50350052ADE0 /* CustomShareNC.swift in Sources */,
+				56185AC7291D50050052ADE0 /* EmailSendRequest.swift in Sources */,
+				56185AC4291D4FFF0052ADE0 /* EmailSignInRequest.swift in Sources */,
+				56185AD7291D50320052ADE0 /* CustomShareVC.swift in Sources */,
+				56185AEE291D50750052ADE0 /* ScrapDetailVC.swift in Sources */,
+				56185AFC291D508F0052ADE0 /* HomeVC.swift in Sources */,
+				56185AF0291D50780052ADE0 /* ScrapWebViewVC.swift in Sources */,
+				56185ABE291D4FF30052ADE0 /* EmailSignUpResponse.swift in Sources */,
+				56185ABB291D4FEA0052ADE0 /* HomeServiceProvider.swift in Sources */,
+				56185AB3291D4FD60052ADE0 /* Strings.swift in Sources */,
+				56185AC6291D50030052ADE0 /* EmailSignUpRequest.swift in Sources */,
+				56185AF8291D50890052ADE0 /* SignUpVC3.swift in Sources */,
+				56185AC8291D50070052ADE0 /* EmailNicknameDuplicateRequest.swift in Sources */,
+				56185ADE291D50460052ADE0 /* TagBottomSheetVC.swift in Sources */,
+				56185ACB291D50100052ADE0 /* Scrap.swift in Sources */,
+				56185B0A291D51460052ADE0 /* MyHorizontalLayoutCell.swift in Sources */,
+				56185ABD291D4FEE0052ADE0 /* ShareServiceProvider.swift in Sources */,
+				56185AF3291D507F0052ADE0 /* MyScrapVC.swift in Sources */,
+				56185AEB291D50700052ADE0 /* UIView+.swift in Sources */,
+				56185ADB291D503D0052ADE0 /* TagCollectionView.swift in Sources */,
+				56185AEF291D50770052ADE0 /* SubActionTableViewCell.swift in Sources */,
+				56185AE4291D50610052ADE0 /* Font+.swift in Sources */,
+				56185AF4291D50800052ADE0 /* MyScrapSectionView.swift in Sources */,
+				56185ADC291D50400052ADE0 /* TagCollectionViewFlowLayout.swift in Sources */,
+				56185B08291D50A50052ADE0 /* EmailSignInViewModel.swift in Sources */,
+				56185AB9291D4FE60052ADE0 /* UserServiceProvider.swift in Sources */,
+				56185ACC291D50130052ADE0 /* Tag.swift in Sources */,
+				56185B03291D509B0052ADE0 /* HorizontalLayoutCell.swift in Sources */,
+				56185AD2291D50270052ADE0 /* CustomVAlignLabel.swift in Sources */,
+				56185AE7291D50680052ADE0 /* String+.swift in Sources */,
+				56185ADD291D50430052ADE0 /* RecentTagViewModel.swift in Sources */,
+				56185AF2291D507C0052ADE0 /* PlusScrapBottomSheetVC.swift in Sources */,
+				56185AFF291D50950052ADE0 /* MyScrapPreViewCollectionViewCell.swift in Sources */,
+				56185ADA291D503A0052ADE0 /* TagCollectionViewCell.swift in Sources */,
+				56185AF9291D508A0052ADE0 /* SignUpVC4.swift in Sources */,
+				56185AC2291D4FFB0052ADE0 /* PostResultResponse.swift in Sources */,
+				56185ABA291D4FE80052ADE0 /* HomeServiceAPI.swift in Sources */,
+				56185AB6291D4FDD0052ADE0 /* TokenUtils.swift in Sources */,
+				56185B00291D50960052ADE0 /* OtherScrapCollectionViewCell.swift in Sources */,
+				56185B02291D509A0052ADE0 /* HalfLayoutCell.swift in Sources */,
+				56185ACD291D50150052ADE0 /* Preview.swift in Sources */,
+				56185AE6291D50660052ADE0 /* BehaviorRelay+.swift in Sources */,
+				56185B05291D509F0052ADE0 /* ScarpSectionView.swift in Sources */,
+				56185AFD291D50910052ADE0 /* ScrapViewModel.swift in Sources */,
+				56185AE9291D506C0052ADE0 /* UIButton+.swift in Sources */,
+				56185AC5291D50010052ADE0 /* EmailConfirmRequest.swift in Sources */,
+				56185AC3291D4FFD0052ADE0 /* ReIssueTokenResponse.swift in Sources */,
+				56185AD6291D50300052ADE0 /* OTPStackView.swift in Sources */,
+				56185AC9291D50090052ADE0 /* TagRequst.swift in Sources */,
+				56185AB8291D4FE20052ADE0 /* UserServiceAPI.swift in Sources */,
+				56185AD0291D50220052ADE0 /* SparkyTabBarController.swift in Sources */,
+				56185AB4291D4FD90052ADE0 /* CrawlManager.swift in Sources */,
+				56185B01291D50980052ADE0 /* PreviewLayoutViewCell.swift in Sources */,
+				56185ADF291D50490052ADE0 /* PreviewViewModel.swift in Sources */,
+				56185ACF291D501F0052ADE0 /* SparkyNotification.swift in Sources */,
+				56185AEC291D50720052ADE0 /* MyInfoVC.swift in Sources */,
+				56185AF5291D50820052ADE0 /* MyLargeImageLayoutCell.swift in Sources */,
+				56185AE1291D505B0052ADE0 /* Color+.swift in Sources */,
+				56185ACE291D501C0052ADE0 /* CustomPopUpVC.swift in Sources */,
+				56185AE2291D505D0052ADE0 /* Image+.swift in Sources */,
+				56185AED291D50740052ADE0 /* MyInfoTableViewCell.swift in Sources */,
+				56185AEA291D506E0052ADE0 /* UIViewController+.swift in Sources */,
+				56185AC0291D4FF70052ADE0 /* TagResponse.swift in Sources */,
+				56185AF1291D507A0052ADE0 /* OtherScrapDetailVC.swift in Sources */,
+				56185B04291D509D0052ADE0 /* LargeImageLayoutCell.swift in Sources */,
+				56185AFA291D508D0052ADE0 /* SignUpViewModel.swift in Sources */,
+				56185AD3291D50290052ADE0 /* SparkyNavBar.swift in Sources */,
+				56185AD5291D502E0052ADE0 /* OTPTextField.swift in Sources */,
+				56185AC1291D4FF90052ADE0 /* RecentTagResponse.swift in Sources */,
+				56185AF7291D50870052ADE0 /* SignUpVC2.swift in Sources */,
+				56185ABC291D4FEC0052ADE0 /* ShareServiceAPI.swift in Sources */,
+				56185AE8291D506B0052ADE0 /* ImageView+.swift in Sources */,
+				56185AFE291D50930052ADE0 /* OtherScrapViewModel.swift in Sources */,
+				56185AE3291D505F0052ADE0 /* UINavigationBar+.swift in Sources */,
+				56185AB5291D4FDB0052ADE0 /* HTTPUtils.swift in Sources */,
+				56185ACA291D500C0052ADE0 /* ScrapRequest.swift in Sources */,
+				56185AE0291D504F0052ADE0 /* UITextField+.swift in Sources */,
+				56185AD4291D502B0052ADE0 /* SparkySearchBar.swift in Sources */,
+				56185AE5291D50640052ADE0 /* UIStackView+.swift in Sources */,
+				56185B06291D50A10052ADE0 /* OtherScrapSectionView.swift in Sources */,
+				56185B07291D50A30052ADE0 /* SigninVC.swift in Sources */,
+				56185AD9291D50370052ADE0 /* AddTagViewModel.swift in Sources */,
+				56185B09291D50A70052ADE0 /* EmailSignInView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5693C1EE28CE2CDC008710FF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5693C1FA28CE2CDC008710FF /* ViewController.swift in Sources */,
+				5614BBBB291449AA00E1DF16 /* ScrapWebViewVC.swift in Sources */,
+				56C3C2122912B5DF009765DE /* TagBottomSheetVC.swift in Sources */,
+				5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */,
+				5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */,
+				569EA3D2291C262600F90EEE /* UIButton+.swift in Sources */,
+				560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */,
+				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
+				56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */,
+				5664268D290ECFCC00154505 /* ImageView+.swift in Sources */,
+				569EA3D5291C2DBE00F90EEE /* UIKitUtils.swift in Sources */,
+				56D6AFF12915FF850026B18C /* PostResultResponse.swift in Sources */,
+				5614BBB42913DE8D00E1DF16 /* SparkyNotification.swift in Sources */,
+				56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */,
+				567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */,
+				5664268B290E618100154505 /* Scrap.swift in Sources */,
+				560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */,
+				56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */,
+				569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */,
+				56D6AFDF2915BDA10026B18C /* HomeServiceAPI.swift in Sources */,
+				5641FE3F29192807004F5A07 /* HorizontalLayoutCell.swift in Sources */,
+				567D261629113AE8000296F0 /* MyScrapSectionView.swift in Sources */,
+				567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */,
+				5637DD3728E0290E00C119F6 /* Color+.swift in Sources */,
+				56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */,
+				567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */,
+				569EA3DA291C310100F90EEE /* RecentTagViewModel.swift in Sources */,
+				5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */,
+				5641FE3D291927F4004F5A07 /* HalfLayoutCell.swift in Sources */,
+				567DF86F28EC9645005A3E30 /* EmailConfirmRequest.swift in Sources */,
+				56D6AFE22915C46E0026B18C /* HomeServiceProvider.swift in Sources */,
+				5693C1FA28CE2CDC008710FF /* SigninVC.swift in Sources */,
 				5693C1F628CE2CDC008710FF /* AppDelegate.swift in Sources */,
+				564900A9290BCD90005A6768 /* TagCollectionViewFlowLayout.swift in Sources */,
+				560306AD291AD0AB008CB6EB /* CustomPopUpVC.swift in Sources */,
+				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
+				56D6AFDD2915BC650026B18C /* TagResponse.swift in Sources */,
+				56642690290EDAC500154505 /* OtherScrapViewModel.swift in Sources */,
+				569EA406291C349500F90EEE /* CrawlManager.swift in Sources */,
+				567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */,
+				56DD96682905435B002DED3E /* CustomPaddingLabel.swift in Sources */,
+				56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */,
+				5637DD3928E0291D00C119F6 /* Image+.swift in Sources */,
+				56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */,
+				56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */,
+				565AFDD3291097C70080EA6D /* OtherScrapCollectionViewCell.swift in Sources */,
+				569EA3D8291C30F200F90EEE /* TagCollectionView.swift in Sources */,
+				56DE426528E1F9ED000A6A55 /* SignUpVC1.swift in Sources */,
+				56D6AFE72915E3270026B18C /* ShareServiceProvider.swift in Sources */,
 				5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */,
+				567D26122910FFD5000296F0 /* CustomVAlignLabel.swift in Sources */,
+				564938FE28E8BAE100861D26 /* HTTPUtils.swift in Sources */,
+				569EA40C291C352C00F90EEE /* CustomShareVC.swift in Sources */,
+				560306B0291AE1A9008CB6EB /* OtherScrapDetailVC.swift in Sources */,
+				56D6AFF829160C370026B18C /* Preview.swift in Sources */,
+				56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */,
+				560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */,
+				56447A612906EBB30052DBA9 /* SparkyTabBarController.swift in Sources */,
+				56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */,
+				56D6AFFE291651510026B18C /* MyInfoVC.swift in Sources */,
+				5652A44D28EB4FAA00415738 /* Strings.swift in Sources */,
+				56D6AFE92915E6BD0026B18C /* TagRequst.swift in Sources */,
+				56D6AFDB2915BB120026B18C /* ScrapResponse.swift in Sources */,
+				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
+				560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */,
+				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
+				569EA404291C348400F90EEE /* RecentTagResponse.swift in Sources */,
+				560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,
+				56C3C2162912B66A009765DE /* String+.swift in Sources */,
+				56DD966D2905C5FF002DED3E /* Tag.swift in Sources */,
+				56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */,
+				564900A6290BCC6E005A6768 /* PreviewLayoutViewCell.swift in Sources */,
+				5614BBB72913F36100E1DF16 /* ScrapDetailVC.swift in Sources */,
+				569EA3DB291C312D00F90EEE /* ShareServiceAPI.swift in Sources */,
+				56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */,
+				569EA411291C38B200F90EEE /* UIViewController+.swift in Sources */,
+				565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */,
+				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
+				569EA414291C3A5E00F90EEE /* UIView+.swift in Sources */,
+				56C7B20928E9710400D638D2 /* EmailSignInView.swift in Sources */,
+				569EA40E291C354300F90EEE /* AddTagViewModel.swift in Sources */,
+				569EA40D291C353000F90EEE /* CustomShareNC.swift in Sources */,
+				564900A4290BCB5E005A6768 /* ScrapViewModel.swift in Sources */,
+				56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */,
+				564938F928E8B55E00861D26 /* EmailSignInRequest.swift in Sources */,
+				56DD966B29059162002DED3E /* BehaviorRelay+.swift in Sources */,
+				5641FE412919281D004F5A07 /* LargeImageLayoutCell.swift in Sources */,
+				56C41B8828FEC81900D610E5 /* SparkySearchBar.swift in Sources */,
+				56D6AFEB2915E87C0026B18C /* ScrapRequest.swift in Sources */,
+				569EA3D7291C30EF00F90EEE /* TagCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,6 +1243,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		56185AAE291D45CD0052ADE0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 56185AA4291D45CC0052ADE0 /* Sparky */;
+			targetProxy = 56185AAD291D45CD0052ADE0 /* PBXContainerItemProxy */;
+		};
 		5693C20A28CE2CDE008710FF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5693C1F128CE2CDC008710FF /* Sparky-iOS */;
@@ -297,14 +1261,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5693C1FB28CE2CDC008710FF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5693C1FC28CE2CDC008710FF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5693C20028CE2CDE008710FF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -316,6 +1272,66 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		56185AB1291D45CD0052ADE0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 25CD38D82D57FDFC7BB01D67 /* Pods-Sparky.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sparky/SparkyDebug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 100;
+				DEVELOPMENT_TEAM = 3AQ2WDVH35;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sparky/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = sparky;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmc.sparky.share;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "dev_sparky-share";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		56185AB2291D45CD0052ADE0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4EFE3AAED453DEF71CF24F54 /* Pods-Sparky.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Sparky/SparkyRelease.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 100;
+				DEVELOPMENT_TEAM = 3AQ2WDVH35;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Sparky/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = sparky;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.cmc.sparky-share";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "dev_sparky-share";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		5693C21A28CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -350,6 +1366,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -366,7 +1383,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -410,6 +1427,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -420,7 +1438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -432,98 +1450,122 @@
 		};
 		5693C21D28CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E2B7B534D55BF76086AAC120 /* Pods-Sparky-iOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = "Sparky-iOS/Sparky-iOSDebug.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3AQ2WDVH35;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sparky-iOS/Info.plist";
+				INFOPLIST_FILE = "Sparky-iOS/SupprotingFiles/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = sparky;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "seungmin.Sparky-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmc.sparky;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = dev_sparky;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		5693C21E28CE2CDE008710FF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1F3B2EBAEFA7C58FD796EAF /* Pods-Sparky-iOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3AQ2WDVH35;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Sparky-iOS/Info.plist";
+				INFOPLIST_FILE = "Sparky-iOS/SupprotingFiles/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = sparky;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "seungmin.Sparky-iOS";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmc.sparky;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = dev_sparky;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 		5693C22028CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3330CDBBC003A180A6A8A2DA /* Pods-Sparky-iOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "seungmin.Sparky-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sparky-iOS.app/Sparky-iOS";
 			};
 			name = Debug;
 		};
 		5693C22128CE2CDE008710FF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31A6155D8C9495B2A0831CBF /* Pods-Sparky-iOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "seungmin.Sparky-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sparky-iOS.app/Sparky-iOS";
 			};
 			name = Release;
 		};
 		5693C22328CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6377FA6F8E3FE98E1596878 /* Pods-Sparky-iOSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -534,13 +1576,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "Sparky-iOS";
 			};
 			name = Debug;
 		};
 		5693C22428CE2CDE008710FF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8591FF89E2DC369E84141B29 /* Pods-Sparky-iOSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -551,7 +1594,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = "Sparky-iOS";
 			};
 			name = Release;
@@ -559,6 +1602,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		56185AB0291D45CD0052ADE0 /* Build configuration list for PBXNativeTarget "Sparky" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56185AB1291D45CD0052ADE0 /* Debug */,
+				56185AB2291D45CD0052ADE0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		5693C1ED28CE2CDC008710FF /* Build configuration list for PBXProject "Sparky-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
