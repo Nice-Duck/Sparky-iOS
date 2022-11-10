@@ -117,7 +117,7 @@ final class MyLargeImageLayoutCell: UICollectionViewCell {
     
     func setDidTapScrapDetailButton() {
         scrapDetailButton.rx.tap
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .throttle(.seconds(5), scheduler: MainScheduler.instance)
             .subscribe { _ in
                 NotificationCenter.default.post(name: SparkyNotification.sendMyScrapDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)

@@ -26,6 +26,10 @@ final class SignInVC: UIViewController {
         bindViewModel()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
     private func setupConstraints() {
         view.addSubview(emailSignInView.logoImageView)
         emailSignInView.logoImageView.snp.makeConstraints {
@@ -131,14 +135,14 @@ final class SignInVC: UIViewController {
             .disposed(by: disposeBag)
         
         emailSignInView.signInButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
+            .throttle(.seconds(5), latest: false)
             .drive { _ in
                 let emailSignInRequest = EmailSignInRequest(email: self.emailSignInView.emailTextField.text ?? "",
                                                             pwd: self.emailSignInView.passwordTextField.text ?? "")
                 
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
-                
+                    
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignUpResponse.self)
@@ -199,7 +203,7 @@ final class SignInVC: UIViewController {
     private func moveToHomeVC() {
         guard let nc = self.navigationController else { return }
         var vcs = nc.viewControllers
-        vcs = [HomeVC()]
+        vcs = [SparkyTabBarController()]
         self.navigationController?.viewControllers = vcs
     }
 }

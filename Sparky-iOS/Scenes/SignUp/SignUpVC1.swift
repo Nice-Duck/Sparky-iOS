@@ -51,6 +51,7 @@ class SignUpVC1: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
+//        $0.setKeyboardObserver()
     }
     
     // MARK: - LifeCycles
@@ -62,6 +63,10 @@ class SignUpVC1: UIViewController {
         setupNavBar()
         setupUI()
         bindViewModel()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     private func setupNavBar() {
@@ -183,76 +188,7 @@ class SignUpVC1: UIViewController {
                     }.disposed(by: self.disposeBag)
             }
             .disposed(by: disposeBag)
-        
-        //            .bind(onNext: { _ in
-        //                guard let email = self.emailTextField.text else { return }
-        //                UserServiceProvider.shared
-        //                    .signUpEmailDuplicate(email: email)
-        //                    .map(EmailSignUpResponse.self)
-        //                    .subscribe { response in
-        //                        print("code - \(response.code)")
-        //                        print("message - \(response.message)")
-        //
-        //                        if response.code == "0000" {
-        //                            let emailSendRequest = EmailSendRequest(email: email)
-        //                            UserServiceProvider.shared
-        //                                .signUpEmailSend(emailSendRequest: emailSendRequest)
-        //                                .map(EmailSignUpResponse.self)
-        //                                .subscribe { response in
-        //                                    print("code - \(response.code)")
-        //                                    print("message - \(response.message)")
-        //
-        //                                    if response.code == "0000" {
-        //                                        let signUpVC2 = SignUpVC2()
-        //                                        signUpVC2.email = email
-        //                                        self.navigationController?.pushViewController(signUpVC2, animated: true)
-        //                                    }
-        //                                } onFailure: { error in
-        //                                    print(error)
-        //                                }.disposed(by: self.disposeBag)
-        //                        } else if response.code == "0001" {
-        //                            self.emailTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
-        //                            self.errorLabel.text = response.message
-        //                            self.errorLabel.isHidden = false
-        //                        }
-        //                    } onFailure: { error in
-        //                        print(error)
-        //                    }.disposed(by: self.disposeBag)
-        //
-        //            }).disposed(by: disposeBag)
-        //        nextButton.rx.tap
-        //            .bind { _ in
-        //                let emailSendRequest = EmailSendRequest(email: email)
-        //                UserServiceProvider.shared
-        //                    .signUpEmailSend(emailSendRequest: emailSendRequest)
-        //                    .map(EmailSignUpResponse.self)
-        //                    .subscribe { response in
-        //                        print("code - \(response.code)")
-        //                        print("message - \(response.message)")
-        //
-        //                        if response.code == "0000" {
-        //                            let signUpVC2 = SignUpVC2()
-        //                            signUpVC2.email = email
-        //                            self.navigationController?.pushViewController(signUpVC2, animated: true)
-        //                        }
-        //                    } onFailure: { error in
-        //                        print(error)
-        //                    }.disposed(by: self.disposeBag)
-        //            }.disposed(by: disposeBag)
     }
-    
-    //    private func changeClearButtonImage() {
-    //        let textField = self.emailTextField
-    //        for subView in textField.subviews {
-    //            if subView is UIButton {
-    //                let button = subView as! UIButton
-    //                let highlightedImage = UIImage()
-    //                if let image = button.image(for: .highlighted) {
-    ////                    highlightedImage = UIImage(
-    //                }
-    //            }
-    //        }
-    //    }
     
     @objc private func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)

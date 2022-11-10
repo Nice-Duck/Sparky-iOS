@@ -109,7 +109,20 @@ class MyInfoVC: UIViewController {
     private func moveToSignInVC() {
         guard let nc = self.navigationController else { return }
         var vcs = nc.viewControllers
+//        let signInVC = UINavigationController(rootViewController: SignInVC())
         vcs = [SignInVC()]
+        
+        
+//        self.s
+//          .dismiss(animated: false)
+//        self.navigationController?.removeFromParent()
+//        self.navigationController?.popToRootViewController(animated: false)
+//        self.navigationController?.dismiss(animated: false)
+//        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
+
+//        self.navigationController?.navigationBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
+//            .popToRootViewController(animated: false)
         self.navigationController?.viewControllers = vcs
     }
     

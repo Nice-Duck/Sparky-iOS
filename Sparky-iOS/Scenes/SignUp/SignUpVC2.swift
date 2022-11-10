@@ -45,6 +45,7 @@ class SignUpVC2: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
+//        $0.setKeyboardObserver()
     }
     
     // MARK: - LifeCycles
@@ -57,6 +58,10 @@ class SignUpVC2: UIViewController {
         setupUI()
         setupOTPView()
         bindViewModel()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     private func setupNavBar() {
@@ -185,7 +190,7 @@ class SignUpVC2: UIViewController {
         .disposed(by: disposeBag)
         
         nextButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
+            .throttle(.seconds(5), latest: false)
             .drive(onNext: { _ in
                 guard let email = self.email else{ print("Email is Null!"); return }
                 print("입력 이메일 - \(email)")

@@ -67,6 +67,7 @@ class SignUpVC3: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
+//        $0.setKeyboardObserver()
     }
     
     // MARK: - LifeCycles
@@ -78,6 +79,10 @@ class SignUpVC3: UIViewController {
         setupNavBar()
         setupUI()
         bindViewModel()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     private func setupNavBar() {
@@ -168,7 +173,7 @@ class SignUpVC3: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
+            .throttle(.seconds(5), latest: false)
             .drive(onNext: { _ in
                 guard let password = self.passwordTextField.text else { print("Password is Null!"); return }
                 let signUpVC4 = SignUpVC4()

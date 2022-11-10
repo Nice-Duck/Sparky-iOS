@@ -30,6 +30,7 @@ final class TagBottomSheetVC: UIViewController {
         $0.layer.cornerRadius = 16
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.clipsToBounds = true
+//        $0.setKeyboardObserver()
     }
     
     private var tagBottomSheetTopConstraint: NSLayoutConstraint!
@@ -133,6 +134,7 @@ final class TagBottomSheetVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+//        setKeyboardObserver()
         fetchRecentTagList()
         bindViewModel()
     }
@@ -162,7 +164,7 @@ final class TagBottomSheetVC: UIViewController {
                     self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
                     print("tagList - \(self.viewModel.recentTagList.value)")
                     //                    self.setupDelegate()
-//                    self.bindViewModel()
+                    //                    self.bindViewModel()
                 } else if response.code == "U000" {
                     print("response - \(response)")
                     
@@ -226,6 +228,10 @@ final class TagBottomSheetVC: UIViewController {
         super.viewDidAppear(animated)
         
         showTagBottomSheet()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     private func setupNavBar() {
@@ -327,8 +333,8 @@ final class TagBottomSheetVC: UIViewController {
     }
     
     private func bindViewModel() {
-//        recentTagCollectionView.dataSource = nil
-//        recentTagCollectionView.delegate = nil
+        //        recentTagCollectionView.dataSource = nil
+        //        recentTagCollectionView.delegate = nil
         
         viewModel.filterTagList.values = viewModel.recentTagList.value
         print("recentTagList - \(viewModel.filterTagList.values)")
@@ -409,12 +415,12 @@ final class TagBottomSheetVC: UIViewController {
     private func setupNewTagTapGuesture() {
         newTagStackView.rx
             .tapGesture()
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .throttle(.seconds(5), scheduler: MainScheduler.instance)
             .when(.recognized)
             .subscribe(onNext: { _ in
                 if let text = self.newTagLabel.text, text != "" {
                     let tagRequest = TagRequst(tag: text,
-                                               color: "blue")
+                                               color: "#E6DBE0")
                     
                     ShareServiceProvider.shared
                         .saveTag(tagRequst: tagRequest)

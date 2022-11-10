@@ -221,7 +221,7 @@ final class HalfLayoutCell: UICollectionViewCell {
     
     func setDidTapScrapDetailButton() {
         scrapDetailButton.rx.tap
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .throttle(.seconds(5), scheduler: MainScheduler.instance)
             .subscribe { _ in
                 NotificationCenter.default.post(name: SparkyNotification.sendOtherScrapDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)

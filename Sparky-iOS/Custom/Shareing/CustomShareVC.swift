@@ -109,6 +109,10 @@ final class CustomShareVC: UIViewController {
         setupScrap()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     private func setupNavBar() {
         self.navigationController?.navigationBar.backgroundColor = .gray100
         self.navigationController?.navigationBar.tintColor = .black
@@ -275,8 +279,8 @@ final class CustomShareVC: UIViewController {
                 
                 if response.code == "0000" {
                     print("---요청 성공!!!---")
-//                    self.navigationController?.popViewController(animated: false)
-//                    self.dismiss(animated: false)
+                    //                    self.navigationController?.popViewController(animated: false)
+                    //                    self.dismiss(animated: false)
                 } else {
                     print("---응답 실패!!!---")
                 }

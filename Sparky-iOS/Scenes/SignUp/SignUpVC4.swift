@@ -67,6 +67,7 @@ class SignUpVC4: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
+//        $0.setKeyboardObserver()
     }
     
     // MARK: - LifeCycles
@@ -78,6 +79,10 @@ class SignUpVC4: UIViewController {
         setupNavBar()
         setupUI()
         bindViewModel()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
     }
     
     private func setupNavBar() {

@@ -117,7 +117,7 @@ final class PreviewLayoutViewCell: UICollectionViewCell {
     
     func setDidTapScrapDetailButton() {
         scrapDetailButton.rx.tap
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .throttle(.seconds(5), scheduler: MainScheduler.instance)
             .subscribe { _ in
                 NotificationCenter.default.post(name: SparkyNotification.sendPreviewDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)
@@ -126,7 +126,7 @@ final class PreviewLayoutViewCell: UICollectionViewCell {
     func setDidTapScrapthumbnailImageView() {
         thumbnailImageView.rx
             .tapGesture()
-            .throttle(.milliseconds(1000), scheduler: MainScheduler.instance)
+            .throttle(.seconds(1000), scheduler: MainScheduler.instance)
             .when(.recognized)
             .subscribe { _ in
                 let selectedIndex = self.thumbnailImageView.tag
