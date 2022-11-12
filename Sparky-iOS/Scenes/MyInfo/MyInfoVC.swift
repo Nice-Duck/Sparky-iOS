@@ -107,23 +107,8 @@ class MyInfoVC: UIViewController {
     }
     
     private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-//        let signInVC = UINavigationController(rootViewController: SignInVC())
-        vcs = [SignInVC()]
-        
-        
-//        self.s
-//          .dismiss(animated: false)
-//        self.navigationController?.removeFromParent()
-//        self.navigationController?.popToRootViewController(animated: false)
-//        self.navigationController?.dismiss(animated: false)
-//        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: true, completion: nil)
-
-//        self.navigationController?.navigationBar.isHidden = true
-//        self.navigationController?.navigationBar.isHidden = true
-//            .popToRootViewController(animated: false)
-        self.navigationController?.viewControllers = vcs
+        let nav = UINavigationController(rootViewController: SignInVC())
+        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController = nav
     }
     
     private func deleteProfile() {
@@ -146,7 +131,7 @@ class MyInfoVC: UIViewController {
                         TokenUtils().delete("com.sparky.token", account: "accessToken")
                     }
                     
-                    HomeServiceProvider.shared
+                    ReIssueServiceProvider.shared
                         .reissueAccesstoken()
                         .map(ReIssueTokenResponse.self)
                         .subscribe { response in
@@ -210,14 +195,14 @@ extension MyInfoVC: CustomPopUpDelegate {
 
 extension MyInfoVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 2 {
             return 1
         } else {
-            return 3
+            return 1
         }
     }
     
@@ -227,23 +212,23 @@ extension MyInfoVC: UITableViewDataSource {
             for: indexPath) as! MyInfoTableViewCell
         cell.selectionStyle = .none
         if indexPath.section == 0 {
-            cell.rightChevronImageView.isHidden = false
-            
-            if indexPath.row == 0 {
-                cell.actionLabel.text = "프로필 설정"
-            } else if indexPath.row == 1 {
-                cell.actionLabel.text = "내 태그 목록"
-            } else {
-                cell.actionLabel.text = "서비스 환경설정"
-            }
-        } else if indexPath.section == 1 {
+//            cell.rightChevronImageView.isHidden = false
+//
+//            if indexPath.row == 0 {
+//                cell.actionLabel.text = "프로필 설정"
+//            } else if indexPath.row == 1 {
+//                cell.actionLabel.text = "내 태그 목록"
+//            } else {
+//                cell.actionLabel.text = "서비스 환경설정"
+//            }
+//        } else if indexPath.section == 1 {
             cell.rightChevronImageView.isHidden = true
             
             if indexPath.row == 0 {
-                cell.actionLabel.text = "문의하기"
-            } else if indexPath.row == 1 {
-                cell.actionLabel.text = "프로필 공유하기"
-            } else {
+//                cell.actionLabel.text = "문의하기"
+//            } else if indexPath.row == 1 {
+//                cell.actionLabel.text = "프로필 공유하기"
+//            } else {
                 cell.actionLabel.text = "로그아웃"
             }
         } else {
@@ -258,13 +243,13 @@ extension MyInfoVC: UITableViewDataSource {
 extension MyInfoVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            if indexPath.row == 2 {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
                 TokenUtils().delete("com.sparky.token", account: "accessToken")
                 TokenUtils().delete("com.sparky.token", account: "refreshToken")
                 moveToSignInVC()
             }
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 1 {
             let customPopUpVC = CustomPopUpVC()
             customPopUpVC.setupValue(title: "탈퇴 하시겠습니까?",
                                      cancelText: "취소하기",

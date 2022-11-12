@@ -278,7 +278,7 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func presentTagBottomSheetVC() {
-        let tagBottomSheetVC = TagBottomSheetVC()
+        let tagBottomSheetVC = HomeTagBottomSheetVC()
         tagBottomSheetVC.newTagCVDelegate = self
         tagBottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(tagBottomSheetVC, animated: false)

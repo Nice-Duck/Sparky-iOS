@@ -1,5 +1,5 @@
 //
-//  TagBottomSheetVC.swift
+//  ShareTagBottomSheetVC.swift
 //  Sparky-iOS
 //
 //  Created by SeungMin on 2022/10/16.
@@ -10,11 +10,7 @@ import RxSwift
 import RxCocoa
 import RxGesture
 
-protocol NewTagCVDelegate: AnyObject {
-    func sendNewTagList(tag: Tag)
-}
-
-final class TagBottomSheetVC: UIViewController {
+final class ShareTagBottomSheetVC: UIViewController {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
@@ -172,7 +168,7 @@ final class TagBottomSheetVC: UIViewController {
                         TokenUtils().delete("com.sparky.token", account: "accessToken")
                     }
                     
-                    HomeServiceProvider.shared
+                    ReIssueServiceProvider.shared
                         .reissueAccesstoken()
                         .map(ReIssueTokenResponse.self)
                         .subscribe { response in
@@ -196,7 +192,7 @@ final class TagBottomSheetVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+//                                    self.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -210,7 +206,7 @@ final class TagBottomSheetVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+//                                self.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -448,14 +444,6 @@ final class TagBottomSheetVC: UIViewController {
                 }
             }).disposed(by: disposeBag)
     }
-    
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
-    }
-    
     
     //    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
     //        var newTagList = tagList

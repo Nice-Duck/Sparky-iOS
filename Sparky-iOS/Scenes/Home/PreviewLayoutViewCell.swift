@@ -126,7 +126,6 @@ final class PreviewLayoutViewCell: UICollectionViewCell {
     func setDidTapScrapthumbnailImageView() {
         thumbnailImageView.rx
             .tapGesture()
-            .throttle(.seconds(1000), scheduler: MainScheduler.instance)
             .when(.recognized)
             .subscribe { _ in
                 let selectedIndex = self.thumbnailImageView.tag
