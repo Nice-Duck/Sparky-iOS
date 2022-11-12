@@ -62,6 +62,10 @@ final class MyScrapVC: UIViewController {
         setupDelegate()
         bindViewModel()
         createObserver()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         fetchScraps()
     }
@@ -84,6 +88,8 @@ final class MyScrapVC: UIViewController {
                     
                     if let result = response.result {
                         if let myScraps = result.myScraps {
+                            self.viewModel.scraps.values = []
+                            
                             myScraps.forEach { scrap in
                                 var newTagList = [Tag]()
                                 
@@ -91,7 +97,7 @@ final class MyScrapVC: UIViewController {
                                     print("tag.color - \(tag.color)")
                                     let newTag = Tag(tagId: tag.tagId,
                                                      name: tag.name,
-                                                     color: .colorchip12,
+                                                     color: UIColor.hexColorFromString(tag.color ?? "#E6DBE0"),
                                                      buttonType: .none)
                                     newTagList.append(newTag)
                                 }
@@ -109,7 +115,6 @@ final class MyScrapVC: UIViewController {
                         }
                         print("myScrapViewModel - \(self.viewModel.scraps.value)")
                         print("otherScrapViewModel - \(self.viewModel.scraps.value)")
-                        print("reload!!!")
                         self.setupData()
                         self.setupDelegate()
                         self.myScrapCollectionView.reloadData()
@@ -171,12 +176,6 @@ final class MyScrapVC: UIViewController {
                 print("---홈 스크랩 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
-        
-        //        print(myScrapViewModel.scraps.value)
-        //        print(otherScrapViewModel.scraps.value)
-        //        setupDelegate()
-        //        homeTableView.reloadData()
-        
     }
     
     private func setupNavBar() {
@@ -258,20 +257,15 @@ final class MyScrapVC: UIViewController {
             .subscribe { _ in
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
-                //                self.myScrapCollectionView.performBatchUpdates {
                 self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
-                self.bindViewModel()
-                //                }
+                self.viewModel.scraps.accept(self.viewModel.scraps.value)
             }.disposed(by: disposeBag)
-        //
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
-                //                self.myScrapCollectionView.performBatchUpdates {
                 self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
-                self.bindViewModel()
-                //                }
+                self.viewModel.scraps.accept(self.viewModel.scraps.value)
             }.disposed(by: disposeBag)
     }
     

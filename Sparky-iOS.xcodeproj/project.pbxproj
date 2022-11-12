@@ -89,6 +89,10 @@
 		566584CA291F5FA50043FFE3 /* NewTagCVDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584C9291F5FA50043FFE3 /* NewTagCVDelegate.swift */; };
 		566584CB291F5FC40043FFE3 /* NewTagCVDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584C9291F5FA50043FFE3 /* NewTagCVDelegate.swift */; };
 		566584CD291F789C0043FFE3 /* HomeCustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CC291F789C0043FFE3 /* HomeCustomShareVC.swift */; };
+		566584CF291FBA880043FFE3 /* TagSaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CE291FBA880043FFE3 /* TagSaveResponse.swift */; };
+		566584D0291FBAD00043FFE3 /* TagSaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CE291FBA880043FFE3 /* TagSaveResponse.swift */; };
+		566584D2291FE8E50043FFE3 /* TagDottedLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */; };
+		566584D3291FEBA60043FFE3 /* TagDottedLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */; };
 		56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */; };
 		567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26072910ACE6000296F0 /* ScarpSectionView.swift */; };
 		567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */; };
@@ -241,6 +245,8 @@
 		566584C6291F5F180043FFE3 /* HomeTagBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTagBottomSheetVC.swift; sourceTree = "<group>"; };
 		566584C9291F5FA50043FFE3 /* NewTagCVDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagCVDelegate.swift; sourceTree = "<group>"; };
 		566584CC291F789C0043FFE3 /* HomeCustomShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCustomShareVC.swift; sourceTree = "<group>"; };
+		566584CE291FBA880043FFE3 /* TagSaveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSaveResponse.swift; sourceTree = "<group>"; };
+		566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDottedLineCell.swift; sourceTree = "<group>"; };
 		56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReIssueTokenResponse.swift; sourceTree = "<group>"; };
 		567D26072910ACE6000296F0 /* ScarpSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScarpSectionView.swift; sourceTree = "<group>"; };
 		567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapSectionView.swift; sourceTree = "<group>"; };
@@ -507,6 +513,7 @@
 				5616C54328DB730200BF7126 /* CustomShareNC.swift */,
 				569AE21928F481BB003ED188 /* AddTagViewModel.swift */,
 				5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */,
+				566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */,
 				569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */,
 				569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */,
 				56A0AA6E28FBD50F00726C13 /* ShareTagBottomSheetVC.swift */,
@@ -678,6 +685,7 @@
 				56D6AFF02915FF850026B18C /* PostResultResponse.swift */,
 				56D6AFF42916016A0026B18C /* RecentTagResponse.swift */,
 				56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */,
+				566584CE291FBA880043FFE3 /* TagSaveResponse.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1045,6 +1053,7 @@
 				56185AE1291D505B0052ADE0 /* Color+.swift in Sources */,
 				56185ACE291D501C0052ADE0 /* CustomPopUpVC.swift in Sources */,
 				56185AE2291D505D0052ADE0 /* Image+.swift in Sources */,
+				566584D0291FBAD00043FFE3 /* TagSaveResponse.swift in Sources */,
 				56185AEA291D506E0052ADE0 /* UIViewController+.swift in Sources */,
 				56185AC0291D4FF70052ADE0 /* TagResponse.swift in Sources */,
 				56185AC1291D4FF90052ADE0 /* RecentTagResponse.swift in Sources */,
@@ -1055,6 +1064,7 @@
 				56185ACA291D500C0052ADE0 /* ScrapRequest.swift in Sources */,
 				56185AE0291D504F0052ADE0 /* UITextField+.swift in Sources */,
 				56185AD4291D502B0052ADE0 /* SparkySearchBar.swift in Sources */,
+				566584D3291FEBA60043FFE3 /* TagDottedLineCell.swift in Sources */,
 				56185AE5291D50640052ADE0 /* UIStackView+.swift in Sources */,
 				56185AD9291D50370052ADE0 /* AddTagViewModel.swift in Sources */,
 				566584BE291F57200043FFE3 /* Scrap.swift in Sources */,
@@ -1075,6 +1085,7 @@
 				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
 				56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */,
 				5664268D290ECFCC00154505 /* ImageView+.swift in Sources */,
+				566584D2291FE8E50043FFE3 /* TagDottedLineCell.swift in Sources */,
 				569EA3D5291C2DBE00F90EEE /* UIKitUtils.swift in Sources */,
 				56D6AFF12915FF850026B18C /* PostResultResponse.swift in Sources */,
 				5614BBB42913DE8D00E1DF16 /* SparkyNotification.swift in Sources */,
@@ -1096,6 +1107,7 @@
 				566584C3291F580D0043FFE3 /* ReIssueServiceProvider.swift in Sources */,
 				569EA3DA291C310100F90EEE /* RecentTagViewModel.swift in Sources */,
 				5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */,
+				566584CF291FBA880043FFE3 /* TagSaveResponse.swift in Sources */,
 				5641FE3D291927F4004F5A07 /* HalfLayoutCell.swift in Sources */,
 				567DF86F28EC9645005A3E30 /* EmailConfirmRequest.swift in Sources */,
 				56D6AFE22915C46E0026B18C /* HomeServiceProvider.swift in Sources */,

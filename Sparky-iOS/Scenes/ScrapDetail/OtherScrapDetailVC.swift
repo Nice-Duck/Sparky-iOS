@@ -488,7 +488,7 @@ extension OtherScrapDetailVC: UITableViewDataSource {
 extension OtherScrapDetailVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
             let customPopUpVC = CustomPopUpVC()
             customPopUpVC.setupValue(title: "신고 하시겠습니까?",
                                      cancelText: "취소하기",
