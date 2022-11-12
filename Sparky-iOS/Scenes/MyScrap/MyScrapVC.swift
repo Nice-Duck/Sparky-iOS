@@ -121,7 +121,7 @@ final class MyScrapVC: UIViewController {
                         TokenUtils().delete("com.sparky.token", account: "accessToken")
                     }
                     
-                    HomeServiceProvider.shared
+                    ReIssueServiceProvider.shared
                         .reissueAccesstoken()
                         .map(ReIssueTokenResponse.self)
                         .subscribe { response in
