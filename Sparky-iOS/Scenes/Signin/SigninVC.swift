@@ -26,6 +26,12 @@ final class SignInVC: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
@@ -196,15 +202,18 @@ final class SignInVC: UIViewController {
         
         emailSignInView.signUpButton.rx.tap.subscribe { _ in
             let signUpVC1 = SignUpVC1()
+            self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.pushViewController(signUpVC1, animated: true)
         }.disposed(by: disposeBag)
     }
     
     private func moveToHomeVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SparkyTabBarController()]
-        self.navigationController?.viewControllers = vcs
+        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController = SparkyTabBarController()
+
+//        guard let nc = self.navigationController else { return }
+//        var vcs = nc.viewControllers
+//        vcs = [SparkyTabBarController()]
+//        self.navigationController?.viewControllers = vcs
     }
 }
 

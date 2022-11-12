@@ -1,8 +1,8 @@
 //
-//  CustomShareVC.swift
-//  Sparky
+//  HomeCustomShareVC.swift
+//  Sparky-iOS
 //
-//  Created by SeungMin on 2022/09/14.
+//  Created by SeungMin on 2022/11/12.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ import Then
 import SwiftLinkPreview
 import Kingfisher
 
-final class CustomShareVC: UIViewController {
+final class HomeCustomShareVC: UIViewController {
     
     // MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -270,7 +270,7 @@ final class CustomShareVC: UIViewController {
         self.navigationController?.popViewController(animated: false)
         self.dismiss(animated: false)
         
-        ShareServiceProvider.shared
+        HomeServiceProvider.shared
             .saveScrap(scrapRequest: scrapRequest)
             .map(PostResultResponse.self)
             .subscribe { response in
@@ -293,7 +293,7 @@ final class CustomShareVC: UIViewController {
     }
     
     private func presentTagBottomSheetVC() {
-        let tagBottomSheetVC = ShareTagBottomSheetVC()
+        let tagBottomSheetVC = HomeTagBottomSheetVC()
         tagBottomSheetVC.newTagCVDelegate = self
         tagBottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(tagBottomSheetVC, animated: false)
@@ -389,7 +389,7 @@ final class CustomShareVC: UIViewController {
     //    }
 }
 
-extension CustomShareVC: UITextViewDelegate {
+extension HomeCustomShareVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == memoTextViewPlaceHolder {
             textView.text = nil
@@ -407,7 +407,7 @@ extension CustomShareVC: UITextViewDelegate {
     }
 }
 
-extension CustomShareVC: NewTagCVDelegate {
+extension HomeCustomShareVC: NewTagCVDelegate {
     func sendNewTagList(tag: Tag) {
         let newTag = Tag(tagId: tag.tagId,
                          name: tag.name,

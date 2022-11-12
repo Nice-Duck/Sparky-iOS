@@ -262,7 +262,7 @@ final class OtherScrapDetailVC: UIViewController {
     }
     
     private func presentTagBottomSheetVC() {
-        let tagBottomSheetVC = TagBottomSheetVC()
+        let tagBottomSheetVC = HomeTagBottomSheetVC()
         tagBottomSheetVC.newTagCVDelegate = self
         tagBottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(tagBottomSheetVC, animated: false)
@@ -364,7 +364,7 @@ final class OtherScrapDetailVC: UIViewController {
                         TokenUtils().delete("com.sparky.token", account: "accessToken")
                     }
                     
-                    HomeServiceProvider.shared
+                    ReIssueServiceProvider.shared
                         .reissueAccesstoken()
                         .map(ReIssueTokenResponse.self)
                         .subscribe { response in

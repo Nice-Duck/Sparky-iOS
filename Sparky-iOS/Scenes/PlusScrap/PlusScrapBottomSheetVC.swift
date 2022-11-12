@@ -170,7 +170,7 @@ class PlusScrapBottomSheetVC: UIViewController {
             .subscribe { _ in
                 self.dismissTagBottomSheetVC()
                 
-                let customShareVC = CustomShareVC()
+                let customShareVC = HomeCustomShareVC()
                 if let urlInputString = self.urlInputString {
                     customShareVC.urlString = urlInputString
                 } else {
