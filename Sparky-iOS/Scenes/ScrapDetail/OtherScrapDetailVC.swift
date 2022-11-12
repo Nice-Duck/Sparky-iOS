@@ -452,15 +452,16 @@ extension OtherScrapDetailVC: CustomPopUpDelegate {
 
 extension OtherScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+//        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 3
-        } else {
+//        if section == 0 {
+//            return 3
+//        } else {
             return 1
-        }
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -468,18 +469,18 @@ extension OtherScrapDetailVC: UITableViewDataSource {
             withIdentifier: SubActionTableViewCell.identifier,
             for: indexPath) as! SubActionTableViewCell
         cell.selectionStyle = .none
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                cell.actionLabel.text = "내 스크랩에 추가하기"
-            } else if indexPath.row == 1 {
-                cell.actionLabel.text = "공유하기"
-            } else {
-                cell.actionLabel.text = "URL 복사하기"
-            }
-        } else {
+//        if indexPath.section == 0 {
+//            if indexPath.row == 0 {
+//                cell.actionLabel.text = "내 스크랩에 추가하기"
+//            } else if indexPath.row == 1 {
+//                cell.actionLabel.text = "공유하기"
+//            } else {
+//                cell.actionLabel.text = "URL 복사하기"
+//            }
+//        } else {
             cell.actionLabel.text = "신고하기"
             cell.actionLabel.textColor = .sparkyOrange
-        }
+//        }
         return cell
     }
 }

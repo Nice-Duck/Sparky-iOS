@@ -384,30 +384,31 @@ extension ScrapDetailVC: NewTagCVDelegate {
 
 extension ScrapDetailVC: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+//        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 2
-        } else {
+//        if section == 0 {
+//            return 2
+//        } else {
             return 1
-        }
+//        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubActionTableViewCell.identifier,
                                                  for: indexPath) as! SubActionTableViewCell
-        if indexPath.section == 0 {
-            if indexPath.row == 0 {
-                cell.actionLabel.text = "공유하기"
-            } else {
-                cell.actionLabel.text = "URL 복사하기"
-            }
-        } else {
+//        if indexPath.section == 0 {
+//            if indexPath.row == 0 {
+//                cell.actionLabel.text = "공유하기"
+//            } else {
+//                cell.actionLabel.text = "URL 복사하기"
+//            }
+//        } else {
             cell.actionLabel.text = "삭제하기"
             cell.actionLabel.textColor = .sparkyOrange
-        }
+//        }
         return cell
     }
     
