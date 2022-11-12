@@ -76,17 +76,13 @@ final class HomeVC: UIViewController {
         view.backgroundColor = .background
         setupNavBar()
         setupConstraints()
-        //        setupDelegate()
         createObserver()
-        
-        fetchScraps()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //        fetchScraps()
+        fetchScraps()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -107,6 +103,8 @@ final class HomeVC: UIViewController {
                     
                     if let result = response.result {
                         if let myScraps = result.myScraps {
+                            self.myScrapViewModel.scraps.values = []
+                            
                             myScraps.forEach { scrap in
                                 var newTagList = [Tag]()
                                 
@@ -114,7 +112,7 @@ final class HomeVC: UIViewController {
                                     print("tag.color - \(tag.color)")
                                     let newTag = Tag(tagId: tag.tagId,
                                                      name: tag.name,
-                                                     color: .colorchip12,
+                                                     color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
                                 }
@@ -132,6 +130,7 @@ final class HomeVC: UIViewController {
                         }
                         
                         if let recScraps = result.recScraps {
+                            self.otherScrapViewModel.scraps.values = []
                             
                             recScraps.forEach { scrap in
                                 var newTagList = [Tag]()
@@ -140,7 +139,7 @@ final class HomeVC: UIViewController {
                                     print("tag.color - \(tag.color)")
                                     let newTag = Tag(tagId: tag.tagId,
                                                      name: tag.name,
-                                                     color: .colorchip12,
+                                                     color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
                                 }
@@ -342,15 +341,13 @@ extension HomeVC: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: MyScrapPreViewCollectionViewCell.identifier,
                 for: indexPath) as! MyScrapPreViewCollectionViewCell
-            cell.viewModel = myScrapViewModel
-            cell.bindViewModel()
+            cell.viewModel.scraps.values = self.myScrapViewModel.scraps.value
             return cell
         case .otherScrap:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: OtherScrapCollectionViewCell.identifier,
                 for: indexPath) as! OtherScrapCollectionViewCell
-            cell.viewModel = otherScrapViewModel
-            cell.bindViewModel()
+            cell.viewModel.scraps.values = self.otherScrapViewModel.scraps.value
             return cell
         }
     }

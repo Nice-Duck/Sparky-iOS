@@ -39,7 +39,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         
         setupConstraints()
         createObserver()
-        //        bindViewModel()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -94,8 +94,6 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     //    }
     
     func bindViewModel() {
-        //        myScrapCollectionView.dataSource = nil
-        
         viewModel.scraps.bind(to: myScrapCollectionView.rx.items(
             cellIdentifier: PreviewLayoutViewCell.identifier,
             cellType: PreviewLayoutViewCell.self)) { index, scrap, cell in

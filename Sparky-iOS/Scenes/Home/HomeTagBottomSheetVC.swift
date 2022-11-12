@@ -94,7 +94,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         $0.font = .badgeBold
         $0.textAlignment = .center
         $0.textColor = .gray700
-        $0.backgroundColor = .colorchip3
+        $0.backgroundColor = UIColor.randomHexColor()
         $0.layer.cornerRadius = 8
         $0.layer.masksToBounds = true
     }
@@ -153,14 +153,14 @@ final class HomeTagBottomSheetVC: UIViewController {
                     response.result?.tagResponses.forEach { tagResponse in
                         let newTag = Tag(tagId: tagResponse.tagId,
                                          name: tagResponse.name,
-                                         color: .colorchip8,
+                                         color: UIColor(hexaRGB: tagResponse.color ?? "0xFFDDDA") ?? .colorchip1,
                                          buttonType: .none)
                         newTagList.append(newTag)
                     }
                     self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
+                    self.tagTextField.becomeFirstResponder()
                     print("tagList - \(self.viewModel.recentTagList.value)")
-                    //                    self.setupDelegate()
-                    //                    self.bindViewModel()
+                    
                 } else if response.code == "U000" {
                     print("response - \(response)")
                     
@@ -416,31 +416,31 @@ final class HomeTagBottomSheetVC: UIViewController {
             .subscribe(onNext: { _ in
                 if let text = self.newTagLabel.text, text != "" {
                     let tagRequest = TagRequst(tag: text,
-                                               color: "#E6DBE0")
+                                               color: self.newTagLabel.backgroundColor?.toHexString() ?? "#E6DBE0")
                     
                     HomeServiceProvider.shared
                         .saveTag(tagRequst: tagRequest)
-                        .map(PostResultResponse.self)
+                        .map(TagSaveResponse.self)
                         .subscribe { response in
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             if response.code == "0000" {
                                 print("---요청 성공!!!---")
-                                self.fetchRecentTagList()
+                                let tagSaveResponse = response.result
+                                print("color - \(tagSaveResponse.color)")
+                                let newTag = Tag(tagId: tagSaveResponse.tagId,
+                                                 name: tagSaveResponse.name,
+                                                 color: UIColor(hexaRGB: tagSaveResponse.color ?? "#E6DBE0") ?? .colorchip1,
+                                                 buttonType: .none)
+                                
+                                self.newTagCVDelegate?.sendNewTagList(tag: newTag)
+                                self.dismissTagBottomSheetVC()
                             } else {
                                 print("---요청 실패!!!---")
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
-                    
-                    
-                    
-                    self.tagTextField.text = ""
-                    self.tagTextField.resignFirstResponder()
-                    self.tagTextField.becomeFirstResponder()
-                    self.tagContainerView.isHidden = false
-                    self.noDataContainerView.isHidden = true
                 }
             }).disposed(by: disposeBag)
     }

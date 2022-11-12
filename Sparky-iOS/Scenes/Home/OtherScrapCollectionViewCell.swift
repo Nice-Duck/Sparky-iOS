@@ -44,7 +44,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         setupConstraints()
         setupDelegate()
         createObserver()
-//        bindViewModel()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {

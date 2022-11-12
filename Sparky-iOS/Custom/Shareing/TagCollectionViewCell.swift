@@ -42,37 +42,18 @@ final class TagCollectionViewCell: UICollectionViewCell {
         tagTitleLabel.text = tag.name
         tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .gray400
         tagButtonImageView.image = getButtonImage(buttonType: tag.buttonType)
+        tagButtonImageView.isHidden = tag.buttonType == .none ? true : false
         tagStackView.backgroundColor = tag.buttonType != .add ? tag.color : .clear
-        
-        if tag.buttonType == .add {
-            if var sublayers = tagStackView.layer.sublayers {
-                if sublayers.count > 2 {
-                    sublayers.removeLast()
-                }
-                tagStackView.layer.sublayers = sublayers
-            }
-            tagStackView.addDashedBorder(frameSize: CGSize(width: 67, height: 20), borderColor: .gray400)
-        } else if tag.buttonType == .delete {
-            // 기본적으로 subLayer count가 2이고 만약 점선 layer를 추가하면 subLayer count가 3이됨.
-            if var sublayers = tagStackView.layer.sublayers {
-                if sublayers.count > 2 {
-                    sublayers.removeLast()
-                }
-                tagStackView.layer.sublayers = sublayers
-            }
-        } else {
-            tagButtonImageView.isHidden = true
-        }
     }
     
-    func getButtonImage(buttonType: ButtonType) -> UIImage {
+    func getButtonImage(buttonType: ButtonType) -> UIImage? {
         switch buttonType {
         case .delete:
             return UIImage(named: "vector971")!
         case .add:
             return UIImage(named: "plus")!
         case .none:
-            return UIImage()
+            return nil
         }
     }
 }
