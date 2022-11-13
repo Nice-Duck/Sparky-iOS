@@ -15,6 +15,7 @@ class ScrapWebViewVC: UIViewController {
     let disposeBag = DisposeBag()
     let webView = WKWebView()
     var urlString: String? = nil
+    weak var dismissVCDelegate: DismissVCDelegate?
     
     
     // MARK: - LifeCycles
@@ -36,7 +37,8 @@ class ScrapWebViewVC: UIViewController {
                                                target: self,
                                                action: nil)
         navBarBackButton.rx.tap.subscribe { _ in
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true)
+            self.dismissVCDelegate?.sendNotification()
         }.disposed(by: disposeBag)
         self.navigationItem.leftBarButtonItem = navBarBackButton
         
@@ -54,7 +56,12 @@ class ScrapWebViewVC: UIViewController {
                                                    action: nil)
         navBarAddScrapButton.rx.tap
             .subscribe { _ in
-                
+                let homeCustomShareVC = HomeCustomShareVC()
+                homeCustomShareVC.urlString = self.urlString
+                homeCustomShareVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: homeCustomShareVC)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
             }.disposed(by: disposeBag)
         self.navigationItem.rightBarButtonItem = navBarAddScrapButton
     }
@@ -74,5 +81,12 @@ class ScrapWebViewVC: UIViewController {
             let request = URLRequest(url: URL(string: urlString) ?? URL(string: Strings.sparkyImageString)! )
             webView.load(request)
         }
+    }
+}
+
+extension ScrapWebViewVC: DismissVCDelegate {
+    func sendNotification() {
+        self.dismiss(animated: false)
+        self.dismissVCDelegate?.sendNotification()
     }
 }

@@ -81,15 +81,20 @@ final class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("view will appear 탄다!!")
         fetchScraps()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("view did appear 탄다!!")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
-    private func fetchScraps() {
+    func fetchScraps() {
         HomeServiceProvider.shared
             .getAllScraps()
             .map(ScrapResponse.self)
@@ -192,7 +197,7 @@ final class HomeVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -206,7 +211,7 @@ final class HomeVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -218,12 +223,6 @@ final class HomeVC: UIViewController {
                 print("---홈 스크랩 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
-        
-        //        print(myScrapViewModel.scraps.value)
-        //        print(otherScrapViewModel.scraps.value)
-        //        setupDelegate()
-        //        homeTableView.reloadData()
-        
     }
     
     private func setupNavBar() {
@@ -286,33 +285,32 @@ final class HomeVC: UIViewController {
                                                object: nil)
     }
     
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
-    }
-    
     @objc private func showVC(notification: NSNotification) {
         if let scrap = notification.object {
             switch notification.name {
             case SparkyNotification.showPreviewDetail:
-                let scrapDetailVC = ScrapDetailVC()
-                scrapDetailVC.modalPresentationStyle = .overFullScreen
-                scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
-                navigationController?.pushViewController(scrapDetailVC, animated: false)
+                let preViewScrapDetailVC = ScrapDetailVC()
+                preViewScrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
+                preViewScrapDetailVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: preViewScrapDetailVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
                 break
             case SparkyNotification.showOtherDetail:
-                let scrapDetailVC = OtherScrapDetailVC()
-                scrapDetailVC.modalPresentationStyle = .overFullScreen
-                scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
-                navigationController?.pushViewController(scrapDetailVC, animated: false)
+                let otherScrapDetailVC = OtherScrapDetailVC()
+                otherScrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
+                otherScrapDetailVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: otherScrapDetailVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
                 break
             case SparkyNotification.showPreviewWebView, SparkyNotification.showOtherWebView:
                 let scrapWebViewVC = ScrapWebViewVC()
-                scrapWebViewVC.modalPresentationStyle = .overFullScreen
                 scrapWebViewVC.urlString = (scrap as! Scrap).scrapURLString
-                navigationController?.pushViewController(scrapWebViewVC, animated: false)
+                scrapWebViewVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: scrapWebViewVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
                 break
             default:
                 break
@@ -350,6 +348,13 @@ extension HomeVC: UITableViewDataSource {
             cell.viewModel.scraps.values = self.otherScrapViewModel.scraps.value
             return cell
         }
+    }
+}
+
+extension HomeVC: DismissVCDelegate {
+    
+    func sendNotification() {
+        self.fetchScraps()
     }
 }
 

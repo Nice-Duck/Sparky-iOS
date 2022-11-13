@@ -176,8 +176,22 @@ class PlusScrapBottomSheetVC: UIViewController {
                 } else {
                     customShareVC.urlString = self.urlTextField.text
                 }
-                self.present(customShareVC, animated: true)
+                let nav = UINavigationController(rootViewController: customShareVC)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
             }.disposed(by: disposeBag)
+        
+//        urlTextField.rx.text
+//            .subscribe { _ in
+//                <#code#>
+//            } onError: { <#Error#> in
+//                <#code#>
+//            } onCompleted: {
+//                <#code#>
+//            } onDisposed: {
+//                <#code#>
+//            }
+
     }
     
     @objc private func textFieldChanged(sender: UITextField) {

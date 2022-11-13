@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UIKitUtils {
+final class UIKitUtils {
     
     public static let STATUS_HEIGHT = UIApplication.shared.statusBarFrame.size.height
     

@@ -11,7 +11,7 @@ struct Scrap {
     let scrapId: Int
     let title: String
     let subTitle: String
-    let memo: String
+    var memo: String
     let thumbnailURLString: String
     let scrapURLString: String
     let tagList: BehaviorRelay<[Tag]>

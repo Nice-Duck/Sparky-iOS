@@ -23,6 +23,7 @@ final class HomeCustomShareVC: UIViewController {
     private let previewViewModel = PreviewViewModel()
     
     var urlString: String? = nil
+    weak var dismissVCDelegate: DismissVCDelegate?
     
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
@@ -133,6 +134,9 @@ final class HomeCustomShareVC: UIViewController {
                                 code: 0,
                                 userInfo: [NSLocalizedDescriptionKey: "An error description"])
             self.extensionContext?.cancelRequest(withError: error)
+            self.dismiss(animated: false) {
+//                self.dismissVCDelegate?.sendNotification()
+            }
         } onError: { error in
             print(error)
         }.disposed(by: disposeBag)
@@ -263,11 +267,11 @@ final class HomeCustomShareVC: UIViewController {
                                                    scpUrl: preview?.scrapURLString ?? "",
                                                    tags: tagIdList)
                 self.saveMyScrap(scrapRequest: newScrapRequest)
+                self.dismissVCDelegate?.sendNotification()
             }.disposed(by: disposeBag)
     }
     
     private func saveMyScrap(scrapRequest: ScrapRequest) {
-        self.navigationController?.popViewController(animated: false)
         self.dismiss(animated: false)
         
         HomeServiceProvider.shared
