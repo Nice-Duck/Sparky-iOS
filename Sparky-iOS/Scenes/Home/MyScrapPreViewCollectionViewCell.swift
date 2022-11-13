@@ -103,7 +103,6 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
                 cell.thumbnailImageView.tag = index
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
-                print("taglist - \(scrap.tagList.value)")
                 scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in

@@ -192,7 +192,7 @@ final class HomeTagBottomSheetVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -206,7 +206,7 @@ final class HomeTagBottomSheetVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -444,32 +444,4 @@ final class HomeTagBottomSheetVC: UIViewController {
                 }
             }).disposed(by: disposeBag)
     }
-    
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
-    }
-    
-    
-    //    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
-    //        var newTagList = tagList
-    //        for i in 0..<newTagList.count {
-    //            newTagList[i] = Tag(tagId: tagList,
-    //                                name: <#T##String#>,
-    //                                color: <#T##UIColor#>,
-    //                                buttonType: <#T##ButtonType#>)
-    //            Tag(
-    //                text: newTagList[i].text,
-    //                                backgroundColor: newTagList[i].backgroundColor,
-    //                                buttonType: .delete)
-    //        }
-    //
-    //        let addButtonTag = Tag(text: "태그추가",
-    //                               backgroundColor: .clear,
-    //                               buttonType: .add)
-    //        newTagList.append(addButtonTag)
-    //        return newTagList
-    //    }
 }

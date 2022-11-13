@@ -106,11 +106,6 @@ class MyInfoVC: UIViewController {
         myInfoTableView.delegate = self
     }
     
-    private func moveToSignInVC() {
-        let nav = UINavigationController(rootViewController: SignInVC())
-        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController = nav
-    }
-    
     private func deleteProfile() {
         HomeServiceProvider.shared
             .signOut()
@@ -123,7 +118,7 @@ class MyInfoVC: UIViewController {
                     print("회원 탈퇴 성공!!!")
                     TokenUtils().delete("com.sparky.token", account: "accessToken")
                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
-                    self.moveToSignInVC()
+                    MoveUtils.shared.moveToSignInVC()
                 } else if response.code == "U000" {
                     print("error response - \(response)")
                     
@@ -155,7 +150,7 @@ class MyInfoVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -169,7 +164,7 @@ class MyInfoVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -247,7 +242,7 @@ extension MyInfoVC: UITableViewDelegate {
             if indexPath.row == 0 {
                 TokenUtils().delete("com.sparky.token", account: "accessToken")
                 TokenUtils().delete("com.sparky.token", account: "refreshToken")
-                moveToSignInVC()
+                MoveUtils.shared.moveToSignInVC()
             }
         } else if indexPath.section == 1 {
             let customPopUpVC = CustomPopUpVC()

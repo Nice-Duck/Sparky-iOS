@@ -20,6 +20,7 @@ final class OtherScrapDetailVC: UIViewController {
                                                   thumbnailURLString: "",
                                                   scrapURLString: "",
                                                   tagList: BehaviorRelay(value: [])))
+    weak var dismissVCDelegate: DismissVCDelegate?
     
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
@@ -136,7 +137,8 @@ final class OtherScrapDetailVC: UIViewController {
                                                target: self,
                                                action: nil)
         navBarBackButton.rx.tap.subscribe { _ in
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: false)
+            self.dismissVCDelegate?.sendNotification()
         }.disposed(by: disposeBag)
         self.navigationItem.leftBarButtonItem = navBarBackButton
         
@@ -339,13 +341,6 @@ final class OtherScrapDetailVC: UIViewController {
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
-    }
-    
     func claimUser() {
         print("asdfasdfasdf")
         HomeServiceProvider.shared
@@ -357,6 +352,8 @@ final class OtherScrapDetailVC: UIViewController {
                 
                 if response.code == "0000" {
                     print("신고 성공!!")
+                    self.dismiss(animated: false)
+                    self.dismissVCDelegate?.sendNotification()
                 } else if response.code == "U000" {
                     print("error response - \(response)")
                     
@@ -388,7 +385,7 @@ final class OtherScrapDetailVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -402,7 +399,7 @@ final class OtherScrapDetailVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -452,16 +449,16 @@ extension OtherScrapDetailVC: CustomPopUpDelegate {
 
 extension OtherScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
+        //        return 2
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if section == 0 {
-//            return 3
-//        } else {
-            return 1
-//        }
+        //        if section == 0 {
+        //            return 3
+        //        } else {
+        return 1
+        //        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -469,18 +466,19 @@ extension OtherScrapDetailVC: UITableViewDataSource {
             withIdentifier: SubActionTableViewCell.identifier,
             for: indexPath) as! SubActionTableViewCell
         cell.selectionStyle = .none
-//        if indexPath.section == 0 {
-//            if indexPath.row == 0 {
-//                cell.actionLabel.text = "내 스크랩에 추가하기"
-//            } else if indexPath.row == 1 {
-//                cell.actionLabel.text = "공유하기"
-//            } else {
-//                cell.actionLabel.text = "URL 복사하기"
-//            }
-//        } else {
-            cell.actionLabel.text = "신고하기"
-            cell.actionLabel.textColor = .sparkyOrange
-//        }
+        //        if indexPath.section == 0 {
+        //            if indexPath.row == 0 {
+        //                cell.actionLabel.text = "내 스크랩에 추가하기"
+        //            } else if indexPath.row == 1 {
+        //                cell.actionLabel.text = "공유하기"
+        //            } else {
+        //                cell.actionLabel.text = "URL 복사하기"
+        //            }
+        //        } else {
+        cell.actionLabel.text = "신고하기"
+        cell.actionLabel.textColor = .sparkyOrange
+        cell.selectionStyle = .none
+        //        }
         return cell
     }
 }

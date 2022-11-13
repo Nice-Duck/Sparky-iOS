@@ -97,7 +97,7 @@ final class MyScrapVC: UIViewController {
                                     print("tag.color - \(tag.color)")
                                     let newTag = Tag(tagId: tag.tagId,
                                                      name: tag.name,
-                                                     color: UIColor.hexColorFromString(tag.color ?? "#E6DBE0"),
+                                                     color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
                                 }
@@ -150,7 +150,7 @@ final class MyScrapVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -164,7 +164,7 @@ final class MyScrapVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -290,7 +290,10 @@ final class MyScrapVC: UIViewController {
             if let index = notification.object {
                 let scrapDetailVC = ScrapDetailVC()
                 scrapDetailVC.scrap = BehaviorRelay(value: viewModel.scraps.value[index as! Int])
-                navigationController?.pushViewController(scrapDetailVC, animated: false)
+                scrapDetailVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: scrapDetailVC)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: false)
             }
             break
         case SparkyNotification.sendMyScrapWebViewIndex:
@@ -298,19 +301,22 @@ final class MyScrapVC: UIViewController {
                 let scrapWebViewVC = ScrapWebViewVC()
                 scrapWebViewVC.modalPresentationStyle = .overFullScreen
                 scrapWebViewVC.urlString = viewModel.scraps.value[index as! Int].scrapURLString
-                navigationController?.pushViewController(scrapWebViewVC, animated: false)
+                scrapWebViewVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: scrapWebViewVC)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: false)
             }
             break
         default:
             break
         }
     }
+}
+
+extension MyScrapVC: DismissVCDelegate {
     
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
+    func sendNotification() {
+        self.fetchScraps()
     }
 }
 

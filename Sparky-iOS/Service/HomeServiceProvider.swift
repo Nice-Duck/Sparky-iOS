@@ -43,7 +43,7 @@ struct HomeServiceProvider {
     }
     
     func getAllScraps() -> Single<Response> {
-        return provider.rx.request(.scraps(params: 0))
+        return provider.rx.request(.fetchScraps(params: 0))
             .do { response in
                 print(response)
                 if (200...299).contains(response.statusCode) {
@@ -57,7 +57,7 @@ struct HomeServiceProvider {
     }
     
     func getMyScraps() -> Single<Response> {
-        return provider.rx.request(.scraps(params: 1))
+        return provider.rx.request(.fetchScraps(params: 1))
             .do { response in
                 print(response)
                 if (200...299).contains(response.statusCode) {
@@ -72,6 +72,32 @@ struct HomeServiceProvider {
     
     func saveScrap(scrapRequest: ScrapRequest) -> Single<Response> {
         return provider.rx.request(.saveScrap(body: scrapRequest))
+            .do { response in
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response.statusCode)")
+                }
+            } onError: { error in
+                print("요청 실패! - error: \(error)")
+            }
+    }
+    
+    func patchScrap(scrapRequest: ScrapRequest, scrapId: Int) -> Single<Response> {
+        return provider.rx.request(.patchScrap(body: scrapRequest, params: scrapId))
+            .do { response in
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response.statusCode)")
+                }
+            } onError: { error in
+                print("요청 실패! - error: \(error)")
+            }
+    }
+    
+    func removeScrap(scrapId: Int) -> Single<Response> {
+        return provider.rx.request(.removeScrap(params: scrapId))
             .do { response in
                 if (200...299).contains(response.statusCode) {
                     print("요청 성공! - HTTP Status Code: \(response.statusCode)")

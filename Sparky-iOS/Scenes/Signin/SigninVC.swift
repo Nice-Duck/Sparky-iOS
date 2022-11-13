@@ -148,7 +148,7 @@ final class SignInVC: UIViewController {
                 
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
-                    
+                
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignUpResponse.self)
@@ -175,7 +175,7 @@ final class SignInVC: UIViewController {
                                 } else { print("토큰이 존재하지 않습니다!") }
                                 
                                 print("로그인 성공!")
-                                self.moveToHomeVC()
+                                MoveUtils.shared.moveToHomeVC()
                             }
                         } else {
                             print("code - \(response.code)")
@@ -185,19 +185,6 @@ final class SignInVC: UIViewController {
                         print(error)
                     }.disposed(by: self.disposeBag)
                 
-                
-                //                { response in
-                //                    print("response - \(response)")
-                ////                    switch response {
-                ////                    case .success():
-                //                        let homeVC = HomeVC()
-                //                        self.navigationController?.pushViewController(homeVC, animated: true)
-                ////                    case .failure():
-                ////                        print("error - \(error)")
-                ////                    }
-                //                }
-                //
-                //            } else { print("Invalid Email or Password!") }
             }.disposed(by: disposeBag)
         
         emailSignInView.signUpButton.rx.tap.subscribe { _ in
@@ -205,15 +192,6 @@ final class SignInVC: UIViewController {
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.pushViewController(signUpVC1, animated: true)
         }.disposed(by: disposeBag)
-    }
-    
-    private func moveToHomeVC() {
-        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController = SparkyTabBarController()
-
-//        guard let nc = self.navigationController else { return }
-//        var vcs = nc.viewControllers
-//        vcs = [SparkyTabBarController()]
-//        self.navigationController?.viewControllers = vcs
     }
 }
 

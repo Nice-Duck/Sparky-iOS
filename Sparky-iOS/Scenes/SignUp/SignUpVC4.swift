@@ -223,7 +223,7 @@ class SignUpVC4: UIViewController {
                                                 print("키 체인 리프레시 토큰 - \(refreshToken)")
                                             } else { print("토큰이 존재하지 않습니다!") }
                                         }
-                                        self.moveToHomeVC()
+                                        MoveUtils.shared.moveToHomeVC()
                                         
                                     } else if response.code == "0001" {
                                         self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
@@ -246,13 +246,6 @@ class SignUpVC4: UIViewController {
                     }.disposed(by: self.disposeBag)
 
             }.disposed(by: disposeBag)
-    }
-    
-    private func moveToHomeVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [HomeVC()]
-        self.navigationController?.viewControllers = vcs
     }
     
     @objc private func didTapBackButton() {
