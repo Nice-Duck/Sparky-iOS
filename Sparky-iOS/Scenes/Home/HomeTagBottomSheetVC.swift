@@ -26,11 +26,10 @@ final class HomeTagBottomSheetVC: UIViewController {
         $0.layer.cornerRadius = 16
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.clipsToBounds = true
-//        $0.setKeyboardObserver()
     }
     
     private var tagBottomSheetTopConstraint: NSLayoutConstraint!
-    private let defaultTagBottomSheetHeight: CGFloat = 500
+    private let defaultTagBottomSheetHeight: CGFloat = 384
     
     private let customNavBar = SparkyNavBar().then {
         $0.backgroundColor = .white
@@ -114,15 +113,19 @@ final class HomeTagBottomSheetVC: UIViewController {
         $0.backgroundColor = .sparkyWhite
     }
     
+    private let keyboardBoxView = UIView()
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        
+        tagTextField.becomeFirstResponder()
+        
         setupNavBar()
         setupConstraints()
-        //        bindViewModel()
-        //        setupDelegate()
+        bindViewModel()
         setupDimmendTabGesture()
         setupNewTagTapGuesture()
     }
@@ -130,9 +133,56 @@ final class HomeTagBottomSheetVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        setKeyboardObserver()
+        createObserver()
         fetchRecentTagList()
-        bindViewModel()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showTagBottomSheet()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+            let bottomPadding: CGFloat = view.safeAreaInsets.bottom
+            
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                    tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight - constraint.constant
+                    
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
+        
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+                tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight
+            }
+        }
     }
     
     private func fetchRecentTagList() {
@@ -157,7 +207,9 @@ final class HomeTagBottomSheetVC: UIViewController {
                                          buttonType: .none)
                         newTagList.append(newTag)
                     }
-                    self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
+                    self.viewModel.recentTagList.values = newTagList
+                    self.viewModel.filterTagList.values = self.viewModel.recentTagList.value
+                    self.tagTextField.resignFirstResponder()
                     self.tagTextField.becomeFirstResponder()
                     print("tagList - \(self.viewModel.recentTagList.value)")
                     
@@ -220,16 +272,6 @@ final class HomeTagBottomSheetVC: UIViewController {
             }.disposed(by: disposeBag)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        showTagBottomSheet()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
     private func setupNavBar() {
         navCancelButtonItem.rx.tap.subscribe { _ in
             self.dismissTagBottomSheetVC()
@@ -238,7 +280,6 @@ final class HomeTagBottomSheetVC: UIViewController {
         customNavItem.titleView = navTitleLabel
         customNavItem.leftBarButtonItem = navCancelButtonItem
         customNavBar.setItems([customNavItem], animated: false)
-        //        customNavBar.layoutIfNeeded()
     }
     
     private func setupConstraints() {
@@ -250,6 +291,14 @@ final class HomeTagBottomSheetVC: UIViewController {
             $0.right.equalTo(view)
         }
         
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.left.equalTo(view.safeAreaLayoutGuide)
+            $0.right.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(0)
+        }
+        
         let topConstant = view.safeAreaLayoutGuide.layoutFrame.height + view.safeAreaInsets.bottom
         tagBottomSheetTopConstraint = tagBottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstant)
         
@@ -257,7 +306,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         tagBottomSheetTopConstraint.isActive = true
         tagBottomSheetView.snp.makeConstraints {
             $0.left.equalTo(view)
-            $0.bottom.equalTo(view)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view)
         }
         
@@ -275,7 +324,7 @@ final class HomeTagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagBottomSheetView).offset(-20)
         }
         
-        view.addSubview(tagContainerView)
+        tagBottomSheetView.addSubview(tagContainerView)
         tagContainerView.snp.makeConstraints {
             $0.top.equalTo(tagTextField.snp.bottom).offset(16)
             $0.left.equalTo(tagBottomSheetView).offset(20)
@@ -297,7 +346,7 @@ final class HomeTagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagContainerView)
         }
         
-        view.addSubview(noDataContainerView)
+        tagBottomSheetView.addSubview(noDataContainerView)
         noDataContainerView.snp.makeConstraints {
             $0.top.equalTo(tagTextField.snp.bottom)
             $0.left.equalTo(tagBottomSheetView).offset(20)
@@ -329,9 +378,6 @@ final class HomeTagBottomSheetVC: UIViewController {
     }
     
     private func bindViewModel() {
-        //        recentTagCollectionView.dataSource = nil
-        //        recentTagCollectionView.delegate = nil
-        
         viewModel.filterTagList.values = viewModel.recentTagList.value
         print("recentTagList - \(viewModel.filterTagList.values)")
         print("filterList - \(viewModel.filterTagList.values)")
@@ -349,6 +395,8 @@ final class HomeTagBottomSheetVC: UIViewController {
         recentTagCollectionView.rx
             .itemSelected
             .subscribe(onNext: { indexPath in
+                self.tagTextField.resignFirstResponder()
+                
                 self.newTagCVDelegate?.sendNewTagList(tag: self.viewModel.filterTagList.value[indexPath.row])
                 self.dismissTagBottomSheetVC()
             }).disposed(by: disposeBag)
@@ -376,7 +424,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
         let bottomPadding: CGFloat = view.safeAreaInsets.bottom
         
-        tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight
+//        tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight
         UIView.animate(withDuration: 0.25,
                        delay: 0,
                        options: .curveEaseIn,
@@ -390,6 +438,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         dimmedView.isUserInteractionEnabled = true
         
         dimmedTap.rx.event.subscribe { _ in
+            self.tagTextField.resignFirstResponder()
             self.dismissTagBottomSheetVC()
         }.disposed(by: disposeBag)
     }
@@ -411,7 +460,7 @@ final class HomeTagBottomSheetVC: UIViewController {
     private func setupNewTagTapGuesture() {
         newTagStackView.rx
             .tapGesture()
-            .throttle(.seconds(5), scheduler: MainScheduler.instance)
+            .throttle(.seconds(3), scheduler: MainScheduler.instance)
             .when(.recognized)
             .subscribe(onNext: { _ in
                 if let text = self.newTagLabel.text, text != "" {
@@ -426,6 +475,8 @@ final class HomeTagBottomSheetVC: UIViewController {
                             print("message - \(response.message)")
                             if response.code == "0000" {
                                 print("---요청 성공!!!---")
+                                self.tagTextField.resignFirstResponder()
+                                
                                 let tagSaveResponse = response.result
                                 print("color - \(tagSaveResponse.color)")
                                 let newTag = Tag(tagId: tagSaveResponse.tagId,

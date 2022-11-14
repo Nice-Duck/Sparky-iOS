@@ -79,17 +79,20 @@ final class HomeCustomShareVC: UIViewController {
     }
     
     private let memoTextViewPlaceHolder = "메모를 입력하세요"
-    private lazy var memoTextView = UITextView().then {
-        $0.text = memoTextViewPlaceHolder
-        $0.font = .bodyRegular1
-        $0.textColor = .gray400
-        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        $0.layer.borderWidth = 1
-        $0.layer.borderColor = UIColor.gray300.cgColor
-        $0.layer.cornerRadius = 8
-        $0.showsVerticalScrollIndicator = false
-        $0.delegate = self
-    }
+    private lazy var memoTextView: UITextView = {
+        let tv = UITextView()
+        tv.text = memoTextViewPlaceHolder
+        tv.font = .bodyRegular1
+        tv.textColor = .gray400
+        tv.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = UIColor.gray300.cgColor
+        tv.layer.cornerRadius = 8
+        tv.isScrollEnabled = false
+        tv.translatesAutoresizingMaskIntoConstraints = true
+        tv.delegate = self
+        return tv
+    }()
     
     private let saveButton = UIButton().then {
         $0.setTitle("저장하기", for: .normal)
@@ -99,11 +102,15 @@ final class HomeCustomShareVC: UIViewController {
         $0.backgroundColor = .sparkyBlack
     }
     
+    private let keyboardBoxView = UIView()
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .background
+        
+        createObserver()
         setupNavBar()
         setupConstraints()
         bindViewModel()
@@ -112,6 +119,35 @@ final class HomeCustomShareVC: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -135,7 +171,7 @@ final class HomeCustomShareVC: UIViewController {
                                 userInfo: [NSLocalizedDescriptionKey: "An error description"])
             self.extensionContext?.cancelRequest(withError: error)
             self.dismiss(animated: false) {
-//                self.dismissVCDelegate?.sendNotification()
+                //                self.dismissVCDelegate?.sendNotification()
             }
         } onError: { error in
             print(error)
@@ -218,13 +254,22 @@ final class HomeCustomShareVC: UIViewController {
             $0.height.equalTo(100)
         }
         
-        self.view.addSubview(saveButton)
-        saveButton.snp.makeConstraints {
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
             $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(0)
+        }
+        
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
+            $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
+
     }
     
     private func bindViewModel() {
@@ -269,9 +314,31 @@ final class HomeCustomShareVC: UIViewController {
                 self.saveMyScrap(scrapRequest: newScrapRequest)
                 self.dismissVCDelegate?.sendNotification()
             }.disposed(by: disposeBag)
+        
+        memoTextView.rx
+            .didChange
+            .subscribe { [weak self] in
+                guard let self = self else { return }
+                self.autoReSizingTextViewHeight()
+            } onError: { error in
+                print(error)
+            }.disposed(by: disposeBag)
+    }
+    
+    func autoReSizingTextViewHeight() {
+        let size = CGSize(width: self.memoTextView.frame.width, height: .infinity)
+        let estimatedSize = self.memoTextView.sizeThatFits(size)
+        self.memoTextView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                if estimatedSize.height >= 100 {
+                    constraint.constant = estimatedSize.height
+                }
+            }
+        }
     }
     
     private func saveMyScrap(scrapRequest: ScrapRequest) {
+        self.memoTextView.resignFirstResponder()
         self.dismiss(animated: false)
         
         HomeServiceProvider.shared
@@ -302,19 +369,6 @@ final class HomeCustomShareVC: UIViewController {
         tagBottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(tagBottomSheetVC, animated: false)
     }
-    
-    //    func convertToNoneType(tagList: [Tag]) -> [Tag] {
-    //        var newTagList = tagList
-    //        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
-    //
-    //        for i in 0..<newTagList.count {
-    //            newTagList[i] = Tag(text: newTagList[i].text,
-    //                                backgroundColor: newTagList[i].backgroundColor,
-    //                                buttonType: .none)
-    //        }
-    //        return newTagList
-    //    }
-    
     
     private func setupScrap() {
         if let urlString = urlString {
@@ -371,26 +425,6 @@ final class HomeCustomShareVC: UIViewController {
             }
         }
     }
-    
-    //    private func setupImageView(imageView: UIImageView, url: URL?) {
-    //        print("imageView.frame.size - \(imageView.frame.size)")
-    //        let processor = DownsamplingImageProcessor(size: imageView.frame.size)
-    //        imageView.kf.setImage(with: url,
-    //                              placeholder: UIImage(systemName: "person.circle"),
-    //                              options: [
-    //                                .processor(processor),
-    //                                .loadDiskFileSynchronously,
-    //                                .cacheOriginalImage,
-    //                                .transition(.fade(0.25)),
-    //                              ]) { result in
-    //                                  switch result {
-    //                                  case .success(let value):
-    //                                      print("Task done for: \(value.source.url?.absoluteString ?? "")")
-    //                                  case .failure(let error):
-    //                                      print("error: \(error)")
-    //                                  }
-    //                              }
-    //    }
 }
 
 extension HomeCustomShareVC: UITextViewDelegate {

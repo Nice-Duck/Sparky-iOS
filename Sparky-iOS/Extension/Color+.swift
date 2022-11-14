@@ -26,6 +26,7 @@ extension UIColor {
     static let colorchip11: UIColor = UIColor(named: "colorchip11")!
     static let colorchip12: UIColor = UIColor(named: "colorchip12")!
     static let background: UIColor = UIColor(named: "background")!
+    static let background2: UIColor = UIColor(named: "background2")!
     static let gray100: UIColor = UIColor(named: "gray100")!
     static let gray200: UIColor = UIColor(named: "gray200")!
     static let gray300: UIColor = UIColor(named: "gray300")!

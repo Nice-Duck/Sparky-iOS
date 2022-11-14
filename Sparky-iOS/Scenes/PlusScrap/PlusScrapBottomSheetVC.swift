@@ -79,11 +79,17 @@ class PlusScrapBottomSheetVC: UIViewController {
         $0.backgroundColor = .sparkyBlack
     }
     
+    private let keyboardBoxView = UIView().then {
+        $0.backgroundColor = .gray700
+    }
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        
+        createObserver()
         setupNavBar()
         setupConstraints()
         bindViewModel()
@@ -94,6 +100,43 @@ class PlusScrapBottomSheetVC: UIViewController {
         super.viewDidAppear(animated)
         
         showTagBottomSheet()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom - 49 + 20
+                    tagBottomSheetTopConstraint.constant = safeAreaHeight - defaultTagBottomSheetHeight - constraint.constant
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+                tagBottomSheetTopConstraint.constant = safeAreaHeight - defaultTagBottomSheetHeight
+            }
+        }
     }
     
     class CustomUITextField: UITextField {
@@ -124,6 +167,14 @@ class PlusScrapBottomSheetVC: UIViewController {
             $0.right.equalTo(view)
         }
         
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
+            $0.left.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.right.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(0)
+        }
+        
         let topConstant = view.safeAreaLayoutGuide.layoutFrame.height + view.safeAreaInsets.bottom
         tagBottomSheetTopConstraint = tagBottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstant)
         
@@ -131,7 +182,7 @@ class PlusScrapBottomSheetVC: UIViewController {
         tagBottomSheetTopConstraint.isActive = true
         tagBottomSheetView.snp.makeConstraints {
             $0.left.equalTo(view)
-            $0.bottom.equalTo(view)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view)
         }
         
@@ -156,7 +207,7 @@ class PlusScrapBottomSheetVC: UIViewController {
             $0.height.equalTo(41)
         }
         
-        view.addSubview(fetchButton)
+        tagBottomSheetView.addSubview(fetchButton)
         fetchButton.snp.makeConstraints {
             $0.top.equalTo(urlTextField.snp.bottom).offset(20)
             $0.left.equalTo(tagBottomSheetView).offset(20)
@@ -180,18 +231,6 @@ class PlusScrapBottomSheetVC: UIViewController {
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true)
             }.disposed(by: disposeBag)
-        
-//        urlTextField.rx.text
-//            .subscribe { _ in
-//                <#code#>
-//            } onError: { <#Error#> in
-//                <#code#>
-//            } onCompleted: {
-//                <#code#>
-//            } onDisposed: {
-//                <#code#>
-//            }
-
     }
     
     @objc private func textFieldChanged(sender: UITextField) {
@@ -207,7 +246,7 @@ class PlusScrapBottomSheetVC: UIViewController {
         
         print("topPadding, bottomPadding - \(topPadding), \(bottomPadding)")
         
-        tagBottomSheetTopConstraint.constant = (safeAreaHeight + 18) - defaultTagBottomSheetHeight
+        tagBottomSheetTopConstraint.constant = safeAreaHeight - defaultTagBottomSheetHeight
         UIView.animate(withDuration: 0.25,
                        delay: 0,
                        options: .curveEaseIn,

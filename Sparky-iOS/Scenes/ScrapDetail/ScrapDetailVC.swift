@@ -76,15 +76,20 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private let memoTextViewPlaceHolder = "메모를 입력하세요"
-    private lazy var memoTextView = UITextView().then {
-        $0.text = memoTextViewPlaceHolder
-        $0.font = .bodyRegular1
-        $0.textColor = .sparkyBlack
-        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        $0.layer.cornerRadius = 8
-        $0.showsVerticalScrollIndicator = false
-        $0.delegate = self
-    }
+    private lazy var memoTextView: UITextView = {
+        let tv = UITextView()
+        tv.text = memoTextViewPlaceHolder
+        tv.font = .bodyRegular1
+        tv.textColor = .gray400
+        tv.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = UIColor.gray300.cgColor
+        tv.layer.cornerRadius = 8
+        tv.isScrollEnabled = false
+        tv.translatesAutoresizingMaskIntoConstraints = true
+        tv.delegate = self
+        return tv
+    }()
     
     private let separatorView = UIView().then {
         $0.backgroundColor = .gray200
@@ -115,17 +120,54 @@ final class ScrapDetailVC: UIViewController {
         $0.isHidden = true
     }
     
+    private let keyboardBoxView = UIView()
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .background
+        
+        createObserver()
         subActionTableView.tableFooterView = UIView()
         setupNavBar()
         setupConstraints()
         setupDelegate()
         bindViewModel()
         setupData()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -256,10 +298,18 @@ final class ScrapDetailVC: UIViewController {
             $0.height.equalTo(200)
         }
         
-        self.view.addSubview(saveButton)
-        saveButton.snp.makeConstraints {
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(0)
+        }
+        
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
@@ -275,18 +325,18 @@ final class ScrapDetailVC: UIViewController {
             .subscribe { text in
                 if text != self.memoTextViewPlaceHolder {
                     let newScrap = Scrap(scrapId: self.scrap.value.scrapId,
-                                                                     title: self.scrap.value.title,
-                                                                     subTitle: self.scrap.value.subTitle,
-                                                                     memo: text ?? "",
-                                                                     thumbnailURLString: self.scrap.value.thumbnailURLString,
-                                                                     scrapURLString: self.scrap.value.scrapURLString,
-                                                                     tagList: self.scrap.value.tagList)
+                                         title: self.scrap.value.title,
+                                         subTitle: self.scrap.value.subTitle,
+                                         memo: text ?? "",
+                                         thumbnailURLString: self.scrap.value.thumbnailURLString,
+                                         scrapURLString: self.scrap.value.scrapURLString,
+                                         tagList: self.scrap.value.tagList)
                     self.scrap.accept(newScrap)
                 }
             } onError: { error in
                 print("텍스트 뷰 에러 - \(error)")
             }.disposed(by: disposeBag)
-
+        
         
         scrap.value.tagList
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
@@ -378,6 +428,26 @@ final class ScrapDetailVC: UIViewController {
             } onError: { error in
                 print("요청 실패 - \(error)")
             }.disposed(by: self.disposeBag)
+        memoTextView.rx
+            .didChange
+            .subscribe { [weak self] in
+                guard let self = self else { return }
+                self.autoReSizingTextViewHeight()
+            } onError: { error in
+                print(error)
+            }.disposed(by: disposeBag)
+    }
+    
+    func autoReSizingTextViewHeight() {
+        let size = CGSize(width: self.memoTextView.frame.width, height: .infinity)
+        let estimatedSize = self.memoTextView.sizeThatFits(size)
+        self.memoTextView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                if estimatedSize.height >= 100 {
+                    constraint.constant = estimatedSize.height
+                }
+            }
+        }
     }
     
     private func presentTagBottomSheetVC() {
@@ -391,7 +461,6 @@ final class ScrapDetailVC: UIViewController {
         scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: scrap.value.thumbnailURLString))
         scrapTitleLabel.text = scrap.value.title
         scrapSubTitleLabel.text = scrap.value.subTitle
-        print("memo - \(scrap.value.memo)")
         memoTextView.text = scrap.value.memo
         memoTextView.isUserInteractionEnabled = false
     }
@@ -503,9 +572,11 @@ final class ScrapDetailVC: UIViewController {
             memoTextView.text = memoTextViewPlaceHolder
             memoTextView.layer.borderWidth = 1
             memoTextView.layer.borderColor = UIColor.gray300.cgColor
+            memoTextView.textColor = .gray400
         } else {
             memoTextView.layer.borderWidth = 1
             memoTextView.layer.borderColor = UIColor.sparkyBlack.cgColor
+            memoTextView.textColor = .sparkyBlack
         }
         memoTextView.isUserInteractionEnabled = true
         saveButton.isHidden = false
@@ -541,32 +612,32 @@ extension ScrapDetailVC: NewTagCVDelegate {
 
 extension ScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
+        //        return 2
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if section == 0 {
-//            return 2
-//        } else {
-            return 1
-//        }
+        //        if section == 0 {
+        //            return 2
+        //        } else {
+        return 1
+        //        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubActionTableViewCell.identifier,
                                                  for: indexPath) as! SubActionTableViewCell
-//        if indexPath.section == 0 {
-//            if indexPath.row == 0 {
-//                cell.actionLabel.text = "공유하기"
-//            } else {
-//                cell.actionLabel.text = "URL 복사하기"
-//            }
-//        } else {
+        //        if indexPath.section == 0 {
+        //            if indexPath.row == 0 {
+        //                cell.actionLabel.text = "공유하기"
+        //            } else {
+        //                cell.actionLabel.text = "URL 복사하기"
+        //            }
+        //        } else {
         cell.actionLabel.text = "삭제하기"
         cell.actionLabel.textColor = .sparkyOrange
         cell.selectionStyle = .none
-//        }
+        //        }
         return cell
     }
 }
@@ -580,15 +651,15 @@ extension ScrapDetailVC: UITableViewDelegate {
             }
         }
     }
-
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
+        return 1
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 41
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 12
     }

@@ -67,8 +67,9 @@ class SignUpVC4: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
-//        $0.setKeyboardObserver()
     }
+    
+    private let keyboardBoxView = UIView()
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
@@ -76,6 +77,7 @@ class SignUpVC4: UIViewController {
         
         view.backgroundColor = .white
         
+        createObserver()
         setupNavBar()
         setupUI()
         bindViewModel()
@@ -83,6 +85,35 @@ class SignUpVC4: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -137,10 +168,18 @@ class SignUpVC4: UIViewController {
         textStackView.addArrangedSubview(errorLabel)
         textStackView.addArrangedSubview(conditionLabel)
         
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(0)
+        }
+        
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
@@ -178,8 +217,10 @@ class SignUpVC4: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap.asDriver()
-            .throttle(.seconds(5), latest: false)
+            .throttle(.seconds(3), latest: false)
             .drive { _ in
+                self.nextButton.resignFirstResponder()
+                
                 guard let email = self.email else { print("Email is Null!"); return }
                 guard let password = self.password else { print("Password is Null!"); return }
                 guard let nickname = self.nicknameTextField.text else { print("Nickname is Null!"); return }
@@ -197,45 +238,11 @@ class SignUpVC4: UIViewController {
                         print("message - \(response.message)")
                         
                         if response.code == "0000" {
-                            let emailSignUpRequest = EmailSignUpRequest(email: email, pwd: password, nickname: nickname)
-                            UserServiceProvider.shared
-                                .signUp(emailSignUpRequest: emailSignUpRequest)
-                                .map(EmailSignUpResponse.self)
-                                .subscribe { response in
-                                    if response.code == "0000" {
-                                        print("code - \(response.code)")
-                                        print("message - \(response.message)")
-                                        print("🔑 accessToken - \(response.result?.accessToken ?? "")")
-                                        print("🔑 refreshToken - \(response.result?.refreshToken ?? "")")
-                                        
-                                        if let accessToken = response.result?.accessToken, let refreshToken = response.result?.refreshToken {
-                                            
-                                            // 토큰 key chain에 저장
-                                            let tokenUtils = TokenUtils()
-                                            tokenUtils.create("com.sparky.token", account: "accessToken", value: accessToken)
-                                            tokenUtils.create("com.sparky.token", account: "refreshToken", value: refreshToken)
-                                            
-                                            // key chain에서 토큰 읽어오기
-                                            if let accessToken = tokenUtils.read("com.sparky.token", account: "accessToken") {
-                                                print("키 체인 액세스 토큰 - \(accessToken)")
-                                            } else { print("토큰이 존재하지 않습니다!") }
-                                            if let refreshToken = tokenUtils.read("com.sparky.token", account: "refreshToken") {
-                                                print("키 체인 리프레시 토큰 - \(refreshToken)")
-                                            } else { print("토큰이 존재하지 않습니다!") }
-                                        }
-                                        MoveUtils.shared.moveToHomeVC()
-                                        
-                                    } else if response.code == "0001" {
-                                        self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
-                                        self.errorLabel.text = response.message
-                                        self.errorLabel.isHidden = false
-                                    } else {
-                                        print("code - \(response.code)")
-                                        print("message - \(response.message)")
-                                    }
-                                } onFailure: { error in
-                                    print(error)
-                                }.disposed(by: self.disposeBag)
+                            let signUpVC5 = SignUpVC5()
+                            signUpVC5.signUpModel = SignUp(email: email,
+                                                           password: password,
+                                                           nickname: nickname)
+                            self.navigationController?.pushViewController(signUpVC5, animated: true)
                         } else if response.code == "0001" {
                             self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             self.errorLabel.text = response.message

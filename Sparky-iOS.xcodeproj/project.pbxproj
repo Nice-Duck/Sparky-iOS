@@ -67,6 +67,9 @@
 		5641FE3F29192807004F5A07 /* HorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE3E29192807004F5A07 /* HorizontalLayoutCell.swift */; };
 		5641FE412919281D004F5A07 /* LargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5641FE402919281D004F5A07 /* LargeImageLayoutCell.swift */; };
 		56447A612906EBB30052DBA9 /* SparkyTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */; };
+		56449FE72921147B00F34E1E /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56449FE62921147B00F34E1E /* UIApplication+.swift */; };
+		56449FE9292121AE00F34E1E /* SignUpVC5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56449FE8292121AE00F34E1E /* SignUpVC5.swift */; };
+		56449FEB292126CC00F34E1E /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56449FEA292126CC00F34E1E /* SignUp.swift */; };
 		564900A4290BCB5E005A6768 /* ScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564900A3290BCB5E005A6768 /* ScrapViewModel.swift */; };
 		564900A6290BCC6E005A6768 /* PreviewLayoutViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564900A5290BCC6E005A6768 /* PreviewLayoutViewCell.swift */; };
 		564900A9290BCD90005A6768 /* TagCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */; };
@@ -230,6 +233,9 @@
 		5641FE6E291977C7004F5A07 /* Sparky-iOSDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Sparky-iOSDebug.entitlements"; sourceTree = "<group>"; };
 		5641FE6F291977F8004F5A07 /* SparkyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SparkyDebug.entitlements; sourceTree = "<group>"; };
 		56447A602906EBB30052DBA9 /* SparkyTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyTabBarController.swift; sourceTree = "<group>"; };
+		56449FE62921147B00F34E1E /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
+		56449FE8292121AE00F34E1E /* SignUpVC5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC5.swift; sourceTree = "<group>"; };
+		56449FEA292126CC00F34E1E /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		564900A3290BCB5E005A6768 /* ScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapViewModel.swift; sourceTree = "<group>"; };
 		564900A5290BCC6E005A6768 /* PreviewLayoutViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLayoutViewCell.swift; sourceTree = "<group>"; };
 		564938F828E8B55E00861D26 /* EmailSignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInRequest.swift; sourceTree = "<group>"; };
@@ -431,6 +437,7 @@
 				569EA3D1291C262600F90EEE /* UIButton+.swift */,
 				569EA410291C38B200F90EEE /* UIViewController+.swift */,
 				569EA413291C3A5E00F90EEE /* UIView+.swift */,
+				56449FE62921147B00F34E1E /* UIApplication+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -557,6 +564,7 @@
 				566584BC291F56FE0043FFE3 /* Scraps.swift */,
 				569AE21728F48062003ED188 /* Tag.swift */,
 				56D6AFF729160C370026B18C /* Preview.swift */,
+				56449FEA292126CC00F34E1E /* SignUp.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -746,6 +754,7 @@
 				56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */,
 				56DE426628E20E91000A6A55 /* SignUpVC3.swift */,
 				56DE426828E20E9A000A6A55 /* SignUpVC4.swift */,
+				56449FE8292121AE00F34E1E /* SignUpVC5.swift */,
 				56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */,
 			);
 			path = SignUp;
@@ -1081,6 +1090,7 @@
 				5614BBBB291449AA00E1DF16 /* ScrapWebViewVC.swift in Sources */,
 				566584C7291F5F180043FFE3 /* HomeTagBottomSheetVC.swift in Sources */,
 				5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */,
+				56449FE9292121AE00F34E1E /* SignUpVC5.swift in Sources */,
 				5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */,
 				569EA3D2291C262600F90EEE /* UIButton+.swift in Sources */,
 				566584BB291F55900043FFE3 /* AddTagViewModel.swift in Sources */,
@@ -1096,6 +1106,7 @@
 				56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */,
 				567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */,
 				5664268B290E618100154505 /* Scrap.swift in Sources */,
+				56449FE72921147B00F34E1E /* UIApplication+.swift in Sources */,
 				560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */,
 				56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */,
 				569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */,
@@ -1130,6 +1141,7 @@
 				56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */,
 				56C7B20528E9463600D638D2 /* UserServiceProvider.swift in Sources */,
 				565AFDD3291097C70080EA6D /* OtherScrapCollectionViewCell.swift in Sources */,
+				56449FEB292126CC00F34E1E /* SignUp.swift in Sources */,
 				569EA3D8291C30F200F90EEE /* TagCollectionView.swift in Sources */,
 				56DE426528E1F9ED000A6A55 /* SignUpVC1.swift in Sources */,
 				5693C1F828CE2CDC008710FF /* SceneDelegate.swift in Sources */,

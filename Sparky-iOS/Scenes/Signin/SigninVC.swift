@@ -141,7 +141,7 @@ final class SignInVC: UIViewController {
             .disposed(by: disposeBag)
         
         emailSignInView.signInButton.rx.tap.asDriver()
-            .throttle(.seconds(5), latest: false)
+            .throttle(.seconds(3), latest: false)
             .drive { _ in
                 let emailSignInRequest = EmailSignInRequest(email: self.emailSignInView.emailTextField.text ?? "",
                                                             pwd: self.emailSignInView.passwordTextField.text ?? "")

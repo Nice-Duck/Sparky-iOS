@@ -51,8 +51,9 @@ class SignUpVC1: UIViewController {
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
-//        $0.setKeyboardObserver()
     }
+    
+    private let keyboardBoxView = UIView()
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
@@ -60,6 +61,7 @@ class SignUpVC1: UIViewController {
         
         view.backgroundColor = .white
         
+        createObserver()
         setupNavBar()
         setupUI()
         bindViewModel()
@@ -67,6 +69,35 @@ class SignUpVC1: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -110,10 +141,18 @@ class SignUpVC1: UIViewController {
             $0.left.equalTo(view).offset(20)
         }
         
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(0)
+        }
+        
         view.addSubview(nextButton)
         nextButton.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
@@ -151,8 +190,10 @@ class SignUpVC1: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap.asDriver()
-            .throttle(.seconds(5), latest: false)
+            .throttle(.seconds(3), latest: false)
             .drive { _ in
+                self.emailTextField.resignFirstResponder()
+                
                 guard let email = self.emailTextField.text else { return }
                 UserServiceProvider.shared
                     .signUpEmailDuplicate(email: email)
