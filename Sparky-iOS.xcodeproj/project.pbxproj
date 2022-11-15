@@ -111,6 +111,7 @@
 		5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */; };
 		568F55792923048E008A7294 /* ScrapSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568F55782923048E008A7294 /* ScrapSearchResponse.swift */; };
 		568F557D29231153008A7294 /* MyScrapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568F557C29231153008A7294 /* MyScrapFilterViewModel.swift */; };
+		568F5580292384A4008A7294 /* lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 568F557F292384A4008A7294 /* lottie.json */; };
 		56902D1728EA9B70005F18B1 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */; };
 		56902D1A28EAC527005F18B1 /* OTPTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1928EAC527005F18B1 /* OTPTextField.swift */; };
 		56902D1C28EAC595005F18B1 /* OTPStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56902D1B28EAC595005F18B1 /* OTPStackView.swift */; };
@@ -276,6 +277,7 @@
 		568AD0722902ED2600F2CFD7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		568F55782923048E008A7294 /* ScrapSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapSearchResponse.swift; sourceTree = "<group>"; };
 		568F557C29231153008A7294 /* MyScrapFilterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapFilterViewModel.swift; sourceTree = "<group>"; };
+		568F557F292384A4008A7294 /* lottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = lottie.json; sourceTree = "<group>"; };
 		56902D1628EA9B70005F18B1 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		56902D1928EAC527005F18B1 /* OTPTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPTextField.swift; sourceTree = "<group>"; };
 		56902D1B28EAC595005F18B1 /* OTPStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPStackView.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				568F557E2923849C008A7294 /* Lottie */,
 				560306AB291AD09F008CB6EB /* PopUp */,
 				5614BBB22913DE6100E1DF16 /* Notification */,
 				56447A5F2906EB700052DBA9 /* TabBar */,
@@ -612,6 +615,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		568F557E2923849C008A7294 /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				568F557F292384A4008A7294 /* lottie.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		56902D1828EAC50F005F18B1 /* OTPField */ = {
 			isa = PBXGroup;
 			children = (
@@ -648,8 +659,8 @@
 		5693C1F428CE2CDC008710FF /* Sparky-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				566584C8291F5F7C0043FFE3 /* Protocol */,
 				5641FE6E291977C7004F5A07 /* Sparky-iOSDebug.entitlements */,
+				566584C8291F5F7C0043FFE3 /* Protocol */,
 				5652A44928EB3CD100415738 /* Strings */,
 				5652A44428EB2FE100415738 /* Manager */,
 				564938FC28E8BA2E00861D26 /* Utils */,
@@ -913,6 +924,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5693C20228CE2CDE008710FF /* LaunchScreen.storyboard in Resources */,
+				568F5580292384A4008A7294 /* lottie.json in Resources */,
 				5693C1FF28CE2CDE008710FF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

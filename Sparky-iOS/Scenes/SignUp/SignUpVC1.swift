@@ -8,12 +8,20 @@
 
 import UIKit
 import RxSwift
+import Lottie
 
 class SignUpVC1: UIViewController {
     
     // MARK: - Properties
     let viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
+    
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+        $0.isHidden = true
+    }
     
     private let navigationEdgeBar = UIView().then {
         $0.backgroundColor = .gray200
@@ -61,10 +69,19 @@ class SignUpVC1: UIViewController {
         
         view.backgroundColor = .white
         
+        setupLottieView()
         createObserver()
         setupNavBar()
         setupUI()
         bindViewModel()
+    }
+    
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -195,6 +212,7 @@ class SignUpVC1: UIViewController {
                 self.emailTextField.resignFirstResponder()
                 
                 guard let email = self.emailTextField.text else { return }
+                self.lottieView.isHidden = false
                 UserServiceProvider.shared
                     .signUpEmailDuplicate(email: email)
                     .map(EmailSignUpResponse.self)
@@ -212,6 +230,8 @@ class SignUpVC1: UIViewController {
                                     print("message - \(response.message)")
                                     
                                     if response.code == "0000" {
+                                        self.lottieView.isHidden = true
+                                        
                                         let signUpVC2 = SignUpVC2()
                                         signUpVC2.email = email
                                         self.navigationController?.pushViewController(signUpVC2, animated: true)

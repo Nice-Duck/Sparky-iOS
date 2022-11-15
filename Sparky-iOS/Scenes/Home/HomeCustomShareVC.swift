@@ -14,6 +14,7 @@ import SnapKit
 import Then
 import SwiftLinkPreview
 import Kingfisher
+import Lottie
 
 final class HomeCustomShareVC: UIViewController {
     
@@ -24,6 +25,13 @@ final class HomeCustomShareVC: UIViewController {
     
     var urlString: String? = nil
     weak var dismissVCDelegate: DismissVCDelegate?
+    
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+        $0.isHidden = true
+    }
     
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
@@ -110,11 +118,20 @@ final class HomeCustomShareVC: UIViewController {
         
         self.view.backgroundColor = .background
         
+        setupLottieView()
         createObserver()
         setupNavBar()
         setupConstraints()
         bindViewModel()
         setupScrap()
+    }
+    
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -269,7 +286,6 @@ final class HomeCustomShareVC: UIViewController {
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
-
     }
     
     private func bindViewModel() {
@@ -358,14 +374,18 @@ final class HomeCustomShareVC: UIViewController {
         self.memoTextView.resignFirstResponder()
         self.dismiss(animated: false)
         
+        lottieView.isHidden = false
         HomeServiceProvider.shared
             .saveScrap(scrapRequest: scrapRequest)
             .map(PostResultResponse.self)
             .subscribe { response in
+                
                 print("code: \(response.code)")
                 print("message: \(response.message)")
                 
                 if response.code == "0000" {
+                    self.lottieView.isHidden = true
+                    
                     print("---요청 성공!!!---")
                     //                    self.navigationController?.popViewController(animated: false)
                     //                    self.dismiss(animated: false)

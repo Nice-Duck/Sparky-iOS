@@ -7,12 +7,20 @@
 
 import UIKit
 import RxSwift
+import Lottie
 
 class SignUpVC5: UIViewController {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
     var signUpModel: SignUp?
+    
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+        $0.isHidden = true
+    }
     
     let largeSizeView = UIView().then {
         $0.backgroundColor = .background2
@@ -46,12 +54,21 @@ class SignUpVC5: UIViewController {
         
         view.backgroundColor = .sparkyWhite
         
+        setupLottieView()
         setupConstraints()
         bindNextButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
     }
     
     private func setupConstraints() {
@@ -94,11 +111,15 @@ class SignUpVC5: UIViewController {
                                                             pwd: signUpModel.password,
                                                             nickname: signUpModel.nickname)
                 
+                self.lottieView.isHidden = false
                 UserServiceProvider.shared
                     .signUp(emailSignUpRequest: emailSignUpRequest)
                     .map(EmailSignUpResponse.self)
                     .subscribe { response in
+                        
                         if response.code == "0000" {
+                            self.lottieView.isHidden = true
+                            
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             print("🔑 accessToken - \(response.result?.accessToken ?? "")")

@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import Lottie
 
 final class SignInVC: UIViewController {
     
@@ -17,11 +18,19 @@ final class SignInVC: UIViewController {
     let viewModel = EmailSignInViewModel()
     let disposeBag = DisposeBag()
     
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+        $0.isHidden = true
+    }
+
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        setupLottieView()
         setupConstraints()
         bindViewModel()
     }
@@ -30,6 +39,14 @@ final class SignInVC: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -149,11 +166,14 @@ final class SignInVC: UIViewController {
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
                 
+                self.lottieView.isHidden = false
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignUpResponse.self)
                     .subscribe { response in
                         if response.code == "0000" {
+                            self.lottieView.isHidden = true
+                            
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             print("🔑 accessToken - \(response.result?.accessToken ?? "")")

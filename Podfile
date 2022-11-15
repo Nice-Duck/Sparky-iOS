@@ -14,6 +14,7 @@ def shared_pods
   pod 'SwiftSoup'
   pod 'SwiftLinkPreview', '~> 3.4.0'
   pod 'Kingfisher', '~> 7.0'
+  pod 'lottie-ios'
 end
 
 target 'Sparky-iOS' do
