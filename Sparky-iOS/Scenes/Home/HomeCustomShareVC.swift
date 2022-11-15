@@ -274,9 +274,26 @@ final class HomeCustomShareVC: UIViewController {
     
     private func bindViewModel() {
         viewModel.addTagList
-            .bind(to: addTagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                cell.setupConstraints()
-                cell.setupTagButton(tag: tag)
+            .bind(to: addTagCollectionView.rx.items) { collectionView, row, element in
+                let indexPath = IndexPath(row: row, section: 0)
+                
+                if row != self.viewModel.addTagList.value.count - 1 {
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: TagCollectionViewCell.identifier,
+                        for: indexPath) as! TagCollectionViewCell
+                    cell.setupConstraints()
+                    
+                    let tag = self.viewModel.addTagList.value[row]
+                    cell.setupTagButton(tag: tag, pageType: .main)
+                    return cell
+                } else {
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: TagDottedLineCell.identifier,
+                        for: indexPath) as! TagDottedLineCell
+                    cell.setupConstraints()
+                    cell.setupTagButton()
+                    return cell
+                }
             }.disposed(by: disposeBag)
         
         addTagCollectionView.rx

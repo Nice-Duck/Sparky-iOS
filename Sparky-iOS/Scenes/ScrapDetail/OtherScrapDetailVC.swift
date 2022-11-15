@@ -259,7 +259,7 @@ final class OtherScrapDetailVC: UIViewController {
         scrap.value.tagList
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
                 cell.setupConstraints()
-                cell.setupTagButton(tag: tag)
+                cell.setupTagButton(tag: tag, pageType: .main)
             }.disposed(by: disposeBag)
     }
     

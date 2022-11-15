@@ -107,7 +107,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
             }.disposed(by: disposeBag)
     }

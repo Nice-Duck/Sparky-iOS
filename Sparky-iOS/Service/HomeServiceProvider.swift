@@ -109,6 +109,32 @@ struct HomeServiceProvider {
             }
     }
     
+    func searchScrap(scrapSearchRequest: ScrapSearchRequest, scrapSearch: ScrapSearch) -> Single<Response> {
+        return provider.rx.request(.scrapSearch(body: scrapSearchRequest, params: scrapSearch))
+            .do { response in
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response.statusCode)")
+                }
+            } onError: { error in
+                print("요청 실패! - error: \(error)")
+            }
+    }
+    
+    func validateURL(urlString: String) -> Single<Response> {
+        return provider.rx.request(.scrapURLCheck(params: urlString))
+            .do { response in
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response.statusCode)")
+                }
+            } onError: { error in
+                print("요청 실패! - error: \(error)")
+            }
+    }
+    
     func signOut() -> Single<Response> {
         return provider.rx.request(.signOut)
             .do { response in

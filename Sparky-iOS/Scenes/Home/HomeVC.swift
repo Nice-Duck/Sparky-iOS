@@ -30,6 +30,9 @@ final class HomeVC: UIViewController {
         
         $0.placeholder = "찾고싶은 스크랩의 키워드를 입력해주세요"
         $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.addTarget(self,
+                     action: #selector(returnTabGesture),
+                     for: .editingDidEndOnExit)
     }
     
     private let homeTableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
@@ -81,13 +84,10 @@ final class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("view will appear 탄다!!")
+        
+        scrapTextField.text = ""
+        
         fetchScraps()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        print("view did appear 탄다!!")
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -283,6 +283,114 @@ final class HomeVC: UIViewController {
                                                selector: #selector(showVC),
                                                name: SparkyNotification.showOtherWebView,
                                                object: nil)
+    }
+    
+    @objc private func returnTabGesture() {
+        let scrapSearchRequest = ScrapSearchRequest(tag: [],
+                                                    title: scrapTextField.text ?? "",
+                                                    type: 0)
+        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
+                                      type: 0)
+        
+        HomeServiceProvider.shared
+            .searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+            .map(ScrapSearchResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    print("---홈 스크랩 요청 성공!!!---")
+                    print("result - \(response.result)")
+                    
+                    if let result = response.result {
+                        self.otherScrapViewModel.scraps.values = []
+                        
+                        result.forEach { scrap in
+                            var newTagList = [Tag]()
+                            
+                            scrap.tagsResponse?.forEach { tag in
+                                print("tag.color - \(tag.color)")
+                                let newTag = Tag(tagId: tag.tagId,
+                                                 name: tag.name,
+                                                 color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
+                                                 buttonType: .none)
+                                newTagList.append(newTag)
+                            }
+                            
+                            let newScrap = Scrap(scrapId: scrap.scrapId,
+                                                 title: scrap.title ?? "",
+                                                 subTitle: scrap.subTitle ?? "",
+                                                 memo: scrap.memo ?? "",
+                                                 thumbnailURLString: scrap.imgUrl ?? "",
+                                                 scrapURLString: scrap.scpUrl ?? "",
+                                                 tagList: BehaviorRelay<[Tag]>(value: newTagList))
+                            
+                            self.otherScrapViewModel.scraps.values.append(newScrap)
+                        }
+                        print("myScrapViewModel - \(self.myScrapViewModel.scraps.value)")
+                        print("otherScrapViewModel - \(self.otherScrapViewModel.scraps.value)")
+                        print("reload!!!")
+                        self.setupDelegate()
+                        self.homeTableView.reloadData()
+                    }
+                } else if response.code == "U000" {
+                    print("error response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    ReIssueServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.fetchScraps()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    MoveUtils.shared.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                MoveUtils.shared.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("---홈 스크랩 요청 에러---")
+                print("\(error)")
+            }.disposed(by: disposeBag)
     }
     
     @objc private func showVC(notification: NSNotification) {

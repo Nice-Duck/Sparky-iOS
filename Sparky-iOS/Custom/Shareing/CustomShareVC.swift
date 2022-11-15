@@ -238,7 +238,7 @@ final class CustomShareVC: UIViewController {
                     cell.setupConstraints()
                     
                     let tag = self.viewModel.addTagList.value[row]
-                    cell.setupTagButton(tag: tag)
+                    cell.setupTagButton(tag: tag, pageType: .main)
                     return cell
                 } else {
                     let cell = collectionView.dequeueReusableCell(
