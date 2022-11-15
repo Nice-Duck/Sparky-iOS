@@ -116,7 +116,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row
@@ -135,7 +135,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row
@@ -154,7 +154,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row

@@ -387,7 +387,7 @@ final class ShareTagBottomSheetVC: UIViewController {
                 }
                 
                 cell.setupConstraints()
-                cell.setupTagButton(tag: tag)
+                cell.setupTagButton(tag: tag, pageType: .main)
             }.disposed(by: disposeBag)
         
         recentTagCollectionView.rx

@@ -14,6 +14,8 @@ enum HomeServiceAPI {
     case saveScrap(body: ScrapRequest)
     case patchScrap(body: ScrapRequest, params: Int)
     case removeScrap(params: Int)
+    case scrapSearch(body: ScrapSearchRequest, params: ScrapSearch)
+    case scrapURLCheck(params: String)
     case signOut
     case declaration(params: Int)
 }
@@ -35,6 +37,10 @@ extension HomeServiceAPI: TargetType {
             return "/scraps"
         case .removeScrap:
             return "/scraps"
+        case .scrapSearch:
+            return "/scraps/search"
+        case .scrapURLCheck:
+            return "/scraps/validation"
         case .signOut:
             return "/accounts"
         case .declaration:
@@ -56,6 +62,10 @@ extension HomeServiceAPI: TargetType {
             return .patch
         case .removeScrap:
             return .delete
+        case .scrapSearch:
+            return .post
+        case .scrapURLCheck:
+            return .get
         case .signOut:
             return .delete
         case .declaration:
@@ -77,6 +87,10 @@ extension HomeServiceAPI: TargetType {
             return . requestCompositeData(bodyData: scrapRequest.encodableToData(), urlParameters: ["scrapId": params])
         case .removeScrap(params: let params):
             return .requestParameters(parameters: ["scrapId" : params], encoding: URLEncoding.queryString)
+        case .scrapSearch(let scrapSearchRequest, let scrapSearch):
+            return .requestCompositeData(bodyData: scrapSearchRequest.encodableToData(), urlParameters: ["type": scrapSearch.type, "title": scrapSearch.title])
+        case .scrapURLCheck(let params):
+            return .requestParameters(parameters: ["url": params], encoding: URLEncoding.queryString)
         case .signOut:
             return .requestPlain
         case .declaration(let params):

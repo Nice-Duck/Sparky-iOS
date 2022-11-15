@@ -16,7 +16,8 @@ enum SetViewButtonType {
 final class MyScrapVC: UIViewController {
     
     // MARK: - Properties
-    private let viewModel = ScrapViewModel()
+    private let filterTagViewModel = MyScrapFilterViewModel()
+    private let scrapViewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
     private var selectedButtonType = BehaviorRelay<SetViewButtonType>(value: SetViewButtonType.horizontal)
     
@@ -24,7 +25,16 @@ final class MyScrapVC: UIViewController {
         
         $0.placeholder = "검색어를 입력해주세요"
         $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.addTarget(self,
+                     action: #selector(returnTabGesture),
+                     for: .editingDidEndOnExit)
     }
+    
+    private let filterTagCollectionView = TagCollectionView(
+        frame: CGRect(x: 0, y: 0, width: 0, height: 0),
+        collectionViewLayout: TagCollectionViewFlowLayout()).then {
+            $0.backgroundColor = .background
+        }
     
     private let myScrapSectionView = MyScrapSectionView()
     
@@ -67,6 +77,11 @@ final class MyScrapVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        scrapTextField.text = ""
+        filterTagViewModel.filterTagList.values = [Tag(tagId: -1,
+                                                      name: "필터",
+                                                      color: .sparkyOrange,
+                                                      buttonType: .add)]
         fetchScraps()
     }
     
@@ -88,7 +103,7 @@ final class MyScrapVC: UIViewController {
                     
                     if let result = response.result {
                         if let myScraps = result.myScraps {
-                            self.viewModel.scraps.values = []
+                            self.scrapViewModel.scraps.values = []
                             
                             myScraps.forEach { scrap in
                                 var newTagList = [Tag]()
@@ -110,11 +125,11 @@ final class MyScrapVC: UIViewController {
                                                      scrapURLString: scrap.scpUrl ?? "",
                                                      tagList: BehaviorRelay<[Tag]>(value: newTagList))
                                 
-                                self.viewModel.scraps.values.append(newScrap)
+                                self.scrapViewModel.scraps.values.append(newScrap)
                             }
                         }
-                        print("myScrapViewModel - \(self.viewModel.scraps.value)")
-                        print("otherScrapViewModel - \(self.viewModel.scraps.value)")
+                        print("myScrapViewModel - \(self.scrapViewModel.scraps.value)")
+                        print("otherScrapViewModel - \(self.scrapViewModel.scraps.value)")
                         self.setupData()
                         self.setupDelegate()
                         self.myScrapCollectionView.reloadData()
@@ -190,9 +205,17 @@ final class MyScrapVC: UIViewController {
             $0.right.equalTo(view).offset(-20)
         }
         
+        view.addSubview(filterTagCollectionView)
+        filterTagCollectionView.snp.makeConstraints {
+            $0.top.equalTo(scrapTextField.snp.bottom).offset(12)
+            $0.left.equalTo(view).offset(20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(24)
+        }
+        
         view.addSubview(myScrapSectionView)
         myScrapSectionView.snp.makeConstraints {
-            $0.top.equalTo(scrapTextField.snp.bottom).offset(8)
+            $0.top.equalTo(filterTagCollectionView.snp.bottom).offset(8)
             $0.left.equalTo(view).offset(20)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(24)
@@ -214,7 +237,23 @@ final class MyScrapVC: UIViewController {
     private func bindViewModel() {
         myScrapCollectionView.dataSource = nil
         
-        viewModel.scraps.bind(to: myScrapCollectionView.rx.items) { collectionView, row, element in
+        filterTagViewModel.filterTagList
+            .bind(to: filterTagCollectionView.rx.items) { collectionView, row, element in
+                let indexPath = IndexPath(row: row, section: 0)
+                
+                
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: TagCollectionViewCell.identifier,
+                    for: indexPath) as! TagCollectionViewCell
+                cell.setupConstraints()
+                
+                let tag = self.filterTagViewModel.filterTagList.value[row]
+                cell.setupTagButton(tag: tag, pageType: .myScrap)
+                return cell
+                
+            }.disposed(by: disposeBag)
+        
+        scrapViewModel.scraps.bind(to: myScrapCollectionView.rx.items) { collectionView, row, element in
             let indexPath = IndexPath(row: row, section: 0)
             switch self.selectedButtonType.value {
             case .horizontal:
@@ -222,16 +261,18 @@ final class MyScrapVC: UIViewController {
                     withReuseIdentifier: MyHorizontalLayoutCell.identifier,
                     for: indexPath) as! MyHorizontalLayoutCell
                 cell.backgroundColor = .white
-                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                cell.setupValue(scrap: self.scrapViewModel.scraps.value[row])
                 
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
-                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                self.scrapViewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
+                cell.scrapDetailButton.tag = row
+                cell.thumbnailImageView.tag = row
                 return cell
                 
             case .largeImage:
@@ -239,16 +280,18 @@ final class MyScrapVC: UIViewController {
                     withReuseIdentifier: MyLargeImageLayoutCell.identifier,
                     for: indexPath) as! MyLargeImageLayoutCell
                 cell.backgroundColor = .white
-                cell.setupValue(scrap: self.viewModel.scraps.value[row])
+                cell.setupValue(scrap: self.scrapViewModel.scraps.value[row])
                 
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
-                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
+                self.scrapViewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
+                cell.scrapDetailButton.tag = row
+                cell.thumbnailImageView.tag = row
                 return cell
             }
         }.disposed(by: disposeBag)
@@ -258,19 +301,42 @@ final class MyScrapVC: UIViewController {
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
                 self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
-                self.viewModel.scraps.accept(self.viewModel.scraps.value)
+                self.scrapViewModel.scraps.accept(self.scrapViewModel.scraps.value)
             }.disposed(by: disposeBag)
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
                 self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
-                self.viewModel.scraps.accept(self.viewModel.scraps.value)
+                self.scrapViewModel.scraps.accept(self.scrapViewModel.scraps.value)
             }.disposed(by: disposeBag)
+        
+        filterTagCollectionView.rx
+            .itemSelected
+            .subscribe(onNext: { indexPath in
+                if self.filterTagViewModel.filterTagList.value.count > 0 {
+                    switch indexPath.row {
+                    case 0:
+                        self.presentTagBottomSheetVC()
+                        break
+                        
+                    default:
+                        self.filterTagViewModel.filterTagList.remove(at: indexPath.row)
+                        break
+                    }
+                }
+            }).disposed(by: disposeBag)
+    }
+    
+    private func presentTagBottomSheetVC() {
+        let tagBottomSheetVC = HomeTagBottomSheetVC()
+        tagBottomSheetVC.newTagCVDelegate = self
+        tagBottomSheetVC.modalPresentationStyle = .overFullScreen
+        self.present(tagBottomSheetVC, animated: false)
     }
     
     private func setupData() {
-        myScrapSectionView.totalCountLabel.text = "총 \(viewModel.scraps.value.count)개"
+        myScrapSectionView.totalCountLabel.text = "총 \(scrapViewModel.scraps.value.count)개"
     }
     
     private func createObserver() {
@@ -284,12 +350,126 @@ final class MyScrapVC: UIViewController {
                                                object: nil)
     }
     
+    private func searchScrap(scrapSearchRequest: ScrapSearchRequest,
+                             scrapSearch: ScrapSearch) {
+        print("scrapSearchRequest - \(scrapSearchRequest)")
+        print("scrapSearch - \(scrapSearch)")
+        HomeServiceProvider.shared
+            .searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+            .map(ScrapSearchResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    print("---검색 성고오옹!!!---")
+                    print("result - \(response.result)")
+                    
+                    if let result = response.result {
+                        self.scrapViewModel.scraps.values = []
+                        
+                        result.forEach { scrap in
+                            var newTagList = [Tag]()
+                            
+                            scrap.tagsResponse?.forEach { tag in
+                                print("tag.color - \(tag.color)")
+                                let newTag = Tag(tagId: tag.tagId,
+                                                 name: tag.name,
+                                                 color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
+                                                 buttonType: .none)
+                                newTagList.append(newTag)
+                            }
+                            
+                            let newScrap = Scrap(scrapId: scrap.scrapId,
+                                                 title: scrap.title ?? "",
+                                                 subTitle: scrap.subTitle ?? "",
+                                                 memo: scrap.memo ?? "",
+                                                 thumbnailURLString: scrap.imgUrl ?? "",
+                                                 scrapURLString: scrap.scpUrl ?? "",
+                                                 tagList: BehaviorRelay<[Tag]>(value: newTagList))
+                            
+                            self.scrapViewModel.scraps.values.append(newScrap)
+                        }
+                        print("myScrapViewModel - \(self.scrapViewModel.scraps.value)")
+                        print("otherScrapViewModel - \(self.scrapViewModel.scraps.value)")
+                        print("reload!!!")
+                        self.setupData()
+                        self.setupDelegate()
+                    }
+                } else if response.code == "U000" {
+                    print("error response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    ReIssueServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.fetchScraps()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    MoveUtils.shared.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                MoveUtils.shared.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("--- 서치 요청 에러---")
+                print("\(error)")
+            }.disposed(by: disposeBag)
+    }
+    
+    @objc private func returnTabGesture() {
+        let scrapSearchRequest = ScrapSearchRequest(tag: [],
+                                                    title: scrapTextField.text ?? "",
+                                                    type: 1)
+        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
+                                      type: 1)
+        searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+    }
+    
     @objc private func showScrap(notification: NSNotification) {
         switch notification.name {
         case SparkyNotification.sendMyScrapDetailIndex:
             if let index = notification.object {
                 let scrapDetailVC = ScrapDetailVC()
-                scrapDetailVC.scrap = BehaviorRelay(value: viewModel.scraps.value[index as! Int])
+                scrapDetailVC.scrap = BehaviorRelay(value: scrapViewModel.scraps.value[index as! Int])
                 scrapDetailVC.dismissVCDelegate = self
                 let nav = UINavigationController(rootViewController: scrapDetailVC)
                 nav.modalPresentationStyle = .fullScreen
@@ -300,7 +480,7 @@ final class MyScrapVC: UIViewController {
             if let index = notification.object {
                 let scrapWebViewVC = ScrapWebViewVC()
                 scrapWebViewVC.modalPresentationStyle = .overFullScreen
-                scrapWebViewVC.urlString = viewModel.scraps.value[index as! Int].scrapURLString
+                scrapWebViewVC.urlString = scrapViewModel.scraps.value[index as! Int].scrapURLString
                 scrapWebViewVC.dismissVCDelegate = self
                 let nav = UINavigationController(rootViewController: scrapWebViewVC)
                 nav.modalPresentationStyle = .fullScreen
@@ -313,9 +493,49 @@ final class MyScrapVC: UIViewController {
     }
 }
 
+extension MyScrapVC: NewTagCVDelegate {
+    func sendNewTagList(tag: Tag) {
+        let newTag = Tag(tagId: tag.tagId,
+                         name: tag.name,
+                         color: tag.color,
+                         buttonType: .delete)
+        
+        if !filterTagViewModel.filterTagList.value.contains(where: { tag in
+            if tag == newTag {
+                return true
+            }
+            return false
+        }) {
+            filterTagViewModel.filterTagList.append(newTag)
+            
+            var newTagIdList = [Int]()
+            
+            for i in 0..<self.filterTagViewModel.filterTagList.value.count {
+                if self.filterTagViewModel.filterTagList.value[i].tagId != -1 {
+                    newTagIdList.append(filterTagViewModel.filterTagList.value[i].tagId)
+                }
+            }
+            print("filter 리스트 - \(filterTagViewModel.filterTagList.value)")
+            
+            let scrapSearchRequest = ScrapSearchRequest(
+                tag: newTagIdList,
+                title: scrapTextField.text ?? "",
+                type: 1)
+            let scrapRequest = ScrapSearch(title: scrapTextField.text ?? "",
+                                           type: 1)
+            searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapRequest)
+        }
+    }
+}
+
 extension MyScrapVC: DismissVCDelegate {
     
     func sendNotification() {
+        scrapTextField.text = ""
+        filterTagViewModel.filterTagList.values = [Tag(tagId: -1,
+                                                       name: "필터",
+                                                       color: .sparkyOrange,
+                                                       buttonType: .add)]
         self.fetchScraps()
     }
 }

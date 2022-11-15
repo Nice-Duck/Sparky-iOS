@@ -127,6 +127,11 @@ final class ScrapDetailVC: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .background
+
+//        scrap.value.tagList.values.append(Tag(tagId: -1,
+//                                              name: "태그추가",
+//                                              color: .clear,
+//                                              buttonType: .add))
         
         createObserver()
         subActionTableView.tableFooterView = UIView()
@@ -339,9 +344,26 @@ final class ScrapDetailVC: UIViewController {
         
         
         scrap.value.tagList
-            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                cell.setupConstraints()
-                cell.setupTagButton(tag: tag)
+            .bind(to: tagCollectionView.rx.items) { collectionView, row, element in
+                let indexPath = IndexPath(row: row, section: 0)
+                
+                if self.scrap.value.tagList.value[row].tagId != -1 {
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: TagCollectionViewCell.identifier,
+                        for: indexPath) as! TagCollectionViewCell
+                    cell.setupConstraints()
+                    
+                    let tag = self.scrap.value.tagList.value[row]
+                    cell.setupTagButton(tag: tag, pageType: .main)
+                    return cell
+                } else {
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: TagDottedLineCell.identifier,
+                        for: indexPath) as! TagDottedLineCell
+                    cell.setupConstraints()
+                    cell.setupTagButton()
+                    return cell
+                }
             }.disposed(by: disposeBag)
         
         saveButton.rx.tap

@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum PageType {
+    case main, myScrap
+}
+
 final class TagCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "TagCollectionViewCell"
@@ -38,20 +42,21 @@ final class TagCollectionViewCell: UICollectionViewCell {
         tagStackView.addArrangedSubview(tagButtonImageView)
     }
     
-    func setupTagButton(tag: Tag) {
+    func setupTagButton(tag: Tag, pageType: PageType) {
         tagTitleLabel.text = tag.name
-        tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .gray400
+        tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .sparkyWhite
         tagButtonImageView.image = getButtonImage(buttonType: tag.buttonType)
         tagButtonImageView.isHidden = tag.buttonType == .none ? true : false
-        tagStackView.backgroundColor = tag.buttonType != .add ? tag.color : .clear
+        tagButtonImageView.tintColor = tag.buttonType != .add ? .sparkyBlack : .sparkyWhite
+        tagStackView.backgroundColor = tag.color
     }
     
     func getButtonImage(buttonType: ButtonType) -> UIImage? {
         switch buttonType {
         case .delete:
-            return UIImage(named: "vector971")!
+            return UIImage(named: "vector971")!.withRenderingMode(.alwaysTemplate)
         case .add:
-            return UIImage(named: "plus")!
+            return UIImage(named: "plus")!.withRenderingMode(.alwaysTemplate)
         case .none:
             return nil
         }

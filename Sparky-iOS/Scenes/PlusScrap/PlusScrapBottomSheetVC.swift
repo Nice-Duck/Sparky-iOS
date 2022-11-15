@@ -12,7 +12,7 @@ class PlusScrapBottomSheetVC: UIViewController {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
-    var urlInputString: String?
+//    var urlInputString: String?
     
     private let dimmedView =  UIView().then {
         $0.backgroundColor = .gray700
@@ -48,6 +48,12 @@ class PlusScrapBottomSheetVC: UIViewController {
         $0.style = .plain
     }
     
+    private let plusStackVuew = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 8
+        $0.alignment = .leading
+    }
+    
     private let plusURLTitleLabel = UILabel().then {
         $0.text = "스크랩 URL"
         $0.font = .subTitleBold1
@@ -66,9 +72,14 @@ class PlusScrapBottomSheetVC: UIViewController {
         $0.layer.cornerRadius = 8
         $0.setLeftPadding(20)
         $0.clearButtonMode = .whileEditing
-        $0.addTarget(self,
-                     action: #selector(textFieldChanged(sender:)),
-                     for: UIControl.Event.editingChanged)
+    }
+    
+    private let noDataTextLabel = UILabel().then {
+        $0.text = "스크랩 정보를 가져올 수 없습니다."
+        $0.font = .bodyRegular1
+        $0.textAlignment = .center
+        $0.textColor = .sparkyOrange
+        $0.isHidden = true
     }
     
     private let fetchButton = UIButton().then {
@@ -193,13 +204,15 @@ class PlusScrapBottomSheetVC: UIViewController {
             $0.right.equalTo(tagBottomSheetView)
         }
         
-        tagBottomSheetView.addSubview(plusURLTitleLabel)
-        plusURLTitleLabel.snp.makeConstraints {
+        tagBottomSheetView.addSubview(plusStackVuew)
+        plusStackVuew.snp.makeConstraints {
             $0.top.equalTo(customNavBar.snp.bottom).offset(12)
             $0.left.equalTo(tagBottomSheetView).offset(20)
         }
         
-        tagBottomSheetView.addSubview(urlTextField)
+        plusStackVuew.addArrangedSubview(plusURLTitleLabel)
+        plusStackVuew.addArrangedSubview(urlTextField)
+
         urlTextField.snp.makeConstraints {
             $0.top.equalTo(plusURLTitleLabel.snp.bottom).offset(8)
             $0.left.equalTo(tagBottomSheetView).offset(20)
@@ -207,9 +220,11 @@ class PlusScrapBottomSheetVC: UIViewController {
             $0.height.equalTo(41)
         }
         
+        plusStackVuew.addArrangedSubview(noDataTextLabel)
+        
         tagBottomSheetView.addSubview(fetchButton)
         fetchButton.snp.makeConstraints {
-            $0.top.equalTo(urlTextField.snp.bottom).offset(20)
+            $0.top.equalTo(plusStackVuew.snp.bottom).offset(20)
             $0.left.equalTo(tagBottomSheetView).offset(20)
             $0.right.equalTo(tagBottomSheetView).offset(-20)
             $0.height.equalTo(50)
@@ -217,26 +232,115 @@ class PlusScrapBottomSheetVC: UIViewController {
     }
     
     private func bindViewModel() {
+        urlTextField.rx.text
+            .subscribe { _ in
+                print("urlstring - \(self.urlTextField.text)")
+                
+                if self.urlTextField.text == "" {
+                    self.fetchButton.isEnabled = false
+                    self.fetchButton.backgroundColor = .gray300
+                    self.urlTextField.layer.borderColor = UIColor.gray300.cgColor
+                    self.noDataTextLabel.isHidden = true
+                } else {
+                    self.fetchButton.isEnabled = true
+                    self.fetchButton.backgroundColor = .sparkyBlack
+                    self.urlTextField.layer.borderColor = UIColor.sparkyBlack.cgColor
+                    self.urlTextField.textColor = .sparkyBlack
+                    self.noDataTextLabel.isHidden = true
+                }
+            }.disposed(by: disposeBag)
+        
         fetchButton.rx.tap
             .subscribe { _ in
-                self.dismissTagBottomSheetVC()
+//                self.dismissTagBottomSheetVC()
+//                self.urlTextField.resignFirstResponder()
                 
-                let customShareVC = HomeCustomShareVC()
-                if let urlInputString = self.urlInputString {
-                    customShareVC.urlString = urlInputString
-                } else {
-                    customShareVC.urlString = self.urlTextField.text
+                if let urlStringText = self.urlTextField.text {
+                    self.validateURL(urlStringText: urlStringText)
+//                    self.dismissTagBottomSheetVC()
+//                    self.urlTextField.resignFirstResponder()
                 }
-                let nav = UINavigationController(rootViewController: customShareVC)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true)
             }.disposed(by: disposeBag)
     }
     
-    @objc private func textFieldChanged(sender: UITextField) {
-        if let textFieldText = sender.text {
-            urlInputString = textFieldText
-        }
+    private func validateURL(urlStringText: String) {
+        HomeServiceProvider.shared
+            .validateURL(urlString: urlStringText)
+            .map(PostResultResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    let customShareVC = HomeCustomShareVC()
+                        customShareVC.urlString = urlStringText
+
+                    let nav = UINavigationController(rootViewController: customShareVC)
+                    nav.modalPresentationStyle = .fullScreen
+                    self.dismissTagBottomSheetVC()
+                    self.urlTextField.resignFirstResponder()
+                    self.present(nav, animated: true)
+                } else if response.code == "F002" {
+                    self.fetchButton.isEnabled = false
+                    self.fetchButton.backgroundColor = .gray300
+                    self.urlTextField.layer.borderColor = UIColor.gray300.cgColor
+                    self.noDataTextLabel.isHidden = false
+                } else if response.code == "U000" {
+                    print("error response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    ReIssueServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.validateURL(urlStringText: urlStringText)
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    MoveUtils.shared.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                MoveUtils.shared.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("요청 실패!!! - \(error)")
+            }.disposed(by: self.disposeBag)
     }
     
     private func showTagBottomSheet() {
