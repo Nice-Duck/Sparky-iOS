@@ -369,14 +369,12 @@ final class MyScrapVC: UIViewController {
                                                object: nil)
     }
     
-    private func searchScrap(scrapSearchRequest: ScrapSearchRequest,
-                             scrapSearch: ScrapSearch) {
+    private func searchScrap(scrapSearchRequest: ScrapSearchRequest) {
         print("scrapSearchRequest - \(scrapSearchRequest)")
-        print("scrapSearch - \(scrapSearch)")
         
         lottieView.isHidden = false
         HomeServiceProvider.shared
-            .searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+            .searchScrap(scrapSearchRequest: scrapSearchRequest)
             .map(ScrapSearchResponse.self)
             .subscribe { response in
                 print("code - \(response.code)")
@@ -479,12 +477,12 @@ final class MyScrapVC: UIViewController {
     }
     
     @objc private func returnTabGesture() {
-        let scrapSearchRequest = ScrapSearchRequest(tag: [],
+        let scrapSearchRequest = ScrapSearchRequest(tags: [],
                                                     title: scrapTextField.text ?? "",
                                                     type: 1)
-        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
-                                      type: 1)
-        searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+//        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
+//                                      type: 1)
+        searchScrap(scrapSearchRequest: scrapSearchRequest)
     }
     
     @objc private func showScrap(notification: NSNotification) {
@@ -541,12 +539,10 @@ extension MyScrapVC: NewTagCVDelegate {
             print("filter 리스트 - \(filterTagViewModel.filterTagList.value)")
             
             let scrapSearchRequest = ScrapSearchRequest(
-                tag: newTagIdList,
+                tags: newTagIdList,
                 title: scrapTextField.text ?? "",
                 type: 1)
-            let scrapRequest = ScrapSearch(title: scrapTextField.text ?? "",
-                                           type: 1)
-            searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapRequest)
+            searchScrap(scrapSearchRequest: scrapSearchRequest)
         }
     }
 }

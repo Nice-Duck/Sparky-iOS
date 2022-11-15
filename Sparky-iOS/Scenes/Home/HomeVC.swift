@@ -306,7 +306,7 @@ final class HomeVC: UIViewController {
     }
     
     @objc private func returnTabGesture() {
-        let scrapSearchRequest = ScrapSearchRequest(tag: [],
+        let scrapSearchRequest = ScrapSearchRequest(tags: [],
                                                     title: scrapTextField.text ?? "",
                                                     type: 0)
         let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
@@ -314,7 +314,7 @@ final class HomeVC: UIViewController {
         
         lottieView.isHidden = false
         HomeServiceProvider.shared
-            .searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+            .searchScrap(scrapSearchRequest: scrapSearchRequest)
             .map(ScrapSearchResponse.self)
             .subscribe { response in
                 print("code - \(response.code)")
