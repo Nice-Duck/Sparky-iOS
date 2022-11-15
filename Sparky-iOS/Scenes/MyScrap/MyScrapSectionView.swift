@@ -28,12 +28,12 @@ final class MyScrapSectionView: UIView {
     
     var setHorizontalViewButton = UIButton().then {
         $0.setImage(.viewAgenda.withRenderingMode(.alwaysTemplate), for: .normal)
-        $0.tintColor = .sparkyBlack
+        $0.tintColor = .gray400
     }
     
     var setLargeImageViewButton = UIButton().then {
         $0.setImage(.formatListBulleted.withRenderingMode(.alwaysTemplate), for: .normal)
-        $0.tintColor = .gray400
+        $0.tintColor = .sparkyBlack
     }
     
     override init(frame: CGRect) {

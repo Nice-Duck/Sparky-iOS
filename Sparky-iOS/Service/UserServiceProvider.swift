@@ -28,6 +28,19 @@ struct UserServiceProvider {
             }
     }
     
+    func patchPassword(emailSignInRequestModel: EmailSignInRequest) -> Single<Response> {
+        return provider.rx.request(.patchPassword(body: emailSignInRequestModel))
+            .do { response in
+                if (200...299).contains(response.statusCode) {
+                    print("요청 성공! - HTTP Status Code: \(response.statusCode)")
+                } else {
+                    print("요청 실패! - HTTP Status Code: \(response.statusCode)")
+                }
+            } onError: { error in
+                print("요청 실패! - error: \(error)")
+            }
+    }
+    
     func signUpEmailDuplicate(email: String) -> Single<Response> {
         return provider.rx.request(.signUpEmailDuplicate(params: email))
             .do { response in

@@ -25,7 +25,6 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                                   collectionViewLayout: flowlayout)
         cv.backgroundColor = .background
-        cv.layer.cornerRadius = 8
         cv.showsHorizontalScrollIndicator = false
         cv.register(PreviewLayoutViewCell.self,
                     forCellWithReuseIdentifier: PreviewLayoutViewCell.identifier)
@@ -39,7 +38,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         
         setupConstraints()
         createObserver()
-        //        bindViewModel()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -94,23 +93,21 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     //    }
     
     func bindViewModel() {
-        //        myScrapCollectionView.dataSource = nil
-        
         viewModel.scraps.bind(to: myScrapCollectionView.rx.items(
             cellIdentifier: PreviewLayoutViewCell.identifier,
             cellType: PreviewLayoutViewCell.self)) { index, scrap, cell in
                 cell.backgroundColor = .sparkyWhite
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: scrap)
                 cell.scrapDetailButton.tag = index
                 cell.thumbnailImageView.tag = index
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
-                print("taglist - \(scrap.tagList.value)")
                 scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
             }.disposed(by: disposeBag)
     }

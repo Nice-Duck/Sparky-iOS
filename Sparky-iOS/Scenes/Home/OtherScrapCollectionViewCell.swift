@@ -25,7 +25,6 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                                   collectionViewLayout: flowlayout)
         cv.isScrollEnabled = false
         cv.backgroundColor = .background
-        cv.layer.cornerRadius = 8
         cv.showsVerticalScrollIndicator = false
         cv.register(HalfLayoutCell.self,
                     forCellWithReuseIdentifier: HalfLayoutCell.identifier)
@@ -44,7 +43,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         setupConstraints()
         setupDelegate()
         createObserver()
-//        bindViewModel()
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -96,8 +95,6 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
     }
     
     func bindViewModel() {
-//        otherScrapCollectionView.dataSource = nil
-        
         viewModel.scraps.bind(to: otherScrapCollectionView.rx.items) { collectionView, row, element in
             let indexPath = IndexPath(row: row, section: 0)
             
@@ -105,12 +102,13 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                                                         row + 1 % 5) ?? ScrapLayoutStyle.horizontalOne
             
             switch scrapLayoutStyle {
-            case .halfOne:
+            case .halfOne, .halfTwo:
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HalfLayoutCell.identifier,
                     for: indexPath) as! HalfLayoutCell
                 
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
@@ -118,33 +116,19 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
+                cell.scrapDetailButton.tag = row
+                cell.thumbnailImageView.tag = row
                 return cell
                 
-            case .halfTwo:
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HalfLayoutCell.identifier,
-                    for: indexPath) as! HalfLayoutCell
-                
-                cell.backgroundColor = .white
-                cell.setupValue(scrap: self.viewModel.scraps.value[row])
-                cell.tagCollectionView.delegate = nil
-                cell.tagCollectionView.dataSource = nil
-                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
-                    cellIdentifier: TagCollectionViewCell.identifier,
-                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
-                    }.disposed(by: self.disposeBag)
-                return cell
-                
-            case .horizontalOne:
+            case .horizontalOne, .horizontalTwo:
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: HorizontalLayoutCell.identifier,
                     for: indexPath) as! HorizontalLayoutCell
                 
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
@@ -152,25 +136,10 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
-                return cell
-                
-            case .horizontalTwo:
-                let cell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: HorizontalLayoutCell.identifier,
-                    for: indexPath) as! HorizontalLayoutCell
-                
-                cell.backgroundColor = .white
-                cell.setupValue(scrap: self.viewModel.scraps.value[row])
-                cell.tagCollectionView.delegate = nil
-                cell.tagCollectionView.dataSource = nil
-                self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
-                    cellIdentifier: TagCollectionViewCell.identifier,
-                    cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
-                    }.disposed(by: self.disposeBag)
+                cell.scrapDetailButton.tag = row
+                cell.thumbnailImageView.tag = row
                 return cell
                 
             case .largeImage:
@@ -179,6 +148,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     for: indexPath) as! LargeImageLayoutCell
                 
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
@@ -186,8 +156,10 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
                         cell.setupConstraints()
-                        cell.setupTagButton(tag: tag)
+                        cell.setupTagButton(tag: tag, pageType: .main)
                     }.disposed(by: self.disposeBag)
+                cell.scrapDetailButton.tag = row
+                cell.thumbnailImageView.tag = row
                 return cell
             }
         }.disposed(by: disposeBag)

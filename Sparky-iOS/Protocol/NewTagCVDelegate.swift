@@ -8,3 +8,7 @@
 protocol NewTagCVDelegate: AnyObject {
     func sendNewTagList(tag: Tag)
 }
+
+protocol DismissVCDelegate: AnyObject {
+    func sendNotification()
+}

@@ -10,8 +10,12 @@ import Moya
 enum HomeServiceAPI {
     case saveTag(body: TagRequst)
     case fetchTag
-    case scraps(params: Int)
+    case fetchScraps(params: Int)
     case saveScrap(body: ScrapRequest)
+    case patchScrap(body: ScrapRequest, params: Int)
+    case removeScrap(params: Int)
+    case scrapSearch(body: ScrapSearchRequest)
+    case scrapURLCheck(params: String)
     case signOut
     case declaration(params: Int)
 }
@@ -25,10 +29,18 @@ extension HomeServiceAPI: TargetType {
             return "/tags"
         case .fetchTag:
             return "/tags"
-        case .scraps:
+        case .fetchScraps:
             return "/scraps"
         case .saveScrap:
             return "/scraps"
+        case .patchScrap:
+            return "/scraps"
+        case .removeScrap:
+            return "/scraps"
+        case .scrapSearch:
+            return "/scraps/search"
+        case .scrapURLCheck:
+            return "/scraps/validation"
         case .signOut:
             return "/accounts"
         case .declaration:
@@ -42,10 +54,18 @@ extension HomeServiceAPI: TargetType {
             return .post
         case .fetchTag:
             return .get
-        case .scraps:
+        case .fetchScraps:
             return .get
         case .saveScrap:
             return .post
+        case .patchScrap:
+            return .patch
+        case .removeScrap:
+            return .delete
+        case .scrapSearch:
+            return .post
+        case .scrapURLCheck:
+            return .get
         case .signOut:
             return .delete
         case .declaration:
@@ -59,10 +79,18 @@ extension HomeServiceAPI: TargetType {
             return .requestJSONEncodable(tagRequst)
         case .fetchTag:
             return .requestPlain
-        case .scraps(let params):
+        case .fetchScraps(let params):
             return .requestParameters(parameters: ["type": params], encoding: URLEncoding.queryString)
-        case .saveScrap(body: let scrapRequest):
+        case .saveScrap(let scrapRequest):
             return .requestJSONEncodable(scrapRequest)
+        case .patchScrap(let scrapRequest, let params):
+            return . requestCompositeData(bodyData: scrapRequest.encodableToData(), urlParameters: ["scrapId": params])
+        case .removeScrap(params: let params):
+            return .requestParameters(parameters: ["scrapId" : params], encoding: URLEncoding.queryString)
+        case .scrapSearch(let scrapSearchRequest):
+            return .requestJSONEncodable(scrapSearchRequest)
+        case .scrapURLCheck(let params):
+            return .requestParameters(parameters: ["url": params], encoding: URLEncoding.queryString)
         case .signOut:
             return .requestPlain
         case .declaration(let params):

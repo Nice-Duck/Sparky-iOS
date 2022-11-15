@@ -8,7 +8,7 @@
 import Security
 import Alamofire
  
-class TokenUtils {
+final class TokenUtils {
     
     // Create
     // service 파라미터는 url주소를 의미하나 토큰을 캐싱하기만 하기 때문에 큰 의미는 없음

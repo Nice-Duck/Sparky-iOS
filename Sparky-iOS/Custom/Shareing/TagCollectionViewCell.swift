@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum PageType {
+    case main, myScrap
+}
+
 final class TagCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "TagCollectionViewCell"
@@ -38,41 +42,23 @@ final class TagCollectionViewCell: UICollectionViewCell {
         tagStackView.addArrangedSubview(tagButtonImageView)
     }
     
-    func setupTagButton(tag: Tag) {
+    func setupTagButton(tag: Tag, pageType: PageType) {
         tagTitleLabel.text = tag.name
-        tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .gray400
+        tagTitleLabel.textColor = tag.buttonType != .add ? .sparkyBlack : .sparkyWhite
         tagButtonImageView.image = getButtonImage(buttonType: tag.buttonType)
-        tagStackView.backgroundColor = tag.buttonType != .add ? tag.color : .clear
-        
-        if tag.buttonType == .add {
-            if var sublayers = tagStackView.layer.sublayers {
-                if sublayers.count > 2 {
-                    sublayers.removeLast()
-                }
-                tagStackView.layer.sublayers = sublayers
-            }
-            tagStackView.addDashedBorder(frameSize: CGSize(width: 67, height: 20), borderColor: .gray400)
-        } else if tag.buttonType == .delete {
-            // 기본적으로 subLayer count가 2이고 만약 점선 layer를 추가하면 subLayer count가 3이됨.
-            if var sublayers = tagStackView.layer.sublayers {
-                if sublayers.count > 2 {
-                    sublayers.removeLast()
-                }
-                tagStackView.layer.sublayers = sublayers
-            }
-        } else {
-            tagButtonImageView.isHidden = true
-        }
+        tagButtonImageView.isHidden = tag.buttonType == .none ? true : false
+        tagButtonImageView.tintColor = tag.buttonType != .add ? .sparkyBlack : .sparkyWhite
+        tagStackView.backgroundColor = tag.color
     }
     
-    func getButtonImage(buttonType: ButtonType) -> UIImage {
+    func getButtonImage(buttonType: ButtonType) -> UIImage? {
         switch buttonType {
         case .delete:
-            return UIImage(named: "vector971")!
+            return UIImage(named: "vector971")!.withRenderingMode(.alwaysTemplate)
         case .add:
-            return UIImage(named: "plus")!
+            return UIImage(named: "plus")!.withRenderingMode(.alwaysTemplate)
         case .none:
-            return UIImage()
+            return nil
         }
     }
 }

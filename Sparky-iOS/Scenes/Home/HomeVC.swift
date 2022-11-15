@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxRelay
 import Moya
+import Lottie
 
 enum HomeSectionType: Int {
     case myScrap, otherScrap
@@ -26,10 +27,19 @@ final class HomeVC: UIViewController {
     private var myScrapViewModel = ScrapViewModel()
     private var otherScrapViewModel = ScrapViewModel()
     
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+    }
+    
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         
         $0.placeholder = "찾고싶은 스크랩의 키워드를 입력해주세요"
         $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.addTarget(self,
+                     action: #selector(returnTabGesture),
+                     for: .editingDidEndOnExit)
     }
     
     private let homeTableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
@@ -74,26 +84,35 @@ final class HomeVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        
+        setupLottieView()
         setupNavBar()
         setupConstraints()
-        //        setupDelegate()
         createObserver()
-        
-        fetchScraps()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //        fetchScraps()
+        scrapTextField.text = ""
+        
+        fetchScraps()
+    }
+    
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
-    private func fetchScraps() {
+    func fetchScraps() {
+        self.lottieView.isHidden = false
         HomeServiceProvider.shared
             .getAllScraps()
             .map(ScrapResponse.self)
@@ -102,11 +121,15 @@ final class HomeVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
+                    self.lottieView.isHidden = true
+                    
                     print("---홈 스크랩 요청 성공!!!---")
                     print("result - \(response.result)")
                     
                     if let result = response.result {
                         if let myScraps = result.myScraps {
+                            self.myScrapViewModel.scraps.values = []
+                            
                             myScraps.forEach { scrap in
                                 var newTagList = [Tag]()
                                 
@@ -114,7 +137,7 @@ final class HomeVC: UIViewController {
                                     print("tag.color - \(tag.color)")
                                     let newTag = Tag(tagId: tag.tagId,
                                                      name: tag.name,
-                                                     color: .colorchip12,
+                                                     color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
                                 }
@@ -132,6 +155,7 @@ final class HomeVC: UIViewController {
                         }
                         
                         if let recScraps = result.recScraps {
+                            self.otherScrapViewModel.scraps.values = []
                             
                             recScraps.forEach { scrap in
                                 var newTagList = [Tag]()
@@ -140,7 +164,7 @@ final class HomeVC: UIViewController {
                                     print("tag.color - \(tag.color)")
                                     let newTag = Tag(tagId: tag.tagId,
                                                      name: tag.name,
-                                                     color: .colorchip12,
+                                                     color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
                                                      buttonType: .none)
                                     newTagList.append(newTag)
                                 }
@@ -193,7 +217,7 @@ final class HomeVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -207,7 +231,7 @@ final class HomeVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -219,12 +243,6 @@ final class HomeVC: UIViewController {
                 print("---홈 스크랩 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
-        
-        //        print(myScrapViewModel.scraps.value)
-        //        print(otherScrapViewModel.scraps.value)
-        //        setupDelegate()
-        //        homeTableView.reloadData()
-        
     }
     
     private func setupNavBar() {
@@ -287,33 +305,143 @@ final class HomeVC: UIViewController {
                                                object: nil)
     }
     
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
+    @objc private func returnTabGesture() {
+        let scrapSearchRequest = ScrapSearchRequest(tags: [],
+                                                    title: scrapTextField.text ?? "",
+                                                    type: 0)
+        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
+                                      type: 0)
+        
+        lottieView.isHidden = false
+        HomeServiceProvider.shared
+            .searchScrap(scrapSearchRequest: scrapSearchRequest)
+            .map(ScrapSearchResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    self.lottieView.isHidden = true
+                    
+                    print("---return 버튼 클릭으로 검색 성공!!!---")
+                    print("result - \(response.result)")
+                    
+                    if let result = response.result {
+                        self.otherScrapViewModel.scraps.values = []
+                        
+                        result.forEach { scrap in
+                            var newTagList = [Tag]()
+                            
+                            scrap.tagsResponse?.forEach { tag in
+                                print("tag.color - \(tag.color)")
+                                let newTag = Tag(tagId: tag.tagId,
+                                                 name: tag.name,
+                                                 color: UIColor(hexaRGB: tag.color ?? "#E6DBE0") ?? .colorchip1,
+                                                 buttonType: .none)
+                                newTagList.append(newTag)
+                            }
+                            
+                            let newScrap = Scrap(scrapId: scrap.scrapId,
+                                                 title: scrap.title ?? "",
+                                                 subTitle: scrap.subTitle ?? "",
+                                                 memo: scrap.memo ?? "",
+                                                 thumbnailURLString: scrap.imgUrl ?? "",
+                                                 scrapURLString: scrap.scpUrl ?? "",
+                                                 tagList: BehaviorRelay<[Tag]>(value: newTagList))
+                            
+                            self.otherScrapViewModel.scraps.values.append(newScrap)
+                        }
+                        print("myScrapViewModel - \(self.myScrapViewModel.scraps.value)")
+                        print("otherScrapViewModel - \(self.otherScrapViewModel.scraps.value)")
+                        print("reload!!!")
+                        self.setupDelegate()
+                        self.homeTableView.reloadData()
+                    }
+                } else if response.code == "U000" {
+                    print("error response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    ReIssueServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.fetchScraps()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    MoveUtils.shared.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                MoveUtils.shared.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("---홈 스크랩 요청 에러---")
+                print("\(error)")
+            }.disposed(by: disposeBag)
     }
     
     @objc private func showVC(notification: NSNotification) {
         if let scrap = notification.object {
             switch notification.name {
             case SparkyNotification.showPreviewDetail:
-                let scrapDetailVC = ScrapDetailVC()
-                scrapDetailVC.modalPresentationStyle = .overFullScreen
-                scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
-                navigationController?.pushViewController(scrapDetailVC, animated: false)
+                let preViewScrapDetailVC = ScrapDetailVC()
+                preViewScrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
+                preViewScrapDetailVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: preViewScrapDetailVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
                 break
             case SparkyNotification.showOtherDetail:
-                let scrapDetailVC = OtherScrapDetailVC()
-                scrapDetailVC.modalPresentationStyle = .overFullScreen
-                scrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
-                navigationController?.pushViewController(scrapDetailVC, animated: false)
+                let otherScrapDetailVC = OtherScrapDetailVC()
+                otherScrapDetailVC.scrap = BehaviorRelay(value: scrap as! Scrap)
+                otherScrapDetailVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: otherScrapDetailVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
                 break
             case SparkyNotification.showPreviewWebView, SparkyNotification.showOtherWebView:
                 let scrapWebViewVC = ScrapWebViewVC()
-                scrapWebViewVC.modalPresentationStyle = .overFullScreen
                 scrapWebViewVC.urlString = (scrap as! Scrap).scrapURLString
-                navigationController?.pushViewController(scrapWebViewVC, animated: false)
+                scrapWebViewVC.dismissVCDelegate = self
+                let nav = UINavigationController(rootViewController: scrapWebViewVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
                 break
             default:
                 break
@@ -342,17 +470,22 @@ extension HomeVC: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: MyScrapPreViewCollectionViewCell.identifier,
                 for: indexPath) as! MyScrapPreViewCollectionViewCell
-            cell.viewModel = myScrapViewModel
-            cell.bindViewModel()
+            cell.viewModel.scraps.values = self.myScrapViewModel.scraps.value
             return cell
         case .otherScrap:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: OtherScrapCollectionViewCell.identifier,
                 for: indexPath) as! OtherScrapCollectionViewCell
-            cell.viewModel = otherScrapViewModel
-            cell.bindViewModel()
+            cell.viewModel.scraps.values = self.otherScrapViewModel.scraps.value
             return cell
         }
+    }
+}
+
+extension HomeVC: DismissVCDelegate {
+    
+    func sendNotification() {
+        self.fetchScraps()
     }
 }
 

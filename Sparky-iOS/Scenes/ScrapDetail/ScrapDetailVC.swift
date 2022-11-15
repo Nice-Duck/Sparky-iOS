@@ -20,6 +20,7 @@ final class ScrapDetailVC: UIViewController {
                                                   thumbnailURLString: "",
                                                   scrapURLString: "",
                                                   tagList: BehaviorRelay(value: [])))
+    weak var dismissVCDelegate: DismissVCDelegate?
     
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
@@ -75,15 +76,20 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private let memoTextViewPlaceHolder = "메모를 입력하세요"
-    private lazy var memoTextView = UITextView().then {
-        $0.text = memoTextViewPlaceHolder
-        $0.font = .bodyRegular1
-        $0.textColor = .sparkyBlack
-        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        $0.layer.cornerRadius = 8
-        $0.showsVerticalScrollIndicator = false
-        $0.delegate = self
-    }
+    private lazy var memoTextView: UITextView = {
+        let tv = UITextView()
+        tv.text = memoTextViewPlaceHolder
+        tv.font = .bodyRegular1
+        tv.textColor = .gray400
+        tv.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = UIColor.gray300.cgColor
+        tv.layer.cornerRadius = 8
+        tv.isScrollEnabled = false
+        tv.translatesAutoresizingMaskIntoConstraints = true
+        tv.delegate = self
+        return tv
+    }()
     
     private let separatorView = UIView().then {
         $0.backgroundColor = .gray200
@@ -94,7 +100,6 @@ final class ScrapDetailVC: UIViewController {
         $0.layer.cornerRadius = 8
         $0.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
         $0.isScrollEnabled = false
-        $0.allowsSelection = false
         $0.sectionHeaderHeight = 0
         $0.sectionFooterHeight = 0
         if #available(iOS 15.0, *) {
@@ -115,17 +120,59 @@ final class ScrapDetailVC: UIViewController {
         $0.isHidden = true
     }
     
+    private let keyboardBoxView = UIView()
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .background
+
+//        scrap.value.tagList.values.append(Tag(tagId: -1,
+//                                              name: "태그추가",
+//                                              color: .clear,
+//                                              buttonType: .add))
+        
+        createObserver()
         subActionTableView.tableFooterView = UIView()
         setupNavBar()
         setupConstraints()
         setupDelegate()
         bindViewModel()
         setupData()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -137,7 +184,8 @@ final class ScrapDetailVC: UIViewController {
                                                target: self,
                                                action: nil)
         navBarBackButton.rx.tap.subscribe { _ in
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: false)
+            self.dismissVCDelegate?.sendNotification()
         }.disposed(by: disposeBag)
         self.navigationItem.leftBarButtonItem = navBarBackButton
         
@@ -255,10 +303,18 @@ final class ScrapDetailVC: UIViewController {
             $0.height.equalTo(200)
         }
         
-        self.view.addSubview(saveButton)
-        saveButton.snp.makeConstraints {
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(0)
+        }
+        
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
@@ -270,11 +326,150 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func bindViewModel() {
-        scrap.value.tagList
-            .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                cell.setupConstraints()
-                cell.setupTagButton(tag: tag)
+        memoTextView.rx.text
+            .subscribe { text in
+                if text != self.memoTextViewPlaceHolder {
+                    let newScrap = Scrap(scrapId: self.scrap.value.scrapId,
+                                         title: self.scrap.value.title,
+                                         subTitle: self.scrap.value.subTitle,
+                                         memo: text ?? "",
+                                         thumbnailURLString: self.scrap.value.thumbnailURLString,
+                                         scrapURLString: self.scrap.value.scrapURLString,
+                                         tagList: self.scrap.value.tagList)
+                    self.scrap.accept(newScrap)
+                }
+            } onError: { error in
+                print("텍스트 뷰 에러 - \(error)")
             }.disposed(by: disposeBag)
+        
+        
+        scrap.value.tagList
+            .bind(to: tagCollectionView.rx.items) { collectionView, row, element in
+                let indexPath = IndexPath(row: row, section: 0)
+                
+                if self.scrap.value.tagList.value[row].tagId != -1 {
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: TagCollectionViewCell.identifier,
+                        for: indexPath) as! TagCollectionViewCell
+                    cell.setupConstraints()
+                    
+                    let tag = self.scrap.value.tagList.value[row]
+                    cell.setupTagButton(tag: tag, pageType: .main)
+                    return cell
+                } else {
+                    let cell = collectionView.dequeueReusableCell(
+                        withReuseIdentifier: TagDottedLineCell.identifier,
+                        for: indexPath) as! TagDottedLineCell
+                    cell.setupConstraints()
+                    cell.setupTagButton()
+                    return cell
+                }
+            }.disposed(by: disposeBag)
+        
+        saveButton.rx.tap
+            .subscribe { _ in
+                print("Scrap detail - \(self.scrap)")
+                var tagIdList = [Int]()
+                for i in 0..<self.scrap.value.tagList.value.count - 1 {
+                    tagIdList.append(self.scrap.value.tagList.value[i].tagId)
+                }
+                let scrapRequest = ScrapRequest(title: self.scrap.value.title,
+                                                subTitle: self.scrap.value.subTitle,
+                                                memo: self.scrap.value.memo,
+                                                imgUrl: self.scrap.value.thumbnailURLString,
+                                                scpUrl: self.scrap.value.scrapURLString,
+                                                tags: tagIdList)
+                
+                HomeServiceProvider.shared
+                    .patchScrap(scrapRequest: scrapRequest, scrapId: self.scrap.value.scrapId)
+                    .map(PostResultResponse.self)
+                    .subscribe { response in
+                        print("code - \(response.code)")
+                        print("message - \(response.message)")
+                        
+                        if response.code == "0000" {
+                            print("스크랩 수정 성공!!")
+                            self.dismiss(animated: false)
+                            self.dismissVCDelegate?.sendNotification()
+                        } else if response.code == "U000" {
+                            print("error response - \(response)")
+                            
+                            if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                TokenUtils().delete("com.sparky.token", account: "accessToken")
+                            }
+                            
+                            ReIssueServiceProvider.shared
+                                .reissueAccesstoken()
+                                .map(ReIssueTokenResponse.self)
+                                .subscribe { response in
+                                    print("code - \(response.code)")
+                                    print("message - \(response.message)")
+                                    
+                                    if response.code == "0000" {
+                                        print("요청 성공!!! - 토큰 재발급")
+                                        if let result = response.result {
+                                            TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                            self.didTapDeleteScrapButton()
+                                        } else {
+                                            print(response.code)
+                                            print("message - \(response.message)")
+                                            print("토큰 재발급 실패!!")
+                                            
+                                            if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                                TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                            }
+                                            
+                                            if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                                TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                            }
+                                            MoveUtils.shared.moveToSignInVC()
+                                        }
+                                    } else {
+                                        print(response.code)
+                                        print("message - \(response.message)")
+                                        print("토큰 재발급 실패!!")
+                                        
+                                        if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                            TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                        }
+                                        
+                                        if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                            TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                        }
+                                        MoveUtils.shared.moveToSignInVC()
+                                    }
+                                } onFailure: { error in
+                                    print("요청 실패 - \(error)")
+                                }.disposed(by: self.disposeBag)
+                        } else {
+                            print("response - \(response)")
+                        }
+                    } onFailure: { error in
+                        print("수정 실패!! - \(error)")
+                    }.disposed(by: self.disposeBag)
+            } onError: { error in
+                print("요청 실패 - \(error)")
+            }.disposed(by: self.disposeBag)
+        memoTextView.rx
+            .didChange
+            .subscribe { [weak self] in
+                guard let self = self else { return }
+                self.autoReSizingTextViewHeight()
+            } onError: { error in
+                print(error)
+            }.disposed(by: disposeBag)
+    }
+    
+    func autoReSizingTextViewHeight() {
+        let size = CGSize(width: self.memoTextView.frame.width, height: .infinity)
+        let estimatedSize = self.memoTextView.sizeThatFits(size)
+        self.memoTextView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                if estimatedSize.height >= 100 {
+                    constraint.constant = estimatedSize.height
+                }
+            }
+        }
     }
     
     private func presentTagBottomSheetVC() {
@@ -283,23 +478,6 @@ final class ScrapDetailVC: UIViewController {
         tagBottomSheetVC.modalPresentationStyle = .overFullScreen
         self.present(tagBottomSheetVC, animated: false)
     }
-    
-    //    func convertToNoneType(tagList: [Tag]) -> [Tag] {
-    //        if tagList.isEmpty {
-    //            return []
-    //        }
-    //
-    //        var newTagList = tagList
-    //        if newTagList[newTagList.count - 1].buttonType == .add { newTagList.removeLast() }
-    //
-    //        for i in 0..<newTagList.count {
-    //            newTagList[i] = Tag(text: newTagList[i].text,
-    //                                backgroundColor: newTagList[i].backgroundColor,
-    //                                buttonType: .none)
-    //        }
-    //        return newTagList
-    //    }
-    
     
     private func setupData() {
         scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: scrap.value.thumbnailURLString))
@@ -324,6 +502,76 @@ final class ScrapDetailVC: UIViewController {
         return newTagList
     }
     
+    private func didTapDeleteScrapButton() {
+        HomeServiceProvider.shared
+            .removeScrap(scrapId: scrap.value.scrapId)
+            .map(PostResultResponse.self)
+            .subscribe { response in
+                print("code - \(response.code)")
+                print("message - \(response.message)")
+                
+                if response.code == "0000" {
+                    print("스크랩 삭제 성공!!")
+                    self.dismiss(animated: false)
+                    self.dismissVCDelegate?.sendNotification()
+                } else if response.code == "U000" {
+                    print("error response - \(response)")
+                    
+                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                    }
+                    
+                    ReIssueServiceProvider.shared
+                        .reissueAccesstoken()
+                        .map(ReIssueTokenResponse.self)
+                        .subscribe { response in
+                            print("code - \(response.code)")
+                            print("message - \(response.message)")
+                            
+                            if response.code == "0000" {
+                                print("요청 성공!!! - 토큰 재발급")
+                                if let result = response.result {
+                                    TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
+                                    self.didTapDeleteScrapButton()
+                                } else {
+                                    print(response.code)
+                                    print("message - \(response.message)")
+                                    print("토큰 재발급 실패!!")
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                    }
+                                    
+                                    if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                        TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                    }
+                                    MoveUtils.shared.moveToSignInVC()
+                                }
+                            } else {
+                                print(response.code)
+                                print("message - \(response.message)")
+                                print("토큰 재발급 실패!!")
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "accessToken")
+                                }
+                                
+                                if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
+                                    TokenUtils().delete("com.sparky.token", account: "refreshToken")
+                                }
+                                MoveUtils.shared.moveToSignInVC()
+                            }
+                        } onFailure: { error in
+                            print("요청 실패 - \(error)")
+                        }.disposed(by: self.disposeBag)
+                } else {
+                    print("response - \(response)")
+                }
+            } onFailure: { error in
+                print("스크랩 삭제 실패!! - \(error)")
+            }.disposed(by: disposeBag)
+    }
+    
     @objc private func didTapEditButton() {
         scrap.value.tagList.values = convertToDeleteType(tagList: scrap.value.tagList.value)
         
@@ -346,9 +594,11 @@ final class ScrapDetailVC: UIViewController {
             memoTextView.text = memoTextViewPlaceHolder
             memoTextView.layer.borderWidth = 1
             memoTextView.layer.borderColor = UIColor.gray300.cgColor
+            memoTextView.textColor = .gray400
         } else {
             memoTextView.layer.borderWidth = 1
             memoTextView.layer.borderColor = UIColor.sparkyBlack.cgColor
+            memoTextView.textColor = .sparkyBlack
         }
         memoTextView.isUserInteractionEnabled = true
         saveButton.isHidden = false
@@ -382,38 +632,50 @@ extension ScrapDetailVC: NewTagCVDelegate {
     }
 }
 
-extension ScrapDetailVC: UITableViewDataSource, UITableViewDelegate {
+extension ScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-//        return 2
+        //        return 2
         return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if section == 0 {
-//            return 2
-//        } else {
-            return 1
-//        }
+        //        if section == 0 {
+        //            return 2
+        //        } else {
+        return 1
+        //        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubActionTableViewCell.identifier,
                                                  for: indexPath) as! SubActionTableViewCell
-//        if indexPath.section == 0 {
-//            if indexPath.row == 0 {
-//                cell.actionLabel.text = "공유하기"
-//            } else {
-//                cell.actionLabel.text = "URL 복사하기"
-//            }
-//        } else {
-            cell.actionLabel.text = "삭제하기"
-            cell.actionLabel.textColor = .sparkyOrange
-//        }
+        //        if indexPath.section == 0 {
+        //            if indexPath.row == 0 {
+        //                cell.actionLabel.text = "공유하기"
+        //            } else {
+        //                cell.actionLabel.text = "URL 복사하기"
+        //            }
+        //        } else {
+        cell.actionLabel.text = "삭제하기"
+        cell.actionLabel.textColor = .sparkyOrange
+        cell.selectionStyle = .none
+        //        }
         return cell
+    }
+}
+
+extension ScrapDetailVC: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                self.didTapDeleteScrapButton()
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

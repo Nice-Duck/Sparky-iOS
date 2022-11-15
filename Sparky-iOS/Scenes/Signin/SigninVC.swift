@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Then
 import RxSwift
+import Lottie
 
 final class SignInVC: UIViewController {
     
@@ -17,11 +18,19 @@ final class SignInVC: UIViewController {
     let viewModel = EmailSignInViewModel()
     let disposeBag = DisposeBag()
     
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+        $0.isHidden = true
+    }
+
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        setupLottieView()
         setupConstraints()
         bindViewModel()
     }
@@ -30,6 +39,14 @@ final class SignInVC: UIViewController {
         super.viewWillAppear(animated)
         
         self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -141,19 +158,22 @@ final class SignInVC: UIViewController {
             .disposed(by: disposeBag)
         
         emailSignInView.signInButton.rx.tap.asDriver()
-            .throttle(.seconds(5), latest: false)
+            .throttle(.seconds(3), latest: false)
             .drive { _ in
                 let emailSignInRequest = EmailSignInRequest(email: self.emailSignInView.emailTextField.text ?? "",
                                                             pwd: self.emailSignInView.passwordTextField.text ?? "")
                 
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
-                    
+                
+                self.lottieView.isHidden = false
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignUpResponse.self)
                     .subscribe { response in
                         if response.code == "0000" {
+                            self.lottieView.isHidden = true
+                            
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             print("🔑 accessToken - \(response.result?.accessToken ?? "")")
@@ -175,7 +195,7 @@ final class SignInVC: UIViewController {
                                 } else { print("토큰이 존재하지 않습니다!") }
                                 
                                 print("로그인 성공!")
-                                self.moveToHomeVC()
+                                MoveUtils.shared.moveToHomeVC()
                             }
                         } else {
                             print("code - \(response.code)")
@@ -185,35 +205,21 @@ final class SignInVC: UIViewController {
                         print(error)
                     }.disposed(by: self.disposeBag)
                 
-                
-                //                { response in
-                //                    print("response - \(response)")
-                ////                    switch response {
-                ////                    case .success():
-                //                        let homeVC = HomeVC()
-                //                        self.navigationController?.pushViewController(homeVC, animated: true)
-                ////                    case .failure():
-                ////                        print("error - \(error)")
-                ////                    }
-                //                }
-                //
-                //            } else { print("Invalid Email or Password!") }
             }.disposed(by: disposeBag)
         
-        emailSignInView.signUpButton.rx.tap.subscribe { _ in
+        emailSignInView.signUpButton.rx.tap
+            .subscribe { _ in
             let signUpVC1 = SignUpVC1()
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.pushViewController(signUpVC1, animated: true)
         }.disposed(by: disposeBag)
-    }
-    
-    private func moveToHomeVC() {
-        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController = SparkyTabBarController()
-
-//        guard let nc = self.navigationController else { return }
-//        var vcs = nc.viewControllers
-//        vcs = [SparkyTabBarController()]
-//        self.navigationController?.viewControllers = vcs
+        
+        emailSignInView.passwordSearchButton.rx.tap
+            .subscribe { _ in
+                let findPasswordVC1 = FindPasswordVC1()
+                self.navigationController?.navigationBar.isHidden = false
+                self.navigationController?.pushViewController(findPasswordVC1, animated: true)
+            }.disposed(by: disposeBag)
     }
 }
 

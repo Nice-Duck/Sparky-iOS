@@ -29,8 +29,8 @@ final class MyLargeImageLayoutCell: UICollectionViewCell {
     var bottomContainerView = UIView()
     let thumbnailImageView = UIImageView().then {
         $0.image = UIImage(named: "vector")
-        $0.contentMode = .scaleToFill
         $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true
     }
     
     let titleLabel = CustomVAlignLabel().then {
@@ -117,7 +117,7 @@ final class MyLargeImageLayoutCell: UICollectionViewCell {
     
     func setDidTapScrapDetailButton() {
         scrapDetailButton.rx.tap
-            .throttle(.seconds(5), scheduler: MainScheduler.instance)
+            .throttle(.seconds(3), scheduler: MainScheduler.instance)
             .subscribe { _ in
                 NotificationCenter.default.post(name: SparkyNotification.sendMyScrapDetailIndex, object: self.scrapDetailButton.tag)
             }.disposed(by: disposeBag)

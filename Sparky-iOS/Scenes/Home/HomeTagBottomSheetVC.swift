@@ -26,11 +26,10 @@ final class HomeTagBottomSheetVC: UIViewController {
         $0.layer.cornerRadius = 16
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         $0.clipsToBounds = true
-//        $0.setKeyboardObserver()
     }
     
     private var tagBottomSheetTopConstraint: NSLayoutConstraint!
-    private let defaultTagBottomSheetHeight: CGFloat = 500
+    private let defaultTagBottomSheetHeight: CGFloat = 384
     
     private let customNavBar = SparkyNavBar().then {
         $0.backgroundColor = .white
@@ -94,7 +93,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         $0.font = .badgeBold
         $0.textAlignment = .center
         $0.textColor = .gray700
-        $0.backgroundColor = .colorchip3
+        $0.backgroundColor = UIColor.randomHexColor()
         $0.layer.cornerRadius = 8
         $0.layer.masksToBounds = true
     }
@@ -114,15 +113,19 @@ final class HomeTagBottomSheetVC: UIViewController {
         $0.backgroundColor = .sparkyWhite
     }
     
+    private let keyboardBoxView = UIView()
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        
+        tagTextField.becomeFirstResponder()
+        
         setupNavBar()
         setupConstraints()
-        //        bindViewModel()
-        //        setupDelegate()
+        bindViewModel()
         setupDimmendTabGesture()
         setupNewTagTapGuesture()
     }
@@ -130,9 +133,56 @@ final class HomeTagBottomSheetVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        setKeyboardObserver()
+        createObserver()
         fetchRecentTagList()
-        bindViewModel()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showTagBottomSheet()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+            let bottomPadding: CGFloat = view.safeAreaInsets.bottom
+            
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom
+                    tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight - constraint.constant
+                    
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
+        let bottomPadding: CGFloat = view.safeAreaInsets.bottom
+        
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+                tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight
+            }
+        }
     }
     
     private func fetchRecentTagList() {
@@ -153,14 +203,16 @@ final class HomeTagBottomSheetVC: UIViewController {
                     response.result?.tagResponses.forEach { tagResponse in
                         let newTag = Tag(tagId: tagResponse.tagId,
                                          name: tagResponse.name,
-                                         color: .colorchip8,
+                                         color: UIColor(hexaRGB: tagResponse.color ?? "0xFFDDDA") ?? .colorchip1,
                                          buttonType: .none)
                         newTagList.append(newTag)
                     }
-                    self.viewModel.recentTagList = BehaviorRelay<[Tag]>(value: newTagList)
+                    self.viewModel.recentTagList.values = newTagList
+                    self.viewModel.filterTagList.values = self.viewModel.recentTagList.value
+                    self.tagTextField.resignFirstResponder()
+                    self.tagTextField.becomeFirstResponder()
                     print("tagList - \(self.viewModel.recentTagList.value)")
-                    //                    self.setupDelegate()
-                    //                    self.bindViewModel()
+                    
                 } else if response.code == "U000" {
                     print("response - \(response)")
                     
@@ -192,7 +244,7 @@ final class HomeTagBottomSheetVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    self.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC()
                                 }
                             } else {
                                 print(response.code)
@@ -206,7 +258,7 @@ final class HomeTagBottomSheetVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                self.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC()
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -220,16 +272,6 @@ final class HomeTagBottomSheetVC: UIViewController {
             }.disposed(by: disposeBag)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        showTagBottomSheet()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
     private func setupNavBar() {
         navCancelButtonItem.rx.tap.subscribe { _ in
             self.dismissTagBottomSheetVC()
@@ -238,7 +280,6 @@ final class HomeTagBottomSheetVC: UIViewController {
         customNavItem.titleView = navTitleLabel
         customNavItem.leftBarButtonItem = navCancelButtonItem
         customNavBar.setItems([customNavItem], animated: false)
-        //        customNavBar.layoutIfNeeded()
     }
     
     private func setupConstraints() {
@@ -250,6 +291,14 @@ final class HomeTagBottomSheetVC: UIViewController {
             $0.right.equalTo(view)
         }
         
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.left.equalTo(view.safeAreaLayoutGuide)
+            $0.right.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(0)
+        }
+        
         let topConstant = view.safeAreaLayoutGuide.layoutFrame.height + view.safeAreaInsets.bottom
         tagBottomSheetTopConstraint = tagBottomSheetView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstant)
         
@@ -257,7 +306,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         tagBottomSheetTopConstraint.isActive = true
         tagBottomSheetView.snp.makeConstraints {
             $0.left.equalTo(view)
-            $0.bottom.equalTo(view)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view)
         }
         
@@ -275,7 +324,7 @@ final class HomeTagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagBottomSheetView).offset(-20)
         }
         
-        view.addSubview(tagContainerView)
+        tagBottomSheetView.addSubview(tagContainerView)
         tagContainerView.snp.makeConstraints {
             $0.top.equalTo(tagTextField.snp.bottom).offset(16)
             $0.left.equalTo(tagBottomSheetView).offset(20)
@@ -297,7 +346,7 @@ final class HomeTagBottomSheetVC: UIViewController {
             $0.right.equalTo(tagContainerView)
         }
         
-        view.addSubview(noDataContainerView)
+        tagBottomSheetView.addSubview(noDataContainerView)
         noDataContainerView.snp.makeConstraints {
             $0.top.equalTo(tagTextField.snp.bottom)
             $0.left.equalTo(tagBottomSheetView).offset(20)
@@ -329,9 +378,6 @@ final class HomeTagBottomSheetVC: UIViewController {
     }
     
     private func bindViewModel() {
-        //        recentTagCollectionView.dataSource = nil
-        //        recentTagCollectionView.delegate = nil
-        
         viewModel.filterTagList.values = viewModel.recentTagList.value
         print("recentTagList - \(viewModel.filterTagList.values)")
         print("filterList - \(viewModel.filterTagList.values)")
@@ -343,12 +389,14 @@ final class HomeTagBottomSheetVC: UIViewController {
                 }
                 
                 cell.setupConstraints()
-                cell.setupTagButton(tag: tag)
+                cell.setupTagButton(tag: tag, pageType: .main)
             }.disposed(by: disposeBag)
         
         recentTagCollectionView.rx
             .itemSelected
             .subscribe(onNext: { indexPath in
+                self.tagTextField.resignFirstResponder()
+                
                 self.newTagCVDelegate?.sendNewTagList(tag: self.viewModel.filterTagList.value[indexPath.row])
                 self.dismissTagBottomSheetVC()
             }).disposed(by: disposeBag)
@@ -376,7 +424,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
         let bottomPadding: CGFloat = view.safeAreaInsets.bottom
         
-        tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight
+//        tagBottomSheetTopConstraint.constant = (safeAreaHeight + bottomPadding) - defaultTagBottomSheetHeight
         UIView.animate(withDuration: 0.25,
                        delay: 0,
                        options: .curveEaseIn,
@@ -390,6 +438,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         dimmedView.isUserInteractionEnabled = true
         
         dimmedTap.rx.event.subscribe { _ in
+            self.tagTextField.resignFirstResponder()
             self.dismissTagBottomSheetVC()
         }.disposed(by: disposeBag)
     }
@@ -411,65 +460,39 @@ final class HomeTagBottomSheetVC: UIViewController {
     private func setupNewTagTapGuesture() {
         newTagStackView.rx
             .tapGesture()
-            .throttle(.seconds(5), scheduler: MainScheduler.instance)
+            .throttle(.seconds(3), scheduler: MainScheduler.instance)
             .when(.recognized)
             .subscribe(onNext: { _ in
                 if let text = self.newTagLabel.text, text != "" {
                     let tagRequest = TagRequst(tag: text,
-                                               color: "#E6DBE0")
+                                               color: self.newTagLabel.backgroundColor?.toHexString() ?? "#E6DBE0")
                     
                     HomeServiceProvider.shared
                         .saveTag(tagRequst: tagRequest)
-                        .map(PostResultResponse.self)
+                        .map(TagSaveResponse.self)
                         .subscribe { response in
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             if response.code == "0000" {
                                 print("---요청 성공!!!---")
-                                self.fetchRecentTagList()
+                                self.tagTextField.resignFirstResponder()
+                                
+                                let tagSaveResponse = response.result
+                                print("color - \(tagSaveResponse.color)")
+                                let newTag = Tag(tagId: tagSaveResponse.tagId,
+                                                 name: tagSaveResponse.name,
+                                                 color: UIColor(hexaRGB: tagSaveResponse.color ?? "#E6DBE0") ?? .colorchip1,
+                                                 buttonType: .none)
+                                
+                                self.newTagCVDelegate?.sendNewTagList(tag: newTag)
+                                self.dismissTagBottomSheetVC()
                             } else {
                                 print("---요청 실패!!!---")
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
-                    
-                    
-                    
-                    self.tagTextField.text = ""
-                    self.tagTextField.resignFirstResponder()
-                    self.tagTextField.becomeFirstResponder()
-                    self.tagContainerView.isHidden = false
-                    self.noDataContainerView.isHidden = true
                 }
             }).disposed(by: disposeBag)
     }
-    
-    private func moveToSignInVC() {
-        guard let nc = self.navigationController else { return }
-        var vcs = nc.viewControllers
-        vcs = [SignInVC()]
-        self.navigationController?.viewControllers = vcs
-    }
-    
-    
-    //    func convertToDeleteType(tagList: [Tag]) -> [Tag] {
-    //        var newTagList = tagList
-    //        for i in 0..<newTagList.count {
-    //            newTagList[i] = Tag(tagId: tagList,
-    //                                name: <#T##String#>,
-    //                                color: <#T##UIColor#>,
-    //                                buttonType: <#T##ButtonType#>)
-    //            Tag(
-    //                text: newTagList[i].text,
-    //                                backgroundColor: newTagList[i].backgroundColor,
-    //                                buttonType: .delete)
-    //        }
-    //
-    //        let addButtonTag = Tag(text: "태그추가",
-    //                               backgroundColor: .clear,
-    //                               buttonType: .add)
-    //        newTagList.append(addButtonTag)
-    //        return newTagList
-    //    }
 }

@@ -31,8 +31,12 @@ class TagCollectionView: UICollectionView {
     }
     
     private func setupUI() {
+        backgroundColor = .sparkyWhite
+        
         self.register(TagCollectionViewCell.self,
                       forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
+        self.register(TagDottedLineCell.self,
+                      forCellWithReuseIdentifier: TagDottedLineCell.identifier)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 }
