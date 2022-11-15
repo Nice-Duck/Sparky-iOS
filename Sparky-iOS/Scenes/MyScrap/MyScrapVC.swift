@@ -21,6 +21,7 @@ final class MyScrapVC: UIViewController {
     private let scrapViewModel = ScrapViewModel()
     private let disposeBag = DisposeBag()
     private var selectedButtonType = BehaviorRelay<SetViewButtonType>(value: SetViewButtonType.horizontal)
+    private var filterTagIdList = [Int]()
     
     private let lottieView: LottieAnimationView = .init(name: "lottie").then {
         $0.loopMode = .loop
@@ -280,6 +281,7 @@ final class MyScrapVC: UIViewController {
                     withReuseIdentifier: MyHorizontalLayoutCell.identifier,
                     for: indexPath) as! MyHorizontalLayoutCell
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.scrapViewModel.scraps.value[row])
                 
                 cell.tagCollectionView.delegate = nil
@@ -299,6 +301,7 @@ final class MyScrapVC: UIViewController {
                     withReuseIdentifier: MyLargeImageLayoutCell.identifier,
                     for: indexPath) as! MyLargeImageLayoutCell
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.scrapViewModel.scraps.value[row])
                 
                 cell.tagCollectionView.delegate = nil
@@ -319,14 +322,14 @@ final class MyScrapVC: UIViewController {
             .subscribe { _ in
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .gray400
-                self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
+                self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
                 self.scrapViewModel.scraps.accept(self.scrapViewModel.scraps.value)
             }.disposed(by: disposeBag)
         myScrapSectionView.setLargeImageViewButton.rx.tap
             .subscribe { _ in
                 self.myScrapSectionView.setLargeImageViewButton.tintColor = .sparkyBlack
                 self.myScrapSectionView.setHorizontalViewButton.tintColor = .gray400
-                self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.largeImage)
+                self.selectedButtonType = BehaviorRelay(value: SetViewButtonType.horizontal)
                 self.scrapViewModel.scraps.accept(self.scrapViewModel.scraps.value)
             }.disposed(by: disposeBag)
         
@@ -340,7 +343,14 @@ final class MyScrapVC: UIViewController {
                         break
                         
                     default:
+                        self.filterTagIdList.remove(at: indexPath.row - 1)
                         self.filterTagViewModel.filterTagList.remove(at: indexPath.row)
+                        
+                        let scrapSearchRequest = ScrapSearchRequest(
+                            tags: self.filterTagIdList,
+                            title: self.scrapTextField.text ?? "",
+                            type: 1)
+                        self.searchScrap(scrapSearchRequest: scrapSearchRequest)
                         break
                     }
                 }
@@ -477,11 +487,9 @@ final class MyScrapVC: UIViewController {
     }
     
     @objc private func returnTabGesture() {
-        let scrapSearchRequest = ScrapSearchRequest(tags: [],
+        let scrapSearchRequest = ScrapSearchRequest(tags: filterTagIdList,
                                                     title: scrapTextField.text ?? "",
                                                     type: 1)
-//        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
-//                                      type: 1)
         searchScrap(scrapSearchRequest: scrapSearchRequest)
     }
     
@@ -529,17 +537,15 @@ extension MyScrapVC: NewTagCVDelegate {
         }) {
             filterTagViewModel.filterTagList.append(newTag)
             
-            var newTagIdList = [Int]()
-            
             for i in 0..<self.filterTagViewModel.filterTagList.value.count {
                 if self.filterTagViewModel.filterTagList.value[i].tagId != -1 {
-                    newTagIdList.append(filterTagViewModel.filterTagList.value[i].tagId)
+                    filterTagIdList.append(filterTagViewModel.filterTagList.value[i].tagId)
                 }
             }
             print("filter 리스트 - \(filterTagViewModel.filterTagList.value)")
             
             let scrapSearchRequest = ScrapSearchRequest(
-                tags: newTagIdList,
+                tags: filterTagIdList,
                 title: scrapTextField.text ?? "",
                 type: 1)
             searchScrap(scrapSearchRequest: scrapSearchRequest)

@@ -1,19 +1,19 @@
 //
-//  SignUpVC1.swift
+//  FindPasswordVC3.swift
 //  Sparky-iOS
 //
-//  Created by SeungMin on 2022/09/27.
+//  Created by SeungMin on 2022/11/15.
 //
-
 
 import UIKit
 import RxSwift
 import Lottie
 
-class SignUpVC1: UIViewController {
+class FindPasswordVC3: UIViewController {
     
     // MARK: - Properties
-    let viewModel = SignUpViewModel()
+    var email: String? = nil
+    var viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
     private let lottieView: LottieAnimationView = .init(name: "lottie").then {
@@ -27,16 +27,20 @@ class SignUpVC1: UIViewController {
         $0.backgroundColor = .gray200
     }
     
+    private let progressBar = UIView().then {
+        $0.backgroundColor = .sparkyBlack
+    }
+    
     private let titleLabel = UILabel().then {
-        $0.text = "이메일을 입력해주세요"
+        $0.text = "비밀번호를 입력해주세요"
         $0.font = .subTitleBold3
         $0.textColor = .sparkyBlack
     }
     
-    private let emailTextField = UITextField().then {
+    private let passwordTextField = UITextField().then {
         $0.font = .bodyRegular2
         $0.textColor = .sparkyBlack
-        $0.attributedPlaceholder(text: "이메일을 입력해주세요",
+        $0.attributedPlaceholder(text: "비밀번호를 입력해주세요",
                                  color: .gray400,
                                  font: .bodyRegular2)
         $0.layer.borderWidth = 1
@@ -44,18 +48,30 @@ class SignUpVC1: UIViewController {
         $0.layer.cornerRadius = 8
         $0.setLeftPadding(20)
         $0.clearButtonMode = .whileEditing
+        $0.isSecureTextEntry = true
+    }
+    
+    private let textStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 12
     }
     
     private let errorLabel = UILabel().then {
-        $0.text = "올바르지 않은 이메일 형식입니다."
+        $0.text = "올바르지 않은 비밀번호 형식입니다."
         $0.font = .bodyRegular2
         $0.textColor = .sparkyOrange
         $0.isHidden = true
     }
     
+    private let conditionLabel = UILabel().then {
+        $0.text = "영문/숫자포함 8~20자"
+        $0.font = .bodyRegular2
+        $0.textColor = .sparkyBlack
+    }
+    
     private let nextButton = UIButton().then {
-        $0.setTitle("인증메일 받기", for: .normal)
-        $0.setTitleColor(.sparkyWhite, for: .normal)
+        $0.setTitle("다음", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .bodyBold2
         $0.layer.cornerRadius = 8
         $0.backgroundColor = .sparkyBlack
@@ -125,7 +141,7 @@ class SignUpVC1: UIViewController {
         
         backButton.tintColor = .black
         navigationItem.leftBarButtonItem = backButton
-        title = "회원 가입"
+        title = "비밀번호 찾기"
         titleLabel.font = .subTitleBold1
     }
     
@@ -138,25 +154,36 @@ class SignUpVC1: UIViewController {
             $0.height.equalTo(2)
         }
         
+        navigationEdgeBar.addSubview(progressBar)
+        progressBar.snp.makeConstraints {
+            $0.top.equalTo(progressBar.snp.top)
+            $0.left.equalTo(progressBar.snp.left)
+            $0.height.equalTo(2)
+            $0.width.equalTo(view.frame.size.width * 2 / 3)
+        }
+        
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(navigationEdgeBar.snp.bottom).offset(60)
             $0.left.equalTo(view).offset(20)
         }
         
-        view.addSubview(emailTextField)
-        emailTextField.snp.makeConstraints {
+        view.addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20)
             $0.left.equalTo(view).offset(20)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
         
-        view.addSubview(errorLabel)
-        errorLabel.snp.makeConstraints {
-            $0.top.equalTo(emailTextField.snp.bottom).offset(12)
+        view.addSubview(textStackView)
+        textStackView.snp.makeConstraints {
+            $0.top.equalTo(passwordTextField.snp.bottom).offset(12)
             $0.left.equalTo(view).offset(20)
         }
+        
+        textStackView.addArrangedSubview(errorLabel)
+        textStackView.addArrangedSubview(conditionLabel)
         
         view.addSubview(keyboardBoxView)
         keyboardBoxView.snp.makeConstraints {
@@ -176,85 +203,49 @@ class SignUpVC1: UIViewController {
     }
     
     private func bindViewModel() {
-        emailTextField.rx.text
+        passwordTextField.rx.text
             .orEmpty
             .bind(to: viewModel.valueObserver)
             .disposed(by: disposeBag)
         
-        viewModel.isValid(regexType: .email)
+        viewModel.isValid(regexType: .password)
             .map { $0 == .none ? UIColor.gray300.cgColor : $0 == .valid ? UIColor.sparkyBlack.cgColor : UIColor.sparkyOrange.cgColor }
-            .bind(to: emailTextField.layer.rx.borderColor)
+            .bind(to: passwordTextField.layer.rx.borderColor)
             .disposed(by: disposeBag)
         
-        viewModel.isValid(regexType: .email)
+        viewModel.isValid(regexType: .password)
             .map { $0 == .none || $0 == .valid ? true : false }
             .bind(to: errorLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-        viewModel.isValid(regexType: .email)
-            .map { $0 == .none || $0 == .valid ? "" : "올바르지 않은 이메일 형식입니다." }
-            .bind(to: errorLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.isValid(regexType: .email)
-            .map{ $0 == .valid }
+        viewModel.isValid(regexType: .password)
+            .map { $0 == .valid }
             .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        viewModel.isValid(regexType: .email)
+        viewModel.isValid(regexType: .password)
             .map { $0 == .valid ? .sparkyBlack : .gray300 }
             .bind(to: nextButton.rx.backgroundColor)
             .disposed(by: disposeBag)
         
-        nextButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
-            .drive { _ in
-                self.emailTextField.resignFirstResponder()
+        nextButton.rx.tap
+            .throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance)
+            .subscribe { _ in
+                self.passwordTextField.resignFirstResponder()
                 
-                guard let email = self.emailTextField.text else { return }
-                self.lottieView.isHidden = false
-                UserServiceProvider.shared
-                    .signUpEmailDuplicate(email: email)
-                    .map(EmailSignUpResponse.self)
-                    .subscribe { response in
-                        print("code - \(response.code)")
-                        print("message - \(response.message)")
-                        
-                        if response.code == "0000" {
-                            let emailSendRequest = EmailSendRequest(email: email)
-                            UserServiceProvider.shared
-                                .signUpEmailSend(emailSendRequest: emailSendRequest)
-                                .map(PostResultResponse.self)
-                                .subscribe { response in
-                                    print("code - \(response.code)")
-                                    print("message - \(response.message)")
-                                    
-                                    if response.code == "0000" {
-                                        self.lottieView.isHidden = true
-                                        
-                                        let signUpVC2 = SignUpVC2()
-                                        signUpVC2.email = email
-                                        self.navigationController?.pushViewController(signUpVC2, animated: true)
-                                    } else {
-                                        self.lottieView.isHidden = true
-                                    }
-                                } onFailure: { error in
-                                    print(error)
-                                }.disposed(by: self.disposeBag)
-                        } else if response.code == "0001" {
-                            self.lottieView.isHidden = true
-                            self.emailTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
-                            self.errorLabel.text = response.message
-                            self.errorLabel.isHidden = false
-                        }
-                    } onFailure: { error in
-                        print(error)
-                    }.disposed(by: self.disposeBag)
-            }
-            .disposed(by: disposeBag)
+                guard let email = self.email else { return }
+                guard let password = self.passwordTextField.text else { return }
+                
+                let findPasswordVC4 = FindPasswordVC4()
+                findPasswordVC4.email = email
+                findPasswordVC4.password = password
+                self.navigationController?.pushViewController(findPasswordVC4, animated: true)
+            }.disposed(by: disposeBag)
     }
+
     
     @objc private func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
     }
 }
+

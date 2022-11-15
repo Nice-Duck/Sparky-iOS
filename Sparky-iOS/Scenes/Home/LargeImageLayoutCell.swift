@@ -29,8 +29,8 @@ final class LargeImageLayoutCell: UICollectionViewCell {
     var bottomContainerView = UIView()
     let thumbnailImageView = UIImageView().then {
         $0.image = UIImage(named: "vector")
-        $0.contentMode = .scaleToFill
         $0.layer.cornerRadius = 4
+        $0.clipsToBounds = true
     }
     
     let titleLabel = CustomVAlignLabel().then {

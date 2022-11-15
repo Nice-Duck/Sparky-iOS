@@ -265,6 +265,8 @@ class SignUpVC4: UIViewController {
                                                            nickname: nickname)
                             self.navigationController?.pushViewController(signUpVC5, animated: true)
                         } else if response.code == "0001" {
+                            self.lottieView.isHidden = true
+                            
                             self.nicknameTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             self.errorLabel.text = response.message
                             self.errorLabel.isHidden = false

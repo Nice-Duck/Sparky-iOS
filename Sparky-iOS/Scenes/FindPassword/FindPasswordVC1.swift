@@ -1,16 +1,15 @@
 //
-//  SignUpVC1.swift
+//  FindPasswordVC1.swift
 //  Sparky-iOS
 //
-//  Created by SeungMin on 2022/09/27.
+//  Created by SeungMin on 2022/11/15.
 //
-
 
 import UIKit
 import RxSwift
 import Lottie
 
-class SignUpVC1: UIViewController {
+class FindPasswordVC1: UIViewController {
     
     // MARK: - Properties
     let viewModel = SignUpViewModel()
@@ -108,7 +107,7 @@ class SignUpVC1: UIViewController {
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         self.keyboardBoxView.constraints.forEach { constraint in
             if constraint.firstAttribute == .height {
@@ -125,7 +124,7 @@ class SignUpVC1: UIViewController {
         
         backButton.tintColor = .black
         navigationItem.leftBarButtonItem = backButton
-        title = "회원 가입"
+        title = "비밀 번호 찾기"
         titleLabel.font = .subTitleBold1
     }
     
@@ -212,49 +211,36 @@ class SignUpVC1: UIViewController {
                 self.emailTextField.resignFirstResponder()
                 
                 guard let email = self.emailTextField.text else { return }
+                let emailSendRequest = EmailSendRequest(email: email)
+                
+                print("email - \(email)")
+                
                 self.lottieView.isHidden = false
                 UserServiceProvider.shared
-                    .signUpEmailDuplicate(email: email)
-                    .map(EmailSignUpResponse.self)
+                    .signUpEmailSend(emailSendRequest: emailSendRequest)
+                    .map(PostResultResponse.self)
                     .subscribe { response in
                         print("code - \(response.code)")
                         print("message - \(response.message)")
                         
                         if response.code == "0000" {
-                            let emailSendRequest = EmailSendRequest(email: email)
-                            UserServiceProvider.shared
-                                .signUpEmailSend(emailSendRequest: emailSendRequest)
-                                .map(PostResultResponse.self)
-                                .subscribe { response in
-                                    print("code - \(response.code)")
-                                    print("message - \(response.message)")
-                                    
-                                    if response.code == "0000" {
-                                        self.lottieView.isHidden = true
-                                        
-                                        let signUpVC2 = SignUpVC2()
-                                        signUpVC2.email = email
-                                        self.navigationController?.pushViewController(signUpVC2, animated: true)
-                                    } else {
-                                        self.lottieView.isHidden = true
-                                    }
-                                } onFailure: { error in
-                                    print(error)
-                                }.disposed(by: self.disposeBag)
-                        } else if response.code == "0001" {
                             self.lottieView.isHidden = true
-                            self.emailTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
-                            self.errorLabel.text = response.message
-                            self.errorLabel.isHidden = false
+                            
+                            let findPasswordVC2 = FindPasswordVC2()
+                            findPasswordVC2.email = email
+                            self.navigationController?.pushViewController(findPasswordVC2, animated: true)
+                        } else {
+                            self.lottieView.isHidden = true
+                            print("요청 실패!!!")
                         }
                     } onFailure: { error in
-                        print(error)
+                        print("요청 실패!!! - \(error)")
                     }.disposed(by: self.disposeBag)
-            }
-            .disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     
     @objc private func didTapBackButton() {
         self.navigationController?.popViewController(animated: true)
     }
 }
+

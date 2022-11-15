@@ -25,7 +25,6 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                                   collectionViewLayout: flowlayout)
         cv.isScrollEnabled = false
         cv.backgroundColor = .background
-        cv.layer.cornerRadius = 8
         cv.showsVerticalScrollIndicator = false
         cv.register(HalfLayoutCell.self,
                     forCellWithReuseIdentifier: HalfLayoutCell.identifier)
@@ -109,6 +108,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     for: indexPath) as! HalfLayoutCell
                 
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
@@ -128,6 +128,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     for: indexPath) as! HorizontalLayoutCell
                 
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil
@@ -147,6 +148,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                     for: indexPath) as! LargeImageLayoutCell
                 
                 cell.backgroundColor = .white
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: self.viewModel.scraps.value[row])
                 cell.tagCollectionView.delegate = nil
                 cell.tagCollectionView.dataSource = nil

@@ -1,16 +1,15 @@
 //
-//  SignUpVC2.swift
+//  FindPasswordVC2.swift
 //  Sparky-iOS
 //
-//  Created by SeungMin on 2022/09/29.
+//  Created by SeungMin on 2022/11/15.
 //
 
 import UIKit
 import RxSwift
-import RxCocoa
 import Lottie
 
-class SignUpVC2: UIViewController {
+class FindPasswordVC2: UIViewController {
     
     // MARK: - Properties
     var email: String? = nil
@@ -23,7 +22,6 @@ class SignUpVC2: UIViewController {
         $0.play()
         $0.isHidden = true
     }
-
     
     private let navigationEdgeBar = UIView().then {
         $0.backgroundColor = .gray200
@@ -121,7 +119,7 @@ class SignUpVC2: UIViewController {
         
         backButton.tintColor = .black
         navigationItem.leftBarButtonItem = backButton
-        title = "회원 가입"
+        title = "비밀번호 찾기"
         titleLabel.font = .subTitleBold1
     }
     
@@ -271,12 +269,11 @@ class SignUpVC2: UIViewController {
                         if response.code == "0000" {
                             self.lottieView.isHidden = true
                             
-                            let signUpVC3 = SignUpVC3()
-                            signUpVC3.email = self.email
-                            self.navigationController?.pushViewController(signUpVC3, animated: true)
+                            let findPasswordVC3 = FindPasswordVC3()
+                            findPasswordVC3.email = self.email
+                            self.navigationController?.pushViewController(findPasswordVC3, animated: true)
                         } else {
                             self.lottieView.isHidden = true
-                            
                             for textField in self.otpStackView.textFieldsCollection {
                                 textField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             }
@@ -308,7 +305,7 @@ class SignUpVC2: UIViewController {
     }
 }
 
-extension SignUpVC2: OTPDelegate {
+extension FindPasswordVC2: OTPDelegate {
     func didChangeValidity(isValid: Bool) {
         //        if isValid {
         //            inputNumber = ""

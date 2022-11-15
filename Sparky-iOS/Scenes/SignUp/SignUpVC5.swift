@@ -143,6 +143,7 @@ class SignUpVC5: UIViewController {
                             MoveUtils.shared.moveToHomeVC()
                             
                         } else {
+                            self.lottieView.isHidden = true
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                         }

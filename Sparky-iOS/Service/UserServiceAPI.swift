@@ -9,6 +9,7 @@ import Moya
 
 enum UserServiceAPI {
     case signIn(body: EmailSignInRequest)
+    case patchPassword(body: EmailSignInRequest)
     case signUpEmailDuplicate(params: String)
     case signUpEmailSend(body: EmailSendRequest)
     case signUpEmailConfirm(body: EmailConfirmRequest)
@@ -22,6 +23,8 @@ extension UserServiceAPI: TargetType {
     var path: String {
         switch self {
         case .signIn:
+            return "/accounts"
+        case .patchPassword:
             return "/accounts"
         case .signUpEmailDuplicate:
             return "/accounts/register"
@@ -40,6 +43,8 @@ extension UserServiceAPI: TargetType {
         switch self {
         case .signIn:
             return .post
+        case .patchPassword:
+            return .patch
         case .signUpEmailDuplicate:
             return .get
         case .signUpEmailSend:
@@ -57,6 +62,8 @@ extension UserServiceAPI: TargetType {
         switch self {
         case .signIn(let emailsignInRequestModel):
             return .requestJSONEncodable(emailsignInRequestModel)
+        case .patchPassword(let emailSignInRequest):
+            return .requestJSONEncodable(emailSignInRequest)
         case .signUpEmailDuplicate(let params):
             return .requestParameters(parameters: ["email": params], encoding: URLEncoding.queryString)
         case .signUpEmailSend(let emailSendRequest):

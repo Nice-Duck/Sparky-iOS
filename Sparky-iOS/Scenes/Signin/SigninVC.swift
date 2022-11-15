@@ -207,11 +207,19 @@ final class SignInVC: UIViewController {
                 
             }.disposed(by: disposeBag)
         
-        emailSignInView.signUpButton.rx.tap.subscribe { _ in
+        emailSignInView.signUpButton.rx.tap
+            .subscribe { _ in
             let signUpVC1 = SignUpVC1()
             self.navigationController?.navigationBar.isHidden = false
             self.navigationController?.pushViewController(signUpVC1, animated: true)
         }.disposed(by: disposeBag)
+        
+        emailSignInView.passwordSearchButton.rx.tap
+            .subscribe { _ in
+                let findPasswordVC1 = FindPasswordVC1()
+                self.navigationController?.navigationBar.isHidden = false
+                self.navigationController?.pushViewController(findPasswordVC1, animated: true)
+            }.disposed(by: disposeBag)
     }
 }
 

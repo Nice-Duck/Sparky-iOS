@@ -25,7 +25,6 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         let cv = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                                   collectionViewLayout: flowlayout)
         cv.backgroundColor = .background
-        cv.layer.cornerRadius = 8
         cv.showsHorizontalScrollIndicator = false
         cv.register(PreviewLayoutViewCell.self,
                     forCellWithReuseIdentifier: PreviewLayoutViewCell.identifier)
@@ -98,6 +97,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
             cellIdentifier: PreviewLayoutViewCell.identifier,
             cellType: PreviewLayoutViewCell.self)) { index, scrap, cell in
                 cell.backgroundColor = .sparkyWhite
+                cell.layer.cornerRadius = 8
                 cell.setupValue(scrap: scrap)
                 cell.scrapDetailButton.tag = index
                 cell.thumbnailImageView.tag = index
