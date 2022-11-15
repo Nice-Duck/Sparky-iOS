@@ -14,6 +14,7 @@ import SnapKit
 import Then
 import SwiftLinkPreview
 import Kingfisher
+import Lottie
 
 final class CustomShareVC: UIViewController {
     
@@ -23,6 +24,13 @@ final class CustomShareVC: UIViewController {
     private let previewViewModel = PreviewViewModel()
     
     var urlString: String? = nil
+    
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+        $0.isHidden = true
+    }
     
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
@@ -101,19 +109,61 @@ final class CustomShareVC: UIViewController {
         $0.backgroundColor = .sparkyBlack
     }
     
+    private let keyboardBoxView = UIView()
+
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .background
+        
+        setupLottieView()
+        createObserver()
         setupNavBar()
         setupConstraints()
         bindViewModel()
         setupScrap()
     }
     
+    private func setupLottieView() {
+        self.view.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
+    }
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    private func createObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.keyboardBoxView.constraints.forEach { constraint in
+                if constraint.firstAttribute == .height {
+                    constraint.constant = keyboardSize.height - view.safeAreaInsets.bottom
+                }
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        self.keyboardBoxView.constraints.forEach { constraint in
+            if constraint.firstAttribute == .height {
+                constraint.constant = 0
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -217,10 +267,18 @@ final class CustomShareVC: UIViewController {
             $0.height.equalTo(100)
         }
         
-        self.view.addSubview(saveButton)
-        saveButton.snp.makeConstraints {
+        view.addSubview(keyboardBoxView)
+        keyboardBoxView.snp.makeConstraints {
             $0.left.equalTo(view).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
+            $0.right.equalTo(view).offset(-20)
+            $0.height.equalTo(0)
+        }
+        
+        view.addSubview(saveButton)
+        saveButton.snp.makeConstraints {
+            $0.left.equalTo(view).offset(20)
+            $0.bottom.equalTo(keyboardBoxView.snp.top)
             $0.right.equalTo(view).offset(-20)
             $0.height.equalTo(50)
         }
@@ -308,6 +366,7 @@ final class CustomShareVC: UIViewController {
     }
     
     private func saveMyScrap(scrapRequest: ScrapRequest) {
+        lottieView.isHidden = false
         ShareServiceProvider.shared
             .saveScrap(scrapRequest: scrapRequest)
             .map(PostResultResponse.self)
@@ -316,6 +375,7 @@ final class CustomShareVC: UIViewController {
                 print("message: \(response.message)")
                 
                 if response.code == "0000" {
+                    self.lottieView.isHidden = true
                     print("---요청 성공!!!---")
                     let error = NSError(domain: "sparky.bundle.identifier",
                                         code: 0,

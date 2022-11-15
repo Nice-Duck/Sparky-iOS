@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 import RxRelay
 import Moya
+import Lottie
 
 enum HomeSectionType: Int {
     case myScrap, otherScrap
@@ -25,6 +26,12 @@ final class HomeVC: UIViewController {
     private let disposeBag = DisposeBag()
     private var myScrapViewModel = ScrapViewModel()
     private var otherScrapViewModel = ScrapViewModel()
+    
+    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
+        $0.loopMode = .loop
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.play()
+    }
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         
@@ -77,6 +84,8 @@ final class HomeVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        
+        setupLottieView()
         setupNavBar()
         setupConstraints()
         createObserver()
@@ -90,11 +99,20 @@ final class HomeVC: UIViewController {
         fetchScraps()
     }
     
+    private func setupLottieView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        scene?.windows.first?.addSubview(lottieView)
+        lottieView.frame = self.view.bounds
+        lottieView.center = self.view.center
+        lottieView.contentMode = .scaleAspectFit
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     func fetchScraps() {
+        self.lottieView.isHidden = false
         HomeServiceProvider.shared
             .getAllScraps()
             .map(ScrapResponse.self)
@@ -103,6 +121,8 @@ final class HomeVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
+                    self.lottieView.isHidden = true
+                    
                     print("---홈 스크랩 요청 성공!!!---")
                     print("result - \(response.result)")
                     
@@ -286,21 +306,24 @@ final class HomeVC: UIViewController {
     }
     
     @objc private func returnTabGesture() {
-        let scrapSearchRequest = ScrapSearchRequest(tag: [],
+        let scrapSearchRequest = ScrapSearchRequest(tags: [],
                                                     title: scrapTextField.text ?? "",
                                                     type: 0)
         let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
                                       type: 0)
         
+        lottieView.isHidden = false
         HomeServiceProvider.shared
-            .searchScrap(scrapSearchRequest: scrapSearchRequest, scrapSearch: scrapSearch)
+            .searchScrap(scrapSearchRequest: scrapSearchRequest)
             .map(ScrapSearchResponse.self)
             .subscribe { response in
                 print("code - \(response.code)")
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
-                    print("---홈 스크랩 요청 성공!!!---")
+                    self.lottieView.isHidden = true
+                    
+                    print("---return 버튼 클릭으로 검색 성공!!!---")
                     print("result - \(response.result)")
                     
                     if let result = response.result {

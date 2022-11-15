@@ -133,7 +133,7 @@ class PlusScrapBottomSheetVC: UIViewController {
             let safeAreaHeight: CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
             self.keyboardBoxView.constraints.forEach { constraint in
                 if constraint.firstAttribute == .height {
-                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom - 49 + 20
+                    constraint.constant = keyboardSize.height - UIApplication.safeAreaInsetsBottom - 49
                     tagBottomSheetTopConstraint.constant = safeAreaHeight - defaultTagBottomSheetHeight - constraint.constant
                 }
             }

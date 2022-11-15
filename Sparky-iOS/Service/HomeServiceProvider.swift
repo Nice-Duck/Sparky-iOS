@@ -109,8 +109,8 @@ struct HomeServiceProvider {
             }
     }
     
-    func searchScrap(scrapSearchRequest: ScrapSearchRequest, scrapSearch: ScrapSearch) -> Single<Response> {
-        return provider.rx.request(.scrapSearch(body: scrapSearchRequest, params: scrapSearch))
+    func searchScrap(scrapSearchRequest: ScrapSearchRequest) -> Single<Response> {
+        return provider.rx.request(.scrapSearch(body: scrapSearchRequest))
             .do { response in
                 if (200...299).contains(response.statusCode) {
                     print("요청 성공! - HTTP Status Code: \(response.statusCode)")
