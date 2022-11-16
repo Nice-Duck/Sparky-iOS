@@ -7,7 +7,7 @@
 
 import UIKit
 import RxSwift
-import SwiftSoup
+//import SwiftSoup
 
 final class MyScrapPreViewCollectionViewCell: UITableViewCell {
     

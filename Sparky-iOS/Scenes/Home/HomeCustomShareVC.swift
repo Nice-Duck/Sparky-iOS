@@ -118,7 +118,7 @@ final class HomeCustomShareVC: UIViewController {
         
         self.view.backgroundColor = .background
         
-        setupLottieView()
+//        setupLottieView()
         createObserver()
         setupNavBar()
         setupConstraints()

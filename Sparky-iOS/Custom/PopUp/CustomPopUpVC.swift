@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol CustomPopUpDelegate {
+protocol CustomPopUpDelegate: AnyObject {
     func action()   // confirm button event
     func exit()     // cancel button event
 }
 
 class CustomPopUpVC: UIViewController {
     
-    var customPopUpDelegate: CustomPopUpDelegate? = nil
+    weak var customPopUpDelegate: CustomPopUpDelegate?
     
     var containerView = UIView().then {
         $0.backgroundColor = .sparkyWhite

@@ -54,7 +54,7 @@ class SignUpVC5: UIViewController {
         
         view.backgroundColor = .sparkyWhite
         
-        setupLottieView()
+//        setupLottieView()
         setupConstraints()
         bindNextButton()
     }
@@ -140,7 +140,7 @@ class SignUpVC5: UIViewController {
                                     print("키 체인 리프레시 토큰 - \(refreshToken)")
                                 } else { print("토큰이 존재하지 않습니다!") }
                             }
-                            MoveUtils.shared.moveToHomeVC()
+                            MoveUtils.shared.moveToHomeVC(nav: self.navigationController)
                             
                         } else {
                             self.lottieView.isHidden = true

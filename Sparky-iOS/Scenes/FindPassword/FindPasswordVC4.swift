@@ -48,7 +48,7 @@ class FindPasswordVC4: UIViewController {
         
         view.backgroundColor = .white
         
-        setupLottieView()
+//        setupLottieView()
         setupNavBar()
         setupUI()
         bindViewModel()
@@ -122,7 +122,7 @@ class FindPasswordVC4: UIViewController {
                         if response.code == "0000" {
                             self.lottieView.isHidden = true
                             print("요청 성공!!!")
-                            MoveUtils().moveToSignInVC()
+                            MoveUtils().moveToSignInVC(nav: self.navigationController)
                         } else {
                             self.lottieView.isHidden = true
                             print("요청 실패!!!")

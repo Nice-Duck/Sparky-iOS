@@ -21,7 +21,7 @@ final class SignInVC: UIViewController {
     private let lottieView: LottieAnimationView = .init(name: "lottie").then {
         $0.loopMode = .loop
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
+//        $0.play()
         $0.isHidden = true
     }
 
@@ -30,7 +30,7 @@ final class SignInVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        setupLottieView()
+//        setupLottieView()
         setupConstraints()
         bindViewModel()
     }
@@ -42,8 +42,9 @@ final class SignInVC: UIViewController {
     }
     
     private func setupLottieView() {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
+//        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+//        scene?.windows.first?.addSubview(lottieView)
+        view.addSubview(lottieView)
         lottieView.frame = self.view.bounds
         lottieView.center = self.view.center
         lottieView.contentMode = .scaleAspectFit
@@ -166,6 +167,7 @@ final class SignInVC: UIViewController {
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
                 
+//                self.lottieView.play()
                 self.lottieView.isHidden = false
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
@@ -173,6 +175,7 @@ final class SignInVC: UIViewController {
                     .subscribe { response in
                         if response.code == "0000" {
                             self.lottieView.isHidden = true
+                            self.lottieView.stop()
                             
                             print("code - \(response.code)")
                             print("message - \(response.message)")
@@ -195,9 +198,14 @@ final class SignInVC: UIViewController {
                                 } else { print("토큰이 존재하지 않습니다!") }
                                 
                                 print("로그인 성공!")
-                                MoveUtils.shared.moveToHomeVC()
+                                MoveUtils.shared.moveToHomeVC(nav: self.navigationController)
+                            } else {
+                                self.lottieView.isHidden = true
+                                self.lottieView.stop()
                             }
                         } else {
+                            self.lottieView.isHidden = true
+                            self.lottieView.stop()
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                         }

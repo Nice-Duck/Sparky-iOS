@@ -69,7 +69,7 @@ class SignUpVC1: UIViewController {
         
         view.backgroundColor = .white
         
-        setupLottieView()
+//        setupLottieView()
         createObserver()
         setupNavBar()
         setupUI()
@@ -246,6 +246,8 @@ class SignUpVC1: UIViewController {
                             self.emailTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             self.errorLabel.text = response.message
                             self.errorLabel.isHidden = false
+                        } else {
+                            self.lottieView.isHidden = true
                         }
                     } onFailure: { error in
                         print(error)

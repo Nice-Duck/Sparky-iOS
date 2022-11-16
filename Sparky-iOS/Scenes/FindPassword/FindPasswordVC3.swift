@@ -85,7 +85,7 @@ class FindPasswordVC3: UIViewController {
         
         view.backgroundColor = .white
         
-        setupLottieView()
+//        setupLottieView()
         createObserver()
         setupNavBar()
         setupUI()

@@ -34,7 +34,6 @@ final class HomeVC: UIViewController {
     }
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
-        
         $0.placeholder = "찾고싶은 스크랩의 키워드를 입력해주세요"
         $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
         $0.addTarget(self,
@@ -44,33 +43,37 @@ final class HomeVC: UIViewController {
     
     private let homeTableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                                             style: .grouped).then {
+        $0.backgroundColor = .background
         $0.separatorInset = .zero
         $0.separatorStyle = .none
         $0.showsVerticalScrollIndicator = false
-        $0.backgroundColor = .background
         $0.register(MyScrapPreViewCollectionViewCell.self,
                     forCellReuseIdentifier: MyScrapPreViewCollectionViewCell.identifier)
         $0.register(OtherScrapCollectionViewCell.self,
                     forCellReuseIdentifier: OtherScrapCollectionViewCell.identifier)
         $0.sectionFooterHeight = 0
+        $0.automaticallyAdjustsScrollIndicatorInsets = false
+//        $0.top
+        
         if #available(iOS 15.0, *) {
+            print("top padding - \($0.sectionHeaderTopPadding)")
             $0.sectionHeaderTopPadding = 0
         } else { }
     }
     
-    private let myScrapTitleLabel = UILabel().then({
-        $0.text = "내 스크랩"
-        $0.font = .subTitleBold1
-        $0.textAlignment = .center
-        $0.textColor = .sparkyBlack
-    })
-    
-    private let otherScrapTitleLabel = UILabel().then({
-        $0.text = "다른 사람 스크랩"
-        $0.font = .subTitleBold1
-        $0.textAlignment = .center
-        $0.textColor = .sparkyBlack
-    })
+//    private let myScrapTitleLabel = UILabel().then({
+//        $0.text = "내 스크랩"
+//        $0.font = .subTitleBold1
+//        $0.textAlignment = .center
+//        $0.textColor = .sparkyBlack
+//    })
+//
+//    private let otherScrapTitleLabel = UILabel().then({
+//        $0.text = "다른 사람 스크랩"
+//        $0.font = .subTitleBold1
+//        $0.textAlignment = .center
+//        $0.textColor = .sparkyBlack
+//    })
     
     private let otherScrapSubTitleLabel = UILabel().then({
         $0.text = "타 이용자가 저장한 콘텐츠를 추천해줍니다"
@@ -85,7 +88,7 @@ final class HomeVC: UIViewController {
         
         view.backgroundColor = .background
         
-        setupLottieView()
+//        setupLottieView()
         setupNavBar()
         setupConstraints()
         createObserver()
@@ -217,7 +220,7 @@ final class HomeVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    MoveUtils.shared.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
                                 print(response.code)
@@ -231,7 +234,7 @@ final class HomeVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                MoveUtils.shared.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -388,7 +391,7 @@ final class HomeVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    MoveUtils.shared.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
                                 print(response.code)
@@ -402,7 +405,7 @@ final class HomeVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                MoveUtils.shared.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")

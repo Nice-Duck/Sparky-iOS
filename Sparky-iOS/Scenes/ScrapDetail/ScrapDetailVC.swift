@@ -422,7 +422,7 @@ final class ScrapDetailVC: UIViewController {
                                             if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                                 TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                             }
-                                            MoveUtils.shared.moveToSignInVC()
+                                            MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                         }
                                     } else {
                                         print(response.code)
@@ -436,7 +436,7 @@ final class ScrapDetailVC: UIViewController {
                                         if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                             TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                         }
-                                        MoveUtils.shared.moveToSignInVC()
+                                        MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                     }
                                 } onFailure: { error in
                                     print("요청 실패 - \(error)")
@@ -545,7 +545,7 @@ final class ScrapDetailVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    MoveUtils.shared.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
                                 print(response.code)
@@ -559,7 +559,7 @@ final class ScrapDetailVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                MoveUtils.shared.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")

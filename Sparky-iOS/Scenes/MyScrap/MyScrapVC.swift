@@ -75,7 +75,7 @@ final class MyScrapVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .background
-        setupLottieView()
+//        setupLottieView()
         setupNavBar()
         setupConstraints()
         setupDelegate()
@@ -185,7 +185,7 @@ final class MyScrapVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    MoveUtils.shared.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
                                 print(response.code)
@@ -199,7 +199,7 @@ final class MyScrapVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                MoveUtils.shared.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")
@@ -458,7 +458,7 @@ final class MyScrapVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    MoveUtils.shared.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
                                 print(response.code)
@@ -472,7 +472,7 @@ final class MyScrapVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                MoveUtils.shared.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")

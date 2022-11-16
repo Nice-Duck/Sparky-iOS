@@ -267,9 +267,11 @@ class PlusScrapBottomSheetVC: UIViewController {
         HomeServiceProvider.shared
             .validateURL(urlString: urlStringText)
             .map(PostResultResponse.self)
-            .subscribe { response in
+            .subscribe { [weak self] response in
                 print("code - \(response.code)")
                 print("message - \(response.message)")
+                
+                guard let self = self else { return }
                 
                 if response.code == "0000" {
                     let customShareVC = HomeCustomShareVC()
@@ -277,8 +279,8 @@ class PlusScrapBottomSheetVC: UIViewController {
 
                     let nav = UINavigationController(rootViewController: customShareVC)
                     nav.modalPresentationStyle = .fullScreen
-                    self.dismissTagBottomSheetVC()
-                    self.urlTextField.resignFirstResponder()
+//                    self.dismissTagBottomSheetVC()
+//                    self.urlTextField.resignFirstResponder()
                     self.present(nav, animated: true)
                 } else if response.code == "F002" {
                     self.fetchButton.isEnabled = false
@@ -316,7 +318,7 @@ class PlusScrapBottomSheetVC: UIViewController {
                                     if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                         TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                     }
-                                    MoveUtils.shared.moveToSignInVC()
+                                    MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
                                 print(response.code)
@@ -330,7 +332,7 @@ class PlusScrapBottomSheetVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
-                                MoveUtils.shared.moveToSignInVC()
+                                MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
                             print("요청 실패 - \(error)")

@@ -11,11 +11,11 @@ def shared_pods
   pod "RxGesture"
   pod 'Moya/RxSwift'
   pod 'Alamofire'
-  pod 'SwiftSoup'
+#  pod 'SwiftSoup'
   pod 'SwiftLinkPreview', '~> 3.4.0'
   pod 'Kingfisher', '~> 7.0'
   pod 'lottie-ios'
-  pod 'MaterialComponents/BottomAppBar'
+#  pod 'MaterialComponents/BottomAppBar'
 end
 
 target 'Sparky-iOS' do

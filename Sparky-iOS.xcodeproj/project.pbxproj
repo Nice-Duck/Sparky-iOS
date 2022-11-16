@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11346E0610475F8780D2C82A /* Pods_Sparky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A46D0C01FDF6A06344B2BE /* Pods_Sparky.framework */; };
 		560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */; };
 		560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */; };
 		560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */; };
@@ -164,10 +165,9 @@
 		56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426628E20E91000A6A55 /* SignUpVC3.swift */; };
 		56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426828E20E9A000A6A55 /* SignUpVC4.swift */; };
 		56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426A28E21547000A6A55 /* UINavigationBar+.swift */; };
-		60AA5F2225D14A1D416D0835 /* libPods-Sparky-iOSUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E8DEC407FFD745E0A428EEB /* libPods-Sparky-iOSUITests.a */; };
-		658DDE72DEE2529FFDBCCEEA /* Pods_Sparky_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1227D7D9B585CE84C9372CA5 /* Pods_Sparky_iOS.framework */; };
-		9C71C0BE2EF419FAD79D2981 /* Pods_Sparky.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21EF153B0A389CAD47E7716D /* Pods_Sparky.framework */; };
-		FF239B357F26C81A04C25DDC /* libPods-Sparky-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 891840A905FAC5D43597597C /* libPods-Sparky-iOSTests.a */; };
+		778CEE8AC8406D1D0CF5FAFC /* Pods_Sparky_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC36FF476F78DEBC9CA600E3 /* Pods_Sparky_iOS.framework */; };
+		9BCA161B6E1FA8962518624C /* libPods-Sparky-iOSUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79CCCC2064FD8F04B888DBD1 /* libPods-Sparky-iOSUITests.a */; };
+		D254FEFB0E86F18D2FF0FEF8 /* libPods-Sparky-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FEBE9AEA1D4CFAECB50290 /* libPods-Sparky-iOSTests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,12 +209,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1227D7D9B585CE84C9372CA5 /* Pods_Sparky_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		21EF153B0A389CAD47E7716D /* Pods_Sparky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		25CD38D82D57FDFC7BB01D67 /* Pods-Sparky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.debug.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.debug.xcconfig"; sourceTree = "<group>"; };
-		31A6155D8C9495B2A0831CBF /* Pods-Sparky-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSTests/Pods-Sparky-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		3330CDBBC003A180A6A8A2DA /* Pods-Sparky-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSTests/Pods-Sparky-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4EFE3AAED453DEF71CF24F54 /* Pods-Sparky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.release.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.release.xcconfig"; sourceTree = "<group>"; };
+		0509DB7DD3AE55D63D4A6E37 /* Pods-Sparky-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		07BD2ED3E7580A535E7347C6 /* Pods-Sparky-iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSTests.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSTests/Pods-Sparky-iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		30FEBE9AEA1D4CFAECB50290 /* libPods-Sparky-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32D80CE03F1FE65BFB05191B /* Pods-Sparky-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		560306A0291A7F51008CB6EB /* MyHorizontalLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHorizontalLayoutCell.swift; sourceTree = "<group>"; };
 		560306A2291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLargeImageLayoutCell.swift; sourceTree = "<group>"; };
 		560306A6291AA9C5008CB6EB /* MyInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -338,12 +336,14 @@
 		56DE426628E20E91000A6A55 /* SignUpVC3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC3.swift; sourceTree = "<group>"; };
 		56DE426828E20E9A000A6A55 /* SignUpVC4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC4.swift; sourceTree = "<group>"; };
 		56DE426A28E21547000A6A55 /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
-		5E8DEC407FFD745E0A428EEB /* libPods-Sparky-iOSUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8591FF89E2DC369E84141B29 /* Pods-Sparky-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
-		891840A905FAC5D43597597C /* libPods-Sparky-iOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1F3B2EBAEFA7C58FD796EAF /* Pods-Sparky-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		E2B7B534D55BF76086AAC120 /* Pods-Sparky-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOS.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		E6377FA6F8E3FE98E1596878 /* Pods-Sparky-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		63E5E58ABC4C61E905D8AF57 /* Pods-Sparky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.debug.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.debug.xcconfig"; sourceTree = "<group>"; };
+		66A46D0C01FDF6A06344B2BE /* Pods_Sparky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79CCCC2064FD8F04B888DBD1 /* libPods-Sparky-iOSUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		986661B0FC11C5CD43F2EA55 /* Pods-Sparky.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.release.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.release.xcconfig"; sourceTree = "<group>"; };
+		B6851EC5644B04D5ECB38BC6 /* Pods-Sparky-iOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSTests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSTests/Pods-Sparky-iOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		CC36FF476F78DEBC9CA600E3 /* Pods_Sparky_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB431F72EA0DA3B453971991 /* Pods-Sparky-iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.release.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
+		FBE05F8F2E5E5C3C8B945AB6 /* Pods-Sparky-iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky-iOSUITests.debug.xcconfig"; path = "Target Support Files/Pods-Sparky-iOSUITests/Pods-Sparky-iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,7 +351,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C71C0BE2EF419FAD79D2981 /* Pods_Sparky.framework in Frameworks */,
+				11346E0610475F8780D2C82A /* Pods_Sparky.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,7 +359,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				658DDE72DEE2529FFDBCCEEA /* Pods_Sparky_iOS.framework in Frameworks */,
+				778CEE8AC8406D1D0CF5FAFC /* Pods_Sparky_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +367,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FF239B357F26C81A04C25DDC /* libPods-Sparky-iOSTests.a in Frameworks */,
+				D254FEFB0E86F18D2FF0FEF8 /* libPods-Sparky-iOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,7 +375,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60AA5F2225D14A1D416D0835 /* libPods-Sparky-iOSUITests.a in Frameworks */,
+				9BCA161B6E1FA8962518624C /* libPods-Sparky-iOSUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,27 +385,16 @@
 		066F2B155FEC59800C670AFE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				25CD38D82D57FDFC7BB01D67 /* Pods-Sparky.debug.xcconfig */,
-				4EFE3AAED453DEF71CF24F54 /* Pods-Sparky.release.xcconfig */,
-				E2B7B534D55BF76086AAC120 /* Pods-Sparky-iOS.debug.xcconfig */,
-				D1F3B2EBAEFA7C58FD796EAF /* Pods-Sparky-iOS.release.xcconfig */,
-				3330CDBBC003A180A6A8A2DA /* Pods-Sparky-iOSTests.debug.xcconfig */,
-				31A6155D8C9495B2A0831CBF /* Pods-Sparky-iOSTests.release.xcconfig */,
-				E6377FA6F8E3FE98E1596878 /* Pods-Sparky-iOSUITests.debug.xcconfig */,
-				8591FF89E2DC369E84141B29 /* Pods-Sparky-iOSUITests.release.xcconfig */,
+				63E5E58ABC4C61E905D8AF57 /* Pods-Sparky.debug.xcconfig */,
+				986661B0FC11C5CD43F2EA55 /* Pods-Sparky.release.xcconfig */,
+				0509DB7DD3AE55D63D4A6E37 /* Pods-Sparky-iOS.debug.xcconfig */,
+				32D80CE03F1FE65BFB05191B /* Pods-Sparky-iOS.release.xcconfig */,
+				07BD2ED3E7580A535E7347C6 /* Pods-Sparky-iOSTests.debug.xcconfig */,
+				B6851EC5644B04D5ECB38BC6 /* Pods-Sparky-iOSTests.release.xcconfig */,
+				FBE05F8F2E5E5C3C8B945AB6 /* Pods-Sparky-iOSUITests.debug.xcconfig */,
+				FB431F72EA0DA3B453971991 /* Pods-Sparky-iOSUITests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		47E9B5215A972AFFFE493C64 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				21EF153B0A389CAD47E7716D /* Pods_Sparky.framework */,
-				1227D7D9B585CE84C9372CA5 /* Pods_Sparky_iOS.framework */,
-				891840A905FAC5D43597597C /* libPods-Sparky-iOSTests.a */,
-				5E8DEC407FFD745E0A428EEB /* libPods-Sparky-iOSUITests.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		560306AB291AD09F008CB6EB /* PopUp */ = {
@@ -661,7 +650,7 @@
 				560BF32728D0ECF200438463 /* Sparky */,
 				5693C1F328CE2CDC008710FF /* Products */,
 				066F2B155FEC59800C670AFE /* Pods */,
-				47E9B5215A972AFFFE493C64 /* Frameworks */,
+				9B2C3DB67FE66E337BBAF243 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -803,6 +792,17 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
+		9B2C3DB67FE66E337BBAF243 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				66A46D0C01FDF6A06344B2BE /* Pods_Sparky.framework */,
+				CC36FF476F78DEBC9CA600E3 /* Pods_Sparky_iOS.framework */,
+				30FEBE9AEA1D4CFAECB50290 /* libPods-Sparky-iOSTests.a */,
+				79CCCC2064FD8F04B888DBD1 /* libPods-Sparky-iOSUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -810,7 +810,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56185AB0291D45CD0052ADE0 /* Build configuration list for PBXNativeTarget "Sparky" */;
 			buildPhases = (
-				70FBE83F355834B39368D4F7 /* [CP] Check Pods Manifest.lock */,
+				4F0436B1C124FC47E37913F7 /* [CP] Check Pods Manifest.lock */,
 				56185AA1291D45CC0052ADE0 /* Sources */,
 				56185AA2291D45CC0052ADE0 /* Frameworks */,
 				56185AA3291D45CC0052ADE0 /* Resources */,
@@ -828,12 +828,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5693C21C28CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOS" */;
 			buildPhases = (
-				9AD06BEE0A16D5D70B723028 /* [CP] Check Pods Manifest.lock */,
+				93860B11860DE718FFE7BCAE /* [CP] Check Pods Manifest.lock */,
 				5693C1EE28CE2CDC008710FF /* Sources */,
 				5693C1EF28CE2CDC008710FF /* Frameworks */,
 				5693C1F028CE2CDC008710FF /* Resources */,
 				560BF33128D0ECF200438463 /* Embed App Extensions */,
-				38F477987231035B8809A852 /* [CP] Embed Pods Frameworks */,
+				1885416280C5F6ABAABCC72A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -849,7 +849,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5693C21F28CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOSTests" */;
 			buildPhases = (
-				D69A9D90E973A550F3C24C98 /* [CP] Check Pods Manifest.lock */,
+				9A98ED820D2A1E8285B130CC /* [CP] Check Pods Manifest.lock */,
 				5693C20428CE2CDE008710FF /* Sources */,
 				5693C20528CE2CDE008710FF /* Frameworks */,
 				5693C20628CE2CDE008710FF /* Resources */,
@@ -868,7 +868,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5693C22228CE2CDE008710FF /* Build configuration list for PBXNativeTarget "Sparky-iOSUITests" */;
 			buildPhases = (
-				F1847B8D9C96E33C6E4AB8B8 /* [CP] Check Pods Manifest.lock */,
+				C429FF20FC144FCA5A776A31 /* [CP] Check Pods Manifest.lock */,
 				5693C20E28CE2CDE008710FF /* Sources */,
 				5693C20F28CE2CDE008710FF /* Frameworks */,
 				5693C21028CE2CDE008710FF /* Resources */,
@@ -966,7 +966,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		38F477987231035B8809A852 /* [CP] Embed Pods Frameworks */ = {
+		1885416280C5F6ABAABCC72A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -983,7 +983,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sparky-iOS/Pods-Sparky-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70FBE83F355834B39368D4F7 /* [CP] Check Pods Manifest.lock */ = {
+		4F0436B1C124FC47E37913F7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1005,7 +1005,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9AD06BEE0A16D5D70B723028 /* [CP] Check Pods Manifest.lock */ = {
+		93860B11860DE718FFE7BCAE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1027,7 +1027,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D69A9D90E973A550F3C24C98 /* [CP] Check Pods Manifest.lock */ = {
+		9A98ED820D2A1E8285B130CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1049,7 +1049,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F1847B8D9C96E33C6E4AB8B8 /* [CP] Check Pods Manifest.lock */ = {
+		C429FF20FC144FCA5A776A31 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1288,12 +1288,12 @@
 /* Begin XCBuildConfiguration section */
 		56185AB1291D45CD0052ADE0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 25CD38D82D57FDFC7BB01D67 /* Pods-Sparky.debug.xcconfig */;
+			baseConfigurationReference = 63E5E58ABC4C61E905D8AF57 /* Pods-Sparky.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Sparky/SparkyDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 100;
+				CURRENT_PROJECT_VERSION = 200;
 				DEVELOPMENT_TEAM = 3AQ2WDVH35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sparky/Info.plist;
@@ -1305,7 +1305,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmc.sparky.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1318,12 +1318,12 @@
 		};
 		56185AB2291D45CD0052ADE0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4EFE3AAED453DEF71CF24F54 /* Pods-Sparky.release.xcconfig */;
+			baseConfigurationReference = 986661B0FC11C5CD43F2EA55 /* Pods-Sparky.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = Sparky/SparkyRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 100;
+				CURRENT_PROJECT_VERSION = 200;
 				DEVELOPMENT_TEAM = 3AQ2WDVH35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Sparky/Info.plist;
@@ -1335,7 +1335,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmc.sparky.share;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1464,7 +1464,7 @@
 		};
 		5693C21D28CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2B7B534D55BF76086AAC120 /* Pods-Sparky-iOS.debug.xcconfig */;
+			baseConfigurationReference = 0509DB7DD3AE55D63D4A6E37 /* Pods-Sparky-iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1472,7 +1472,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Sparky-iOS/Sparky-iOSDebug.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 100;
+				CURRENT_PROJECT_VERSION = 200;
 				DEVELOPMENT_TEAM = 3AQ2WDVH35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Sparky-iOS/SupprotingFiles/Info.plist";
@@ -1499,14 +1499,14 @@
 		};
 		5693C21E28CE2CDE008710FF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1F3B2EBAEFA7C58FD796EAF /* Pods-Sparky-iOS.release.xcconfig */;
+			baseConfigurationReference = 32D80CE03F1FE65BFB05191B /* Pods-Sparky-iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 100;
+				CURRENT_PROJECT_VERSION = 200;
 				DEVELOPMENT_TEAM = 3AQ2WDVH35;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Sparky-iOS/SupprotingFiles/Info.plist";
@@ -1525,6 +1525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmc.sparky;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1533,7 +1534,7 @@
 		};
 		5693C22028CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3330CDBBC003A180A6A8A2DA /* Pods-Sparky-iOSTests.debug.xcconfig */;
+			baseConfigurationReference = 07BD2ED3E7580A535E7347C6 /* Pods-Sparky-iOSTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1556,7 +1557,7 @@
 		};
 		5693C22128CE2CDE008710FF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 31A6155D8C9495B2A0831CBF /* Pods-Sparky-iOSTests.release.xcconfig */;
+			baseConfigurationReference = B6851EC5644B04D5ECB38BC6 /* Pods-Sparky-iOSTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1581,7 +1582,7 @@
 		};
 		5693C22328CE2CDE008710FF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6377FA6F8E3FE98E1596878 /* Pods-Sparky-iOSUITests.debug.xcconfig */;
+			baseConfigurationReference = FBE05F8F2E5E5C3C8B945AB6 /* Pods-Sparky-iOSUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1599,7 +1600,7 @@
 		};
 		5693C22428CE2CDE008710FF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8591FF89E2DC369E84141B29 /* Pods-Sparky-iOSUITests.release.xcconfig */;
+			baseConfigurationReference = FB431F72EA0DA3B453971991 /* Pods-Sparky-iOSUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
