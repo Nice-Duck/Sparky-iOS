@@ -342,7 +342,7 @@ final class OtherScrapDetailVC: UIViewController {
     }
     
     func claimUser() {
-        print("asdfasdfasdf")
+        print("dec scrapId - \(self.scrap.value.scrapId)")
         HomeServiceProvider.shared
             .declaration(scrapId: scrap.value.scrapId)
             .map(PostResultResponse.self)
@@ -351,6 +351,8 @@ final class OtherScrapDetailVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("신고 성공!!")
                     self.dismiss(animated: false)
                     self.dismissVCDelegate?.sendNotification()
@@ -374,6 +376,8 @@ final class OtherScrapDetailVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.claimUser()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -388,6 +392,8 @@ final class OtherScrapDetailVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -402,12 +408,16 @@ final class OtherScrapDetailVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("신고 실패!! - \(error)")
             }.disposed(by: disposeBag)
     }
@@ -449,16 +459,15 @@ extension OtherScrapDetailVC: CustomPopUpDelegate {
 
 extension OtherScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        //        return 2
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        if section == 0 {
-        //            return 3
-        //        } else {
-        return 1
-        //        }
+        if section == 0 {
+            return 3
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -466,19 +475,19 @@ extension OtherScrapDetailVC: UITableViewDataSource {
             withIdentifier: SubActionTableViewCell.identifier,
             for: indexPath) as! SubActionTableViewCell
         cell.selectionStyle = .none
-        //        if indexPath.section == 0 {
-        //            if indexPath.row == 0 {
-        //                cell.actionLabel.text = "내 스크랩에 추가하기"
-        //            } else if indexPath.row == 1 {
-        //                cell.actionLabel.text = "공유하기"
-        //            } else {
-        //                cell.actionLabel.text = "URL 복사하기"
-        //            }
-        //        } else {
-        cell.actionLabel.text = "신고하기"
-        cell.actionLabel.textColor = .sparkyOrange
-        cell.selectionStyle = .none
-        //        }
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                cell.actionLabel.text = "내 스크랩에 추가하기"
+            } else if indexPath.row == 1 {
+                cell.actionLabel.text = "공유하기"
+            } else {
+                cell.actionLabel.text = "URL 복사하기"
+            }
+        } else {
+            cell.actionLabel.text = "신고하기"
+            cell.actionLabel.textColor = .sparkyOrange
+            cell.selectionStyle = .none
+        }
         return cell
     }
 }
@@ -487,6 +496,26 @@ extension OtherScrapDetailVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let homeCustomShareVC = HomeCustomShareVC()
+                homeCustomShareVC.urlString = scrap.value.scrapURLString
+                let nav = UINavigationController(rootViewController: homeCustomShareVC)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            } else if indexPath.row == 1 {
+                do {
+                    if let image = UIImage(data: try Data(contentsOf: URL(string: scrap.value.thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!)) {
+                        let vc = UIActivityViewController(activityItems: [scrap.value.title, image], applicationActivities: [])
+                        present(vc, animated: true, completion: nil)
+                    }
+                } catch {
+                    print("error!")
+                }
+            } else {
+                UIPasteboard.general.string = scrap.value.scrapURLString
+                self.view.makeToast("URL이 복사되었습니다.", duration: 1.5, position: .bottom)
+            }
+        } else {
             let customPopUpVC = CustomPopUpVC()
             customPopUpVC.setupValue(title: "신고 하시겠습니까?",
                                      cancelText: "취소하기",
@@ -498,7 +527,7 @@ extension OtherScrapDetailVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

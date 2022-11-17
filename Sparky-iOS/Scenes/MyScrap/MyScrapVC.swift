@@ -23,10 +23,15 @@ final class MyScrapVC: UIViewController {
     private var selectedButtonType = BehaviorRelay<SetViewButtonType>(value: SetViewButtonType.horizontal)
     private var filterTagIdList = [Int]()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let refreshControl = UIRefreshControl().then {
+        $0.addTarget(self,
+                     action: #selector(refresh(_:)),
+                     for: .valueChanged)
+    }
+    
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .white
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
     }
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
@@ -78,6 +83,7 @@ final class MyScrapVC: UIViewController {
 //        setupLottieView()
         setupNavBar()
         setupConstraints()
+        setupLoadingView()
         setupDelegate()
         bindViewModel()
         createObserver()
@@ -94,20 +100,14 @@ final class MyScrapVC: UIViewController {
         fetchScraps()
     }
     
-    private func setupLottieView() {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
-    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     private func fetchScraps() {
-        lottieView.isHidden = false
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
             .getMyScraps()
             .map(ScrapResponse.self)
@@ -115,10 +115,13 @@ final class MyScrapVC: UIViewController {
                 print("code - \(response.code)")
                 print("message - \(response.message)")
                 
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 if response.code == "0000" {
-                    self.lottieView.isHidden = true
-                    
-                    print("---홈 스크랩 요청 성공!!!---")
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
+
+                    print("---마이 스크랩 요청 성공!!!---")
                     print("result - \(response.result)")
                     
                     if let result = response.result {
@@ -174,6 +177,8 @@ final class MyScrapVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.fetchScraps()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -188,6 +193,8 @@ final class MyScrapVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -202,12 +209,16 @@ final class MyScrapVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("---홈 스크랩 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
@@ -247,6 +258,21 @@ final class MyScrapVC: UIViewController {
             $0.left.equalTo(view)
             $0.bottom.equalTo(view)
             $0.right.equalTo(view)
+        }
+        
+        myScrapCollectionView.addSubview(refreshControl)
+    }
+    
+    func setupLoadingView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
         }
     }
     
@@ -382,7 +408,8 @@ final class MyScrapVC: UIViewController {
     private func searchScrap(scrapSearchRequest: ScrapSearchRequest) {
         print("scrapSearchRequest - \(scrapSearchRequest)")
         
-        lottieView.isHidden = false
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
             .searchScrap(scrapSearchRequest: scrapSearchRequest)
             .map(ScrapSearchResponse.self)
@@ -391,7 +418,8 @@ final class MyScrapVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
-                    self.lottieView.isHidden = true
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
                     
                     print("---검색 성고오옹!!!---")
                     print("result - \(response.result)")
@@ -447,6 +475,8 @@ final class MyScrapVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.fetchScraps()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -461,6 +491,8 @@ final class MyScrapVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -475,15 +507,24 @@ final class MyScrapVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("--- 서치 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
+    }
+    
+    @objc private func refresh(_ sender: AnyObject) {
+        fetchScraps()
+        refreshControl.endRefreshing()
     }
     
     @objc private func returnTabGesture() {

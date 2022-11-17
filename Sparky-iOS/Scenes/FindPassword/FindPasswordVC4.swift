@@ -17,10 +17,9 @@ class FindPasswordVC4: UIViewController {
     var viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .sparkyWhite
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
         $0.isHidden = true
     }
     
@@ -48,18 +47,23 @@ class FindPasswordVC4: UIViewController {
         
         view.backgroundColor = .white
         
-//        setupLottieView()
+        setupLoadingView()
         setupNavBar()
         setupUI()
         bindViewModel()
     }
     
-    private func setupLottieView() {
+    func setupLoadingView() {
         let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -100,37 +104,49 @@ class FindPasswordVC4: UIViewController {
     }
     
     private func bindViewModel() {
-        nextButton.rx.tap.asDriver()
-            .throttle(.seconds(3), latest: false)
-            .drive(onNext: { _ in
-                
+        nextButton.rx.tap
+            .throttle(.seconds(3), latest: false, scheduler: MainScheduler.instance)
+            .subscribe { _ in
                 guard let email = self.email else { return }
                 guard let password = self.password else { return }
                 
                 let emailSignInRequest = EmailSignInRequest(email: email,
                                                             pwd: password)
                 
-                self.lottieView.isHidden = false
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
                     .patchPassword(emailSignInRequestModel: emailSignInRequest)
                     .map(PostResultResponse.self)
                     .subscribe { response in
+                        self.resignFirstResponder()
                         
                         print("code - \(response.code)")
                         print("message - \(response.message)")
                         
                         if response.code == "0000" {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
+                            
                             print("요청 성공!!!")
                             MoveUtils().moveToSignInVC(nav: self.navigationController)
                         } else {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
                             print("요청 실패!!!")
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
+                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                        self.customActivityIndicatorView.isHidden = true
+                        
                         print("요청 실패!!! - \(error)")
                     }.disposed(by: self.disposeBag)
-            }).disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
     }
     
     @objc private func didTapBackButton() {

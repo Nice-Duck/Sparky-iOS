@@ -17,7 +17,7 @@ enum HomeSectionType: Int {
 }
 
 enum ScrapLayoutStyle: Int {
-    case halfOne = 1, halfTwo, horizontalOne, horizontalTwo, largeImage
+    case halfOne = 1, halfTwo = 2, horizontalOne = 3, horizontalTwo = 4, largeImage = 5
 }
 
 final class HomeVC: UIViewController {
@@ -26,6 +26,17 @@ final class HomeVC: UIViewController {
     private let disposeBag = DisposeBag()
     private var myScrapViewModel = ScrapViewModel()
     private var otherScrapViewModel = ScrapViewModel()
+    
+    private let refreshControl = UIRefreshControl().then {
+        $0.addTarget(self,
+                     action: #selector(refresh(_:)),
+                     for: .valueChanged)
+    }
+    
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .white
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+    }
     
     private let lottieView: LottieAnimationView = .init(name: "lottie").then {
         $0.loopMode = .loop
@@ -53,27 +64,12 @@ final class HomeVC: UIViewController {
                     forCellReuseIdentifier: OtherScrapCollectionViewCell.identifier)
         $0.sectionFooterHeight = 0
         $0.automaticallyAdjustsScrollIndicatorInsets = false
-//        $0.top
         
         if #available(iOS 15.0, *) {
             print("top padding - \($0.sectionHeaderTopPadding)")
             $0.sectionHeaderTopPadding = 0
         } else { }
     }
-    
-//    private let myScrapTitleLabel = UILabel().then({
-//        $0.text = "내 스크랩"
-//        $0.font = .subTitleBold1
-//        $0.textAlignment = .center
-//        $0.textColor = .sparkyBlack
-//    })
-//
-//    private let otherScrapTitleLabel = UILabel().then({
-//        $0.text = "다른 사람 스크랩"
-//        $0.font = .subTitleBold1
-//        $0.textAlignment = .center
-//        $0.textColor = .sparkyBlack
-//    })
     
     private let otherScrapSubTitleLabel = UILabel().then({
         $0.text = "타 이용자가 저장한 콘텐츠를 추천해줍니다"
@@ -88,9 +84,10 @@ final class HomeVC: UIViewController {
         
         view.backgroundColor = .background
         
-//        setupLottieView()
+        //        setupLottieView()
         setupNavBar()
         setupConstraints()
+        setupLoadingView()
         createObserver()
     }
     
@@ -115,7 +112,8 @@ final class HomeVC: UIViewController {
     }
     
     func fetchScraps() {
-        self.lottieView.isHidden = false
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
             .getAllScraps()
             .map(ScrapResponse.self)
@@ -124,7 +122,9 @@ final class HomeVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
-                    self.lottieView.isHidden = true
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
+                    
                     
                     print("---홈 스크랩 요청 성공!!!---")
                     print("result - \(response.result)")
@@ -209,6 +209,8 @@ final class HomeVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.fetchScraps()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                    
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -223,6 +225,8 @@ final class HomeVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -237,12 +241,16 @@ final class HomeVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                    
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("---홈 스크랩 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
@@ -282,6 +290,21 @@ final class HomeVC: UIViewController {
             $0.bottom.equalTo(view)
             $0.right.equalTo(view)
         }
+        
+        homeTableView.addSubview(refreshControl)
+    }
+    
+    func setupLoadingView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     private func setupDelegate() {
@@ -308,14 +331,19 @@ final class HomeVC: UIViewController {
                                                object: nil)
     }
     
+    @objc private func refresh(_ sender: AnyObject) {
+        fetchScraps()
+        refreshControl.endRefreshing()
+    }
+    
     @objc private func returnTabGesture() {
         let scrapSearchRequest = ScrapSearchRequest(tags: [],
                                                     title: scrapTextField.text ?? "",
                                                     type: 0)
         let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
                                       type: 0)
-        
-        lottieView.isHidden = false
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
             .searchScrap(scrapSearchRequest: scrapSearchRequest)
             .map(ScrapSearchResponse.self)
@@ -324,7 +352,8 @@ final class HomeVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
-                    self.lottieView.isHidden = true
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
                     
                     print("---return 버튼 클릭으로 검색 성공!!!---")
                     print("result - \(response.result)")
@@ -380,6 +409,8 @@ final class HomeVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.fetchScraps()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                    
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -394,6 +425,8 @@ final class HomeVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -408,12 +441,16 @@ final class HomeVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                    
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("---홈 스크랩 요청 에러---")
                 print("\(error)")
             }.disposed(by: disposeBag)
@@ -520,7 +557,7 @@ extension HomeVC: UITableViewDelegate {
         case .myScrap:
             return 228
         case .otherScrap:
-            let share: CGFloat = CGFloat((241 + 138  + 270 + 48) * (otherScrapViewModel.scraps.value.count / 5))
+            let share: CGFloat = CGFloat((241 + 138 + 138 + 270 + 48) * (otherScrapViewModel.scraps.value.count / 5))
             var remainder: CGFloat = 0
             let scrapLayoutStyle = ScrapLayoutStyle(rawValue: otherScrapViewModel.scraps.value.count % 5)
             
@@ -532,11 +569,12 @@ extension HomeVC: UITableViewDelegate {
             case .horizontalTwo:
                 remainder = 241 + 12 + 138 + 12 + 138 + 12
             case .largeImage:
-                remainder = 241
+                remainder = 241 + 12 + 138 + 12 + 138 + 12 + 270 + 12
             default:
                 remainder = 0
             }
             return share + remainder
+            //            return 50000
         }
     }
 }

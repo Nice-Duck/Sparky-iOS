@@ -13,23 +13,29 @@ class MyInfoVC: UIViewController {
     // MARK: - Properties
     let disposeBag = DisposeBag()
     
-    let profileStackView = UIStackView().then {
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .sparkyWhite
+        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+        $0.isHidden = true
+    }
+    
+    private let profileStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 12
     }
     
-    let profileImageView = UIImageView().then {
+    private let profileImageView = UIImageView().then {
         $0.image = .ellipse5
     }
     
-    let nicknameLabel = UILabel().then {
+    private let nicknameLabel = UILabel().then {
         $0.text = "나이스덕"
         $0.font = .bodyBold2
         $0.textAlignment = .center
         $0.textColor = .sparkyBlack
     }
     
-    let myInfoTableView = UITableView().then {
+    private let myInfoTableView = UITableView().then {
         $0.backgroundColor = .background
         $0.layer.cornerRadius = 8
         $0.separatorInset = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 12)
@@ -50,9 +56,24 @@ class MyInfoVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        
+        setupLoadingView()
         setupNavBar()
         setupConstraints()
         setupDelegate()
+    }
+    
+    private func setupLoadingView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -107,6 +128,8 @@ class MyInfoVC: UIViewController {
     }
     
     private func deleteProfile() {
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
             .signOut()
             .map(PostResultResponse.self)
@@ -115,6 +138,10 @@ class MyInfoVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
+                    
                     print("회원 탈퇴 성공!!!")
                     TokenUtils().delete("com.sparky.token", account: "accessToken")
                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
@@ -139,6 +166,8 @@ class MyInfoVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.deleteProfile()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                    
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -153,6 +182,8 @@ class MyInfoVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -167,12 +198,16 @@ class MyInfoVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                    
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("요청 실패!!! - \(error)")
             }.disposed(by: disposeBag)
     }
@@ -207,23 +242,23 @@ extension MyInfoVC: UITableViewDataSource {
             for: indexPath) as! MyInfoTableViewCell
         cell.selectionStyle = .none
         if indexPath.section == 0 {
-//            cell.rightChevronImageView.isHidden = false
-//
-//            if indexPath.row == 0 {
-//                cell.actionLabel.text = "프로필 설정"
-//            } else if indexPath.row == 1 {
-//                cell.actionLabel.text = "내 태그 목록"
-//            } else {
-//                cell.actionLabel.text = "서비스 환경설정"
-//            }
-//        } else if indexPath.section == 1 {
+            //            cell.rightChevronImageView.isHidden = false
+            //
+            //            if indexPath.row == 0 {
+            //                cell.actionLabel.text = "프로필 설정"
+            //            } else if indexPath.row == 1 {
+            //                cell.actionLabel.text = "내 태그 목록"
+            //            } else {
+            //                cell.actionLabel.text = "서비스 환경설정"
+            //            }
+            //        } else if indexPath.section == 1 {
             cell.rightChevronImageView.isHidden = true
             
             if indexPath.row == 0 {
-//                cell.actionLabel.text = "문의하기"
-//            } else if indexPath.row == 1 {
-//                cell.actionLabel.text = "프로필 공유하기"
-//            } else {
+                //                cell.actionLabel.text = "문의하기"
+                //            } else if indexPath.row == 1 {
+                //                cell.actionLabel.text = "프로필 공유하기"
+                //            } else {
                 cell.actionLabel.text = "로그아웃"
             }
         } else {

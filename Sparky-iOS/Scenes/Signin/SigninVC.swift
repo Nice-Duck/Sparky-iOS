@@ -10,6 +10,7 @@ import SnapKit
 import Then
 import RxSwift
 import Lottie
+import Toast_Swift
 
 final class SignInVC: UIViewController {
     
@@ -18,10 +19,9 @@ final class SignInVC: UIViewController {
     let viewModel = EmailSignInViewModel()
     let disposeBag = DisposeBag()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .sparkyWhite
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-//        $0.play()
         $0.isHidden = true
     }
 
@@ -30,8 +30,8 @@ final class SignInVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-//        setupLottieView()
         setupConstraints()
+        setupLoadingView()
         bindViewModel()
     }
     
@@ -41,13 +41,17 @@ final class SignInVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    private func setupLottieView() {
-//        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-//        scene?.windows.first?.addSubview(lottieView)
-        view.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
+    func setupLoadingView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -167,16 +171,18 @@ final class SignInVC: UIViewController {
                 print("입력 이메일: \(self.emailSignInView.emailTextField.text ?? "")")
                 print("입력 비밀번호: \(self.emailSignInView.passwordTextField.text ?? "")")
                 
-//                self.lottieView.play()
-                self.lottieView.isHidden = false
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
                     .signIn(emailSignInRequestModel: emailSignInRequest)
                     .map(EmailSignUpResponse.self)
                     .subscribe { response in
                         if response.code == "0000" {
-                            self.lottieView.isHidden = true
-                            self.lottieView.stop()
-                            
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
+                                                        
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             print("🔑 accessToken - \(response.result?.accessToken ?? "")")
@@ -195,21 +201,29 @@ final class SignInVC: UIViewController {
                                 } else { print("토큰이 존재하지 않습니다!") }
                                 if let refreshToken = tokenUtils.read("com.sparky.token", account: "refreshToken") {
                                     print("키 체인 리프레시 토큰 - \(refreshToken)")
-                                } else { print("토큰이 존재하지 않습니다!") }
+                                } else {
+                                    print("토큰이 존재하지 않습니다!") }
                                 
                                 print("로그인 성공!")
                                 MoveUtils.shared.moveToHomeVC(nav: self.navigationController)
                             } else {
-                                self.lottieView.isHidden = true
-                                self.lottieView.stop()
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                self.customActivityIndicatorView.loadingView.stopAnimating()
+                                self.customActivityIndicatorView.isHidden = true
                             }
                         } else {
-                            self.lottieView.isHidden = true
-                            self.lottieView.stop()
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
+
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
+                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                        self.customActivityIndicatorView.isHidden = true
+
                         print(error)
                     }.disposed(by: self.disposeBag)
                 

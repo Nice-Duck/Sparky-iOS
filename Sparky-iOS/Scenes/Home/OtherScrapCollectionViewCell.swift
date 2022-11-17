@@ -46,6 +46,13 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
         bindViewModel()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+    }
+        
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -99,8 +106,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
             let indexPath = IndexPath(row: row, section: 0)
             
             let scrapLayoutStyle = ScrapLayoutStyle(rawValue:
-                                                        row + 1 % 5) ?? ScrapLayoutStyle.horizontalOne
-            
+                                                        row % 5 + 1) ?? ScrapLayoutStyle.horizontalOne
             switch scrapLayoutStyle {
             case .halfOne, .halfTwo:
                 let cell = collectionView.dequeueReusableCell(
@@ -170,7 +176,7 @@ extension OtherScrapCollectionViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let scrapLayoutStyle = ScrapLayoutStyle(rawValue: indexPath.row + 1 % 5) ?? ScrapLayoutStyle.horizontalOne
+        let scrapLayoutStyle = ScrapLayoutStyle(rawValue: indexPath.row % 5 + 1) ?? ScrapLayoutStyle.horizontalOne
         switch scrapLayoutStyle {
         case .halfOne, .halfTwo:
             return CGSize(width: (contentView.frame.size.width - 13 - 40) / 2, height: 241)

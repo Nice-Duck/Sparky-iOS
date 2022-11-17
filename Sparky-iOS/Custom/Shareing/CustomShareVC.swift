@@ -15,6 +15,7 @@ import Then
 import SwiftLinkPreview
 import Kingfisher
 import Lottie
+import Toast_Swift
 
 final class CustomShareVC: UIViewController {
     
@@ -375,6 +376,7 @@ final class CustomShareVC: UIViewController {
                 print("message: \(response.message)")
                 
                 if response.code == "0000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     self.lottieView.isHidden = true
                     print("---요청 성공!!!---")
                     let error = NSError(domain: "sparky.bundle.identifier",
@@ -382,14 +384,15 @@ final class CustomShareVC: UIViewController {
                                         userInfo: [NSLocalizedDescriptionKey: "An error description"])
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     print("---응답 실패!!!---")
                 }
                 
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("---요청 실패---")
                 print(error)
             }.disposed(by: disposeBag)
-        
     }
     
     private func presentTagBottomSheetVC() {

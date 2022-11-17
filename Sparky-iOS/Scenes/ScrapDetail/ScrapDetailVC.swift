@@ -126,12 +126,9 @@ final class ScrapDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("viewDidLoad Scrap detail - \(self.scrap.value)")
+        
         self.view.backgroundColor = .background
-
-//        scrap.value.tagList.values.append(Tag(tagId: -1,
-//                                              name: "태그추가",
-//                                              color: .clear,
-//                                              buttonType: .add))
         
         createObserver()
         subActionTableView.tableFooterView = UIView()
@@ -166,7 +163,7 @@ final class ScrapDetailVC: UIViewController {
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         self.keyboardBoxView.constraints.forEach { constraint in
             if constraint.firstAttribute == .height {
@@ -197,20 +194,20 @@ final class ScrapDetailVC: UIViewController {
         }
         self.navigationItem.titleView = navBarTitleLabel
         
-        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        editButton.setTitle("수정하기", for: .normal)
-        editButton.tintColor = .sparkyBlue
-        editButton.addTarget(self,
-                             action: #selector(didTapEditButton),
-                             for: .touchUpInside)
-        
-        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
-        let navBarEditButton = UIBarButtonItem(title: "수정하기",
-                                               style: .plain,
-                                               target: self,
-                                               action: #selector(didTapEditButton))
-        navBarEditButton.tintColor = .sparkyBlue
-        self.navigationItem.rightBarButtonItem = navBarEditButton
+//        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+//        editButton.setTitle("수정하기", for: .normal)
+//        editButton.tintColor = .sparkyBlue
+//        editButton.addTarget(self,
+//                             action: #selector(didTapEditButton),
+//                             for: .touchUpInside)
+//        
+//        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
+//        let navBarEditButton = UIBarButtonItem(title: "수정하기",
+//                                               style: .plain,
+//                                               target: self,
+//                                               action: #selector(didTapEditButton))
+//        navBarEditButton.tintColor = .sparkyBlue
+//        self.navigationItem.rightBarButtonItem = navBarEditButton
     }
     
     private func setupConstraints() {
@@ -368,7 +365,8 @@ final class ScrapDetailVC: UIViewController {
         
         saveButton.rx.tap
             .subscribe { _ in
-                print("Scrap detail - \(self.scrap)")
+                print("Scrap detail - \(self.scrap.value)")
+                print("Scrap tags - \(self.scrap.value.tagList.value)")
                 var tagIdList = [Int]()
                 for i in 0..<self.scrap.value.tagList.value.count - 1 {
                     tagIdList.append(self.scrap.value.tagList.value[i].tagId)
@@ -388,6 +386,8 @@ final class ScrapDetailVC: UIViewController {
                         print("message - \(response.message)")
                         
                         if response.code == "0000" {
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                             print("스크랩 수정 성공!!")
                             self.dismiss(animated: false)
                             self.dismissVCDelegate?.sendNotification()
@@ -411,6 +411,8 @@ final class ScrapDetailVC: UIViewController {
                                             TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                             self.didTapDeleteScrapButton()
                                         } else {
+                                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                             print(response.code)
                                             print("message - \(response.message)")
                                             print("토큰 재발급 실패!!")
@@ -425,6 +427,8 @@ final class ScrapDetailVC: UIViewController {
                                             MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                         }
                                     } else {
+                                        self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                         print(response.code)
                                         print("message - \(response.message)")
                                         print("토큰 재발급 실패!!")
@@ -439,15 +443,20 @@ final class ScrapDetailVC: UIViewController {
                                         MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                     }
                                 } onFailure: { error in
+                                    self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                                     print("요청 실패 - \(error)")
                                 }.disposed(by: self.disposeBag)
                         } else {
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                             print("response - \(response)")
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                         print("수정 실패!! - \(error)")
                     }.disposed(by: self.disposeBag)
             } onError: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("요청 실패 - \(error)")
             }.disposed(by: self.disposeBag)
         memoTextView.rx
@@ -511,6 +520,8 @@ final class ScrapDetailVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("스크랩 삭제 성공!!")
                     self.dismiss(animated: false)
                     self.dismissVCDelegate?.sendNotification()
@@ -534,6 +545,8 @@ final class ScrapDetailVC: UIViewController {
                                     TokenUtils().create("com.sparky.token", account: "accessToken", value: result.accessToken)
                                     self.didTapDeleteScrapButton()
                                 } else {
+                                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -548,6 +561,8 @@ final class ScrapDetailVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -562,12 +577,16 @@ final class ScrapDetailVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("스크랩 삭제 실패!! - \(error)")
             }.disposed(by: disposeBag)
     }
@@ -634,32 +653,32 @@ extension ScrapDetailVC: NewTagCVDelegate {
 
 extension ScrapDetailVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        //        return 2
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        if section == 0 {
-        //            return 2
-        //        } else {
-        return 1
-        //        }
+        if section == 0 {
+            return 2
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SubActionTableViewCell.identifier,
                                                  for: indexPath) as! SubActionTableViewCell
-        //        if indexPath.section == 0 {
-        //            if indexPath.row == 0 {
-        //                cell.actionLabel.text = "공유하기"
-        //            } else {
-        //                cell.actionLabel.text = "URL 복사하기"
-        //            }
-        //        } else {
-        cell.actionLabel.text = "삭제하기"
-        cell.actionLabel.textColor = .sparkyOrange
         cell.selectionStyle = .none
-        //        }
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                cell.actionLabel.text = "공유하기"
+            } else {
+                cell.actionLabel.text = "URL 복사하기"
+            }
+        } else {
+            cell.actionLabel.text = "삭제하기"
+            cell.actionLabel.textColor = .sparkyOrange
+            cell.selectionStyle = .none
+        }
         return cell
     }
 }
@@ -669,8 +688,20 @@ extension ScrapDetailVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
-                self.didTapDeleteScrapButton()
+                do {
+                    if let image = UIImage(data: try Data(contentsOf: URL(string: scrap.value.thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!)) {
+                        let vc = UIActivityViewController(activityItems: [scrap.value.title, image], applicationActivities: [])
+                        present(vc, animated: true, completion: nil)
+                    }
+                } catch {
+                    print("error!")
+                }
+            } else {
+                UIPasteboard.general.string = scrap.value.scrapURLString
+                self.view.makeToast("URL이 복사되었습니다.", duration: 1.5, position: .bottom)
             }
+        } else {
+            self.didTapDeleteScrapButton()
         }
     }
     

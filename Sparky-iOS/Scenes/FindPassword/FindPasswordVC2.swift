@@ -16,10 +16,9 @@ class FindPasswordVC2: UIViewController {
     let viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .sparkyWhite
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
         $0.isHidden = true
     }
     
@@ -62,7 +61,7 @@ class FindPasswordVC2: UIViewController {
         
         view.backgroundColor = .white
         
-//        setupLottieView()
+        setupLoadingView()
         createObserver()
         setupNavBar()
         setupUI()
@@ -70,14 +69,19 @@ class FindPasswordVC2: UIViewController {
         bindViewModel()
     }
     
-    private func setupLottieView() {
+    func setupLoadingView() {
         let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
@@ -257,7 +261,8 @@ class FindPasswordVC2: UIViewController {
                     email: email,
                     number: self.viewModel.inputNumberObserver.value)
                 
-                self.lottieView.isHidden = false
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
                     .signUpEmailConfirm(emailConfirmRequest: emailConfirmRequest)
                     .map(PostResultResponse.self)
@@ -267,13 +272,20 @@ class FindPasswordVC2: UIViewController {
                         print("message - \(response.message)")
 
                         if response.code == "0000" {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
                             
                             let findPasswordVC3 = FindPasswordVC3()
                             findPasswordVC3.email = self.email
                             self.navigationController?.pushViewController(findPasswordVC3, animated: true)
                         } else {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
+                            
                             for textField in self.otpStackView.textFieldsCollection {
                                 textField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             }
@@ -281,6 +293,10 @@ class FindPasswordVC2: UIViewController {
                             self.errorLabel.isHidden = false
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
+                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                        self.customActivityIndicatorView.isHidden = true
+                        
                         print("onFailure - \(error)")
                     }.disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
