@@ -15,7 +15,7 @@ def shared_pods
   pod 'SwiftLinkPreview', '~> 3.4.0'
   pod 'Kingfisher', '~> 7.0'
   pod 'lottie-ios'
-#  pod 'MaterialComponents/BottomAppBar'
+  pod 'Toast-Swift', '~> 5.0.1'
 end
 
 target 'Sparky-iOS' do

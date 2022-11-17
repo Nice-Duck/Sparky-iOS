@@ -8,5 +8,5 @@
 struct TagSaveResponse: Decodable {
     let code: String
     let message: String
-    let result: TagResponse
+    let result: TagResponse?
 }

@@ -15,11 +15,10 @@ class SignUpVC5: UIViewController {
     let disposeBag = DisposeBag()
     var signUpModel: SignUp?
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
-        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
-        $0.isHidden = true
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+         $0.loadingView.color = .sparkyWhite
+         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
+         $0.isHidden = true
     }
     
     let largeSizeView = UIView().then {
@@ -54,7 +53,7 @@ class SignUpVC5: UIViewController {
         
         view.backgroundColor = .sparkyWhite
         
-//        setupLottieView()
+        setupLoadingView()
         setupConstraints()
         bindNextButton()
     }
@@ -63,12 +62,17 @@ class SignUpVC5: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    private func setupLottieView() {
+    func setupLoadingView() {
         let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     private func setupConstraints() {
@@ -103,22 +107,25 @@ class SignUpVC5: UIViewController {
     
     private func bindNextButton() {
         nextButton.rx.tap
-            .asDriver()
-            .throttle(.seconds(3))
-            .drive { _ in
-                guard let signUpModel = signUpModel else { return }
+            .throttle(.seconds(3), scheduler: MainScheduler.instance)
+            .subscribe { _ in
+                guard let signUpModel = self.signUpModel else { return }
                 let emailSignUpRequest = EmailSignUpRequest(email: signUpModel.email,
                                                             pwd: signUpModel.password,
                                                             nickname: signUpModel.nickname)
                 
-                self.lottieView.isHidden = false
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
                     .signUp(emailSignUpRequest: emailSignUpRequest)
                     .map(EmailSignUpResponse.self)
                     .subscribe { response in
                         
                         if response.code == "0000" {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
                             
                             print("code - \(response.code)")
                             print("message - \(response.message)")
@@ -143,13 +150,21 @@ class SignUpVC5: UIViewController {
                             MoveUtils.shared.moveToHomeVC(nav: self.navigationController)
                             
                         } else {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
+                            
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
+                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                        self.customActivityIndicatorView.isHidden = true
+                        
                         print(error)
                     }.disposed(by: self.disposeBag)
-            }
+            }.disposed(by: disposeBag)
     }
 }

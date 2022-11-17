@@ -274,6 +274,8 @@ class PlusScrapBottomSheetVC: UIViewController {
                 guard let self = self else { return }
                 
                 if response.code == "0000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     let customShareVC = HomeCustomShareVC()
                         customShareVC.urlString = urlStringText
 
@@ -321,6 +323,8 @@ class PlusScrapBottomSheetVC: UIViewController {
                                     MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -335,12 +339,16 @@ class PlusScrapBottomSheetVC: UIViewController {
                                 MoveUtils.shared.moveToSignInVC(nav: self.navigationController)
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                     print("response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("요청 실패!!! - \(error)")
             }.disposed(by: self.disposeBag)
     }

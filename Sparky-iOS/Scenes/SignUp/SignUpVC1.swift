@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import Lottie
+import Toast_Swift
 
 class SignUpVC1: UIViewController {
     
@@ -16,10 +17,9 @@ class SignUpVC1: UIViewController {
     let viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .sparkyWhite
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
         $0.isHidden = true
     }
     
@@ -69,19 +69,24 @@ class SignUpVC1: UIViewController {
         
         view.backgroundColor = .white
         
-//        setupLottieView()
+        setupLoadingView()
         createObserver()
         setupNavBar()
         setupUI()
         bindViewModel()
     }
     
-    private func setupLottieView() {
+    func setupLoadingView() {
         let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -212,7 +217,9 @@ class SignUpVC1: UIViewController {
                 self.emailTextField.resignFirstResponder()
                 
                 guard let email = self.emailTextField.text else { return }
-                self.lottieView.isHidden = false
+                
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
                     .signUpEmailDuplicate(email: email)
                     .map(EmailSignUpResponse.self)
@@ -221,6 +228,8 @@ class SignUpVC1: UIViewController {
                         print("message - \(response.message)")
                         
                         if response.code == "0000" {
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                             let emailSendRequest = EmailSendRequest(email: email)
                             UserServiceProvider.shared
                                 .signUpEmailSend(emailSendRequest: emailSendRequest)
@@ -230,26 +239,41 @@ class SignUpVC1: UIViewController {
                                     print("message - \(response.message)")
                                     
                                     if response.code == "0000" {
-                                        self.lottieView.isHidden = true
+                                        self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                                        self.customActivityIndicatorView.isHidden = true
+
                                         
                                         let signUpVC2 = SignUpVC2()
                                         signUpVC2.email = email
                                         self.navigationController?.pushViewController(signUpVC2, animated: true)
                                     } else {
-                                        self.lottieView.isHidden = true
+                                        self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                                        self.customActivityIndicatorView.isHidden = true
                                     }
                                 } onFailure: { error in
                                     print(error)
                                 }.disposed(by: self.disposeBag)
                         } else if response.code == "0001" {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
+
                             self.emailTextField.layer.borderColor = UIColor.sparkyOrange.cgColor
                             self.errorLabel.text = response.message
                             self.errorLabel.isHidden = false
                         } else {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
+                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                        self.customActivityIndicatorView.isHidden = true
                         print(error)
                     }.disposed(by: self.disposeBag)
             }

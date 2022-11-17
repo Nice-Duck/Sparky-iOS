@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxGesture
+import Toast_Swift
 
 final class ShareTagBottomSheetVC: UIViewController {
     
@@ -194,6 +195,7 @@ final class ShareTagBottomSheetVC: UIViewController {
                 print("message - \(response.message)")
                 
                 if response.code == "0000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     print("---요청 성공!!!---")
                     print("tagList - \(response.result)")
                     
@@ -214,6 +216,7 @@ final class ShareTagBottomSheetVC: UIViewController {
                     print("tagList - \(self.viewModel.recentTagList.value)")
                     
                 } else if response.code == "U000" {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     print("response - \(response)")
                     
                     if let _ = TokenUtils().read("com.sparky.token", account: "accessToken") {
@@ -246,6 +249,8 @@ final class ShareTagBottomSheetVC: UIViewController {
                                     }
                                 }
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -257,14 +262,18 @@ final class ShareTagBottomSheetVC: UIViewController {
                                 if let _ = TokenUtils().read("com.sparky.token", account: "refreshToken") {
                                     TokenUtils().delete("com.sparky.token", account: "refreshToken")
                                 }
+                                self.dismissTagBottomSheetVC()
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 } else {
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     print("error response - \(response)")
                 }
             } onFailure: { error in
+                self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                 print("---요청 실패!!!---")
                 print(error)
             }.disposed(by: disposeBag)
@@ -291,7 +300,7 @@ final class ShareTagBottomSheetVC: UIViewController {
         
         view.addSubview(keyboardBoxView)
         keyboardBoxView.snp.makeConstraints {
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view)
             $0.left.equalTo(view.safeAreaLayoutGuide)
             $0.right.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(0)
@@ -469,25 +478,28 @@ final class ShareTagBottomSheetVC: UIViewController {
                         .saveTag(tagRequst: tagRequest)
                         .map(TagSaveResponse.self)
                         .subscribe { response in
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             if response.code == "0000" {
                                 print("---요청 성공!!!---")
                                 self.tagTextField.resignFirstResponder()
                                 
-                                let tagSaveResponse = response.result
-                                print("color - \(tagSaveResponse.color)")
-                                let newTag = Tag(tagId: tagSaveResponse.tagId,
-                                                 name: tagSaveResponse.name,
-                                                 color: UIColor(hexaRGB: tagSaveResponse.color ?? "#E6DBE0") ?? .colorchip1,
-                                                 buttonType: .none)
-                                
-                                self.newTagCVDelegate?.sendNewTagList(tag: newTag)
+                                if let result = response.result {
+                                    print("color - \(result.color)")
+                                    let newTag = Tag(tagId: result.tagId,
+                                                     name: result.name,
+                                                     color: UIColor(hexaRGB: result.color ?? "#E6DBE0") ?? .colorchip1,
+                                                     buttonType: .none)
+                                    self.newTagCVDelegate?.sendNewTagList(tag: newTag)
+                                }
                                 self.dismissTagBottomSheetVC()
                             } else {
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                                 print("---요청 실패!!!---")
                             }
                         } onFailure: { error in
+                            self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                             print("요청 실패 - \(error)")
                         }.disposed(by: self.disposeBag)
                 }

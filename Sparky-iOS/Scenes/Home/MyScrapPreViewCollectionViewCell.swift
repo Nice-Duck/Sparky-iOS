@@ -41,6 +41,13 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         bindViewModel()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.setNeedsLayout()
+        self.layoutIfNeeded()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

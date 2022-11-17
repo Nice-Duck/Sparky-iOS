@@ -17,13 +17,11 @@ class SignUpVC2: UIViewController {
     let viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .sparkyWhite
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
         $0.isHidden = true
     }
-
     
     private let navigationEdgeBar = UIView().then {
         $0.backgroundColor = .gray200
@@ -57,14 +55,14 @@ class SignUpVC2: UIViewController {
     }
     
     private let keyboardBoxView = UIView()
-
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-//        setupLottieView()
+        setupLoadingView()
         createObserver()
         setupNavBar()
         setupUI()
@@ -72,12 +70,17 @@ class SignUpVC2: UIViewController {
         bindViewModel()
     }
     
-    private func setupLottieView() {
+    func setupLoadingView() {
         let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -104,7 +107,7 @@ class SignUpVC2: UIViewController {
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         self.keyboardBoxView.constraints.forEach { constraint in
             if constraint.firstAttribute == .height {
@@ -184,49 +187,49 @@ class SignUpVC2: UIViewController {
     }
     
     private func bindViewModel() {
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { _ in UIColor.sparkyOrange.cgColor
-//            if $0 == .none {
-//            for i in 0..<6 {
-//                self.otpStackView.textFieldsCollection[i].layer.rx .borderColor = UIColor.sparkyOrange.cgColor
-//            }
-//        }
-//            UIColor.gray300.cgColor : $0 == .invalid ? UIColor.sparkyOrange.cgColor : UIColor.sparkyBlack.cgColor
-            
-//        }.bind(to: otpStackView.rx.textFieldsCollection)
-//                .bind(to: otpStackView.textFieldsCollection[0].layer.rx.borderColor)
-//        .disposed(by: disposeBag)
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { _ in UIColor.sparkyOrange.cgColor
+        //            if $0 == .none {
+        //            for i in 0..<6 {
+        //                self.otpStackView.textFieldsCollection[i].layer.rx .borderColor = UIColor.sparkyOrange.cgColor
+        //            }
+        //        }
+        //            UIColor.gray300.cgColor : $0 == .invalid ? UIColor.sparkyOrange.cgColor : UIColor.sparkyBlack.cgColor
         
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.orange.cgColor }
-//        .bind(to: otpStackView.textFieldsCollection[1].layer.rx.borderColor)
-//        .disposed(by: disposeBag)
-//
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
-//        .bind(to: otpStackView.textFieldsCollection[2].layer.rx.borderColor)
-//        .disposed(by: disposeBag)
-//
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
-//        .bind(to: otpStackView.textFieldsCollection[3].layer.rx.borderColor)
-//        .disposed(by: disposeBag)
-//
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
-//        .bind(to: otpStackView.textFieldsCollection[4].layer.rx.borderColor)
-//        .disposed(by: disposeBag)
-//
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
-//        .bind(to: otpStackView.textFieldsCollection[5].layer.rx.borderColor)
-//        .disposed(by: disposeBag)
+        //        }.bind(to: otpStackView.rx.textFieldsCollection)
+        //                .bind(to: otpStackView.textFieldsCollection[0].layer.rx.borderColor)
+        //        .disposed(by: disposeBag)
+        
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.orange.cgColor }
+        //        .bind(to: otpStackView.textFieldsCollection[1].layer.rx.borderColor)
+        //        .disposed(by: disposeBag)
+        //
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
+        //        .bind(to: otpStackView.textFieldsCollection[2].layer.rx.borderColor)
+        //        .disposed(by: disposeBag)
+        //
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
+        //        .bind(to: otpStackView.textFieldsCollection[3].layer.rx.borderColor)
+        //        .disposed(by: disposeBag)
+        //
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
+        //        .bind(to: otpStackView.textFieldsCollection[4].layer.rx.borderColor)
+        //        .disposed(by: disposeBag)
+        //
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { $0 == .none ? UIColor.gray300.cgColor : UIColor.sparkyBlack.cgColor }
+        //        .bind(to: otpStackView.textFieldsCollection[5].layer.rx.borderColor)
+        //        .disposed(by: disposeBag)
         
         viewModel.isValid(regexType: .authNumber,
                           textFieldColection: otpStackView.textFieldsCollection)
@@ -234,11 +237,11 @@ class SignUpVC2: UIViewController {
         .bind(to: errorLabel.rx.text)
         .disposed(by: disposeBag)
         
-//        viewModel.isValid(regexType: .authNumber,
-//                          textFieldColection: otpStackView.textFieldsCollection)
-//        .map { $0 == .valid ? true : false }
-//        .bind(to: errorLabel.rx.isHidden)
-//        .disposed(by: disposeBag)
+        //        viewModel.isValid(regexType: .authNumber,
+        //                          textFieldColection: otpStackView.textFieldsCollection)
+        //        .map { $0 == .valid ? true : false }
+        //        .bind(to: errorLabel.rx.isHidden)
+        //        .disposed(by: disposeBag)
         
         viewModel.isValid(regexType: .authNumber,
                           textFieldColection: otpStackView.textFieldsCollection)
@@ -259,7 +262,8 @@ class SignUpVC2: UIViewController {
                     email: email,
                     number: self.viewModel.inputNumberObserver.value)
                 
-                self.lottieView.isHidden = false
+                self.customActivityIndicatorView.isHidden = false
+                self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
                     .signUpEmailConfirm(emailConfirmRequest: emailConfirmRequest)
                     .map(PostResultResponse.self)
@@ -267,15 +271,21 @@ class SignUpVC2: UIViewController {
                         print("response \(response)")
                         print("code - \(response.code)")
                         print("message - \(response.message)")
-
+                        
                         if response.code == "0000" {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                            
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
                             
                             let signUpVC3 = SignUpVC3()
                             signUpVC3.email = self.email
                             self.navigationController?.pushViewController(signUpVC3, animated: true)
                         } else {
-                            self.lottieView.isHidden = true
+                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
+                            
+                            self.customActivityIndicatorView.loadingView.stopAnimating()
+                            self.customActivityIndicatorView.isHidden = true
                             
                             for textField in self.otpStackView.textFieldsCollection {
                                 textField.layer.borderColor = UIColor.sparkyOrange.cgColor
@@ -284,6 +294,11 @@ class SignUpVC2: UIViewController {
                             self.errorLabel.isHidden = false
                         }
                     } onFailure: { error in
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
+                        
+                        self.customActivityIndicatorView.loadingView.stopAnimating()
+                        self.customActivityIndicatorView.isHidden = true
+                        
                         print("onFailure - \(error)")
                     }.disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
