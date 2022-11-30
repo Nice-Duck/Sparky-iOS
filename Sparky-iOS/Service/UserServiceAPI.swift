@@ -13,7 +13,7 @@ enum UserServiceAPI {
     case signUpEmailDuplicate(params: String)
     case signUpEmailSend(body: EmailSendRequest)
     case signUpEmailConfirm(body: EmailConfirmRequest)
-    case signUpNicknameDuplicate(params: EmailNicknameDuplicateRequest)
+    case signUpNicknameDuplicate(params: String)
     case signUp(body: EmailSignUpRequest)
 }
 

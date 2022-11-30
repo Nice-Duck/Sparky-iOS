@@ -249,13 +249,11 @@ class SignUpVC4: UIViewController {
                 print("email - \(email)")
                 print("password - \(password)")
                 print("nickname - \(nickname)")
-                
-                let nicknameDuplicateRequest = EmailNicknameDuplicateRequest(name: nickname)
-                
+                        
                 self.customActivityIndicatorView.isHidden = false
                 self.customActivityIndicatorView.loadingView.startAnimating()
                 UserServiceProvider.shared
-                    .signUpNicknameDuplicate(nicknameDuplicateRequest: nicknameDuplicateRequest)
+                    .signUpNicknameDuplicate(nickname: nickname)
                     .map(PostResultResponse.self)
                     .subscribe { response in
                         print("code - \(response.code)")

@@ -121,6 +121,7 @@ final class ShareTagBottomSheetVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .background
+        view.overrideUserInterfaceStyle = .light
         
         tagTextField.becomeFirstResponder()
         
@@ -478,12 +479,13 @@ final class ShareTagBottomSheetVC: UIViewController {
                         .saveTag(tagRequst: tagRequest)
                         .map(TagSaveResponse.self)
                         .subscribe { response in
-                            self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                             print("code - \(response.code)")
                             print("message - \(response.message)")
                             if response.code == "0000" {
                                 print("---요청 성공!!!---")
+                                
                                 self.tagTextField.resignFirstResponder()
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                                 
                                 if let result = response.result {
                                     print("color - \(result.color)")
@@ -495,8 +497,8 @@ final class ShareTagBottomSheetVC: UIViewController {
                                 }
                                 self.dismissTagBottomSheetVC()
                             } else {
-                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                                 print("---요청 실패!!!---")
+                                self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                             }
                         } onFailure: { error in
                             self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)

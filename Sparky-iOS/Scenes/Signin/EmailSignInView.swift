@@ -26,6 +26,8 @@ class EmailSignInView: UIView {
         $0.layer.borderWidth = 1
         $0.layer.borderColor = UIColor.gray300.cgColor
         $0.layer.cornerRadius = 8
+        $0.clearButtonMode = .always
+        $0.tintColor = .sparkyBlack
         $0.setLeftPadding(20)
     }
     
@@ -44,6 +46,7 @@ class EmailSignInView: UIView {
         $0.layer.borderColor = UIColor.gray300.cgColor
         $0.layer.cornerRadius = 8
         $0.setLeftPadding(20)
+        $0.clearButtonMode = .always
         $0.isSecureTextEntry = true
     }
     

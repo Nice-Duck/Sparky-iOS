@@ -101,6 +101,7 @@
 		566584D3291FEBA60043FFE3 /* TagDottedLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */; };
 		566584D729202D730043FFE3 /* MoveUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D629202D730043FFE3 /* MoveUtils.swift */; };
 		56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */; };
+		56793D8D2927B46F007BF834 /* CustomActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EBEA63292665CB006294EE /* CustomActivityIndicatorView.swift */; };
 		567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26072910ACE6000296F0 /* ScarpSectionView.swift */; };
 		567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */; };
 		567D26122910FFD5000296F0 /* CustomVAlignLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26112910FFD5000296F0 /* CustomVAlignLabel.swift */; };
@@ -109,7 +110,6 @@
 		567DF87128EC983B005A3E30 /* EmailSignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */; };
 		567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */; };
 		567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */; };
-		5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */; };
 		568F55792923048E008A7294 /* ScrapSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568F55782923048E008A7294 /* ScrapSearchResponse.swift */; };
 		568F557D29231153008A7294 /* MyScrapFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568F557C29231153008A7294 /* MyScrapFilterViewModel.swift */; };
 		568F5580292384A4008A7294 /* lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 568F557F292384A4008A7294 /* lottie.json */; };
@@ -274,7 +274,6 @@
 		567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpRequest.swift; sourceTree = "<group>"; };
 		567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendRequest.swift; sourceTree = "<group>"; };
 		567DF87528ECAAE4005A3E30 /* EmailSignUpResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignUpResponse.swift; sourceTree = "<group>"; };
-		5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailNicknameDuplicateRequest.swift; sourceTree = "<group>"; };
 		568183452901A641006F616C /* PreviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewModel.swift; sourceTree = "<group>"; };
 		5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		568AD0722902ED2600F2CFD7 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
@@ -712,7 +711,6 @@
 				567DF87028EC983B005A3E30 /* EmailSignUpRequest.swift */,
 				567DF87328ECA69F005A3E30 /* EmailSendRequest.swift */,
 				567DF86E28EC9645005A3E30 /* EmailConfirmRequest.swift */,
-				5680F0F328F33598004D240D /* EmailNicknameDuplicateRequest.swift */,
 				56D6AFE82915E6BD0026B18C /* TagRequst.swift */,
 				56D6AFEA2915E87C0026B18C /* ScrapRequest.swift */,
 				562186B12922B0AA004DF08B /* ScrapSearchRequest.swift */,
@@ -1113,6 +1111,7 @@
 				56185AE6291D50660052ADE0 /* BehaviorRelay+.swift in Sources */,
 				56185AE9291D506C0052ADE0 /* UIButton+.swift in Sources */,
 				56185AC3291D4FFD0052ADE0 /* ReIssueTokenResponse.swift in Sources */,
+				56793D8D2927B46F007BF834 /* CustomActivityIndicatorView.swift in Sources */,
 				56185AC9291D50090052ADE0 /* TagRequst.swift in Sources */,
 				56185AB4291D4FD90052ADE0 /* CrawlManager.swift in Sources */,
 				566584C5291F58F60043FFE3 /* ReIssueServiceProvider.swift in Sources */,
@@ -1146,7 +1145,6 @@
 				566584C7291F5F180043FFE3 /* HomeTagBottomSheetVC.swift in Sources */,
 				5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */,
 				56449FE9292121AE00F34E1E /* SignUpVC5.swift in Sources */,
-				5680F0F428F33598004D240D /* EmailNicknameDuplicateRequest.swift in Sources */,
 				569EA3D2291C262600F90EEE /* UIButton+.swift in Sources */,
 				566584BB291F55900043FFE3 /* AddTagViewModel.swift in Sources */,
 				560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */,
@@ -1302,6 +1300,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 63E5E58ABC4C61E905D8AF57 /* Pods-Sparky.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = Sparky/SparkyDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1332,6 +1331,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 986661B0FC11C5CD43F2EA55 /* Pods-Sparky.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = Sparky/SparkyRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

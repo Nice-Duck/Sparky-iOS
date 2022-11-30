@@ -82,8 +82,8 @@ struct UserServiceProvider {
             }
     }
     
-    func signUpNicknameDuplicate(nicknameDuplicateRequest: EmailNicknameDuplicateRequest) -> Single<Response> {
-        return provider.rx.request(.signUpNicknameDuplicate(params: nicknameDuplicateRequest))
+    func signUpNicknameDuplicate(nickname: String) -> Single<Response> {
+        return provider.rx.request(.signUpNicknameDuplicate(params: nickname))
             .do { response in
                 if (200...299).contains(response.statusCode) {
                     print("요청 성공! - HTTP Status Code: \(response.statusCode)")

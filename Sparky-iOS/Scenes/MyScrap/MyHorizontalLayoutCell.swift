@@ -168,7 +168,7 @@ final class MyHorizontalLayoutCell: UICollectionViewCell {
     func setupValue(scrap: Scrap) {
         titleLabel.text = scrap.title
         subTitleLabel.text = scrap.subTitle
-        thumbnailImageView.setupImageView(frameSize: CGSize(width: contentView.frame.size.width - 24, height: 78), url: URL(string: scrap.thumbnailURLString))
+        thumbnailImageView.kf.setImage(with: URL(string: scrap.thumbnailURLString))
     }
     
     func setDidTapScrapDetailButton() {

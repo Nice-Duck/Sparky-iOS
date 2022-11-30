@@ -26,10 +26,9 @@ final class CustomShareVC: UIViewController {
     
     var urlString: String? = nil
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .white
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
         $0.isHidden = true
     }
     
@@ -44,7 +43,7 @@ final class CustomShareVC: UIViewController {
     
     private var scrapImageView = UIImageView().then {
         $0.layer.cornerRadius = 4
-        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
     }
     
     private var scrapTitleLabel = CustomVAlignLabel().then {
@@ -111,28 +110,20 @@ final class CustomShareVC: UIViewController {
     }
     
     private let keyboardBoxView = UIView()
-
+    
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = .background
         
-//        setupLottieView()
         createObserver()
         setupNavBar()
         setupConstraints()
+        setupLoadingView()
         bindViewModel()
         setupScrap()
     }
-    
-    private func setupLottieView() {
-        self.view.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
-    }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -158,7 +149,7 @@ final class CustomShareVC: UIViewController {
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         self.keyboardBoxView.constraints.forEach { constraint in
             if constraint.firstAttribute == .height {
@@ -285,6 +276,17 @@ final class CustomShareVC: UIViewController {
         }
     }
     
+    func setupLoadingView() {
+        let window = self.navigationController?.navigationBar.window
+        window?.addSubview(customActivityIndicatorView)
+        customActivityIndicatorView.snp.makeConstraints {
+            $0.top.equalTo(window ?? view)
+            $0.left.equalTo(window ?? view)
+            $0.bottom.equalTo(window ?? view)
+            $0.right.equalTo(window ?? view)
+        }
+    }
+    
     private func bindViewModel() {
         viewModel.addTagList
             .bind(to: addTagCollectionView.rx.items) { collectionView, row, element in
@@ -367,7 +369,8 @@ final class CustomShareVC: UIViewController {
     }
     
     private func saveMyScrap(scrapRequest: ScrapRequest) {
-        lottieView.isHidden = false
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         ShareServiceProvider.shared
             .saveScrap(scrapRequest: scrapRequest)
             .map(PostResultResponse.self)
@@ -376,14 +379,18 @@ final class CustomShareVC: UIViewController {
                 print("message: \(response.message)")
                 
                 if response.code == "0000" {
-                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-                    self.lottieView.isHidden = true
                     print("---요청 성공!!!---")
+                    
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
+                    self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     let error = NSError(domain: "sparky.bundle.identifier",
                                         code: 0,
                                         userInfo: [NSLocalizedDescriptionKey: "An error description"])
                     self.extensionContext?.cancelRequest(withError: error)
                 } else {
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
                     print("---응답 실패!!!---")
                 }
@@ -417,12 +424,14 @@ final class CustomShareVC: UIViewController {
         self.previewViewModel.fetchPreview(urlString: urlString) { preview in
             do {
                 print("CustomShareVC response - \(preview)")
-                self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: preview?.thumbnailURLString ?? ""))
+                self.scrapImageView.kf.setImage(
+                    with: URL(string: preview?.thumbnailURLString ?? Strings.sparkyImageString)
+                )
+                
                 self.scrapTitleLabel.text = preview?.title ?? ""
                 self.scrapSubTitleLabel.text = preview?.subtitle ?? ""
-                self.view.layoutIfNeeded()
             } catch {
-                
+                print("스크랩 정보 불러오기 실패!")
             }
         }
     }

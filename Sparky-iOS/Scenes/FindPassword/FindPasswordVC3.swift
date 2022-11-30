@@ -16,13 +16,6 @@ class FindPasswordVC3: UIViewController {
     var viewModel = SignUpViewModel()
     let disposeBag = DisposeBag()
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
-        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
-        $0.isHidden = true
-    }
-    
     private let navigationEdgeBar = UIView().then {
         $0.backgroundColor = .gray200
     }
@@ -85,19 +78,10 @@ class FindPasswordVC3: UIViewController {
         
         view.backgroundColor = .white
         
-//        setupLottieView()
         createObserver()
         setupNavBar()
         setupUI()
         bindViewModel()
-    }
-    
-    private func setupLottieView() {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){

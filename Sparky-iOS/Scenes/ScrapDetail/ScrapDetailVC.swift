@@ -33,7 +33,7 @@ final class ScrapDetailVC: UIViewController {
     
     private var scrapImageView = UIImageView().then {
         $0.layer.cornerRadius = 4
-        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
     }
     
     private var scrapTitleLabel = CustomVAlignLabel().then {
@@ -126,8 +126,6 @@ final class ScrapDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("viewDidLoad Scrap detail - \(self.scrap.value)")
-        
         self.view.backgroundColor = .background
         
         createObserver()
@@ -200,7 +198,7 @@ final class ScrapDetailVC: UIViewController {
 //        editButton.addTarget(self,
 //                             action: #selector(didTapEditButton),
 //                             for: .touchUpInside)
-//        
+//
 //        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
 //        let navBarEditButton = UIBarButtonItem(title: "수정하기",
 //                                               style: .plain,
@@ -365,12 +363,11 @@ final class ScrapDetailVC: UIViewController {
         
         saveButton.rx.tap
             .subscribe { _ in
-                print("Scrap detail - \(self.scrap.value)")
-                print("Scrap tags - \(self.scrap.value.tagList.value)")
                 var tagIdList = [Int]()
                 for i in 0..<self.scrap.value.tagList.value.count - 1 {
                     tagIdList.append(self.scrap.value.tagList.value[i].tagId)
                 }
+                
                 let scrapRequest = ScrapRequest(title: self.scrap.value.title,
                                                 subTitle: self.scrap.value.subTitle,
                                                 memo: self.scrap.value.memo,
@@ -387,7 +384,7 @@ final class ScrapDetailVC: UIViewController {
                         
                         if response.code == "0000" {
                             self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                            
                             print("스크랩 수정 성공!!")
                             self.dismiss(animated: false)
                             self.dismissVCDelegate?.sendNotification()
@@ -412,7 +409,7 @@ final class ScrapDetailVC: UIViewController {
                                             self.didTapDeleteScrapButton()
                                         } else {
                                             self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                                            
                                             print(response.code)
                                             print("message - \(response.message)")
                                             print("토큰 재발급 실패!!")
@@ -428,7 +425,7 @@ final class ScrapDetailVC: UIViewController {
                                         }
                                     } else {
                                         self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                                        
                                         print(response.code)
                                         print("message - \(response.message)")
                                         print("토큰 재발급 실패!!")
@@ -448,7 +445,7 @@ final class ScrapDetailVC: UIViewController {
                                 }.disposed(by: self.disposeBag)
                         } else {
                             self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                            
                             print("response - \(response)")
                         }
                     } onFailure: { error in
@@ -521,7 +518,7 @@ final class ScrapDetailVC: UIViewController {
                 
                 if response.code == "0000" {
                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                    
                     print("스크랩 삭제 성공!!")
                     self.dismiss(animated: false)
                     self.dismissVCDelegate?.sendNotification()
@@ -546,7 +543,7 @@ final class ScrapDetailVC: UIViewController {
                                     self.didTapDeleteScrapButton()
                                 } else {
                                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                                    
                                     print(response.code)
                                     print("message - \(response.message)")
                                     print("토큰 재발급 실패!!")
@@ -562,7 +559,7 @@ final class ScrapDetailVC: UIViewController {
                                 }
                             } else {
                                 self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                                
                                 print(response.code)
                                 print("message - \(response.message)")
                                 print("토큰 재발급 실패!!")
@@ -582,7 +579,7 @@ final class ScrapDetailVC: UIViewController {
                         }.disposed(by: self.disposeBag)
                 } else {
                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                    
                     print("response - \(response)")
                 }
             } onFailure: { error in

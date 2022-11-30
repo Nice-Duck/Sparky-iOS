@@ -141,8 +141,10 @@ final class SignInVC: UIViewController {
                 
                 if self.emailSignInView.emailTextField.text != "" {
                     if NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self.emailSignInView.emailTextField.text) {
-                        print("타당한 아이디입니다.")
-                    } else { print("Invalid Email!") }
+                        self.emailSignInView.emailTextField.layer.borderColor = UIColor.sparkyBlack.cgColor
+                    } else {
+                        self.emailSignInView.emailTextField.layer.borderColor = UIColor.gray300.cgColor
+                    }
                 }
             }).disposed(by: disposeBag)
         
@@ -152,8 +154,10 @@ final class SignInVC: UIViewController {
                 
                 if self.emailSignInView.passwordTextField.text != "" {
                     if NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self.emailSignInView.passwordTextField.text) {
-                        print("타당한 비밀번호입니다.")
-                    } else { print("Invalid Password!") }
+                        self.emailSignInView.passwordTextField.layer.borderColor = UIColor.sparkyBlack.cgColor
+                    } else {
+                        self.emailSignInView.passwordTextField.layer.borderColor = UIColor.gray300.cgColor
+                    }
                 }
             }).disposed(by: disposeBag)
         
@@ -220,9 +224,9 @@ final class SignInVC: UIViewController {
                             print("message - \(response.message)")
                         }
                     } onFailure: { error in
-                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
                         self.customActivityIndicatorView.loadingView.stopAnimating()
                         self.customActivityIndicatorView.isHidden = true
+                        self.view.makeToast("네트워크 상태를 확인해주세요.", duration: 1.5, position: .bottom)
 
                         print(error)
                     }.disposed(by: self.disposeBag)

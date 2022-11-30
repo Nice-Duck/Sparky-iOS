@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 import RxRelay
 import Moya
-import Lottie
 
 enum HomeSectionType: Int {
     case myScrap, otherScrap
@@ -38,15 +37,10 @@ final class HomeVC: UIViewController {
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
     }
     
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
-        $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
-    }
-    
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         $0.placeholder = "찾고싶은 스크랩의 키워드를 입력해주세요"
         $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.clearButtonMode = .always
         $0.addTarget(self,
                      action: #selector(returnTabGesture),
                      for: .editingDidEndOnExit)
@@ -84,27 +78,18 @@ final class HomeVC: UIViewController {
         
         view.backgroundColor = .background
         
-        //        setupLottieView()
         setupNavBar()
         setupConstraints()
         setupLoadingView()
         createObserver()
+        changeTextField()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         scrapTextField.text = ""
-        
         fetchScraps()
-    }
-    
-    private func setupLottieView() {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -261,11 +246,12 @@ final class HomeVC: UIViewController {
                                              style: .done,
                                              target: self,
                                              action: nil)
-        
+                
         let profileButtonItem = UIBarButtonItem(image: UIImage(named: "profile")!.withRenderingMode(.alwaysOriginal),
                                                 style: .plain,
                                                 target: self,
                                                 action: nil)
+        
         profileButtonItem.rx.tap
             .subscribe { _ in
                 self.navigationController?.pushViewController(MyInfoVC(), animated: true)
@@ -331,12 +317,28 @@ final class HomeVC: UIViewController {
                                                object: nil)
     }
     
+    func changeTextField() {
+        scrapTextField.rx.text
+            .subscribe { _ in
+                if let text = self.scrapTextField.text, text != "" {
+                    
+                } else {
+                    
+                }
+            }.disposed(by: disposeBag)
+
+    }
+    
     @objc private func refresh(_ sender: AnyObject) {
         fetchScraps()
         refreshControl.endRefreshing()
     }
     
     @objc private func returnTabGesture() {
+        if let text = scrapTextField.text, text.count < 2 {
+            return
+        }
+        
         let scrapSearchRequest = ScrapSearchRequest(tags: [],
                                                     title: scrapTextField.text ?? "",
                                                     type: 0)
@@ -525,6 +527,7 @@ extension HomeVC: UITableViewDataSource {
 extension HomeVC: DismissVCDelegate {
     
     func sendNotification() {
+        scrapTextField.text = ""
         self.fetchScraps()
     }
 }

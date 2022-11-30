@@ -80,7 +80,6 @@ final class MyScrapVC: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .background
-//        setupLottieView()
         setupNavBar()
         setupConstraints()
         setupLoadingView()
@@ -528,6 +527,12 @@ final class MyScrapVC: UIViewController {
     }
     
     @objc private func returnTabGesture() {
+        if let text = scrapTextField.text, text.count < 2 {
+            let window = UIKitUtils.parentWindow
+            window?.makeToast("2글자 이상 입력해주세요.")
+            return
+        }
+        
         let scrapSearchRequest = ScrapSearchRequest(tags: filterTagIdList,
                                                     title: scrapTextField.text ?? "",
                                                     type: 1)
@@ -540,6 +545,7 @@ final class MyScrapVC: UIViewController {
             if let index = notification.object {
                 let scrapDetailVC = ScrapDetailVC()
                 scrapDetailVC.scrap = BehaviorRelay(value: scrapViewModel.scraps.value[index as! Int])
+                print("showScrap scrap - \(scrapDetailVC.scrap)")
                 scrapDetailVC.dismissVCDelegate = self
                 let nav = UINavigationController(rootViewController: scrapDetailVC)
                 nav.modalPresentationStyle = .fullScreen

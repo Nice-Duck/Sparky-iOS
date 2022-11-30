@@ -25,11 +25,11 @@ final class HomeCustomShareVC: UIViewController {
     
     var urlString: String? = nil
     weak var dismissVCDelegate: DismissVCDelegate?
-    
-    private let lottieView: LottieAnimationView = .init(name: "lottie").then {
-        $0.loopMode = .loop
+
+    private let customActivityIndicatorView = CustomActivityIndicatorView().then {
+        $0.loadingView.color = .white
+        $0.loadingView.stopAnimating()
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
-        $0.play()
         $0.isHidden = true
     }
     
@@ -44,7 +44,7 @@ final class HomeCustomShareVC: UIViewController {
     
     private var scrapImageView = UIImageView().then {
         $0.layer.cornerRadius = 4
-        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
     }
     
     private var scrapTitleLabel = CustomVAlignLabel().then {
@@ -118,20 +118,12 @@ final class HomeCustomShareVC: UIViewController {
         
         self.view.backgroundColor = .background
         
-//        setupLottieView()
         createObserver()
         setupNavBar()
         setupConstraints()
+        setupLoadingView()
         bindViewModel()
         setupScrap()
-    }
-    
-    private func setupLottieView() {
-        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        scene?.windows.first?.addSubview(lottieView)
-        lottieView.frame = self.view.bounds
-        lottieView.center = self.view.center
-        lottieView.contentMode = .scaleAspectFit
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -288,6 +280,19 @@ final class HomeCustomShareVC: UIViewController {
         }
     }
     
+    func setupLoadingView() {
+        let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        if let window = scene?.windows.first {
+            window.addSubview(customActivityIndicatorView)
+            customActivityIndicatorView.snp.makeConstraints {
+                $0.top.equalTo(window)
+                $0.left.equalTo(window)
+                $0.bottom.equalTo(window)
+                $0.right.equalTo(window)
+            }
+        }
+    }
+    
     private func bindViewModel() {
         viewModel.addTagList
             .bind(to: addTagCollectionView.rx.items) { collectionView, row, element in
@@ -374,7 +379,8 @@ final class HomeCustomShareVC: UIViewController {
         self.memoTextView.resignFirstResponder()
         self.dismiss(animated: false)
         
-        lottieView.isHidden = false
+        self.customActivityIndicatorView.isHidden = false
+        self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
             .saveScrap(scrapRequest: scrapRequest)
             .map(PostResultResponse.self)
@@ -384,14 +390,16 @@ final class HomeCustomShareVC: UIViewController {
                 print("message: \(response.message)")
                 
                 if response.code == "0000" {
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
-                    self.lottieView.isHidden = true
                     
                     print("---요청 성공!!!---")
                     //                    self.navigationController?.popViewController(animated: false)
                     //                    self.dismiss(animated: false)
                 } else {
+                    self.customActivityIndicatorView.loadingView.stopAnimating()
+                    self.customActivityIndicatorView.isHidden = true
                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
 
                     print("---응답 실패!!!---")
@@ -427,10 +435,12 @@ final class HomeCustomShareVC: UIViewController {
         self.previewViewModel.fetchPreview(urlString: urlString) { preview in
             do {
                 print("CustomShareVC response - \(preview)")
-                self.scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: preview?.thumbnailURLString ?? ""))
+                let processor = RoundCornerImageProcessor(cornerRadius: 50)
+                self.scrapImageView.kf.setImage(
+                    with: URL(string: preview?.thumbnailURLString ?? Strings.sparkyImageString),
+                    options: [.processor(processor)])
                 self.scrapTitleLabel.text = preview?.title ?? ""
                 self.scrapSubTitleLabel.text = preview?.subtitle ?? ""
-                self.view.layoutIfNeeded()
             } catch {
                 
             }

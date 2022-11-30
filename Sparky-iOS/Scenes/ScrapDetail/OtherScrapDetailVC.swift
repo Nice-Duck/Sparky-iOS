@@ -33,7 +33,7 @@ final class OtherScrapDetailVC: UIViewController {
     
     private var scrapImageView = UIImageView().then {
         $0.layer.cornerRadius = 4
-        $0.contentMode = .scaleAspectFit
+        $0.clipsToBounds = true
     }
     
     private var scrapTitleLabel = CustomVAlignLabel().then {
