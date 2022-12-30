@@ -41,7 +41,13 @@ final class CustomShareVC: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
-    private var scrapImageView = UIImageView().then {
+    private let thumbnailBackgoundView = UIView().then {
+        $0.backgroundColor = .gray200
+        $0.layer.cornerRadius = 4
+    }
+    
+    private var thumbnailImageView = UIImageView().then {
+        $0.image = .vector1
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -202,25 +208,31 @@ final class CustomShareVC: UIViewController {
             $0.height.equalTo(94)
         }
         
-        self.scrapView.addSubview(scrapImageView)
-        scrapImageView.snp.makeConstraints {
+        self.scrapView.addSubview(thumbnailBackgoundView)
+        thumbnailBackgoundView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
         
+        thumbnailBackgoundView.addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints {
+            $0.centerX.equalTo(thumbnailBackgoundView)
+            $0.centerY.equalTo(thumbnailBackgoundView)
+        }
+        
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailBackgoundView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailBackgoundView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
@@ -423,13 +435,18 @@ final class CustomShareVC: UIViewController {
     private func setupScrap(urlString: String) {
         self.previewViewModel.fetchPreview(urlString: urlString) { preview in
             do {
-                print("CustomShareVC response - \(preview)")
-                self.scrapImageView.kf.setImage(
-                    with: URL(string: preview?.thumbnailURLString ?? Strings.sparkyImageString)
-                )
-                
-                self.scrapTitleLabel.text = preview?.title ?? ""
-                self.scrapSubTitleLabel.text = preview?.subtitle ?? ""
+                if let preview = preview {
+                    print("CustomShareVC response - \(preview)")
+                    if let url = URL(string: preview.thumbnailURLString) {
+                        self.thumbnailImageView.snp.makeConstraints {
+                            $0.width.equalTo(self.thumbnailBackgoundView)
+                            $0.height.equalTo(self.thumbnailBackgoundView)
+                        }
+                        self.thumbnailImageView.kf.setImage(with: url)
+                    }
+                    self.scrapTitleLabel.text = preview.title
+                    self.scrapSubTitleLabel.text = preview.subtitle
+                }
             } catch {
                 print("스크랩 정보 불러오기 실패!")
             }
