@@ -31,7 +31,13 @@ final class ScrapDetailVC: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
-    private var scrapImageView = UIImageView().then {
+    private var thumbnailBackgroundView = UIView().then {
+        $0.backgroundColor = .gray200
+        $0.layer.cornerRadius = 4
+    }
+    
+    private var thumbnailImageView = UIImageView().then {
+        $0.image = .vector1
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -225,25 +231,31 @@ final class ScrapDetailVC: UIViewController {
             $0.height.equalTo(94)
         }
         
-        self.scrapView.addSubview(scrapImageView)
-        scrapImageView.snp.makeConstraints {
+        self.scrapView.addSubview(thumbnailBackgroundView)
+        thumbnailBackgroundView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
         
+        self.thumbnailBackgroundView.addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints {
+            $0.centerX.equalTo(thumbnailBackgroundView)
+            $0.centerY.equalTo(thumbnailBackgroundView)
+        }
+        
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailBackgroundView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailBackgroundView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
@@ -486,7 +498,13 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func setupData() {
-        scrapImageView.setupImageView(frameSize: CGSize(width: 100, height: 70), url: URL(string: scrap.value.thumbnailURLString))
+        if let url = URL(string: scrap.value.thumbnailURLString) {
+            thumbnailImageView.snp.makeConstraints {
+                $0.width.equalTo(thumbnailBackgroundView)
+                $0.height.equalTo(thumbnailBackgroundView)
+            }
+            thumbnailImageView.kf.setImage(with: url)
+        }
         scrapTitleLabel.text = scrap.value.title
         scrapSubTitleLabel.text = scrap.value.subTitle
         memoTextView.text = scrap.value.memo

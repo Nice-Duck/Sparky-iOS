@@ -25,7 +25,7 @@ final class HomeCustomShareVC: UIViewController {
     
     var urlString: String? = nil
     weak var dismissVCDelegate: DismissVCDelegate?
-
+    
     private let customActivityIndicatorView = CustomActivityIndicatorView().then {
         $0.loadingView.color = .white
         $0.loadingView.stopAnimating()
@@ -42,7 +42,13 @@ final class HomeCustomShareVC: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
-    private var scrapImageView = UIImageView().then {
+    private let thumbnailBackgroundView = UIImageView().then {
+        $0.backgroundColor = .gray200
+        $0.layer.cornerRadius = 4
+    }
+    
+    private var thumbnailImageView = UIImageView().then {
+        $0.image = .vector1
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -150,7 +156,7 @@ final class HomeCustomShareVC: UIViewController {
             }
         }
     }
-
+    
     @objc func keyboardWillHide(notification: NSNotification) {
         self.keyboardBoxView.constraints.forEach { constraint in
             if constraint.firstAttribute == .height {
@@ -206,25 +212,31 @@ final class HomeCustomShareVC: UIViewController {
             $0.height.equalTo(94)
         }
         
-        self.scrapView.addSubview(scrapImageView)
-        scrapImageView.snp.makeConstraints {
+        self.scrapView.addSubview(thumbnailBackgroundView)
+        thumbnailBackgroundView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
         
+        self.thumbnailBackgroundView.addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints {
+            $0.centerX.equalTo(thumbnailBackgroundView)
+            $0.centerY.equalTo(thumbnailBackgroundView)
+        }
+        
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailBackgroundView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(scrapImageView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailBackgroundView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
@@ -401,7 +413,7 @@ final class HomeCustomShareVC: UIViewController {
                     self.customActivityIndicatorView.loadingView.stopAnimating()
                     self.customActivityIndicatorView.isHidden = true
                     self.view.makeToast(response.message, duration: 1.5, position: .bottom)
-
+                    
                     print("---응답 실패!!!---")
                 }
                 
@@ -434,11 +446,16 @@ final class HomeCustomShareVC: UIViewController {
     private func setupScrap(urlString: String) {
         self.previewViewModel.fetchPreview(urlString: urlString) { preview in
             do {
-                print("CustomShareVC response - \(preview)")
-                let processor = RoundCornerImageProcessor(cornerRadius: 50)
-                self.scrapImageView.kf.setImage(
-                    with: URL(string: preview?.thumbnailURLString ?? Strings.sparkyImageString),
-                    options: [.processor(processor)])
+                if let preview = preview {
+                    print("CustomShareVC response - \(preview)")
+                    if let url = URL(string: preview.thumbnailURLString) {
+                        self.thumbnailImageView.snp.makeConstraints {
+                            $0.width.equalTo(self.thumbnailBackgroundView)
+                            $0.height.equalTo(self.thumbnailBackgroundView)
+                        }
+                        self.thumbnailImageView.kf.setImage(with: url)
+                    }
+                }
                 self.scrapTitleLabel.text = preview?.title ?? ""
                 self.scrapSubTitleLabel.text = preview?.subtitle ?? ""
             } catch {
