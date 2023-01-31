@@ -22,6 +22,11 @@ final class ScrapDetailVC: UIViewController {
                                                   tagList: BehaviorRelay(value: [])))
     weak var dismissVCDelegate: DismissVCDelegate?
     
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    private let contentView = UIView()
+    
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
     }
@@ -29,15 +34,13 @@ final class ScrapDetailVC: UIViewController {
     private let scrapView = UIView().then {
         $0.backgroundColor = .sparkyWhite
         $0.layer.cornerRadius = 8
-    }
-    
-    private var thumbnailBackgroundView = UIView().then {
-        $0.backgroundColor = .gray200
-        $0.layer.cornerRadius = 4
+        $0.clipsToBounds = false
     }
     
     private var thumbnailImageView = UIImageView().then {
         $0.image = .vector1
+        $0.backgroundColor = UIColor.gray200
+        $0.contentMode = .center
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -132,6 +135,8 @@ final class ScrapDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("1")
+        
         self.view.backgroundColor = .background
         
         createObserver()
@@ -142,6 +147,17 @@ final class ScrapDetailVC: UIViewController {
         bindViewModel()
         setupData()
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//
+//        print("2")
+//
+//        scrollView.layoutIfNeeded()
+//        scrollView.updateContentSize()
+//        scrollView.isScrollEnabled = true
+//        scrollView.contentSize = CGSize(width: view.frame.width, height: scrollView.frame.size.height)
+//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
@@ -179,8 +195,9 @@ final class ScrapDetailVC: UIViewController {
     private func setupNavBar() {
         self.navigationController?.navigationBar.backgroundColor = .gray100
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         
-        let navBarBackButton = UIBarButtonItem(image: UIImage(named: "back"),
+        let navBarBackButton = UIBarButtonItem(image: .back,
                                                style: .plain,
                                                target: self,
                                                action: nil)
@@ -215,11 +232,36 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func setupConstraints() {
-        self.view.addSubview(scrapBackgroundView)
-        scrapBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+        self.view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(view)
             $0.left.equalTo(view)
+            $0.bottom.equalTo(view)
             $0.right.equalTo(view)
+//            $0.width.equalTo(view)
+//            $0.height.equalTo(view)
+        }
+        
+        self.scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(scrollView.contentLayoutGuide)
+            $0.left.equalTo(scrollView.contentLayoutGuide)
+            $0.bottom.equalTo(scrollView.contentLayoutGuide)
+            $0.right.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView)
+            $0.height.equalTo(scrollView)
+//                .offset(
+//                -(self.navigationController?.navigationBar.frame.height ?? 0)
+//                - (UIKitUtils.parentWindow?.safeAreaInsets.bottom ?? 0)
+//                  - (UIKitUtils.parentWindow?.safeAreaInsets.top ?? 0))
+        }
+        
+        
+        self.contentView.addSubview(scrapBackgroundView)
+        scrapBackgroundView.snp.makeConstraints {
+            $0.top.equalTo(contentView)
+            $0.left.equalTo(contentView)
+            $0.right.equalTo(contentView)
             $0.height.equalTo(122)
         }
         
@@ -231,100 +273,97 @@ final class ScrapDetailVC: UIViewController {
             $0.height.equalTo(94)
         }
         
-        self.scrapView.addSubview(thumbnailBackgroundView)
-        thumbnailBackgroundView.snp.makeConstraints {
+        self.scrapView.addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
         
-        self.thumbnailBackgroundView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints {
-            $0.centerX.equalTo(thumbnailBackgroundView)
-            $0.centerY.equalTo(thumbnailBackgroundView)
-        }
-        
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(thumbnailBackgroundView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(thumbnailBackgroundView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
-        self.view.addSubview(dividerView)
+        self.contentView.addSubview(dividerView)
         dividerView.snp.makeConstraints {
             $0.top.equalTo(scrapBackgroundView.snp.bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.left.equalTo(contentView)
+            $0.right.equalTo(contentView)
             $0.height.equalTo(6)
         }
         
-        self.view.addSubview(tagTitleLabel)
+        self.contentView.addSubview(tagTitleLabel)
         tagTitleLabel.snp.makeConstraints {
             $0.top.equalTo(dividerView.snp.bottom).offset(20)
-            $0.left.equalTo(view).offset(20)
+            $0.left.equalTo(contentView).offset(20)
         }
         
-        self.view.addSubview(tagCollectionView)
+        self.contentView.addSubview(tagCollectionView)
         tagCollectionView.snp.makeConstraints {
             $0.top.equalTo(tagTitleLabel.snp.bottom).offset(9)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.left.equalTo(contentView).offset(20)
+            $0.right.equalTo(contentView).offset(-20)
         }
         
-        self.view.addSubview(memoTitleLabel)
+        self.contentView.addSubview(memoTitleLabel)
         memoTitleLabel.snp.makeConstraints {
             $0.top.equalTo(tagCollectionView.snp.bottom).offset(36)
-            $0.left.equalTo(view).offset(20)
+            $0.left.equalTo(contentView).offset(20)
         }
         
-        self.view.addSubview(memoTextView)
+        self.contentView.addSubview(memoTextView)
         memoTextView.snp.makeConstraints {
             $0.top.equalTo(memoTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
-            $0.height.equalTo(100)
+            $0.left.equalTo(contentView).offset(20)
+            $0.right.equalTo(contentView).offset(-20)
+            $0.height.equalTo(3000)
         }
         
-        self.view.addSubview(separatorView)
+        self.contentView.addSubview(separatorView)
         separatorView.snp.makeConstraints {
             $0.top.equalTo(memoTextView.snp.bottom).offset(18)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.left.equalTo(contentView)
+            $0.right.equalTo(contentView)
             $0.height.equalTo(6)
         }
         
-        self.view.addSubview(subActionTableView)
+        self.contentView.addSubview(subActionTableView)
         subActionTableView.snp.makeConstraints {
             $0.top.equalTo(separatorView.snp.bottom).offset(6)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.left.equalTo(contentView).offset(20)
+            $0.right.equalTo(contentView).offset(-20)
             $0.height.equalTo(200)
         }
         
-        view.addSubview(keyboardBoxView)
-        keyboardBoxView.snp.makeConstraints {
-            $0.left.equalTo(view).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            $0.right.equalTo(view).offset(-20)
-            $0.height.equalTo(0)
-        }
+//        contentView.addSubview(keyboardBoxView)
+//        keyboardBoxView.snp.makeConstraints {
+//            $0.left.equalTo(contentView).offset(20)
+//            $0.bottom.equalTo(contentView).offset(-20)
+//            $0.right.equalTo(contentView).offset(-20)
+//            $0.height.equalTo(0)
+//        }
+//
+//        contentView.addSubview(saveButton)
+//        saveButton.snp.makeConstraints {
+//            $0.left.equalTo(contentView).offset(20)
+//            $0.bottom.equalTo(keyboardBoxView.snp.top)
+//            $0.right.equalTo(contentView).offset(-20)
+//            $0.height.equalTo(50)
+//        }
         
-        view.addSubview(saveButton)
-        saveButton.snp.makeConstraints {
-            $0.left.equalTo(view).offset(20)
-            $0.bottom.equalTo(keyboardBoxView.snp.top)
-            $0.right.equalTo(view).offset(-20)
-            $0.height.equalTo(50)
-        }
+//        scrollView.layoutIfNeeded()
+//        scrollView.contentSize = CGSize(width: view.frame.width, height: scrollView.frame.height)
     }
     
     private func setupDelegate() {
@@ -354,23 +393,23 @@ final class ScrapDetailVC: UIViewController {
             .bind(to: tagCollectionView.rx.items) { collectionView, row, element in
                 let indexPath = IndexPath(row: row, section: 0)
                 
-                if self.scrap.value.tagList.value[row].tagId != -1 {
+//                if self.scrap.value.tagList.value[row].tagId != -1 {
                     let cell = collectionView.dequeueReusableCell(
                         withReuseIdentifier: TagCollectionViewCell.identifier,
                         for: indexPath) as! TagCollectionViewCell
                     cell.setupConstraints()
                     
                     let tag = self.scrap.value.tagList.value[row]
-                    cell.setupTagButton(tag: tag, pageType: .main)
+                cell.setupTagButton(tag: tag, actionType: .display)
                     return cell
-                } else {
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: TagDottedLineCell.identifier,
-                        for: indexPath) as! TagDottedLineCell
-                    cell.setupConstraints()
-                    cell.setupTagButton()
-                    return cell
-                }
+//                } else {
+//                    let cell = collectionView.dequeueReusableCell(
+//                        withReuseIdentifier: TagDottedLineCell.identifier,
+//                        for: indexPath) as! TagDottedLineCell
+//                    cell.setupConstraints()
+//                    cell.setupTagButton()
+//                    return cell
+//                }
             }.disposed(by: disposeBag)
         
         saveButton.rx.tap
@@ -498,15 +537,9 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func setupData() {
-        if let url = URL(string: scrap.value.thumbnailURLString) {
-            thumbnailImageView.snp.makeConstraints {
-                $0.width.equalTo(thumbnailBackgroundView)
-                $0.height.equalTo(thumbnailBackgroundView)
-            }
-            thumbnailImageView.kf.setImage(with: url)
-        }
         scrapTitleLabel.text = scrap.value.title
         scrapSubTitleLabel.text = scrap.value.subTitle
+        thumbnailImageView.setImage(with: scrap.value.thumbnailURLString)
         memoTextView.text = scrap.value.memo
         memoTextView.isUserInteractionEnabled = false
     }
