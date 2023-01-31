@@ -23,12 +23,14 @@ final class HorizontalLayoutCell: UICollectionViewCell {
     }
     
     let scrapDetailButton = UIButton().then {
-        $0.setImage(UIImage(named: "edit"), for: .normal)
+        $0.setImage(.edit, for: .normal)
     }
     
     var bottomContainerView = UIView()
     let thumbnailImageView = UIImageView().then {
-        $0.image = UIImage(named: "vector")
+        $0.image = .vector1
+        $0.backgroundColor = UIColor.gray200
+        $0.contentMode = .center
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -175,7 +177,7 @@ final class HorizontalLayoutCell: UICollectionViewCell {
     func setupValue(scrap: Scrap) {
         titleLabel.text = scrap.title
         subTitleLabel.text = scrap.subTitle
-        thumbnailImageView.kf.setImage(with: URL(string: scrap.thumbnailURLString))
+        thumbnailImageView.setImage(with: scrap.thumbnailURLString)
     }
     
     func setDidTapScrapDetailButton() {

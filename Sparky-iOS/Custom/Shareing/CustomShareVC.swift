@@ -26,6 +26,11 @@ final class CustomShareVC: UIViewController {
     
     var urlString: String? = nil
     
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    private let contentView = UIView()
+    
     private let customActivityIndicatorView = CustomActivityIndicatorView().then {
         $0.loadingView.color = .white
         $0.backgroundColor = .gray700.withAlphaComponent(0.8)
@@ -41,13 +46,10 @@ final class CustomShareVC: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
-    private let thumbnailBackgoundView = UIView().then {
-        $0.backgroundColor = .gray200
-        $0.layer.cornerRadius = 4
-    }
-    
     private var thumbnailImageView = UIImageView().then {
         $0.image = .vector1
+        $0.backgroundColor = UIColor.gray200
+        $0.contentMode = .center
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -167,6 +169,7 @@ final class CustomShareVC: UIViewController {
     private func setupNavBar() {
         self.navigationController?.navigationBar.backgroundColor = .gray100
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.shadowImage = UIImage()
         
         let ncBarTitleLabel = UILabel().then {
             $0.text = "스크랩 저장"
@@ -175,7 +178,7 @@ final class CustomShareVC: UIViewController {
             $0.textColor = .sparkyBlack
         }
         
-        let ncBarCancelButton = UIBarButtonItem(image: UIImage(named: "clear"),
+        let ncBarCancelButton = UIBarButtonItem(image: .clear,
                                                 style: .plain,
                                                 target: self,
                                                 action: nil)
@@ -192,11 +195,31 @@ final class CustomShareVC: UIViewController {
     }
     
     private func setupConstraints() {
-        self.view.addSubview(scrapBackgroundView)
-        scrapBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+        self.view.addSubview(scrollView)
+        self.scrollView.snp.makeConstraints {
+            $0.top.equalTo(view)
             $0.left.equalTo(view)
+            $0.bottom.equalTo(view)
             $0.right.equalTo(view)
+            $0.width.equalTo(view)
+            $0.height.equalTo(view)
+        }
+        
+        self.scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(scrollView)
+            $0.left.equalTo(scrollView)
+            $0.bottom.equalTo(scrollView)
+            $0.right.equalTo(scrollView)
+            $0.width.equalTo(scrollView)
+            $0.height.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        self.contentView.addSubview(scrapBackgroundView)
+        scrapBackgroundView.snp.makeConstraints {
+            $0.top.equalTo(contentView)
+            $0.left.equalTo(contentView)
+            $0.right.equalTo(contentView)
             $0.height.equalTo(122)
         }
         
@@ -208,82 +231,76 @@ final class CustomShareVC: UIViewController {
             $0.height.equalTo(94)
         }
         
-        self.scrapView.addSubview(thumbnailBackgoundView)
-        thumbnailBackgoundView.snp.makeConstraints {
+        self.scrapView.addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
         
-        thumbnailBackgoundView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints {
-            $0.centerX.equalTo(thumbnailBackgoundView)
-            $0.centerY.equalTo(thumbnailBackgoundView)
-        }
-        
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(thumbnailBackgoundView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(thumbnailBackgoundView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
-        self.view.addSubview(dividerView)
+        self.contentView.addSubview(dividerView)
         dividerView.snp.makeConstraints {
             $0.top.equalTo(scrapBackgroundView.snp.bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.left.equalTo(contentView)
+            $0.right.equalTo(contentView)
             $0.height.equalTo(6)
         }
         
-        self.view.addSubview(tagTitleLabel)
+        self.contentView.addSubview(tagTitleLabel)
         tagTitleLabel.snp.makeConstraints {
             $0.top.equalTo(dividerView.snp.bottom).offset(20)
-            $0.left.equalTo(view).offset(20)
+            $0.left.equalTo(contentView).offset(20)
         }
         
-        self.view.addSubview(addTagCollectionView)
+        self.contentView.addSubview(addTagCollectionView)
         addTagCollectionView.snp.makeConstraints {
             $0.top.equalTo(tagTitleLabel.snp.bottom).offset(9)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.left.equalTo(contentView).offset(20)
+            $0.right.equalTo(contentView).offset(-20)
         }
         
-        self.view.addSubview(memoTitleLabel)
+        self.contentView.addSubview(memoTitleLabel)
         memoTitleLabel.snp.makeConstraints {
             $0.top.equalTo(addTagCollectionView.snp.bottom).offset(36)
-            $0.left.equalTo(view).offset(20)
+            $0.left.equalTo(contentView).offset(20)
         }
         
-        self.view.addSubview(memoTextView)
+        self.contentView.addSubview(memoTextView)
         memoTextView.snp.makeConstraints {
             $0.top.equalTo(memoTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.left.equalTo(contentView).offset(20)
+            $0.right.equalTo(contentView).offset(-20)
             $0.height.equalTo(100)
         }
         
-        view.addSubview(keyboardBoxView)
+        self.contentView.addSubview(keyboardBoxView)
         keyboardBoxView.snp.makeConstraints {
-            $0.left.equalTo(view).offset(20)
+            $0.left.equalTo(contentView).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            $0.right.equalTo(view).offset(-20)
+            $0.right.equalTo(contentView).offset(-20)
             $0.height.equalTo(0)
         }
         
-        view.addSubview(saveButton)
+        self.contentView.addSubview(saveButton)
         saveButton.snp.makeConstraints {
-            $0.left.equalTo(view).offset(20)
+            $0.left.equalTo(contentView).offset(20)
             $0.bottom.equalTo(keyboardBoxView.snp.top)
-            $0.right.equalTo(view).offset(-20)
+            $0.right.equalTo(contentView).offset(-20)
             $0.height.equalTo(50)
         }
     }
@@ -304,23 +321,14 @@ final class CustomShareVC: UIViewController {
             .bind(to: addTagCollectionView.rx.items) { collectionView, row, element in
                 let indexPath = IndexPath(row: row, section: 0)
                 
-                if row != self.viewModel.addTagList.value.count - 1 {
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: TagCollectionViewCell.identifier,
-                        for: indexPath) as! TagCollectionViewCell
-                    cell.setupConstraints()
-                    
-                    let tag = self.viewModel.addTagList.value[row]
-                    cell.setupTagButton(tag: tag, pageType: .main)
-                    return cell
-                } else {
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: TagDottedLineCell.identifier,
-                        for: indexPath) as! TagDottedLineCell
-                    cell.setupConstraints()
-                    cell.setupTagButton()
-                    return cell
-                }
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: TagCollectionViewCell.identifier,
+                    for: indexPath) as! TagCollectionViewCell
+                cell.setupConstraints()
+                
+                let tag = self.viewModel.addTagList.value[row]
+                cell.setupTagButton(tag: tag, actionType: .display)
+                return cell
             }.disposed(by: disposeBag)
         
         addTagCollectionView.rx
@@ -436,16 +444,9 @@ final class CustomShareVC: UIViewController {
         self.previewViewModel.fetchPreview(urlString: urlString) { preview in
             do {
                 if let preview = preview {
-                    print("CustomShareVC response - \(preview)")
-                    if let url = URL(string: preview.thumbnailURLString) {
-                        self.thumbnailImageView.snp.makeConstraints {
-                            $0.width.equalTo(self.thumbnailBackgoundView)
-                            $0.height.equalTo(self.thumbnailBackgoundView)
-                        }
-                        self.thumbnailImageView.kf.setImage(with: url)
-                    }
                     self.scrapTitleLabel.text = preview.title
                     self.scrapSubTitleLabel.text = preview.subtitle
+                    self.thumbnailImageView.setImage(with: preview.thumbnailURLString)
                 }
             } catch {
                 print("스크랩 정보 불러오기 실패!")

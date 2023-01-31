@@ -31,13 +31,10 @@ final class OtherScrapDetailVC: UIViewController {
         $0.layer.cornerRadius = 8
     }
     
-    private let thumbnailBackgourndView = UIView().then {
-        $0.backgroundColor = .gray200
-        $0.layer.cornerRadius = 4
-    }
-    
     private var thumbnailImageView = UIImageView().then {
         $0.image = .vector1
+        $0.backgroundColor = UIColor.gray200
+        $0.contentMode = .center
         $0.layer.cornerRadius = 4
         $0.clipsToBounds = true
     }
@@ -138,7 +135,7 @@ final class OtherScrapDetailVC: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .gray100
         self.navigationController?.navigationBar.tintColor = .black
         
-        let navBarBackButton = UIBarButtonItem(image: UIImage(named: "back"),
+        let navBarBackButton = UIBarButtonItem(image: .back,
                                                style: .plain,
                                                target: self,
                                                action: nil)
@@ -174,31 +171,25 @@ final class OtherScrapDetailVC: UIViewController {
             $0.height.equalTo(94)
         }
         
-        self.scrapView.addSubview(thumbnailBackgourndView)
-        thumbnailBackgourndView.snp.makeConstraints {
+        self.scrapView.addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
         
-        self.thumbnailBackgourndView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints {
-            $0.centerX.equalTo(thumbnailBackgourndView)
-            $0.centerY.equalTo(thumbnailBackgourndView)
-        }
-        
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(thumbnailBackgourndView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(thumbnailBackgourndView.snp.right).offset(12)
+            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
@@ -270,8 +261,7 @@ final class OtherScrapDetailVC: UIViewController {
     private func bindViewModel() {
         scrap.value.tagList
             .bind(to: tagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                cell.setupConstraints()
-                cell.setupTagButton(tag: tag, pageType: .main)
+                cell.setupTagButton(tag: tag, actionType: .display)
             }.disposed(by: disposeBag)
     }
     
@@ -300,15 +290,9 @@ final class OtherScrapDetailVC: UIViewController {
     
     
     private func setupData() {
-        if let url = URL(string: scrap.value.thumbnailURLString) {
-            thumbnailImageView.snp.makeConstraints {
-                $0.width.equalTo(thumbnailBackgourndView)
-                $0.height.equalTo(thumbnailBackgourndView)
-            }
-            thumbnailImageView.kf.setImage(with: url)
-        }
         scrapTitleLabel.text = scrap.value.title
         scrapSubTitleLabel.text = scrap.value.subTitle
+        thumbnailImageView.setImage(with: scrap.value.thumbnailURLString)
         memoTextView.text = scrap.value.memo
         memoTextView.isUserInteractionEnabled = false
     }

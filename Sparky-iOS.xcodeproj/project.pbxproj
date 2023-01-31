@@ -56,8 +56,7 @@
 		56185AE5291D50640052ADE0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
 		56185AE6291D50660052ADE0 /* BehaviorRelay+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DD966A29059162002DED3E /* BehaviorRelay+.swift */; };
 		56185AE7291D50680052ADE0 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
-		56185AE8291D506B0052ADE0 /* ImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* ImageView+.swift */; };
-		56185AE9291D506C0052ADE0 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA3D1291C262600F90EEE /* UIButton+.swift */; };
+		56185AE8291D506B0052ADE0 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* UIImageView+.swift */; };
 		56185AEA291D506E0052ADE0 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA410291C38B200F90EEE /* UIViewController+.swift */; };
 		56185AEB291D50700052ADE0 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA413291C3A5E00F90EEE /* UIView+.swift */; };
 		56185B0B291D51890052ADE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5693C1FE28CE2CDE008710FF /* Assets.xcassets */; };
@@ -81,7 +80,7 @@
 		565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */; };
 		565AFDD3291097C70080EA6D /* OtherScrapCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */; };
 		5664268B290E618100154505 /* Scrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5652A44728EB31D400415738 /* Scrap.swift */; };
-		5664268D290ECFCC00154505 /* ImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* ImageView+.swift */; };
+		5664268D290ECFCC00154505 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268C290ECFCC00154505 /* UIImageView+.swift */; };
 		56642690290EDAC500154505 /* OtherScrapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5664268F290EDAC500154505 /* OtherScrapViewModel.swift */; };
 		566584BB291F55900043FFE3 /* AddTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569AE21928F481BB003ED188 /* AddTagViewModel.swift */; };
 		566584BD291F56FE0043FFE3 /* Scraps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584BC291F56FE0043FFE3 /* Scraps.swift */; };
@@ -129,7 +128,6 @@
 		5693C21728CE2CDE008710FF /* Sparky_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21628CE2CDE008710FF /* Sparky_iOSUITests.swift */; };
 		5693C21928CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5693C21828CE2CDE008710FF /* Sparky_iOSUITestsLaunchTests.swift */; };
 		569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */; };
-		569EA3D2291C262600F90EEE /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA3D1291C262600F90EEE /* UIButton+.swift */; };
 		569EA3D5291C2DBE00F90EEE /* UIKitUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA3D4291C2DBE00F90EEE /* UIKitUtils.swift */; };
 		569EA3D7291C30EF00F90EEE /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */; };
 		569EA3D8291C30F200F90EEE /* TagCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */; };
@@ -140,6 +138,7 @@
 		569EA414291C3A5E00F90EEE /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569EA413291C3A5E00F90EEE /* UIView+.swift */; };
 		56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
+		56A8350D2962FE3800FD4A56 /* NoMyScrapViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */; };
 		56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */; };
 		56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568183452901A641006F616C /* PreviewViewModel.swift */; };
 		56C3C2162912B66A009765DE /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
@@ -254,7 +253,7 @@
 		5652A44A28EB3CE000415738 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		565AFDD0291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapPreViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		565AFDD2291097C70080EA6D /* OtherScrapCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapCollectionViewCell.swift; sourceTree = "<group>"; };
-		5664268C290ECFCC00154505 /* ImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+.swift"; sourceTree = "<group>"; };
+		5664268C290ECFCC00154505 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		5664268F290EDAC500154505 /* OtherScrapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapViewModel.swift; sourceTree = "<group>"; };
 		566584BC291F56FE0043FFE3 /* Scraps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scraps.swift; sourceTree = "<group>"; };
 		566584C0291F57FF0043FFE3 /* ReIssueServiceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReIssueServiceAPI.swift; sourceTree = "<group>"; };
@@ -304,13 +303,13 @@
 		569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionView.swift; sourceTree = "<group>"; };
 		569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
-		569EA3D1291C262600F90EEE /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		569EA3D4291C2DBE00F90EEE /* UIKitUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitUtils.swift; sourceTree = "<group>"; };
 		569EA410291C38B200F90EEE /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		569EA413291C3A5E00F90EEE /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		56A0AA6E28FBD50F00726C13 /* ShareTagBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTagBottomSheetVC.swift; sourceTree = "<group>"; };
 		56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNavBar.swift; sourceTree = "<group>"; };
 		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
+		56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoMyScrapViewCell.swift; sourceTree = "<group>"; };
 		56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusScrapBottomSheetVC.swift; sourceTree = "<group>"; };
 		56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkySearchBar.swift; sourceTree = "<group>"; };
 		56C41B8B28FECED600D610E5 /* MyScrapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapVC.swift; sourceTree = "<group>"; };
@@ -442,8 +441,7 @@
 				569B79C328F9BDFD00AD9BC3 /* UIStackView+.swift */,
 				568AD0722902ED2600F2CFD7 /* String+.swift */,
 				56DD966A29059162002DED3E /* BehaviorRelay+.swift */,
-				5664268C290ECFCC00154505 /* ImageView+.swift */,
-				569EA3D1291C262600F90EEE /* UIButton+.swift */,
+				5664268C290ECFCC00154505 /* UIImageView+.swift */,
 				569EA410291C38B200F90EEE /* UIViewController+.swift */,
 				569EA413291C3A5E00F90EEE /* UIView+.swift */,
 				56449FE62921147B00F34E1E /* UIApplication+.swift */,
@@ -473,6 +471,7 @@
 				5641FE3C291927F4004F5A07 /* HalfLayoutCell.swift */,
 				5641FE3E29192807004F5A07 /* HorizontalLayoutCell.swift */,
 				5641FE402919281D004F5A07 /* LargeImageLayoutCell.swift */,
+				56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */,
 				567D26072910ACE6000296F0 /* ScarpSectionView.swift */,
 				567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */,
 				566584C6291F5F180043FFE3 /* HomeTagBottomSheetVC.swift */,
@@ -1109,7 +1108,6 @@
 				56185AB6291D4FDD0052ADE0 /* TokenUtils.swift in Sources */,
 				56185ACD291D50150052ADE0 /* Preview.swift in Sources */,
 				56185AE6291D50660052ADE0 /* BehaviorRelay+.swift in Sources */,
-				56185AE9291D506C0052ADE0 /* UIButton+.swift in Sources */,
 				56185AC3291D4FFD0052ADE0 /* ReIssueTokenResponse.swift in Sources */,
 				56793D8D2927B46F007BF834 /* CustomActivityIndicatorView.swift in Sources */,
 				56185AC9291D50090052ADE0 /* TagRequst.swift in Sources */,
@@ -1125,7 +1123,7 @@
 				56185AC1291D4FF90052ADE0 /* RecentTagResponse.swift in Sources */,
 				56185ABC291D4FEC0052ADE0 /* ShareServiceAPI.swift in Sources */,
 				566584C4291F58F30043FFE3 /* ReIssueServiceAPI.swift in Sources */,
-				56185AE8291D506B0052ADE0 /* ImageView+.swift in Sources */,
+				56185AE8291D506B0052ADE0 /* UIImageView+.swift in Sources */,
 				56185AE3291D505F0052ADE0 /* UINavigationBar+.swift in Sources */,
 				56185ACA291D500C0052ADE0 /* ScrapRequest.swift in Sources */,
 				56185AE0291D504F0052ADE0 /* UITextField+.swift in Sources */,
@@ -1145,12 +1143,11 @@
 				566584C7291F5F180043FFE3 /* HomeTagBottomSheetVC.swift in Sources */,
 				5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */,
 				56449FE9292121AE00F34E1E /* SignUpVC5.swift in Sources */,
-				569EA3D2291C262600F90EEE /* UIButton+.swift in Sources */,
 				566584BB291F55900043FFE3 /* AddTagViewModel.swift in Sources */,
 				560306A1291A7F52008CB6EB /* MyHorizontalLayoutCell.swift in Sources */,
 				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
 				56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */,
-				5664268D290ECFCC00154505 /* ImageView+.swift in Sources */,
+				5664268D290ECFCC00154505 /* UIImageView+.swift in Sources */,
 				566584D2291FE8E50043FFE3 /* TagDottedLineCell.swift in Sources */,
 				569EA3D5291C2DBE00F90EEE /* UIKitUtils.swift in Sources */,
 				56D6AFF12915FF850026B18C /* PostResultResponse.swift in Sources */,
@@ -1186,6 +1183,7 @@
 				560306AD291AD0AB008CB6EB /* CustomPopUpVC.swift in Sources */,
 				566584CD291F789C0043FFE3 /* HomeCustomShareVC.swift in Sources */,
 				5637DD3B28E0293000C119F6 /* Font+.swift in Sources */,
+				56A8350D2962FE3800FD4A56 /* NoMyScrapViewCell.swift in Sources */,
 				568F55892923BFAA008A7294 /* FindPasswordVC2.swift in Sources */,
 				56D6AFDD2915BC650026B18C /* TagResponse.swift in Sources */,
 				56642690290EDAC500154505 /* OtherScrapViewModel.swift in Sources */,
