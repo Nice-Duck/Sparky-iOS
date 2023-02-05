@@ -327,7 +327,7 @@ final class ScrapDetailVC: UIViewController {
             $0.top.equalTo(memoTitleLabel.snp.bottom).offset(8)
             $0.left.equalTo(contentView).offset(20)
             $0.right.equalTo(contentView).offset(-20)
-            $0.height.equalTo(3000)
+            $0.height.equalTo(100)
         }
         
         self.contentView.addSubview(separatorView)

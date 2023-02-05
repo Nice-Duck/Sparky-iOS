@@ -22,6 +22,7 @@ extension UIImage {
     static let formatListBulleted: UIImage = UIImage(named: "formatListBulleted")!
     static let home: UIImage = UIImage(named: "home")!
     static let logo: UIImage = UIImage(named: "logo")!
+    static let noMyScrap: UIImage = UIImage(named: "noMyScrap")!
     static let plus: UIImage = UIImage(named: "plus")!
     static let profile: UIImage = UIImage(named: "profile")!
     static let rightChevron: UIImage = UIImage(named: "rightChevron")!
@@ -31,11 +32,4 @@ extension UIImage {
     static let vector1: UIImage = UIImage(named: "vector1")!
     static let vector971: UIImage = UIImage(named: "vector971")!
     static let viewAgenda: UIImage = UIImage(named: "viewAgenda")!
-    
-    func setSize(newSize: CGSize) {
-        
-        let image = UIGraphicsImageRenderer(size: newSize).image { _ in
-            draw(in: CGRect(origin: .zero, size: newSize))
-        }
-    }
 }

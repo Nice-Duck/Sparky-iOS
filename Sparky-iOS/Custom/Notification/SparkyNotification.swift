@@ -14,6 +14,7 @@ struct SparkyNotification {
     static let sendPreviewWebViewIndex = Notification.Name(rawValue: "SendPreviewWebViewIndex")
     static let showPreviewDetail = Notification.Name(rawValue: "DidshowPreviewDetail")
     static let showPreviewWebView = Notification.Name(rawValue: "DidshowPreviewWebView")
+    static let showScrapShareVC = Notification.Name(rawValue: "ShowScrapShareVC")
     
     // OtherScrap
     static let sendOtherScrapDetailIndex = Notification.Name(rawValue: "SendOtherScrapDetailIndex")
