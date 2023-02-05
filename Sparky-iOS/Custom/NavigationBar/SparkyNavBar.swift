@@ -16,18 +16,18 @@ class SparkyNavBar: UINavigationBar {
         
         //        self.frame = customRect
         
-        for (index, subview) in self.subviews.enumerated() {
-            if index == 2 {
-                subview.frame = ({
-                    frame.origin.y = 11
-                    return frame;
-                })()
-            } else {
-                subview.frame = ({
-                    frame.origin.y = (frame.height - subview.frame.height) / 2
-                    return frame;
-                })()
-            }
-        }
+//        for (index, subview) in self.subviews.enumerated() {
+//            if index == 2 {
+//                subview.frame = ({
+//                    frame.origin.y = 11
+//                    return frame;
+//                })()
+//            } else {
+//                subview.frame = ({
+//                    frame.origin.y = (frame.height - subview.frame.height) / 2
+//                    return frame;
+//                })()
+//            }
+//        }
     }
 }

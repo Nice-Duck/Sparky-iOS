@@ -96,8 +96,6 @@
 		566584CD291F789C0043FFE3 /* HomeCustomShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CC291F789C0043FFE3 /* HomeCustomShareVC.swift */; };
 		566584CF291FBA880043FFE3 /* TagSaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CE291FBA880043FFE3 /* TagSaveResponse.swift */; };
 		566584D0291FBAD00043FFE3 /* TagSaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CE291FBA880043FFE3 /* TagSaveResponse.swift */; };
-		566584D2291FE8E50043FFE3 /* TagDottedLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */; };
-		566584D3291FEBA60043FFE3 /* TagDottedLineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */; };
 		566584D729202D730043FFE3 /* MoveUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D629202D730043FFE3 /* MoveUtils.swift */; };
 		56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */; };
 		56793D8D2927B46F007BF834 /* CustomActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EBEA63292665CB006294EE /* CustomActivityIndicatorView.swift */; };
@@ -139,6 +137,7 @@
 		56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
 		56A8350D2962FE3800FD4A56 /* NoMyScrapViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */; };
+		56B0EC3F298940B400F40A67 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0EC3E298940B400F40A67 /* UIScrollView+.swift */; };
 		56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */; };
 		56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568183452901A641006F616C /* PreviewViewModel.swift */; };
 		56C3C2162912B66A009765DE /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
@@ -262,7 +261,6 @@
 		566584C9291F5FA50043FFE3 /* NewTagCVDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagCVDelegate.swift; sourceTree = "<group>"; };
 		566584CC291F789C0043FFE3 /* HomeCustomShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCustomShareVC.swift; sourceTree = "<group>"; };
 		566584CE291FBA880043FFE3 /* TagSaveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSaveResponse.swift; sourceTree = "<group>"; };
-		566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDottedLineCell.swift; sourceTree = "<group>"; };
 		566584D629202D730043FFE3 /* MoveUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveUtils.swift; sourceTree = "<group>"; };
 		56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReIssueTokenResponse.swift; sourceTree = "<group>"; };
 		567D26072910ACE6000296F0 /* ScarpSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScarpSectionView.swift; sourceTree = "<group>"; };
@@ -310,6 +308,7 @@
 		56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNavBar.swift; sourceTree = "<group>"; };
 		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
 		56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoMyScrapViewCell.swift; sourceTree = "<group>"; };
+		56B0EC3E298940B400F40A67 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusScrapBottomSheetVC.swift; sourceTree = "<group>"; };
 		56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkySearchBar.swift; sourceTree = "<group>"; };
 		56C41B8B28FECED600D610E5 /* MyScrapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapVC.swift; sourceTree = "<group>"; };
@@ -445,6 +444,7 @@
 				569EA410291C38B200F90EEE /* UIViewController+.swift */,
 				569EA413291C3A5E00F90EEE /* UIView+.swift */,
 				56449FE62921147B00F34E1E /* UIApplication+.swift */,
+				56B0EC3E298940B400F40A67 /* UIScrollView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -532,7 +532,6 @@
 				5616C54328DB730200BF7126 /* CustomShareNC.swift */,
 				569AE21928F481BB003ED188 /* AddTagViewModel.swift */,
 				5684384C28F5D7C2000E5C89 /* TagCollectionViewCell.swift */,
-				566584D1291FE8E50043FFE3 /* TagDottedLineCell.swift */,
 				569B79C628F9EA4500AD9BC3 /* TagCollectionView.swift */,
 				569B79C928F9F0A800AD9BC3 /* TagCollectionViewFlowLayout.swift */,
 				56A0AA6E28FBD50F00726C13 /* ShareTagBottomSheetVC.swift */,
@@ -1128,7 +1127,6 @@
 				56185ACA291D500C0052ADE0 /* ScrapRequest.swift in Sources */,
 				56185AE0291D504F0052ADE0 /* UITextField+.swift in Sources */,
 				56185AD4291D502B0052ADE0 /* SparkySearchBar.swift in Sources */,
-				566584D3291FEBA60043FFE3 /* TagDottedLineCell.swift in Sources */,
 				56185AE5291D50640052ADE0 /* UIStackView+.swift in Sources */,
 				56185AD9291D50370052ADE0 /* AddTagViewModel.swift in Sources */,
 				566584BE291F57200043FFE3 /* Scrap.swift in Sources */,
@@ -1148,7 +1146,6 @@
 				56C7B20328E93D9800D638D2 /* UserServiceAPI.swift in Sources */,
 				56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */,
 				5664268D290ECFCC00154505 /* UIImageView+.swift in Sources */,
-				566584D2291FE8E50043FFE3 /* TagDottedLineCell.swift in Sources */,
 				569EA3D5291C2DBE00F90EEE /* UIKitUtils.swift in Sources */,
 				56D6AFF12915FF850026B18C /* PostResultResponse.swift in Sources */,
 				5614BBB42913DE8D00E1DF16 /* SparkyNotification.swift in Sources */,
@@ -1216,6 +1213,7 @@
 				56D6AFDB2915BB120026B18C /* ScrapResponse.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
 				560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */,
+				56B0EC3F298940B400F40A67 /* UIScrollView+.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				569EA404291C348400F90EEE /* RecentTagResponse.swift in Sources */,
 				560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,
