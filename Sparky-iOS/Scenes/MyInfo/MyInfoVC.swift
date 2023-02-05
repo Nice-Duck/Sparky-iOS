@@ -80,7 +80,7 @@ class MyInfoVC: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .background
         self.navigationController?.navigationBar.tintColor = .black
         
-        let navBarBackButton = UIBarButtonItem(image: UIImage(named: "back"),
+        let navBarBackButton = UIBarButtonItem(image: .back,
                                                style: .plain,
                                                target: self,
                                                action: nil)

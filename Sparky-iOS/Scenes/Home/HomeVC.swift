@@ -39,7 +39,7 @@ final class HomeVC: UIViewController {
     
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         $0.placeholder = "찾고싶은 스크랩의 키워드를 입력해주세요"
-        $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.setupLeftImageView(image: .search.withRenderingMode(.alwaysTemplate))
         $0.clearButtonMode = .always
         $0.addTarget(self,
                      action: #selector(returnTabGesture),
@@ -52,6 +52,8 @@ final class HomeVC: UIViewController {
         $0.separatorInset = .zero
         $0.separatorStyle = .none
         $0.showsVerticalScrollIndicator = false
+        $0.register(NoMyScrapViewCell.self,
+                    forCellReuseIdentifier: NoMyScrapViewCell.identifier)
         $0.register(MyScrapPreViewCollectionViewCell.self,
                     forCellReuseIdentifier: MyScrapPreViewCollectionViewCell.identifier)
         $0.register(OtherScrapCollectionViewCell.self,
@@ -242,12 +244,8 @@ final class HomeVC: UIViewController {
     }
     
     private func setupNavBar() {
-        let logoButtonItem = UIBarButtonItem(image: UIImage(named: "logo")!.withRenderingMode(.alwaysOriginal),
-                                             style: .done,
-                                             target: self,
-                                             action: nil)
-                
-        let profileButtonItem = UIBarButtonItem(image: UIImage(named: "profile")!.withRenderingMode(.alwaysOriginal),
+        let logoButtonItem = UIImageView(image: .logo)
+        let profileButtonItem = UIBarButtonItem(image: .profile.withRenderingMode(.alwaysOriginal),
                                                 style: .plain,
                                                 target: self,
                                                 action: nil)
@@ -257,7 +255,7 @@ final class HomeVC: UIViewController {
                 self.navigationController?.pushViewController(MyInfoVC(), animated: true)
             }.disposed(by: disposeBag)
         
-        navigationItem.leftBarButtonItem = logoButtonItem
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: logoButtonItem)
         navigationItem.rightBarButtonItem = profileButtonItem
     }
     
@@ -315,6 +313,10 @@ final class HomeVC: UIViewController {
                                                selector: #selector(showVC),
                                                name: SparkyNotification.showOtherWebView,
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showVC),
+                                               name: SparkyNotification.showScrapShareVC,
+                                               object: nil)
     }
     
     func changeTextField() {
@@ -326,7 +328,6 @@ final class HomeVC: UIViewController {
                     
                 }
             }.disposed(by: disposeBag)
-
     }
     
     @objc private func refresh(_ sender: AnyObject) {
@@ -342,8 +343,7 @@ final class HomeVC: UIViewController {
         let scrapSearchRequest = ScrapSearchRequest(tags: [],
                                                     title: scrapTextField.text ?? "",
                                                     type: 0)
-        let scrapSearch = ScrapSearch(title: scrapTextField.text ?? "",
-                                      type: 0)
+        
         self.customActivityIndicatorView.isHidden = false
         self.customActivityIndicatorView.loadingView.startAnimating()
         HomeServiceProvider.shared
@@ -488,6 +488,17 @@ final class HomeVC: UIViewController {
             default:
                 break
             }
+        } else {
+            switch notification.name {
+            case SparkyNotification.showScrapShareVC:
+                let homeCustomShareVC = HomeCustomShareVC()
+                let nav = UINavigationController(rootViewController: homeCustomShareVC)
+                nav.modalPresentationStyle = .overFullScreen
+                self.present(nav, animated: false)
+                break
+            default:
+                break
+            }
         }
     }
 }
@@ -509,16 +520,26 @@ extension HomeVC: UITableViewDataSource {
         let homeSectionType = HomeSectionType(rawValue: indexPath.section) ?? HomeSectionType.myScrap
         switch homeSectionType {
         case .myScrap:
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: MyScrapPreViewCollectionViewCell.identifier,
-                for: indexPath) as! MyScrapPreViewCollectionViewCell
-            cell.viewModel.scraps.values = self.myScrapViewModel.scraps.value
-            return cell
+            if self.myScrapViewModel.scraps.value.count == 0 {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: NoMyScrapViewCell.identifier,
+                    for: indexPath) as! NoMyScrapViewCell
+                cell.selectionStyle = .none
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: MyScrapPreViewCollectionViewCell.identifier,
+                    for: indexPath) as! MyScrapPreViewCollectionViewCell
+                cell.viewModel.scraps.values = self.myScrapViewModel.scraps.value
+                cell.selectionStyle = .none
+                return cell
+            }
         case .otherScrap:
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: OtherScrapCollectionViewCell.identifier,
                 for: indexPath) as! OtherScrapCollectionViewCell
             cell.viewModel.scraps.values = self.otherScrapViewModel.scraps.value
+            cell.selectionStyle = .none
             return cell
         }
     }
@@ -577,7 +598,6 @@ extension HomeVC: UITableViewDelegate {
                 remainder = 0
             }
             return share + remainder
-            //            return 50000
         }
     }
 }
