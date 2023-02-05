@@ -47,13 +47,13 @@ final class HomeTagBottomSheetVC: UIViewController {
     }
     
     private let navCancelButtonItem = UIBarButtonItem().then {
-        $0.image = UIImage(named: "back")
+        $0.image = .back
         $0.style = .plain
     }
     
     private let tagTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         $0.placeholder = "검색할 태그를 입력해주세요(최대 7글자)"
-        $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.setupLeftImageView(image: .search.withRenderingMode(.alwaysTemplate))
         $0.tintColor = .gray400
     }
     
@@ -392,12 +392,7 @@ final class HomeTagBottomSheetVC: UIViewController {
         
         viewModel.filterTagList
             .bind(to: recentTagCollectionView.rx.items(cellIdentifier: TagCollectionViewCell.identifier, cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                if tag.buttonType == .add {
-                    return
-                }
-                
-                cell.setupConstraints()
-                cell.setupTagButton(tag: tag, pageType: .main)
+                cell.setupTagButton(tag: tag, actionType: .display)
             }.disposed(by: disposeBag)
         
         recentTagCollectionView.rx

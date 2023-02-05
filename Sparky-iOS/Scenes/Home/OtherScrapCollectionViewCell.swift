@@ -121,8 +121,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                 self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag, pageType: .main)
+                        cell.setupTagButton(tag: tag, actionType: .display)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row
@@ -141,8 +140,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                 self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag, pageType: .main)
+                        cell.setupTagButton(tag: tag, actionType: .display)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row
@@ -161,8 +159,7 @@ final class OtherScrapCollectionViewCell: UITableViewCell {
                 self.viewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag, pageType: .main)
+                        cell.setupTagButton(tag: tag, actionType: .display)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row

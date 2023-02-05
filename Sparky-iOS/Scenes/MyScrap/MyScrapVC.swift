@@ -37,7 +37,7 @@ final class MyScrapVC: UIViewController {
     private let scrapTextField = SparkyTextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 24)).then {
         
         $0.placeholder = "검색어를 입력해주세요"
-        $0.setupLeftImageView(image: UIImage(named: "search")!.withRenderingMode(.alwaysTemplate))
+        $0.setupLeftImageView(image: .search.withRenderingMode(.alwaysTemplate))
         $0.addTarget(self,
                      action: #selector(returnTabGesture),
                      for: .editingDidEndOnExit)
@@ -293,7 +293,7 @@ final class MyScrapVC: UIViewController {
                 cell.setupConstraints()
                 
                 let tag = self.filterTagViewModel.filterTagList.value[row]
-                cell.setupTagButton(tag: tag, pageType: .myScrap)
+                cell.setupTagButton(tag: tag, actionType: .search)
                 return cell
                 
             }.disposed(by: disposeBag)
@@ -314,8 +314,7 @@ final class MyScrapVC: UIViewController {
                 self.scrapViewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag, pageType: .main)
+                        cell.setupTagButton(tag: tag, actionType: .display)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row
@@ -334,8 +333,7 @@ final class MyScrapVC: UIViewController {
                 self.scrapViewModel.scraps.value[row].tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag, pageType: .main)
+                        cell.setupTagButton(tag: tag, actionType: .display)
                     }.disposed(by: self.disposeBag)
                 cell.scrapDetailButton.tag = row
                 cell.thumbnailImageView.tag = row
@@ -583,13 +581,7 @@ extension MyScrapVC: NewTagCVDelegate {
             return false
         }) {
             filterTagViewModel.filterTagList.append(newTag)
-            
-            for i in 0..<self.filterTagViewModel.filterTagList.value.count {
-                if self.filterTagViewModel.filterTagList.value[i].tagId != -1 {
-                    filterTagIdList.append(filterTagViewModel.filterTagList.value[i].tagId)
-                }
-            }
-            print("filter 리스트 - \(filterTagViewModel.filterTagList.value)")
+            filterTagIdList.append(newTag.tagId)
             
             let scrapSearchRequest = ScrapSearchRequest(
                 tags: filterTagIdList,

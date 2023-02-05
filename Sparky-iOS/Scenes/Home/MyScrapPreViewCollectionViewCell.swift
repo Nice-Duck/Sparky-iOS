@@ -92,13 +92,6 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
         }
     }
     
-    //    @objc private func showScrapWebView(notification: NSNotification) {
-    //        if let index = notification.object {
-    //            let scrap = viewModel.scraps.value[index as! Int]
-    //            NotificationCenter.default.post(name: SparkyNotification.showPreviewWebView, object: scrap)
-    //        }
-    //    }
-    
     func bindViewModel() {
         viewModel.scraps.bind(to: myScrapCollectionView.rx.items(
             cellIdentifier: PreviewLayoutViewCell.identifier,
@@ -113,8 +106,7 @@ final class MyScrapPreViewCollectionViewCell: UITableViewCell {
                 scrap.tagList.bind(to: cell.tagCollectionView.rx.items(
                     cellIdentifier: TagCollectionViewCell.identifier,
                     cellType: TagCollectionViewCell.self)) { index, tag, cell in
-                        cell.setupConstraints()
-                        cell.setupTagButton(tag: tag, pageType: .main)
+                        cell.setupTagButton(tag: tag, actionType: .display)
                     }.disposed(by: self.disposeBag)
             }.disposed(by: disposeBag)
     }

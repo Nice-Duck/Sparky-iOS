@@ -32,7 +32,7 @@ class ScrapWebViewVC: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .gray100
         self.navigationController?.navigationBar.tintColor = .black
         
-        let navBarBackButton = UIBarButtonItem(image: UIImage(named: "clear"),
+        let navBarBackButton = UIBarButtonItem(image: .clear,
                                                style: .plain,
                                                target: self,
                                                action: nil)

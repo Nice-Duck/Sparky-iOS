@@ -44,7 +44,7 @@ class PlusScrapBottomSheetVC: UIViewController {
     }
     
     private let navCancelButtonItem = UIBarButtonItem().then {
-        $0.image = UIImage(named: "back")
+        $0.image = .back
         $0.style = .plain
     }
     

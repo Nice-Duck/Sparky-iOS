@@ -24,7 +24,14 @@ extension UIStackView {
         shapeLayer.lineJoin = CAShapeLayerLineJoin.round
         shapeLayer.lineDashPattern = [6, 3]
         shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 8).cgPath
-
+        shapeLayer.name = "dashedBorderLayer"
+        
         self.layer.addSublayer(shapeLayer)
+    }
+    
+    func removeDashedBorder() {
+        self.layer.sublayers?
+            .filter{ $0.name == "dashedBorderLayer" }
+            .forEach { $0.removeFromSuperlayer() }
     }
 }
