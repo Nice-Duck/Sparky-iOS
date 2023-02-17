@@ -14,4 +14,15 @@ final class UIKitUtils {
         let window = scene?.windows.first
         return window
     }
+    
+    static var statusBarHeight: CGFloat {
+        print("status bar height - \(UIKitUtils.parentWindow?.windowScene?.statusBarManager?.statusBarFrame.height)")
+        return UIKitUtils.parentWindow?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+    }
+    
+    static var navBarHeight: CGFloat {
+        let nav = UINavigationController()
+        print("nav bar height - \(nav.navigationBar.frame.height)")
+        return nav.navigationBar.frame.height
+    }
 }
