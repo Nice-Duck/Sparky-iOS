@@ -247,6 +247,7 @@ final class ScrapDetailVC: UIViewController {
             $0.left.equalTo(scrollView)
             $0.right.equalTo(scrollView)
             $0.width.equalTo(scrollView)
+            $0.height.equalTo(scrollView)
         }
         
         
@@ -727,7 +728,17 @@ extension ScrapDetailVC: UITableViewDelegate {
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 do {
-                    if let image = UIImage(data: try Data(contentsOf: URL(string: scrap.value.thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!)) {
+                    print("url string - \(scrap.value.thumbnailURLString)")
+                    
+                    var thumbnailURLString: URL
+                    
+                    if let url = URL(string: scrap.value.thumbnailURLString), url.host != nil {
+                        thumbnailURLString = URL(string: scrap.value.thumbnailURLString)!
+                    } else {
+                        thumbnailURLString = URL(string: Strings.sparkyImageString)!
+                    }
+                    
+                    if let image = UIImage(data: try Data(contentsOf: thumbnailURLString)) {
                         let vc = UIActivityViewController(activityItems: [scrap.value.title, image], applicationActivities: [])
                         present(vc, animated: true, completion: nil)
                     }

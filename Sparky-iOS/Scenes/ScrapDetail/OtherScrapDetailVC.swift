@@ -187,6 +187,7 @@ final class OtherScrapDetailVC: UIViewController {
             $0.leading.equalTo(scrollView)
             $0.trailing.equalTo(scrollView)
             $0.width.equalTo(scrollView)
+            $0.height.equalTo(scrollView)
         }
         
         self.contentView.addSubview(scrapBackgroundView)
@@ -545,7 +546,17 @@ extension OtherScrapDetailVC: UITableViewDelegate {
                 self.present(nav, animated: true)
             } else if indexPath.row == 1 {
                 do {
-                    if let image = UIImage(data: try Data(contentsOf: URL(string: scrap.value.thumbnailURLString) ?? URL(string: Strings.sparkyImageString)!)) {
+                    print("url string - \(scrap.value.thumbnailURLString)")
+                    
+                    var thumbnailURLString: URL
+                    
+                    if let url = URL(string: scrap.value.thumbnailURLString), url.host != nil {
+                        thumbnailURLString = URL(string: scrap.value.thumbnailURLString)!
+                    } else {
+                        thumbnailURLString = URL(string: Strings.sparkyImageString)!
+                    }
+                    
+                    if let image = UIImage(data: try Data(contentsOf: thumbnailURLString)) {
                         let vc = UIActivityViewController(activityItems: [scrap.value.title, image], applicationActivities: [])
                         present(vc, animated: true, completion: nil)
                     }
