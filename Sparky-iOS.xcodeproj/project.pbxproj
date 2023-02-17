@@ -137,7 +137,6 @@
 		56A0AA7728FC3BE200726C13 /* SparkyNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */; };
 		56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */; };
 		56A8350D2962FE3800FD4A56 /* NoMyScrapViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */; };
-		56B0EC3F298940B400F40A67 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0EC3E298940B400F40A67 /* UIScrollView+.swift */; };
 		56C3C20E2912A962009765DE /* PlusScrapBottomSheetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */; };
 		56C3C2142912B5E6009765DE /* PreviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568183452901A641006F616C /* PreviewViewModel.swift */; };
 		56C3C2162912B66A009765DE /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568AD0722902ED2600F2CFD7 /* String+.swift */; };
@@ -308,7 +307,6 @@
 		56A0AA7428FC3AD400726C13 /* SparkyNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNavBar.swift; sourceTree = "<group>"; };
 		56A6FAF228E4BB4B009EA038 /* SignUpVC2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC2.swift; sourceTree = "<group>"; };
 		56A8350C2962FE3800FD4A56 /* NoMyScrapViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoMyScrapViewCell.swift; sourceTree = "<group>"; };
-		56B0EC3E298940B400F40A67 /* UIScrollView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		56C3C20D2912A962009765DE /* PlusScrapBottomSheetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusScrapBottomSheetVC.swift; sourceTree = "<group>"; };
 		56C41B8728FEC81900D610E5 /* SparkySearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkySearchBar.swift; sourceTree = "<group>"; };
 		56C41B8B28FECED600D610E5 /* MyScrapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyScrapVC.swift; sourceTree = "<group>"; };
@@ -444,7 +442,6 @@
 				569EA410291C38B200F90EEE /* UIViewController+.swift */,
 				569EA413291C3A5E00F90EEE /* UIView+.swift */,
 				56449FE62921147B00F34E1E /* UIApplication+.swift */,
-				56B0EC3E298940B400F40A67 /* UIScrollView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1213,7 +1210,6 @@
 				56D6AFDB2915BB120026B18C /* ScrapResponse.swift in Sources */,
 				56C41B8C28FECED600D610E5 /* MyScrapVC.swift in Sources */,
 				560306A7291AA9C5008CB6EB /* MyInfoTableViewCell.swift in Sources */,
-				56B0EC3F298940B400F40A67 /* UIScrollView+.swift in Sources */,
 				56DE426728E20E91000A6A55 /* SignUpVC3.swift in Sources */,
 				569EA404291C348400F90EEE /* RecentTagResponse.swift in Sources */,
 				560306A3291A7F5B008CB6EB /* MyLargeImageLayoutCell.swift in Sources */,

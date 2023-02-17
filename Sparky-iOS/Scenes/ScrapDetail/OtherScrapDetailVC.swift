@@ -22,6 +22,11 @@ final class OtherScrapDetailVC: UIViewController {
                                                   tagList: BehaviorRelay(value: [])))
     weak var dismissVCDelegate: DismissVCDelegate?
     
+    private let scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
+    private let contentView = UIView()
+    
     private let scrapBackgroundView = UIView().then {
         $0.backgroundColor = .gray100
     }
@@ -66,7 +71,10 @@ final class OtherScrapDetailVC: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let tagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
+    private let tagCollectionView = TagCollectionView(frame: CGRect(x: 0,
+                                                                    y: 0,
+                                                                    width: 0,
+                                                                    height: 0),
                                                       collectionViewLayout: TagCollectionViewFlowLayout()).then {
         $0.backgroundColor = .background
     }
@@ -121,7 +129,6 @@ final class OtherScrapDetailVC: UIViewController {
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = .background
         subActionTableView.tableFooterView = UIView()
         setupNavBar()
@@ -129,6 +136,17 @@ final class OtherScrapDetailVC: UIViewController {
         setupDelegate()
         bindViewModel()
         setupData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // tagCollectionView를 동적 높이를 반영해서 먼저 그려주고 scroll contentSize 업데이트
+        view.layoutIfNeeded()
+        
+        let maxY = contentView.subviews.map { $0.frame.maxY }.max() ?? 0
+        scrollView.contentSize = CGSize(width: scrollView.frame.width,
+                                        height: maxY)
     }
     
     private func setupNavBar() {
@@ -155,26 +173,42 @@ final class OtherScrapDetailVC: UIViewController {
     }
     
     private func setupConstraints() {
-        self.view.addSubview(scrapBackgroundView)
-        scrapBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+        self.view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(view)
             $0.left.equalTo(view)
+            $0.bottom.equalTo(view)
             $0.right.equalTo(view)
+        }
+        
+        self.scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(scrollView)
+            $0.leading.equalTo(scrollView)
+            $0.trailing.equalTo(scrollView)
+            $0.width.equalTo(scrollView)
+        }
+        
+        self.contentView.addSubview(scrapBackgroundView)
+        scrapBackgroundView.snp.makeConstraints {
+            $0.top.equalTo(contentView)
+            $0.leading.equalTo(contentView)
+            $0.trailing.equalTo(contentView)
             $0.height.equalTo(122)
         }
         
         self.scrapBackgroundView.addSubview(scrapView)
         scrapView.snp.makeConstraints {
             $0.top.equalTo(scrapBackgroundView).offset(12)
-            $0.left.equalTo(scrapBackgroundView).offset(20)
-            $0.right.equalTo(scrapBackgroundView).offset(-20)
+            $0.leading.equalTo(scrapBackgroundView).offset(20)
+            $0.trailing.equalTo(scrapBackgroundView).offset(-20)
             $0.height.equalTo(94)
         }
         
         self.scrapView.addSubview(thumbnailImageView)
         thumbnailImageView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(scrapView).offset(12)
+            $0.leading.equalTo(scrapView).offset(12)
             $0.bottom.equalTo(scrapView).offset(-12)
             $0.width.equalTo(100)
         }
@@ -182,75 +216,80 @@ final class OtherScrapDetailVC: UIViewController {
         self.scrapView.addSubview(scrapTitleLabel)
         scrapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
-            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
-            $0.right.equalTo(scrapView).offset(-12)
+            $0.leading.equalTo(thumbnailImageView.snp.trailing).offset(12)
+            $0.trailing.equalTo(scrapView).offset(-12)
         }
         
         self.scrapView.addSubview(scrapSubTitleLabel)
         scrapSubTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
-            $0.right.equalTo(scrapView).offset(-12)
+            $0.leading.equalTo(thumbnailImageView.snp.trailing).offset(12)
+            $0.trailing.equalTo(scrapView).offset(-12)
         }
         
-        self.view.addSubview(dividerView)
+        self.contentView.addSubview(dividerView)
         dividerView.snp.makeConstraints {
             $0.top.equalTo(scrapBackgroundView.snp.bottom)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.leading.equalTo(contentView)
+            $0.trailing.equalTo(contentView)
             $0.height.equalTo(6)
         }
         
-        self.view.addSubview(tagTitleLabel)
+        self.contentView.addSubview(tagTitleLabel)
         tagTitleLabel.snp.makeConstraints {
             $0.top.equalTo(dividerView.snp.bottom).offset(20)
-            $0.left.equalTo(view).offset(20)
+            $0.leading.equalTo(contentView).offset(20)
         }
         
-        self.view.addSubview(tagCollectionView)
+        self.contentView.addSubview(tagCollectionView)
         tagCollectionView.snp.makeConstraints {
             $0.top.equalTo(tagTitleLabel.snp.bottom).offset(9)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.leading.equalTo(contentView).offset(20)
+            $0.trailing.equalTo(contentView).offset(-20)
+            //            $0.height.equalTo(20)
         }
         
-        self.view.addSubview(memoTitleLabel)
+        self.contentView.addSubview(memoTitleLabel)
         memoTitleLabel.snp.makeConstraints {
             $0.top.equalTo(tagCollectionView.snp.bottom).offset(36)
-            $0.left.equalTo(view).offset(20)
+            $0.leading.equalTo(contentView).offset(20)
         }
         
-        self.view.addSubview(memoTextView)
+        self.contentView.addSubview(memoTextView)
         memoTextView.snp.makeConstraints {
             $0.top.equalTo(memoTitleLabel.snp.bottom).offset(8)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.leading.equalTo(contentView).offset(20)
+            $0.trailing.equalTo(contentView).offset(-20)
             $0.height.equalTo(100)
         }
         
-        self.view.addSubview(separatorView)
+        self.contentView.addSubview(separatorView)
         separatorView.snp.makeConstraints {
             $0.top.equalTo(memoTextView.snp.bottom).offset(18)
-            $0.left.equalTo(view)
-            $0.right.equalTo(view)
+            $0.leading.equalTo(contentView)
+            $0.trailing.equalTo(contentView)
             $0.height.equalTo(6)
         }
         
-        self.view.addSubview(subActionTableView)
+        self.contentView.addSubview(subActionTableView)
         subActionTableView.snp.makeConstraints {
             $0.top.equalTo(separatorView.snp.bottom).offset(6)
-            $0.left.equalTo(view).offset(20)
-            $0.right.equalTo(view).offset(-20)
+            $0.leading.equalTo(contentView).offset(20)
+            $0.trailing.equalTo(contentView).offset(-20)
             $0.height.equalTo(200)
         }
+        //        tagCollectionView.layoutIfNeeded()
+        //        view.layoutIfNeeded()
         
-        self.view.addSubview(saveButton)
+        self.contentView.addSubview(saveButton)
         saveButton.snp.makeConstraints {
-            $0.left.equalTo(view).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
-            $0.right.equalTo(view).offset(-20)
+            $0.leading.equalTo(contentView).offset(20)
+            $0.bottom.equalTo(contentView).offset(-20)
+            $0.trailing.equalTo(contentView).offset(-20)
             $0.height.equalTo(50)
         }
+        
+        //        view.layoutIfNeeded()
     }
     
     private func setupDelegate() {

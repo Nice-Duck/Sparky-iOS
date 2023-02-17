@@ -72,7 +72,10 @@ final class ScrapDetailVC: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let tagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
+    private let tagCollectionView = TagCollectionView(frame: CGRect(x: 0,
+                                                                    y: 0,
+                                                                    width: 100,
+                                                                    height: 100),
                                                       collectionViewLayout: TagCollectionViewFlowLayout()).then {
         $0.backgroundColor = .background
     }
@@ -135,8 +138,6 @@ final class ScrapDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("1")
-        
         self.view.backgroundColor = .background
         
         createObserver()
@@ -148,16 +149,16 @@ final class ScrapDetailVC: UIViewController {
         setupData()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//
-//        print("2")
-//
-//        scrollView.layoutIfNeeded()
-//        scrollView.updateContentSize()
-//        scrollView.isScrollEnabled = true
-//        scrollView.contentSize = CGSize(width: view.frame.width, height: scrollView.frame.size.height)
-//    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // tagCollectionView를 동적 높이를 반영해서 먼저 그려주고 scroll contentSize 업데이트
+        view.layoutIfNeeded()
+        
+        let maxY = contentView.subviews.map { $0.frame.maxY }.max() ?? 0
+        scrollView.contentSize = CGSize(width: scrollView.frame.width,
+                                        height: maxY)
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
@@ -215,20 +216,20 @@ final class ScrapDetailVC: UIViewController {
         }
         self.navigationItem.titleView = navBarTitleLabel
         
-//        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-//        editButton.setTitle("수정하기", for: .normal)
-//        editButton.tintColor = .sparkyBlue
-//        editButton.addTarget(self,
-//                             action: #selector(didTapEditButton),
-//                             for: .touchUpInside)
-//
-//        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
-//        let navBarEditButton = UIBarButtonItem(title: "수정하기",
-//                                               style: .plain,
-//                                               target: self,
-//                                               action: #selector(didTapEditButton))
-//        navBarEditButton.tintColor = .sparkyBlue
-//        self.navigationItem.rightBarButtonItem = navBarEditButton
+        //        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        //        editButton.setTitle("수정하기", for: .normal)
+        //        editButton.tintColor = .sparkyBlue
+        //        editButton.addTarget(self,
+        //                             action: #selector(didTapEditButton),
+        //                             for: .touchUpInside)
+        //
+        //        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
+        //        let navBarEditButton = UIBarButtonItem(title: "수정하기",
+        //                                               style: .plain,
+        //                                               target: self,
+        //                                               action: #selector(didTapEditButton))
+        //        navBarEditButton.tintColor = .sparkyBlue
+        //        self.navigationItem.rightBarButtonItem = navBarEditButton
     }
     
     private func setupConstraints() {
@@ -238,22 +239,14 @@ final class ScrapDetailVC: UIViewController {
             $0.left.equalTo(view)
             $0.bottom.equalTo(view)
             $0.right.equalTo(view)
-//            $0.width.equalTo(view)
-//            $0.height.equalTo(view)
         }
         
         self.scrollView.addSubview(contentView)
         contentView.snp.makeConstraints {
-            $0.top.equalTo(scrollView.contentLayoutGuide)
-            $0.left.equalTo(scrollView.contentLayoutGuide)
-            $0.bottom.equalTo(scrollView.contentLayoutGuide)
-            $0.right.equalTo(scrollView.contentLayoutGuide)
+            $0.top.equalTo(scrollView)
+            $0.left.equalTo(scrollView)
+            $0.right.equalTo(scrollView)
             $0.width.equalTo(scrollView)
-            $0.height.equalTo(scrollView)
-//                .offset(
-//                -(self.navigationController?.navigationBar.frame.height ?? 0)
-//                - (UIKitUtils.parentWindow?.safeAreaInsets.bottom ?? 0)
-//                  - (UIKitUtils.parentWindow?.safeAreaInsets.top ?? 0))
         }
         
         
@@ -343,27 +336,24 @@ final class ScrapDetailVC: UIViewController {
             $0.top.equalTo(separatorView.snp.bottom).offset(6)
             $0.left.equalTo(contentView).offset(20)
             $0.right.equalTo(contentView).offset(-20)
-            $0.height.equalTo(200)
+            $0.height.equalTo(159)
         }
         
-//        contentView.addSubview(keyboardBoxView)
-//        keyboardBoxView.snp.makeConstraints {
-//            $0.left.equalTo(contentView).offset(20)
-//            $0.bottom.equalTo(contentView).offset(-20)
-//            $0.right.equalTo(contentView).offset(-20)
-//            $0.height.equalTo(0)
-//        }
-//
-//        contentView.addSubview(saveButton)
-//        saveButton.snp.makeConstraints {
-//            $0.left.equalTo(contentView).offset(20)
-//            $0.bottom.equalTo(keyboardBoxView.snp.top)
-//            $0.right.equalTo(contentView).offset(-20)
-//            $0.height.equalTo(50)
-//        }
-        
-//        scrollView.layoutIfNeeded()
-//        scrollView.contentSize = CGSize(width: view.frame.width, height: scrollView.frame.height)
+        //        contentView.addSubview(keyboardBoxView)
+        //        keyboardBoxView.snp.makeConstraints {
+        //            $0.left.equalTo(contentView).offset(20)
+        //            $0.bottom.equalTo(contentView).offset(-20)
+        //            $0.right.equalTo(contentView).offset(-20)
+        //            $0.height.equalTo(0)
+        //        }
+        //
+        //        contentView.addSubview(saveButton)
+        //        saveButton.snp.makeConstraints {
+        //            $0.left.equalTo(contentView).offset(20)
+        //            $0.bottom.equalTo(keyboardBoxView.snp.top)
+        //            $0.right.equalTo(contentView).offset(-20)
+        //            $0.height.equalTo(50)
+        //        }
     }
     
     private func setupDelegate() {
@@ -393,23 +383,23 @@ final class ScrapDetailVC: UIViewController {
             .bind(to: tagCollectionView.rx.items) { collectionView, row, element in
                 let indexPath = IndexPath(row: row, section: 0)
                 
-//                if self.scrap.value.tagList.value[row].tagId != -1 {
-                    let cell = collectionView.dequeueReusableCell(
-                        withReuseIdentifier: TagCollectionViewCell.identifier,
-                        for: indexPath) as! TagCollectionViewCell
-                    cell.setupConstraints()
-                    
-                    let tag = self.scrap.value.tagList.value[row]
+                //                if self.scrap.value.tagList.value[row].tagId != -1 {
+                let cell = collectionView.dequeueReusableCell(
+                    withReuseIdentifier: TagCollectionViewCell.identifier,
+                    for: indexPath) as! TagCollectionViewCell
+                cell.setupConstraints()
+                
+                let tag = self.scrap.value.tagList.value[row]
                 cell.setupTagButton(tag: tag, actionType: .display)
-                    return cell
-//                } else {
-//                    let cell = collectionView.dequeueReusableCell(
-//                        withReuseIdentifier: TagDottedLineCell.identifier,
-//                        for: indexPath) as! TagDottedLineCell
-//                    cell.setupConstraints()
-//                    cell.setupTagButton()
-//                    return cell
-//                }
+                return cell
+                //                } else {
+                //                    let cell = collectionView.dequeueReusableCell(
+                //                        withReuseIdentifier: TagDottedLineCell.identifier,
+                //                        for: indexPath) as! TagDottedLineCell
+                //                    cell.setupConstraints()
+                //                    cell.setupTagButton()
+                //                    return cell
+                //                }
             }.disposed(by: disposeBag)
         
         saveButton.rx.tap
