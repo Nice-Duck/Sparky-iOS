@@ -81,7 +81,7 @@ final class CustomShareVC: UIViewController {
         $0.textColor = .sparkyBlack
     }
     
-    private let addTagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 100, height: 100),
+    private let addTagCollectionView = TagCollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0),
                                                          collectionViewLayout: TagCollectionViewFlowLayout()).then({
         $0.backgroundColor = .background
     })
@@ -122,7 +122,6 @@ final class CustomShareVC: UIViewController {
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = .background
         
         createObserver()
@@ -131,6 +130,22 @@ final class CustomShareVC: UIViewController {
         setupLoadingView()
         bindViewModel()
         setupScrap()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.layoutIfNeeded()
+        
+        let spacingPerView: CGFloat = 40
+        let nextButtonHeight: CGFloat = 50 + spacingPerView
+        let topInset = view.safeAreaInsets.top
+        
+        if contentView.subviewMaxY + nextButtonHeight >= view.frame.height - topInset {
+            scrollView.contentSize = CGSize(width: scrollView.frame.width,
+                                            height: contentView.subviewMaxY + nextButtonHeight)
+        } else {
+            scrollView.contentSize = CGSize(width: scrollView.frame.width, height: contentView.subviewMaxY)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -201,18 +216,15 @@ final class CustomShareVC: UIViewController {
             $0.left.equalTo(view)
             $0.bottom.equalTo(view)
             $0.right.equalTo(view)
-            $0.width.equalTo(view)
-            $0.height.equalTo(view)
         }
         
         self.scrollView.addSubview(contentView)
         contentView.snp.makeConstraints {
             $0.top.equalTo(scrollView)
             $0.left.equalTo(scrollView)
-            $0.bottom.equalTo(scrollView)
             $0.right.equalTo(scrollView)
             $0.width.equalTo(scrollView)
-            $0.height.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(scrollView)
         }
         
         self.contentView.addSubview(scrapBackgroundView)
@@ -288,7 +300,7 @@ final class CustomShareVC: UIViewController {
             $0.height.equalTo(100)
         }
         
-        self.contentView.addSubview(keyboardBoxView)
+        self.view.addSubview(keyboardBoxView)
         keyboardBoxView.snp.makeConstraints {
             $0.left.equalTo(contentView).offset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
@@ -296,7 +308,7 @@ final class CustomShareVC: UIViewController {
             $0.height.equalTo(0)
         }
         
-        self.contentView.addSubview(saveButton)
+        self.view.addSubview(saveButton)
         saveButton.snp.makeConstraints {
             $0.left.equalTo(contentView).offset(20)
             $0.bottom.equalTo(keyboardBoxView.snp.top)
