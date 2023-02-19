@@ -16,6 +16,7 @@
 		5606F66E28F3BA300083AA58 /* TokenUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5606F66D28F3BA300083AA58 /* TokenUtils.swift */; };
 		560BF31D28D0DAB300438463 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF31C28D0DAB300438463 /* UITextField+.swift */; };
 		560BF32128D0E6AE00438463 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 560BF32028D0E6AE00438463 /* HomeVC.swift */; };
+		561077F9299F9C5D008B7F09 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561077F8299F9C5D008B7F09 /* UITextView+.swift */; };
 		5614BBB42913DE8D00E1DF16 /* SparkyNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB32913DE8D00E1DF16 /* SparkyNotification.swift */; };
 		5614BBB72913F36100E1DF16 /* ScrapDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */; };
 		5614BBB9291438B900E1DF16 /* SubActionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614BBB8291438B900E1DF16 /* SubActionTableViewCell.swift */; };
@@ -163,6 +164,7 @@
 		56DE426928E20E9A000A6A55 /* SignUpVC4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426828E20E9A000A6A55 /* SignUpVC4.swift */; };
 		56DE426B28E21547000A6A55 /* UINavigationBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE426A28E21547000A6A55 /* UINavigationBar+.swift */; };
 		56EBEA64292665CB006294EE /* CustomActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EBEA63292665CB006294EE /* CustomActivityIndicatorView.swift */; };
+		56F50B8629A0A40E00526BA2 /* DynamicHeightTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F50B8529A0A40E00526BA2 /* DynamicHeightTextView.swift */; };
 		778CEE8AC8406D1D0CF5FAFC /* Pods_Sparky_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC36FF476F78DEBC9CA600E3 /* Pods_Sparky_iOS.framework */; };
 		9BCA161B6E1FA8962518624C /* libPods-Sparky-iOSUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79CCCC2064FD8F04B888DBD1 /* libPods-Sparky-iOSUITests.a */; };
 		D254FEFB0E86F18D2FF0FEF8 /* libPods-Sparky-iOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30FEBE9AEA1D4CFAECB50290 /* libPods-Sparky-iOSTests.a */; };
@@ -220,6 +222,7 @@
 		560BF31C28D0DAB300438463 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		560BF32028D0E6AE00438463 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		560BF32D28D0ECF200438463 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		561077F8299F9C5D008B7F09 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		5613666228FDBEC1003A33CE /* RecentTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTagViewModel.swift; sourceTree = "<group>"; };
 		5614BBB32913DE8D00E1DF16 /* SparkyNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparkyNotification.swift; sourceTree = "<group>"; };
 		5614BBB62913F36100E1DF16 /* ScrapDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapDetailVC.swift; sourceTree = "<group>"; };
@@ -333,6 +336,7 @@
 		56DE426828E20E9A000A6A55 /* SignUpVC4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC4.swift; sourceTree = "<group>"; };
 		56DE426A28E21547000A6A55 /* UINavigationBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+.swift"; sourceTree = "<group>"; };
 		56EBEA63292665CB006294EE /* CustomActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityIndicatorView.swift; sourceTree = "<group>"; };
+		56F50B8529A0A40E00526BA2 /* DynamicHeightTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicHeightTextView.swift; sourceTree = "<group>"; };
 		63E5E58ABC4C61E905D8AF57 /* Pods-Sparky.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sparky.debug.xcconfig"; path = "Target Support Files/Pods-Sparky/Pods-Sparky.debug.xcconfig"; sourceTree = "<group>"; };
 		66A46D0C01FDF6A06344B2BE /* Pods_Sparky.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sparky.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79CCCC2064FD8F04B888DBD1 /* libPods-Sparky-iOSUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sparky-iOSUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -442,6 +446,7 @@
 				569EA410291C38B200F90EEE /* UIViewController+.swift */,
 				569EA413291C3A5E00F90EEE /* UIView+.swift */,
 				56449FE62921147B00F34E1E /* UIApplication+.swift */,
+				561077F8299F9C5D008B7F09 /* UITextView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -487,6 +492,14 @@
 			path = Sparky;
 			sourceTree = "<group>";
 		};
+		561077F5299F9B70008B7F09 /* TextView */ = {
+			isa = PBXGroup;
+			children = (
+				56F50B8529A0A40E00526BA2 /* DynamicHeightTextView.swift */,
+			);
+			path = TextView;
+			sourceTree = "<group>";
+		};
 		5614BBB22913DE6100E1DF16 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -509,6 +522,7 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				561077F5299F9B70008B7F09 /* TextView */,
 				56EBEA62292665B8006294EE /* LoadingView */,
 				568F557E2923849C008A7294 /* Lottie */,
 				560306AB291AD09F008CB6EB /* PopUp */,
@@ -1155,12 +1169,14 @@
 				56C7B20728E9687600D638D2 /* EmailSignInViewModel.swift in Sources */,
 				569B79C428F9BDFD00AD9BC3 /* UIStackView+.swift in Sources */,
 				56D6AFDF2915BDA10026B18C /* HomeServiceAPI.swift in Sources */,
+				561077F9299F9C5D008B7F09 /* UITextView+.swift in Sources */,
 				5641FE3F29192807004F5A07 /* HorizontalLayoutCell.swift in Sources */,
 				567D261629113AE8000296F0 /* MyScrapSectionView.swift in Sources */,
 				567D260A2910ACF1000296F0 /* OtherScrapSectionView.swift in Sources */,
 				5637DD3728E0290E00C119F6 /* Color+.swift in Sources */,
 				568F557D29231153008A7294 /* MyScrapFilterViewModel.swift in Sources */,
 				566584CA291F5FA50043FFE3 /* NewTagCVDelegate.swift in Sources */,
+				56F50B8629A0A40E00526BA2 /* DynamicHeightTextView.swift in Sources */,
 				56A6FAF328E4BB4B009EA038 /* SignUpVC2.swift in Sources */,
 				567DF87628ECAAE4005A3E30 /* EmailSignUpResponse.swift in Sources */,
 				566584C3291F580D0043FFE3 /* ReIssueServiceProvider.swift in Sources */,
