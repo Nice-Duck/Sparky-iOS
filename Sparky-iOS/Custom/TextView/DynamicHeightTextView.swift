@@ -24,20 +24,20 @@ class DynamicHeightTextView: UITextView {
 //        return numberOfLines
 //    }
 
-    override var intrinsicContentSize: CGSize {
-        print("intrinsicContentSize height - \(self.frame.height)")
-        print("intrinsicContentSizeCGFloat.greatestFiniteMagnitude - \(CGFloat.greatestFiniteMagnitude)")
-        
-        return sizeThatFits(CGSize(width: self.bounds.width,
-                                   height: CGFloat.greatestFiniteMagnitude))
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        print("layoutSubviews height - \(self.frame.height)")
-        print("layoutSubviews CGFloat.greatestFiniteMagnitude - \(CGFloat.greatestFiniteMagnitude)")
-        self.invalidateIntrinsicContentSize()
-    }
+//    override var intrinsicContentSize: CGSize {
+//        print("intrinsicContentSize height - \(self.frame.height)")
+//        print("intrinsicContentSizeCGFloat.greatestFiniteMagnitude - \(CGFloat.greatestFiniteMagnitude)")
+//        
+//        return sizeThatFits(CGSize(width: self.bounds.width,
+//                                   height: CGFloat.greatestFiniteMagnitude))
+//    }
+//
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        
+//        print("layoutSubviews height - \(self.frame.height)")
+//        print("layoutSubviews CGFloat.greatestFiniteMagnitude - \(CGFloat.greatestFiniteMagnitude)")
+//        self.invalidateIntrinsicContentSize()
+//    }
 }
 
