@@ -45,28 +45,12 @@ final class ScrapDetailVC: UIViewController {
         $0.clipsToBounds = true
     }
     
-    private var scrapTextView = DynamicHeightTextView().then {
+    private var scrapTextView = ScrapTextView().then {
         $0.font = .bodyBold2
-        $0.textAlignment = .left
-        $0.textColor = .black
-        $0.contentInset = UIEdgeInsets(top: -8,
-                                       left: -5,
-                                       bottom: 0,
-                                       right: 0)
-        $0.textContainer.maximumNumberOfLines = 2
-        $0.textContainer.lineBreakMode = .byTruncatingTail
     }
     
-    private var scrapSubTextView = DynamicHeightTextView().then {
+    private var scrapSubTextView = ScrapTextView().then {
         $0.font = .bodyRegular1
-        $0.textAlignment = .left
-        $0.textColor = .black
-        $0.contentInset = UIEdgeInsets(top: -8,
-                                       left: -5,
-                                       bottom: 0,
-                                       right: 0)
-        $0.textContainer.maximumNumberOfLines = 2
-        $0.textContainer.lineBreakMode = .byTruncatingTail
     }
     
     private let dividerView = UIView().then {
@@ -96,20 +80,17 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private let memoTextViewPlaceHolder = "메모를 입력하세요"
-    private lazy var memoTextView: UITextView = {
-        let tv = UITextView()
-        tv.text = memoTextViewPlaceHolder
-        tv.font = .bodyRegular1
-        tv.textColor = .gray400
-        tv.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        tv.layer.borderWidth = 1
-        tv.layer.borderColor = UIColor.gray300.cgColor
-        tv.layer.cornerRadius = 8
-        tv.isScrollEnabled = false
-        tv.translatesAutoresizingMaskIntoConstraints = true
-        tv.delegate = self
-        return tv
-    }()
+    private lazy var memoTextView = UITextView().then {
+        $0.text = memoTextViewPlaceHolder
+        $0.font = .bodyRegular1
+        $0.textColor = .gray400
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.gray300.cgColor
+        $0.layer.cornerRadius = 8
+        $0.isEditable = false
+        $0.isScrollEnabled = false
+    }
     
     private let separatorView = UIView().then {
         $0.backgroundColor = .gray200
@@ -164,10 +145,6 @@ final class ScrapDetailVC: UIViewController {
         let maxY = contentView.subviews.map { $0.frame.maxY }.max() ?? 0
         scrollView.contentSize = CGSize(width: scrollView.frame.width,
                                         height: maxY)
-        
-        // 디폴트 텍스트 크기에 맞게 동적으로 높이 설정
-        scrapTextView.sizeToTextLength()
-        scrapSubTextView.sizeToTextLength()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -362,6 +339,9 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func setupDelegate() {
+        scrapTextView.delegate = self
+        scrapSubTextView.delegate = self
+        memoTextView.delegate = self
         subActionTableView.dataSource = self
         subActionTableView.delegate = self
     }
@@ -382,7 +362,6 @@ final class ScrapDetailVC: UIViewController {
             } onError: { error in
                 print("텍스트 뷰 에러 - \(error)")
             }.disposed(by: disposeBag)
-        
         
         scrap.value.tagList
             .bind(to: tagCollectionView.rx.items) { collectionView, row, element in
@@ -536,7 +515,9 @@ final class ScrapDetailVC: UIViewController {
         scrapSubTextView.text = scrap.value.subTitle
         thumbnailImageView.setImage(with: scrap.value.thumbnailURLString)
         memoTextView.text = scrap.value.memo
-        memoTextView.isUserInteractionEnabled = false
+        
+        scrapTextView.sizeToFit()
+        scrapSubTextView.sizeToFit()
     }
     
     func convertToDeleteType(tagList: [Tag]) -> [Tag] {
@@ -654,6 +635,9 @@ final class ScrapDetailVC: UIViewController {
                 }
             }).disposed(by: disposeBag)
         
+        scrapTextView.isEditable = true
+        scrapSubTextView.isEditable = true
+        memoTextView.isEditable = true
         if memoTextView.text == nil {
             memoTextView.text = memoTextViewPlaceHolder
             memoTextView.layer.borderWidth = 1
@@ -664,13 +648,17 @@ final class ScrapDetailVC: UIViewController {
             memoTextView.layer.borderColor = UIColor.sparkyBlack.cgColor
             memoTextView.textColor = .sparkyBlack
         }
-        memoTextView.isUserInteractionEnabled = true
         saveButton.isHidden = false
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 }
 
 extension ScrapDetailVC: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        textView.sizeToFit()
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == memoTextViewPlaceHolder {
             textView.text = nil
@@ -689,6 +677,7 @@ extension ScrapDetailVC: UITextViewDelegate {
 }
 
 extension ScrapDetailVC: NewTagCVDelegate {
+    
     func sendNewTagList(tag: Tag) {
         var newTag = tag
         newTag.buttonType = .delete
@@ -697,6 +686,7 @@ extension ScrapDetailVC: NewTagCVDelegate {
 }
 
 extension ScrapDetailVC: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
