@@ -97,6 +97,7 @@
 		566584CF291FBA880043FFE3 /* TagSaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CE291FBA880043FFE3 /* TagSaveResponse.swift */; };
 		566584D0291FBAD00043FFE3 /* TagSaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584CE291FBA880043FFE3 /* TagSaveResponse.swift */; };
 		566584D729202D730043FFE3 /* MoveUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566584D629202D730043FFE3 /* MoveUtils.swift */; };
+		566FDDFD29A5033800DDBC7C /* ScrapTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566FDDFC29A5033800DDBC7C /* ScrapTextView.swift */; };
 		56706B5E2917D3A300C2C9B8 /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */; };
 		56793D8D2927B46F007BF834 /* CustomActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EBEA63292665CB006294EE /* CustomActivityIndicatorView.swift */; };
 		567D26082910ACE6000296F0 /* ScarpSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D26072910ACE6000296F0 /* ScarpSectionView.swift */; };
@@ -261,6 +262,7 @@
 		566584CC291F789C0043FFE3 /* HomeCustomShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCustomShareVC.swift; sourceTree = "<group>"; };
 		566584CE291FBA880043FFE3 /* TagSaveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSaveResponse.swift; sourceTree = "<group>"; };
 		566584D629202D730043FFE3 /* MoveUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveUtils.swift; sourceTree = "<group>"; };
+		566FDDFC29A5033800DDBC7C /* ScrapTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrapTextView.swift; sourceTree = "<group>"; };
 		56706B5D2917D3A300C2C9B8 /* ReIssueTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReIssueTokenResponse.swift; sourceTree = "<group>"; };
 		567D26072910ACE6000296F0 /* ScarpSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScarpSectionView.swift; sourceTree = "<group>"; };
 		567D26092910ACF1000296F0 /* OtherScrapSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherScrapSectionView.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 		5616C53F28DB730200BF7126 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				566FDDFA29A5032100DDBC7C /* TextView */,
 				56EBEA62292665B8006294EE /* LoadingView */,
 				568F557E2923849C008A7294 /* Lottie */,
 				560306AB291AD09F008CB6EB /* PopUp */,
@@ -608,6 +611,14 @@
 				566584C9291F5FA50043FFE3 /* NewTagCVDelegate.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		566FDDFA29A5032100DDBC7C /* TextView */ = {
+			isa = PBXGroup;
+			children = (
+				566FDDFC29A5033800DDBC7C /* ScrapTextView.swift */,
+			);
+			path = TextView;
 			sourceTree = "<group>";
 		};
 		568F557E2923849C008A7294 /* Lottie */ = {
@@ -1223,6 +1234,7 @@
 				569EA411291C38B200F90EEE /* UIViewController+.swift in Sources */,
 				565AFDD1291097990080EA6D /* MyScrapPreViewCollectionViewCell.swift in Sources */,
 				567DF87428ECA69F005A3E30 /* EmailSendRequest.swift in Sources */,
+				566FDDFD29A5033800DDBC7C /* ScrapTextView.swift in Sources */,
 				569EA414291C3A5E00F90EEE /* UIView+.swift in Sources */,
 				566584D729202D730043FFE3 /* MoveUtils.swift in Sources */,
 				568F558D2923F0FE008A7294 /* FindPasswordVC4.swift in Sources */,

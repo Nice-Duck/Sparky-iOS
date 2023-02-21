@@ -45,20 +45,12 @@ final class ScrapDetailVC: UIViewController {
         $0.clipsToBounds = true
     }
     
-    private var scrapTitleLabel = CustomVAlignLabel().then {
+    private var scrapTextView = ScrapTextView().then {
         $0.font = .bodyBold2
-        $0.textAlignment = .left
-        $0.textColor = .black
-        $0.numberOfLines = 2
-        $0.verticalAlignment = .top
     }
     
-    private var scrapSubTitleLabel = CustomVAlignLabel().then {
+    private var scrapSubTextView = ScrapTextView().then {
         $0.font = .bodyRegular1
-        $0.textAlignment = .left
-        $0.textColor = .black
-        $0.numberOfLines = 2
-        $0.verticalAlignment = .top
     }
     
     private let dividerView = UIView().then {
@@ -88,20 +80,17 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private let memoTextViewPlaceHolder = "메모를 입력하세요"
-    private lazy var memoTextView: UITextView = {
-        let tv = UITextView()
-        tv.text = memoTextViewPlaceHolder
-        tv.font = .bodyRegular1
-        tv.textColor = .gray400
-        tv.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-        tv.layer.borderWidth = 1
-        tv.layer.borderColor = UIColor.gray300.cgColor
-        tv.layer.cornerRadius = 8
-        tv.isScrollEnabled = false
-        tv.translatesAutoresizingMaskIntoConstraints = true
-        tv.delegate = self
-        return tv
-    }()
+    private lazy var memoTextView = UITextView().then {
+        $0.text = memoTextViewPlaceHolder
+        $0.font = .bodyRegular1
+        $0.textColor = .gray400
+        $0.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.gray300.cgColor
+        $0.layer.cornerRadius = 8
+        $0.isEditable = false
+        $0.isScrollEnabled = false
+    }
     
     private let separatorView = UIView().then {
         $0.backgroundColor = .gray200
@@ -137,7 +126,6 @@ final class ScrapDetailVC: UIViewController {
     // MARK: - LifeCycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = .background
         
         createObserver()
@@ -151,10 +139,9 @@ final class ScrapDetailVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // tagCollectionView를 동적 높이를 반영해서 먼저 그려주고 scroll contentSize 업데이트
         view.layoutIfNeeded()
         
+        // 스크롤 뷰 컨텐츠 사이즈를 subview의 가장 큰 Y값에 맞추기
         let maxY = contentView.subviews.map { $0.frame.maxY }.max() ?? 0
         scrollView.contentSize = CGSize(width: scrollView.frame.width,
                                         height: maxY)
@@ -216,20 +203,14 @@ final class ScrapDetailVC: UIViewController {
         }
         self.navigationItem.titleView = navBarTitleLabel
         
-        //        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        //        editButton.setTitle("수정하기", for: .normal)
-        //        editButton.tintColor = .sparkyBlue
-        //        editButton.addTarget(self,
-        //                             action: #selector(didTapEditButton),
-        //                             for: .touchUpInside)
-        //
-        //        //        let navBarEditButton = UIBarButtonItem(customView: editButton)
-        //        let navBarEditButton = UIBarButtonItem(title: "수정하기",
-        //                                               style: .plain,
-        //                                               target: self,
-        //                                               action: #selector(didTapEditButton))
-        //        navBarEditButton.tintColor = .sparkyBlue
-        //        self.navigationItem.rightBarButtonItem = navBarEditButton
+        let editButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        editButton.setTitle("수정하기", for: .normal)
+        editButton.setTitleColor(.sparkyBlue, for: .normal)
+        editButton.addTarget(self,
+                             action: #selector(didTapEditButton),
+                             for: .touchUpInside)
+        let navBarEditButton = UIBarButtonItem(customView: editButton)
+        self.navigationItem.rightBarButtonItem = navBarEditButton
     }
     
     private func setupConstraints() {
@@ -275,16 +256,16 @@ final class ScrapDetailVC: UIViewController {
             $0.width.equalTo(100)
         }
         
-        self.scrapView.addSubview(scrapTitleLabel)
-        scrapTitleLabel.snp.makeConstraints {
+        self.scrapView.addSubview(scrapTextView)
+        scrapTextView.snp.makeConstraints {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
         
-        self.scrapView.addSubview(scrapSubTitleLabel)
-        scrapSubTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(scrapTitleLabel.snp.bottom).offset(8)
+        self.scrapView.addSubview(scrapSubTextView)
+        scrapSubTextView.snp.makeConstraints {
+            $0.top.equalTo(scrapTextView.snp.bottom).offset(8)
             $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
         }
@@ -358,6 +339,9 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func setupDelegate() {
+        scrapTextView.delegate = self
+        scrapSubTextView.delegate = self
+        memoTextView.delegate = self
         subActionTableView.dataSource = self
         subActionTableView.delegate = self
     }
@@ -378,7 +362,6 @@ final class ScrapDetailVC: UIViewController {
             } onError: { error in
                 print("텍스트 뷰 에러 - \(error)")
             }.disposed(by: disposeBag)
-        
         
         scrap.value.tagList
             .bind(to: tagCollectionView.rx.items) { collectionView, row, element in
@@ -528,11 +511,13 @@ final class ScrapDetailVC: UIViewController {
     }
     
     private func setupData() {
-        scrapTitleLabel.text = scrap.value.title
-        scrapSubTitleLabel.text = scrap.value.subTitle
+        scrapTextView.text = scrap.value.title
+        scrapSubTextView.text = scrap.value.subTitle
         thumbnailImageView.setImage(with: scrap.value.thumbnailURLString)
         memoTextView.text = scrap.value.memo
-        memoTextView.isUserInteractionEnabled = false
+        
+        scrapTextView.sizeToFit()
+        scrapSubTextView.sizeToFit()
     }
     
     func convertToDeleteType(tagList: [Tag]) -> [Tag] {
@@ -631,6 +616,7 @@ final class ScrapDetailVC: UIViewController {
     }
     
     @objc private func didTapEditButton() {
+        navigationItem.rightBarButtonItem?.customView?.isHidden = true
         scrap.value.tagList.values = convertToDeleteType(tagList: scrap.value.tagList.value)
         
         tagCollectionView.rx
@@ -648,6 +634,10 @@ final class ScrapDetailVC: UIViewController {
                     }
                 }
             }).disposed(by: disposeBag)
+        
+        scrapTextView.isEditable = true
+        scrapSubTextView.isEditable = true
+        memoTextView.isEditable = true
         if memoTextView.text == nil {
             memoTextView.text = memoTextViewPlaceHolder
             memoTextView.layer.borderWidth = 1
@@ -658,13 +648,17 @@ final class ScrapDetailVC: UIViewController {
             memoTextView.layer.borderColor = UIColor.sparkyBlack.cgColor
             memoTextView.textColor = .sparkyBlack
         }
-        memoTextView.isUserInteractionEnabled = true
         saveButton.isHidden = false
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 }
 
 extension ScrapDetailVC: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        textView.sizeToFit()
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == memoTextViewPlaceHolder {
             textView.text = nil
@@ -683,6 +677,7 @@ extension ScrapDetailVC: UITextViewDelegate {
 }
 
 extension ScrapDetailVC: NewTagCVDelegate {
+    
     func sendNewTagList(tag: Tag) {
         var newTag = tag
         newTag.buttonType = .delete
@@ -691,6 +686,7 @@ extension ScrapDetailVC: NewTagCVDelegate {
 }
 
 extension ScrapDetailVC: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
