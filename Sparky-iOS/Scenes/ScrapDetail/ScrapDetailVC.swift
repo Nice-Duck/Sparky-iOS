@@ -49,12 +49,11 @@ final class ScrapDetailVC: UIViewController {
         $0.font = .bodyBold2
         $0.textAlignment = .left
         $0.textColor = .black
-        $0.backgroundColor = .orange
         $0.contentInset = UIEdgeInsets(top: -8,
                                        left: -5,
                                        bottom: 0,
                                        right: 0)
-        $0.textContainer.maximumNumberOfLines = 1
+        $0.textContainer.maximumNumberOfLines = 2
         $0.textContainer.lineBreakMode = .byTruncatingTail
     }
     
@@ -62,7 +61,6 @@ final class ScrapDetailVC: UIViewController {
         $0.font = .bodyRegular1
         $0.textAlignment = .left
         $0.textColor = .black
-        $0.backgroundColor = .orange
         $0.contentInset = UIEdgeInsets(top: -8,
                                        left: -5,
                                        bottom: 0,
@@ -160,19 +158,16 @@ final class ScrapDetailVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // tagCollectionView를 동적 높이를 반영해서 먼저 그려주고 scroll contentSize 업데이트
-        scrapTextView.sizeToFit()
-        scrapSubTextView.sizeToFit()
-        
         view.layoutIfNeeded()
         
+        // 스크롤 뷰 컨텐츠 사이즈를 subview의 가장 큰 Y값에 맞추기
         let maxY = contentView.subviews.map { $0.frame.maxY }.max() ?? 0
         scrollView.contentSize = CGSize(width: scrollView.frame.width,
                                         height: maxY)
-        scrapTextView.sizeToFit()
-        print("scrap height - \(scrapTextView.frame.height)")
-//        scrapTextView.heightAnchor.constraint(equalToConstant: scrapTextView.frame.height).isActive = true
+        
+        // 디폴트 텍스트 크기에 맞게 동적으로 높이 설정
+        scrapTextView.sizeToTextLength()
+        scrapSubTextView.sizeToTextLength()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
@@ -289,7 +284,6 @@ final class ScrapDetailVC: UIViewController {
             $0.top.equalTo(scrapView).offset(12)
             $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
-//            $0.height.equalTo(40)
         }
         
         self.scrapView.addSubview(scrapSubTextView)
@@ -297,7 +291,6 @@ final class ScrapDetailVC: UIViewController {
             $0.top.equalTo(scrapTextView.snp.bottom).offset(8)
             $0.left.equalTo(thumbnailImageView.snp.right).offset(12)
             $0.right.equalTo(scrapView).offset(-12)
-//            $0.height.equalTo(34)
         }
         
         self.contentView.addSubview(dividerView)
