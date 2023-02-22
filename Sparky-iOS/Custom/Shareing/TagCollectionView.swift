@@ -32,6 +32,7 @@ class TagCollectionView: UICollectionView {
     
     private func setupUI() {
         backgroundColor = .sparkyWhite
+        isScrollEnabled = false
         
         self.register(TagCollectionViewCell.self,
                       forCellWithReuseIdentifier: TagCollectionViewCell.identifier)
